@@ -1,3 +1,3 @@
 TrainBooking\Train.class
-CSCI\Group5\xml\SampleSpringXmlApplication.class
-CSCI\Group5\xml\service\HelloWorldService.class
+Controller\mainController.class
+starterApp\StartupApplication.class
