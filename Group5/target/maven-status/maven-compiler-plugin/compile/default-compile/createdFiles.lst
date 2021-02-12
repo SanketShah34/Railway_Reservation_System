@@ -1,3 +1,4 @@
+com\project\controller\loginController.class
 TrainBooking\Train.class
-Controller\mainController.class
+com\project\controller\mainController.class
 starterApp\StartupApplication.class
