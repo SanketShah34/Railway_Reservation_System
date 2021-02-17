@@ -2,7 +2,7 @@ image: maven:latest
 
 variables:
   MAVEN_CLI_OPTS: "clean"
-  EXECUTABLE_POM_FILE_PATH: "Group 5"
+  EXECUTABLE_POM_FILE_PATH: "Group5"
 
 stages:
     - build
