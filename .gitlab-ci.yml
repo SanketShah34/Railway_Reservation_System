@@ -18,6 +18,8 @@ build:
     - mvn $MAVEN_CLI_OPTS compile
   tags:
     - grad
+  only:
+    - development
 
 test:
   stage: test
@@ -35,6 +37,8 @@ test:
         - $EXECUTABLE_POM_FILE_PATH/target/surefire-reports/TEST-*.xml
   tags:
     - grad
+  only:
+    - development
     
 deployeTest:
   stage: deployTest
