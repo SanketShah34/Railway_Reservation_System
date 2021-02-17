@@ -15,7 +15,7 @@ build:
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
-    -./mvnw spring-boot:run
+    - ./mvnw spring-boot:run
   tags:
     - grad
   only:
