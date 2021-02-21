@@ -20,9 +20,8 @@ build:
 test:
   stage: test
   image: maven:3.6.3-jdk-11
-  before_script:
-    - cd $EXECUTABLE_POM_FILE_PATH
   script:
+    - cd $EXECUTABLE_POM_FILE_PATH
     - mvn test
   artifacts:
     when: always
