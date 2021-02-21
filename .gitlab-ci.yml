@@ -1,5 +1,4 @@
 
-
 variables:
   MAVEN_CLI_OPTS: "clean"
   EXECUTABLE_POM_FILE_PATH: "Group5"
@@ -15,7 +14,7 @@ build:
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
-    - mvn spring-boot:run
+    - mvn package -B
   tags:
     - grad
   only:
