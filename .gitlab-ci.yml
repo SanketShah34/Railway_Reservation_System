@@ -1,4 +1,4 @@
-image: maven:3.6.3-jdk-11
+
 
 variables:
   MAVEN_CLI_OPTS: "clean"
@@ -11,7 +11,7 @@ stages:
     
 build:
   stage: build
-  image: maven:latest
+  image: maven:3.6.3-jdk-11
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
@@ -23,7 +23,7 @@ build:
 
 test:
   stage: test
-  image: maven:latest
+  image: maven:3.6.3-jdk-11
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
