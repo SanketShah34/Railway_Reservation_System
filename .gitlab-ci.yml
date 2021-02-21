@@ -6,6 +6,7 @@ stages:
     - build
     - test
     - deployTest
+    - deployProd
     
 build:
   stage: build
@@ -37,8 +38,9 @@ test:
 deployeTest:
   stage: deployTest
   image: ruby:latest
-  script:
+  before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
+  script:
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_APP_NAME_TEST --api-key=$HEROKU_API_KEY_TEST
   environment:
@@ -48,3 +50,19 @@ deployeTest:
     - dalfcs_gitlab_docker_ci
   only:
     - development
+    
+deployProd:
+  stage: deployProd
+  image: ruby:latest
+  before_script:
+    - cd $EXECUTABLE_POM_FILE_PATH
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_TEST --api-key=$HEROKU_API_KEY_TEST
+  environment:
+    name: staging
+    url: $HEROKU_TEST_URL
+  tags:
+    - dalfcs_gitlab_docker_ci
+  only:
+    - master
