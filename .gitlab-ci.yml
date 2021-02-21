@@ -1,4 +1,3 @@
-
 variables:
   MAVEN_CLI_OPTS: "clean"
   EXECUTABLE_POM_FILE_PATH: "Group5"
@@ -14,11 +13,9 @@ build:
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
-    - mvn package -B
+    - mvn install
   tags:
     - grad
-  only:
-    - development
 
 test:
   stage: test
@@ -26,7 +23,7 @@ test:
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
-    - mvn verify
+    - mvn test
   artifacts:
     when: always
     paths: 
@@ -36,8 +33,6 @@ test:
         - $EXECUTABLE_POM_FILE_PATH/target/surefire-reports/TEST-*.xml
   tags:
     - grad
-  only:
-    - development
     
 deployeTest:
   stage: deployTest
@@ -45,10 +40,11 @@ deployeTest:
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_APP_NAME_TEST --api-key=$HEROKU_API_KEY_TEST
+  environment:
+    name: staging
+    url: $HEROKU_TEST_URL
   tags:
     - grad
   only:
