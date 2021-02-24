@@ -9,17 +9,16 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan("com.project.controller, com.project.security")
-
+@ComponentScan("com.project.controller, com.project.security, com.project.dao, com.project.entity, com.project.service")
 @SpringBootApplication
 public class StartupApplication {
 
 	public static void main(String args[]) {
 		ApplicationContext applicationContext = SpringApplication.run(StartupApplication.class, args);
-		
+
 		for (String name : applicationContext.getBeanDefinitionNames()) {
 			System.out.println(name);
 		}
 	}
-	
+
 }
