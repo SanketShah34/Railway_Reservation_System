@@ -9,7 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan("com.project.controller")
+@ComponentScan("com.project.controller, com.project.security")
+
 @SpringBootApplication
 public class StartupApplication {
 

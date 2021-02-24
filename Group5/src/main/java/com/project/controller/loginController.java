@@ -6,8 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
@@ -15,71 +20,38 @@ import org.springframework.ui.Model;
 //@RestController
 //@RequestMapping("/loginInfo")
 public class loginController {
-	// @Autowired
-	// private UserRepository userRepository;
+	@RequestMapping("/")
+	public String viewHomePage(Model model) {
+		System.out.println("home");
+		return "home";
+	}
 
-	@PostMapping(value = "/getUser")
-	public String getUser(@RequestParam("cusId") int cusId, @RequestParam("password") String password, Model model) {
+	@GetMapping("/login")
+	public String showLoginPage() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+			System.out.println("in if part");
+			return "/login";
+		} else {
+			System.out.println("in else part");
+			return "redirect:/";
+		}
+	}
 
-		String result = getUserFromDB(cusId, password);
-
-		model.addAttribute("theString", result);
+	@RequestMapping("/login-error")
+	public String loginError(Model model) {
+		model.addAttribute("loginError", true);
 		return "login";
 	}
 
-	private String getUserFromDB(int cuId, String password) {
-		final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-		final String DB_URL = "jdbc:mysql://localhost:3306/railway_system?useSSL=false";
-		final String USER = "root";
-		final String PASS = "Mysql@123";
-		Statement stmt = null;
-		int idToReturn = -1;
-		System.out.println("Hello");
-		try {
-			Class.forName(JDBC_DRIVER);
-			System.out.println("Connecting to database...");
-			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			System.out.println("Creating statement...");
-			stmt = conn.createStatement();
-			String sql;
-			sql = "select * FROM user";
-			ResultSet rs = stmt.executeQuery(sql);
-			int flag = 0;
-			while (rs.next()) {
-				int id = rs.getInt(1);
-				String pwd = rs.getString(3);
-				if (id == cuId && pwd.equals(password)) {
-					flag = 1;
-					idToReturn = id;
-					break;
-				}
-			}
-			rs.close();
-			stmt.close();
-			conn.close();
-			if (flag == 1) {
-				return "valid";
-			} else {
-				return "invalid";
-			}
-		}
-
-		catch (Exception e) {
-			System.out.println(e);
-		} finally {
-			// finally block used to close resources
-			try {
-				if (stmt != null)
-					stmt.close();
-			} catch (SQLException se2) {
-			} // nothing we can do
-			/*
-			 * try{ if(conn!=null) conn.close(); }catch(SQLException se){ }
-			 */// end finally try
-		} // end try
-		return String.valueOf(idToReturn);
-		// TODO Auto-generated method stub
-
-	}
+//	@GetMapping("/station")
+//	public String showStation(Model model) {
+//		return "station";
+//	}
+	
+//	@RequestMapping(value = "/station", method = RequestMethod.GET)
+//	public ModelAndView loadLogin() {
+//
+//		return new ModelAndView("station");
+//	}
 }
-
