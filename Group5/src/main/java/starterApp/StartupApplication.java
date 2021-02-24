@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableAutoConfiguration
-// @ComponentScan("com.project.controller, com.project.security, com.project.dao, com.project.entity, com.project.service")
-@ComponentScan(basePackages={"com.project.controller", "com.project.security", "com.project.dao", "com.project.entity", "com.project.service"})
+@ComponentScan("com.project.controller, com.project.security, com.project.dao, com.project.entity, com.project.service")
+// @ComponentScan(basePackages={"com.project.controller", "com.project.security", "com.project.dao", "com.project.entity", "com.project.service"})
 @SpringBootApplication
 public class StartupApplication {
 
