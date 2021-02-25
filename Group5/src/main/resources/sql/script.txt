@@ -1,0 +1,25 @@
+/*
+* SQL table creations and procedures
+*
+*/
+
+// Creating Train Table 
+
+DROP TABLE IF EXISTS `CSCI5308_5_DEVINT`.`train`;
+
+CREATE TABLE `CSCI5308_5_DEVINT`.`train` (
+  `trainId` int(11) NOT NULL AUTO_INCREMENT,
+  `trainCode` int(11) NOT NULL,
+  `trainName` varchar(255) NOT NULL,
+  `trainType` varchar(255) NOT NULL,
+  `days` varchar(255) NOT NULL,
+  `departureTime` varchar(255) NOT NULL,
+  `totalCoaches` int(11),
+  `startStation` int(11) NOT NULL,
+  `middleStations` varchar(255) NOT NULL,
+  `endStation` int(11) NOT NULL,
+  `created_date` timestamp,
+  PRIMARY KEY (`trainId`),
+  FOREIGN KEY (`startStation`) REFERENCES `CSCI5308_5_DEVINT`.`station`(`sid`),
+  FOREIGN KEY (`endStation`) REFERENCES `CSCI5308_5_DEVINT`.`station`(`sid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
