@@ -21,7 +21,7 @@ public class loginController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
 			System.out.println("in if part");
-			return "/login";
+			return "login";
 		} else {
 			System.out.println("in else part");
 			return "redirect:/";
