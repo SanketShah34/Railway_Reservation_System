@@ -25,19 +25,19 @@ public class RouteDAO implements IRouteDAO {
 	@Override
 	public void save(Route route) {
 		Connection conn = dbutilities.EstConnection();
-		if(route.getRId() == 0) {
+		if(route.getrId() == 0) {
 			try {
 				CallableStatement stmt = conn.prepareCall("{call addRoute( ? , ? , ?)}");
-				System.out.println(route);
-				stmt.setInt(1, route.getSourceStationId());
-				stmt.setInt(2, route.getDestinationStationId());
+				stmt.setInt(1, route.getSourceId());
+				stmt.setInt(2, route.getDestinationId());
 				stmt.setDouble(3, route.getDistance());
 				
 				stmt.execute();
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} finally {
+				dbutilities.closeConnection(conn);
 			}
 		}
 		else {
@@ -45,16 +45,18 @@ public class RouteDAO implements IRouteDAO {
 			try {
 				CallableStatement stmt = conn.prepareCall("{call editRoute( ? , ? , ? , ?)}");
 				System.out.println(route);
-				stmt.setInt(1, route.getRId());
-				stmt.setInt(1, route.getSourceStationId());
-				stmt.setInt(2, route.getDestinationStationId());
-				stmt.setDouble(3, route.getDistance());
+				stmt.setInt(1, route.getrId());
+				stmt.setInt(2, route.getSourceId());
+				stmt.setInt(3, route.getDestinationId());
+				stmt.setDouble(4, route.getDistance());
 
 				stmt.execute();
 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} finally {
+				dbutilities.closeConnection(conn);
 			}
 		}
 		
@@ -78,7 +80,7 @@ public class RouteDAO implements IRouteDAO {
 					Station sourceStation = new Station();
 					Station destinationStation = new Station();
 					
-					route.setRId(resultSet.getInt("rid"));
+					route.setrId(resultSet.getInt("rid"));
 					
 					sourceStation.setSid(resultSet.getInt("sourceStationId"));
 					sourceStation.setStationName(resultSet.getString("sourceStationName"));
@@ -87,6 +89,7 @@ public class RouteDAO implements IRouteDAO {
 					sourceStation.setStationState(resultSet.getString("sourceStationState"));
 						
 					route.setSource(sourceStation);
+					route.setSourceId(sourceStation.sid);
 					
 					destinationStation.setSid(resultSet.getInt("destinationStationId"));
 					destinationStation.setStationName(resultSet.getString("destinationStationName"));
@@ -95,6 +98,7 @@ public class RouteDAO implements IRouteDAO {
 					destinationStation.setStationState(resultSet.getString("destinationStationState"));
 					
 					route.setDestination(destinationStation);
+					route.setDestinationId(destinationStation.sid);
 					
 					route.setDistance(resultSet.getDouble("distance"));
 				 
@@ -105,6 +109,8 @@ public class RouteDAO implements IRouteDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			dbutilities.closeConnection(conn);
 		}
 
 		return listOfRoutes;
@@ -127,7 +133,7 @@ public class RouteDAO implements IRouteDAO {
 				ResultSet resultSet = stmt.getResultSet();
 				if (resultSet.next()) {
 
-					route.setRId(resultSet.getInt("rId"));
+					route.setrId(resultSet.getInt("rId"));
 					
 					sourceStation.setSid(resultSet.getInt("sourceStationId"));
 					sourceStation.setStationName(resultSet.getString("sourceStationName"));
@@ -136,6 +142,7 @@ public class RouteDAO implements IRouteDAO {
 					sourceStation.setStationState(resultSet.getString("sourceStationState"));
 						
 					route.setSource(sourceStation);
+					route.setSourceId(sourceStation.sid);
 					
 					destinationStation.setSid(resultSet.getInt("destinationStationId"));
 					destinationStation.setStationName(resultSet.getString("destinationStationName"));
@@ -144,6 +151,7 @@ public class RouteDAO implements IRouteDAO {
 					destinationStation.setStationState(resultSet.getString("destinationStationState"));
 					
 					route.setDestination(destinationStation);
+					route.setDestinationId(destinationStation.sid);
 					
 					route.setDistance(resultSet.getDouble("distance"));
 				 
@@ -152,6 +160,8 @@ public class RouteDAO implements IRouteDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			dbutilities.closeConnection(conn);
 		}
 		// TODO Auto-generated method stub
 		return route;
@@ -166,6 +176,8 @@ public class RouteDAO implements IRouteDAO {
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			dbutilities.closeConnection(conn);
 		}
 	}
 	

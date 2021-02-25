@@ -18,7 +18,7 @@
 			<div style="max-width: 1000px; margin: 0 auto;">
 				<div class="border border-secondary p-3 rounded">
 					<div sec:authorize="isAuthenticated()" class="col-md-12 row">
-						<div class="col-md-12">
+						<div class="row col-md-12">
 							<div style="text-align: start" class="col-md-4">
 								<input action="action" type="button" onclick="history.go(-1);" value="Back" />
 							</div>
@@ -32,9 +32,9 @@
 								</form>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="row col-md-12">
 							<div class="row col-md-12" style="margin-top: 50px">
-								<div class="border border-secondary p-3 rounded">
+								<div class="border border-secondary p-3 rounded" style="width: 100%">
 									<h1>Edit Route</h1>
 									<br />
 									<form action="#" th:action="@{/route/save}" th:object="${route}"
@@ -42,14 +42,15 @@
 										<table border="0" cellpadding="10" style="width: 100%">
 											<tr>
 												<td>Route ID:</td>
-												<td><input type="text" th:field="*{rid}"
+												<td>
+													<input type="text" th:field="*{rId}"
 													readonly="readonly" style="width: 70%" /></td>
 											</tr>
 											<tr>
 												<td>Source:</td>
 												<td>
-													<select th:field="*{source}">
-    													<option th:each="station : ${listOfStations}" th:value="${station}" th:text="${station.stationName}">
+													<select th:field="*{sourceId}">
+    													<option th:each="station : ${listOfStations}" th:value="${station.sid}" th:text="${station.stationName}" th:selected="(${station.sid} == *{source.sid})">
     													</option>
 													</select>
 												</td>
@@ -57,8 +58,8 @@
 											<tr>
 												<td>Destination:</td>
 												<td>
-													<select th:field="*{destination}">
-    													<option th:each="station : ${listOfStations}" th:value="${station}" th:text="${station.stationName}">
+													<select th:field="*{destinationId}">
+    													<option th:each="station : ${listOfStations}" th:value="${station.sid}" th:text="${station.stationName}" th:selected="(${station.sid} == *{destination.sid})">
     													</option>
 													</select>
 												</td>

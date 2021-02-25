@@ -58,28 +58,26 @@ public class RouteController {
 	public String saveRoute(@Valid @ModelAttribute("route") Route route, BindingResult result) {
 		System.out.println(route);
 		if (result.hasErrors()) {
-			System.out.println("in if");
 			return "route/add_route";
 		} else {
-			System.out.println("in else");
 			routeService.save(route);
 			return "redirect:/route/list";
 		}
 
 	}
 
-	@RequestMapping("/route/edit/{rid}")
-	public String showEditRoutePage(@PathVariable(name = "rid") Integer rid, Model model) {
+	@RequestMapping("/route/edit/{rId}")
+	public String showEditRoutePage(@PathVariable(name = "rId") Integer rId, Model model) {
 		List<Station> stations = stationService.ListOfStations();
-		Route route = routeService.getRoute(rid);
+		Route route = routeService.getRoute(rId);
 		model.addAttribute(route);
 		model.addAttribute("listOfStations", stations);
 		return "route/edit_route";
 	}
 
-	@RequestMapping("/route/delete/{rid}")
-	public String deleteRoute(@PathVariable(name = "rid") Integer rid, Model model) {
-		routeService.deleteRoute(rid);
+	@RequestMapping("/route/delete/{rId}")
+	public String deleteRoute(@PathVariable(name = "rId") Integer rId, Model model) {
+		routeService.deleteRoute(rId);
 		return "redirect:/route/list";
 
 	}
