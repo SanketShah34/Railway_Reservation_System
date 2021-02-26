@@ -14,7 +14,7 @@ build:
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
-    - mvn install
+    - mvn $MAVEN_CLI_OPTS install -U
   tags:
     - dalfcs_gitlab_docker_ci
 
