@@ -13,7 +13,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 	crossorigin="anonymous">
-
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <title>Train</title>
 </head>
 
@@ -23,7 +23,8 @@
 			<div class="border border-secondary p-3 rounded">
 				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
 					<div style="text-align: start" class="col-md-4">
-						<input action="action" type="button" onclick="history.go(-1);" value="Back" />
+						<input action="action" type="button" onclick="history.go(-1);"
+							value="Back" />
 					</div>
 					<div style="text-align: center;" class="col-md-4">
 						Welcome <b><span sec:authentication="name">Username</span></b>
@@ -39,8 +40,8 @@
 					</div>
 
 					<div class="row col-md-12" style="margin-top: 50px">
-					
-						<div class="col-md-12"   >
+
+						<div class="col-md-12">
 							<div class="border border-secondary p-3 rounded"
 								style="text-align: end">
 								<form th:action="@{/train/add}" method="get">
@@ -97,15 +98,15 @@
 												</div>
 											</td>
 											<td sec:authorize="hasAnyAuthority('ADMIN')">
-											
-											<!--  
+												<!--  
 												<button type="submit" class="btn btn-danger btn-sm"
 													onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">
 													Delete</button>
 													-->
-													
+
 												<div sec:authorize="hasAnyAuthority('ADMIN')">
-													<a th:href="@{'/train/delete/' + ${trainn.trainId}}" onclick="if (!(confirm('Are you sure you want to delete this train?'))) return false">Delete</a>
+													<a th:href="@{'/train/delete/' + ${train.trainId}}"
+														onclick="if (!(confirm('Are you sure you want to delete this train?'))) return false">Delete</a>
 												</div>
 											</td>
 										</tr>
@@ -113,6 +114,14 @@
 
 
 								</table>
+								<script th:inline="javascript">
+								     $(document).ready(function(){
+								    	 $( window ).load(function() {
+									    	  var listOfStations = /*[[${listOfTrain}]]*/ {}; 
+									    	  console.log(listOfStations);
+								    	 });
+								     });
+							    </script>
 
 							</div>
 
