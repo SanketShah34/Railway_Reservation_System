@@ -10,21 +10,21 @@ stages:
     
 build:
   stage: build
-  image: maven:3.6.3-jdk-11
+  image: maven:3.3.9-jdk-8
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
-    - mvn install
+    - mvn clean compile
   tags:
     - dalfcs_gitlab_docker_ci
 
 test:
   stage: test
-  image: maven:3.6.3-jdk-11
+  image: maven:3.3.9-jdk-8
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
-    - mvn test
+    - mvn verify
   artifacts:
     when: always
     paths: 
