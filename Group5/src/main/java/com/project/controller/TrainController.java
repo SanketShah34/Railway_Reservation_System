@@ -1,6 +1,8 @@
 package com.project.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.project.entity.Station;
 import com.project.entity.Train;
+import com.project.service.StationService;
 import com.project.service.TrainService;
 
 @Controller
@@ -24,6 +28,9 @@ public class TrainController {
 
 	@Autowired
 	TrainService trainService;
+	
+	@Autowired
+	StationService stationService;
 	
 	@GetMapping(value = "/train/list")
 	public String ShowTrainPage(Model model) {
@@ -43,6 +50,9 @@ public class TrainController {
 
 	@GetMapping(value = "/train/add")
 	public String ShowAddTrainPage(Model model) {
+		List<Station> stations = stationService.ListOfStations();
+		model.addAttribute("listOfStations", stations);
+
 		Train train = new Train();
 		model.addAttribute(train);
 		return "train/add_train";
@@ -62,17 +72,27 @@ public class TrainController {
 
 	}
 
-	@RequestMapping("/train/edit/{sid}")
-	public String showEditTrainPage(@PathVariable(name = "sid") Integer sid, Model model) {
+	@RequestMapping("/train/edit/{trainId}")
+	public String showEditTrainPage(@PathVariable(name = "trainId") Integer trainId, Model model) {
 
-		Train train = trainService.getTrain(sid);
+		List<Station> stations = stationService.ListOfStations();
+		model.addAttribute("listOfStations", stations);
+		
+		Train train = trainService.getTrain(trainId);
 		model.addAttribute(train);
+		
+		String[] daysList = train.getDays().split(",");
+		Map<String, String> allDays = new HashMap<>();
+		for(String day: daysList) {
+			allDays.put(day, "true");
+		}
+		model.addAttribute("listOfDays",allDays);
 		return "train/edit_train";
 	}
 
-	@RequestMapping("/train/delete/{sid}")
-	public String deleteTrain(@PathVariable(name = "sid") Integer sid, Model model) {
-		trainService.deleteTrain(sid);
+	@RequestMapping("/train/delete/{trainId}")
+	public String deleteTrain(@PathVariable(name = "trainId") Integer trainId, Model model) {
+		trainService.deleteTrain(trainId);
 		return "redirect:/train/list";
 
 	}

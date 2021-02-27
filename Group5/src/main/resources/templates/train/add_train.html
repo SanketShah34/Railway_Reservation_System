@@ -10,14 +10,16 @@
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 	crossorigin="anonymous">
 <title>Add Train</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 	<div align="center">
 		<div style="max-width: 1000px; margin: 0 auto;">
 			<div class="border border-secondary p-3 rounded">
 				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
-				<div style="text-align: start" class="col-md-4">
-						<input action="action" type="button" onclick="history.go(-1);" value="Back" />
+					<div style="text-align: start" class="col-md-4">
+						<input action="action" type="button" onclick="history.go(-1);"
+							value="Back" />
 					</div>
 					<div style="text-align: center;" class="col-md-4">
 						Welcome <b><span sec:authentication="name">Username</span></b>
@@ -41,81 +43,122 @@
 									<table border="0" cellpadding="10" style="width: 100%">
 										<tr>
 											<td>Train Code:</td>
-											<td><input type="text" style="width: 70%" th:field="*{trainCode}" />
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('trainCode')}" th:errors="*{trainCode}" />
-											</td>
+											<td><input type="number" style="width: 70%"
+												th:field="*{trainCode}" placeholder="Enter Train Code" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('trainCode')}"
+													th:errors="*{trainCode}" /></td>
 										</tr>
 										<tr>
 											<td>Train Name:</td>
-											<td><input type="text" style="width: 70%" th:field="*{trainName}" />
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('trainName')}" th:errors="*{trainName}" />
+											<td><input type="text" style="width: 70%"
+												th:field="*{trainName}" placeholder="Enter Train Name" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('trainName')}"
+													th:errors="*{trainName}" /></td>
+										</tr>
+										<tr>
+											<td>Train Type:</td>
+											<td><select name="trainType" style="width: 70%"
+												th:field="*{trainType}">
+													<option value="AC Sleeper" selected>AC Sleeper</option>
+													<option value="AC Seater">AC Seater</option>
+													<option value="Non AC Sleeper">Non AC Sleeper</option>
+													<option value="Non AC Seater">Non AC Seater</option>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('trainType')}"
+													th:errors="*{trainType}" /></td>
+										</tr>
+										<tr>
+											<td>Days:</td>
+											<td><input type="checkbox" name="days" value="Monday">Monday
+												<input type="checkbox" name="days" value="Tuesday">Tuesday
+												<input type="checkbox" name="days" value="Wednesday">Wednesday
+												<input type="checkbox" name="days" value="Thursday">Thursday
+												<input type="checkbox" name="days" value="Friday">Friday
+												<input type="checkbox" name="days" value="Saturday">Saturday
+												<input type="checkbox" name="days" value="Sundat">Sunday
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('days')}" th:errors="*{days}" />
 											</td>
 										</tr>
-										<!-- <tr>
-											<td>Train Type:</td>
-											<td>
-											<select name="trainType" style="width: 70%" th:field="*{trainType}">
-												<option value= "AC Sleeper" selected>AC Sleeper</option>
-												<option value= "AC Seater">AC Seater</option>
-												<option value= "Non AC Sleeper">Non AC Sleeper</option>
-												<option value= "Non AC Seater">Non AC Seater</option>
-											</select>
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('trainType')}" th:errors="*{trainType}" />
-											</td>
-										</tr> -->
 										<tr>
 											<td>Departure Time:</td>
-											<td><input type="text" style="width: 70%" th:field="*{departureTime}" />
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('departureTime')}" th:errors="*{departureTime}" />
-											</td>
+											<td><input type="text" style="width: 70%"
+												th:field="*{departureTime}"
+												placeholder="Enter Departure Time">
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('departureTime')}"
+													th:errors="*{departureTime}" /></td>
 										</tr>
 										<tr>
 											<td>Total Coaches:</td>
-											<td><input type="text" style="width: 70%" th:field="*{totalCoaches}" />
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('totalCoaches')}" th:errors="*{totalCoaches}" />
-											</td>
+											<td><input type="number" style="width: 70%"
+												th:field="*{totalCoaches}" placeholder="Enter Total Coaches" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('totalCoaches')}"
+													th:errors="*{totalCoaches}" /></td>
 										</tr>
-										<!-- <tr>
+										<tr>
 											<td>Starting Station:</td>
 											<td>
-											<select name="trainType" style="width: 70%" th:field="*{startStation}">
-												<option value= "AC Sleeper" selected>AC Sleeper</option>
-												<option value= "AC Seater">AC Seater</option>
-												<option value= "Non AC Sleeper">Non AC Sleeper</option>
-												<option value= "Non AC Seater">Non AC Seater</option>
-											</select>
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('startStation')}" th:errors="*{startStation}" />
+												<select name="startStation" th:field="*{startStation}" style="width: 70%">
+												<option th:each="station : ${listOfStations}" th:value="${station.sid}" th:text="${station.stationName}">
+												</option>
+												</select>
+												<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('startStation')}" th:errors="*{startStation}" />
 											</td>
 										</tr>
 										<tr>
-											<td>Middle Station:</td>
-											<td>
-											<select name="trainType" style="width: 70%" th:field="*{middleStations}">
-												<option value= "AC Sleeper" selected>AC Sleeper</option>
-												<option value= "AC Seater">AC Seater</option>
-												<option value= "Non AC Sleeper">Non AC Sleeper</option>
-												<option value= "Non AC Seater">Non AC Seater</option>
-											</select>
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('middleStations')}" th:errors="*{middleStations}" />
-											</td>
+											<td>Add Middle Stations by clicking here:</td>
+											<td><button type="button">Add Middle Station</button></td> 
 										</tr>
+										</table>
+										<div style="width:100%">
+											<p id="mid"/>
+										</div>
+										<div>
+											<p id="checkMid"/>
+										</div>
+										<table border="0" cellpadding="10" style="width: 100%">
 										<tr>
 											<td>Ending Station:</td>
 											<td>
-											<select name="trainType" style="width: 70%" th:field="*{endStation}">
-												<option value= "AC Sleeper" selected>AC Sleeper</option>
-												<option value= "AC Seater">AC Seater</option>
-												<option value= "Non AC Sleeper">Non AC Sleeper</option>
-												<option value= "Non AC Seater">Non AC Seater</option>
-											</select>
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('endStation')}" th:errors="*{endStation}" />
+												<select name="endStation" th:field="*{endStation}" style="width: 70%">
+												<option th:each="station : ${listOfStations}" th:value="${station.sid}" th:text="${station.stationName}">
+												</option>
+												</select>
+												<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('endStation')}" th:errors="*{endStation}" />
 											</td>
-										</tr> -->
+										</tr>
 										<tr style="text-align: center;">
 											<td colspan="2"><button type="submit">Add Train</button></td>
 										</tr>
-									</table>
+										</table>
 								</form>
+								<script th:inline="javascript">
+								     $(document).ready(function(){
+								       $("button").on("click", function(){
+								    	   var listOfStations = /*[[${listOfStations}]]*/ {}; 
+								    	   var html = '<label>Middle Station:</label><select name="middleStations" th:field="*{middleStations}" style="width: 70%">';
+								    	  console.log(listOfStations);
+								    	  for (var i = 0; i < listOfStations.length; i++) { 
+								    		  html += '<option th:value="' + listOfStations[i].stationName+'">'
+							                    + listOfStations[i].stationName + '</option>';
+								    	   }
+								    	   html+='</select><br>';
+								         //var row = '<option th:each="station : ${listOfStations}" th:value="${station.sid}" th:text="${station.stationName}"></option>';
+								         $("#mid").append(html);
+								       });
+								     });
+							    </script>
+							    <script th:inline="javascript">
+								    $( window ).load(function() {
+								    	var listOfMiddleStations = /*[[*{middleStations}]]*/ {};
+										console.log(listOfMiddleStations);
+								    });
+								</script>
 							</div>
 						</div>
 					</div>

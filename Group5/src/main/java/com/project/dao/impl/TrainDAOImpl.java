@@ -41,6 +41,13 @@ public class TrainDAOImpl implements TrainDAO {
 					train.setTrainId(resultSet.getInt(1));
 					train.setTrainCode(resultSet.getInt(2));
 					train.setTrainName(resultSet.getString(3));	 
+					train.setTrainType(resultSet.getString(4));
+					train.setDays(resultSet.getString(5));
+					train.setDepartureTime(resultSet.getString(6));
+					train.setTotalCoaches(resultSet.getInt(7));
+					train.setStartStation(resultSet.getString(8));
+					train.setMiddleStations(resultSet.getString(9));
+					train.setEndStation(resultSet.getString(10));
 					listOfTrain.add(train);
 				}
 			}
@@ -64,9 +71,9 @@ public class TrainDAOImpl implements TrainDAO {
 				stmt.setString(4, train.getDays());
 				stmt.setString(5, train.getDepartureTime());
 				stmt.setInt(6, train.getTotalCoaches());
-				stmt.setInt(7, train.getStartStation());
+				stmt.setInt(7, Integer.parseInt(train.getStartStation()));
 				stmt.setString(8, train.getMiddleStations());
-				stmt.setInt(9, train.getEndStation());
+				stmt.setInt(9, Integer.parseInt(train.getEndStation()));
 
 				stmt.execute();
 
@@ -85,9 +92,9 @@ public class TrainDAOImpl implements TrainDAO {
 				stmt.setString(5, train.getDays());
 				stmt.setString(6, train.getDepartureTime());
 				stmt.setInt(7, train.getTotalCoaches());
-				stmt.setInt(8, train.getStartStation());
+				stmt.setInt(8, Integer.parseInt(train.getStartStation()));
 				stmt.setString(9, train.getMiddleStations());
-				stmt.setInt(10, train.getEndStation());
+				stmt.setInt(10, Integer.parseInt(train.getEndStation()));
 
 				stmt.execute();
 
@@ -118,9 +125,9 @@ public class TrainDAOImpl implements TrainDAO {
 					train.setDays(resultSet.getString(5));
 					train.setDepartureTime(resultSet.getString(6));
 					train.setTotalCoaches(resultSet.getInt(7));
-					train.setStartStation(resultSet.getInt(8));
+					train.setStartStation(String.valueOf(resultSet.getInt(8)));
 					train.setMiddleStations(resultSet.getString(9));
-					train.setEndStation(resultSet.getInt(10));
+					train.setEndStation(String.valueOf(resultSet.getInt(10)));
 				}
 			}
 		} 
