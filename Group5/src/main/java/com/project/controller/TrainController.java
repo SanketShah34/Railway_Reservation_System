@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,10 +83,14 @@ public class TrainController {
 		model.addAttribute(train);
 		
 		String[] daysList = train.getDays().split(",");
-		Map<String, String> allDays = new HashMap();
+		Map<String, String> allDays = new HashMap<>();
 		for(String day: daysList) {
 			allDays.put(day, "true");
 		}
+		
+		String[] middleStationsList = train.getMiddleStations().split(",");
+		model.addAttribute("listOfMiddleStations", middleStationsList);
+		
 		model.addAttribute("listOfDays",allDays);
 		return "train/edit_train";
 	}
