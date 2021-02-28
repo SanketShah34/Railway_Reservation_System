@@ -36,15 +36,15 @@ public class Train {
 	}
 	
 	public Train(int trainId,
-			@NotNull(message = "Train Code can not be null!!") @NotEmpty(message = "Train Code can not be empty!!") int trainCode,
-			@NotNull(message = "Train Name can not be null!!") @NotEmpty(message = "Train Name can not be empty!!") String trainName,
-			@NotNull(message = "Train Type can not be null!!") @NotEmpty(message = "Train Type can not be empty!!") String trainType,
-			@NotNull(message = "Days can not be null!!") @NotEmpty(message = "Days can not be empty!!") String days,
-			@NotNull(message = "Departure Time can not be null!!") @NotEmpty(message = "Departure Time can not be empty!!") String departureTime,
+			@NotNull(message = "Train Code can not be null!!") int trainCode,
+			@NotNull(message = "Train Name can not be null!!") String trainName,
+			@NotNull(message = "Train Type can not be null!!") String trainType,
+			@NotNull(message = "Days can not be null!!") String days,
+			@NotNull(message = "Departure Time can not be null!!") String departureTime,
 			int totalCoaches,
-			@NotNull(message = "Start Station can not be null!!") @NotEmpty(message = "Start Station can not be empty!!") String startStation,
-			@NotNull(message = "Middle Stations can not be null!!") @NotEmpty(message = "Middle Stations can not be empty!!") String middleStations,
-			@NotNull(message = "Start Station can not be null!!") @NotEmpty(message = "End Station can not be empty!!") String endStation) {
+			@NotNull(message = "Start Station can not be null!!") String startStation,
+			@NotNull(message = "Middle Stations can not be null!!") String middleStations,
+			@NotNull(message = "Start Station can not be null!!") String endStation) {
 		super();
 		this.trainId = trainId;
 		this.trainCode = trainCode;
