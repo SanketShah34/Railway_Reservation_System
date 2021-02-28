@@ -19,7 +19,7 @@ import com.project.service.DButilities;
 public class StationDAOImpl implements StationDAO {
 
 	
-	List<Station> listOfStation = new ArrayList<>();
+	List<Station> listOfStation = new ArrayList();
 	
 
 	@Autowired
