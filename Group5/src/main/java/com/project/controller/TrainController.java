@@ -82,7 +82,7 @@ public class TrainController {
 		model.addAttribute(train);
 		
 		String[] daysList = train.getDays().split(",");
-		Map<String, String> allDays = new HashMap<>();
+		Map<String, String> allDays = new HashMap();
 		for(String day: daysList) {
 			allDays.put(day, "true");
 		}
