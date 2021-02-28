@@ -11,6 +11,6 @@ build:
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
-    - mvn compile
+    - mvn clean compile
   tags:
     - dalfcs_gitlab_docker_ci
