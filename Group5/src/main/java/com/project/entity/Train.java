@@ -11,23 +11,18 @@ public class Train {
 	public int trainCode;
 	
 	@NotNull(message = "Train Name can not be null!!")
-
 	public String trainName;
 	
 	@NotNull(message = "Train Type can not be null!!")
-	
 	public String trainType;
 	
 	@NotNull(message = "Days can not be null!!")
-
 	public String days;
 	
 	@NotNull(message = "Departure Time can not be null!!")
-
 	public String departureTime;
 	
 	public int totalCoaches;
-	
 	@NotNull(message = "Start Station can not be null!!")
 	public String startStation;
 	
