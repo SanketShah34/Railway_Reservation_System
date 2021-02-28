@@ -4,6 +4,9 @@ variables:
 
 stages:
     - build
+    - test
+    - deployTest
+    - deployProd
     
 build:
   stage: build
@@ -14,3 +17,52 @@ build:
     - mvn $MAVEN_CLI_OPTS install -U
   tags:
     - dalfcs_gitlab_docker_ci
+    
+test:
+  stage: test
+  image: maven:3.6.3-jdk-11
+  before_script:
+    - cd $EXECUTABLE_POM_FILE_PATH
+  script:
+    - mvn verify
+  artifacts:
+    when: always
+    paths: 
+        - $EXECUTABLE_POM_FILE_PATH/target/surefire-reports/TEST-*.xml
+    reports:
+      junit:
+        - $EXECUTABLE_POM_FILE_PATH/target/surefire-reports/TEST-*.xml
+  tags:
+   - dalfcs_gitlab_docker_ci
+    
+deployeTest:
+  stage: deployTest
+  image: ruby:latest
+  before_script:
+    - cd $EXECUTABLE_POM_FILE_PATH
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_TEST --api-key=$HEROKU_API_KEY_TEST
+  environment:
+    name: staging
+    url: $HEROKU_TEST_URL
+  tags:
+    - dalfcs_gitlab_docker_ci
+  only:
+    - development
+    
+deployProd:
+  stage: deployProd
+  image: ruby:latest
+  before_script:
+    - cd $EXECUTABLE_POM_FILE_PATH
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_TEST --api-key=$HEROKU_API_KEY_TEST
+  environment:
+    name: staging
+    url: $HEROKU_PROD_URL
+  tags:
+    - dalfcs_gitlab_docker_ci
+  only:
+    - master
