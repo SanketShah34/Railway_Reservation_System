@@ -13,4 +13,4 @@ build:
   script:
     - mvn clean compile
   tags:
-    - ugrad
+    - dalfcs_docker_kvm
