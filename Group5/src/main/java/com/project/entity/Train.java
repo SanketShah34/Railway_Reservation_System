@@ -1,6 +1,6 @@
 package com.project.entity;
 
-import javax.validation.constraints.NotEmpty;
+
 import javax.validation.constraints.NotNull;
 
 public class Train {
@@ -11,19 +11,19 @@ public class Train {
 	public int trainCode;
 	
 	@NotNull(message = "Train Name can not be null!!")
-	@NotEmpty(message = "Train Name can not be empty!!")
+
 	public String trainName;
 	
 	@NotNull(message = "Train Type can not be null!!")
-	@NotEmpty(message = "Train Type can not be empty!!")
+	
 	public String trainType;
 	
 	@NotNull(message = "Days can not be null!!")
-	@NotEmpty(message = "Days can not be empty!!")
+
 	public String days;
 	
 	@NotNull(message = "Departure Time can not be null!!")
-	@NotEmpty(message = "Departure Time can not be empty!!")
+
 	public String departureTime;
 	
 	public int totalCoaches;
