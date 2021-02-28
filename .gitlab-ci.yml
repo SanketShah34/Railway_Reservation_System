@@ -7,7 +7,7 @@ stages:
     
 build:
   stage: build
-  image: maven:3.3.9-jdk-8
+  image: maven:3.3.9-jdk-11
   before_script:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
