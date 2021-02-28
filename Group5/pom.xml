@@ -6,16 +6,20 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.2</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<version>1.5.10.RELEASE</version>
 	</parent>
-	<groupId>Group5</groupId>
-	<artifactId>Grouptest</artifactId>
+	<artifactId>Group5</artifactId>
+	<groupId>CSCI</groupId>
+    <name>Spring Boot XML Sample</name>
+	<description>Spring Boot XML Sample</description>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Spring Boot</name>
-	<description>Group Project CSCI 5308</description>
+	<url>http://projects.spring.io/spring-boot/</url>
+	<organization>
+		<name>Pivotal Software, Inc.</name>
+		<url>http://www.spring.io</url>
+	</organization>
 	<properties>
-		<java.version>11</java.version>
+		<main.basedir>${basedir}/../..</main.basedir>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -36,13 +40,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-
 
 		<dependency>
 			<groupId>mysql</groupId>
