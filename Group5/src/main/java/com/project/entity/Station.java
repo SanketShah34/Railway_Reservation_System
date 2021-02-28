@@ -1,6 +1,6 @@
 package com.project.entity;
 
-import javax.validation.constraints.NotEmpty;
+
 import javax.validation.constraints.NotNull;
 
 public class Station {
@@ -8,16 +8,16 @@ public class Station {
 	public int sid;
 	
 	@NotNull(message = "stationName can not be null!!")
-	@NotEmpty(message = "Station Name can not be empty!!")
+
 	public String stationName;
 	@NotNull(message = "Station Code can not be null!!")
-	@NotEmpty(message = "Station Code can not be empty!!")
+
 	public String stationCode;
 	@NotNull(message = "station City can not be null!!")
-	@NotEmpty(message = "Station City can not be empty!!")
+	
 	public String stationCity;
 	@NotNull(message = "Station State can not be null!!")
-	@NotEmpty(message = "Station State can not be empty!!")
+
 	public String stationState;
 	
 	public Station(){
