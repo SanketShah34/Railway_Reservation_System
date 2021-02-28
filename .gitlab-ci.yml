@@ -13,4 +13,4 @@ build:
   script:
     - mvn clean compile
   tags:
-    - grad
+    - dalfcs_gitlab_docker_ci
