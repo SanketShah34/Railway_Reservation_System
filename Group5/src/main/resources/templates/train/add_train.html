@@ -112,14 +112,14 @@
 										</tr>
 										<tr>
 											<td>Add Middle Stations by clicking here:</td>
-											<td><button type="button">Add Middle Station</button></td> 
+											<td><button type="button" id="buttonMid">Add Middle Station</button></td> 
 										</tr>
 										</table>
-										<div style="width:100%">
-											<p id="mid"/>
-										</div>
 										<div>
 											<p id="checkMid"/>
+										</div>
+										<div style="width:100%">
+											<p id="mid"/>
 										</div>
 										<table border="0" cellpadding="10" style="width: 100%">
 										<tr>
@@ -139,26 +139,19 @@
 								</form>
 								<script th:inline="javascript">
 								     $(document).ready(function(){
-								       $("button").on("click", function(){
+								       $("#buttonMid").on("click", function(){
 								    	   var listOfStations = /*[[${listOfStations}]]*/ {}; 
 								    	   var html = '<label>Middle Station:</label><select name="middleStations" th:field="*{middleStations}" style="width: 70%">';
 								    	  console.log(listOfStations);
 								    	  for (var i = 0; i < listOfStations.length; i++) { 
-								    		  html += '<option th:value="' + listOfStations[i].stationName+'">'
+								    		  html += '<option value="' + listOfStations[i].sid+'">'
 							                    + listOfStations[i].stationName + '</option>';
 								    	   }
 								    	   html+='</select><br>';
-								         //var row = '<option th:each="station : ${listOfStations}" th:value="${station.sid}" th:text="${station.stationName}"></option>';
 								         $("#mid").append(html);
 								       });
 								     });
 							    </script>
-							    <script th:inline="javascript">
-								    $( window ).load(function() {
-								    	var listOfMiddleStations = /*[[*{middleStations}]]*/ {};
-										console.log(listOfMiddleStations);
-								    });
-								</script>
 							</div>
 						</div>
 					</div>

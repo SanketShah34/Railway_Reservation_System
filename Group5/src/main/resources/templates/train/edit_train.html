@@ -67,13 +67,11 @@
 													<option value="Non AC Seater">Non AC Seater</option>
 											</select></td>
 										</tr>
-										<tr>
-											<td>Days:</td>
-											<td>
-												<input name="days" th:each="day : ${listOfDays}" type="checkbox" th:text="${day.key}" 
-												th:field="*{days}" th:value="${day.key}">
-											</td>
-										</tr>
+										</table>
+										<div style="width:100%">
+											<p id="days"/>
+										</div>
+										<table border="0" cellpadding="10" style="width: 100%">
 										<tr>
 											<td>Departure Time:</td>
 											<td><input type="text" style="width: 70%"
@@ -97,14 +95,14 @@
 										</tr>
 										<tr>
 											<td>Add Middle Stations by clicking here:</td>
-											<td><button type="button">Add Middle Station</button></td> 
+											<td><button type="button" id="buttonMid">Add Middle Station</button></td> 
 										</tr>
 										</table>
-										<div style="width:100%">
-											<p id="mid"/>
-										</div>
 										<div>
 											<p id="checkMid"/>
+										</div>
+										<div style="width:100%">
+											<p id="mid"/>
 										</div>
 										<table border="0" cellpadding="10" style="width: 100%">
 										<tr>
@@ -124,26 +122,64 @@
 								</form>
 								<script th:inline="javascript">
 								     $(document).ready(function(){
-								       $("button").on("click", function(){
+								       $("#buttonMid").on("click", function(){
 								    	   var listOfStations = /*[[${listOfStations}]]*/ {}; 
 								    	   var html = '<label>Middle Station:</label><select name="middleStations" th:field="*{middleStations}" style="width: 70%">';
 								    	  console.log(listOfStations);
 								    	  for (var i = 0; i < listOfStations.length; i++) { 
-								    		  html += '<option th:value="' + listOfStations[i].stationName+'">'
+								    		  html += '<option th:value="' + listOfStations[i].sid+'">'
 							                    + listOfStations[i].stationName + '</option>';
 								    	   }
 								    	   html+='</select><br>';
-								         //var row = '<option th:each="station : ${listOfStations}" th:value="${station.sid}" th:text="${station.stationName}"></option>';
 								         $("#mid").append(html);
 								       });
 								     });
 							    </script>
 							    <script th:inline="javascript">
 								    $( window ).load(function() {
-								    	var listOfMiddleStations = /*[[*{middleStations}]]*/ {};
-										console.log(listOfMiddleStations);
+								    	var listOfMiddleStations = /*[[${listOfMiddleStations}]]*/;
+								    	var listOfStations = /*[[${listOfStations}]]*/ {}; 
+								    	var html = '';
+								    	if(listOfMiddleStations.length>0){
+								    		for (var j = 0; j < listOfMiddleStations.length; j++) {
+									    		html+= '<label>Middle Station:</label><select name="middleStations" th:field="*{middleStations}" style="width: 70%">';
+									    	
+									    		for (var i = 0; i < listOfStations.length; i++) { 
+									    			
+									    			if(listOfStations[i].sid == listOfMiddleStations[j]){
+									    				html += '<option value="' + listOfStations[i].sid+'" selected>'
+									                    + listOfStations[i].stationName + '</option>';
+									    			}
+									    			else{
+									    				html += '<option value="' + listOfStations[i].sid+'">'
+									                    + listOfStations[i].stationName + '</option>';
+									    			}
+										    	}
+									    		//html += '<option th:value="' + listOfMiddleStations[j]+'">'+listOfMiddleStations[j]+'</option>';
+									    		html+='</select><br>';
+								    		}
+									    	
+									        $("#checkMid").append(html);
+								    	}
 								    });	 
 								</script>
+								<script th:inline="javascript">
+									$( window ).load(function() {
+										var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+							    		var allDays = /*[[${listOfDays}]]*/; 
+							    		var html = '<label>Days :</label>';
+							    	 	//var a = ["a", "b", "c"];
+							    	  	days.forEach(function(entry) {
+										   if(allDays.hasOwnProperty(entry)){
+										 	  html += '<input type="checkbox" name="days" checked="checked" value="'+entry+'">'+entry;
+										   }
+										   else{
+										 	  html += '<input type="checkbox" name="days" value="'+entry+'">'+entry;
+										   }
+							    	  	});
+							         	$("#days").append(html);
+							       	});
+							    </script>
 							</div>
 						</div>
 					</div>
