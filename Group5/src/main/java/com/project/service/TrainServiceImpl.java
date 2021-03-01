@@ -14,7 +14,7 @@ public class TrainServiceImpl implements TrainService{
 	@Autowired
 	TrainDAO trainDAO;
 
-	public List<Train> ListOfTrains() {
+	public List<Train> listOfTrains() {
 		return trainDAO.getAllTrain();
 	}
 

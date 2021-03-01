@@ -31,34 +31,33 @@ public class RouteController {
 	StationService stationService;
 	
 	@GetMapping(value = "/route/list")
-	public String ShowRoutePage(Model model) {
-		List<Route> listOfRoute = routeService.ListOfRoute();
+	public String showRoutePage(Model model) {
+		List<Route> listOfRoute = routeService.listOfRoute();
 		model.addAttribute("listOfRoute", listOfRoute);
 		return "route/route";
 	}
 
 	@GetMapping(value = "/route")
-	public String ShowRoute(Model model) {
-		List<Route> listOfRoute = routeService.ListOfRoute();
+	public String showRoute(Model model) {
+		List<Route> listOfRoute = routeService.listOfRoute();
 		model.addAttribute("listOfRoute", listOfRoute);
 		return "route/route";
 		
 	}
 
 	@GetMapping(value = "/route/add")
-	public String ShowAddRoutePage(Model model) {
-		List<Station> stations = stationService.ListOfStations();
+	public String showAddRoutePage(Model model) {
+		List<Station> stations = stationService.listOfStations();
 		Route route = new Route();
 		model.addAttribute(route);	
 		model.addAttribute("listOfStations", stations);
-		return "route/add_route";
+		return "route/addRoute";
 	}
 
 	@PostMapping(value = "/route/save")
 	public String saveRoute(@Valid @ModelAttribute("route") Route route, BindingResult result) {
-		System.out.println(route);
 		if (result.hasErrors()) {
-			return "route/add_route";
+			return "route/addRoute";
 		} else {
 			routeService.save(route);
 			return "redirect:/route/list";
@@ -68,11 +67,11 @@ public class RouteController {
 
 	@RequestMapping("/route/edit/{rId}")
 	public String showEditRoutePage(@PathVariable(name = "rId") Integer rId, Model model) {
-		List<Station> stations = stationService.ListOfStations();
+		List<Station> stations = stationService.listOfStations();
 		Route route = routeService.getRoute(rId);
 		model.addAttribute(route);
 		model.addAttribute("listOfStations", stations);
-		return "route/edit_route";
+		return "route/editRoute";
 	}
 
 	@RequestMapping("/route/delete/{rId}")

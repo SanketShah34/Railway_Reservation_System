@@ -6,7 +6,7 @@ import com.project.entity.Train;
 
 public interface TrainService {
 
-	public List<Train> ListOfTrains();
+	public List<Train> listOfTrains();
 
 	public boolean saveTrain(Train train);
 

@@ -49,11 +49,11 @@ public class Route {
 		this.distance = distance;
 	}
 
-	public int getrId() {
+	public int getRId() {
 		return rId;
 	}
 
-	public void setrId(int rId) {
+	public void setRId(int rId) {
 		this.rId = rId;
 	}
 

@@ -21,21 +21,21 @@ public class StationServiceImpl implements StationService {
 	}
 
 	@Override
-	public List<Station> ListOfStations() {
+	public List<Station> listOfStations() {
 		// TODO Auto-generated method stub
 		return stationDAO.getAllStation();
 	}
 
 	@Override
-	public Station getStation(Integer sid) {
+	public Station getStation(Integer sId) {
 		// TODO Auto-generated method stub
-		return stationDAO.getStation(sid);
+		return stationDAO.getStation(sId);
 	}
 
 	@Override
-	public void deleteStation(Integer sid) {
+	public void deleteStation(Integer sId) {
 		// TODO Auto-generated method stub
-		 stationDAO.delete(sid);
+		 stationDAO.delete(sId);
 	}
 
 }

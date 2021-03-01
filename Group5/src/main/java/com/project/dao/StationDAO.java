@@ -9,7 +9,7 @@ public interface StationDAO {
 	
 	public List<Station> getAllStation();
 	
-	public Station getStation(Integer sid);
+	public Station getStation(Integer sId);
 	
-	public void delete(Integer sid);
+	public void delete(Integer sId);
 }

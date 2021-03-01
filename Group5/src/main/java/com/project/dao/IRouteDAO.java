@@ -8,7 +8,7 @@ public interface IRouteDAO {
 	
 	public List<Route> getAllRoute();
 	
-	public Route getRoute(Integer rid);
+	public Route getRoute(Integer rId);
 	
-	public void deleteRoute(Integer rid);
+	public void deleteRoute(Integer rId);
 }

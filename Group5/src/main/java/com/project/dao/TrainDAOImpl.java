@@ -19,13 +19,13 @@ import com.project.service.DButilities;
 public class TrainDAOImpl implements TrainDAO {
 
 	@Autowired
-	DButilities dbutilities;
+	DButilities dbUtilities;
 	
 	@Override
 	public List<Train> getAllTrain() {
 		List<Train> listOfTrain = new ArrayList<Train>();
 		listOfTrain.removeAll(listOfTrain);
-		Connection conn = dbutilities.EstConnection();
+		Connection conn = dbUtilities.estConnection();
 
 		try {
 			CallableStatement stmt = conn.prepareCall("{call getAllTrain()}");
@@ -70,13 +70,15 @@ public class TrainDAOImpl implements TrainDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			dbUtilities.closeConnection(conn);
 		}
 		return listOfTrain;
 	}
 
 	@Override
 	public boolean saveTrain(Train train) {
-		Connection conn = dbutilities.EstConnection();
+		Connection conn = dbUtilities.estConnection();
 		
 		boolean validRoute = validateRoutes(conn, train);
 		
@@ -120,6 +122,8 @@ public class TrainDAOImpl implements TrainDAO {
 	
 				} catch (SQLException e) {
 					e.printStackTrace();
+				} finally {
+					dbUtilities.closeConnection(conn);
 				}
 			}
 			
@@ -175,6 +179,8 @@ public class TrainDAOImpl implements TrainDAO {
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
+			} finally {
+				dbUtilities.closeConnection(conn);
 			}
 		}
 		
@@ -183,7 +189,7 @@ public class TrainDAOImpl implements TrainDAO {
 
 	@Override
 	public Train getTrain(Integer trainId) {
-		Connection conn = dbutilities.EstConnection();
+		Connection conn = dbUtilities.estConnection();
 		
 		Train train = new Train();
 		try {
@@ -210,13 +216,15 @@ public class TrainDAOImpl implements TrainDAO {
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			dbUtilities.closeConnection(conn);
 		}
 		return train;
 	}
 
 	@Override
 	public void deleteTrain(Integer trainId) {
-		Connection conn = dbutilities.EstConnection();
+		Connection conn = dbUtilities.estConnection();
 		try {
 			CallableStatement stmt = conn.prepareCall("{call deleteTrain( ? )}");
 			stmt.setInt(1, trainId);
@@ -224,6 +232,8 @@ public class TrainDAOImpl implements TrainDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			dbUtilities.closeConnection(conn);
 		}
 	}
 

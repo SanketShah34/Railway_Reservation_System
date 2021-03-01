@@ -83,7 +83,7 @@
 
 											<td sec:authorize="hasAnyAuthority('ADMIN')">
 												<div sec:authorize="hasAnyAuthority('ADMIN')">
-													<a th:href="@{'/station/edit/' + ${station.sid}}">Edit</a>
+													<a th:href="@{'/station/edit/' + ${station.sId}}">Edit</a>
 												</div>
 											</td>
 											<td sec:authorize="hasAnyAuthority('ADMIN')">
@@ -95,7 +95,7 @@
 													-->
 													
 												<div sec:authorize="hasAnyAuthority('ADMIN')">
-													<a th:href="@{'/station/delete/' + ${station.sid}}" onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">Delete</a>
+													<a th:href="@{'/station/delete/' + ${station.sId}}" onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">Delete</a>
 												</div>
 											</td>
 										</tr>

@@ -20,12 +20,12 @@ import com.project.service.DButilities;
 public class RouteDAO implements IRouteDAO {
 	
 	@Autowired
-	DButilities dbutilities;
+	DButilities dbUtilities;
 
 	@Override
 	public void save(Route route) {
-		Connection conn = dbutilities.EstConnection();
-		if(route.getrId() == 0) {
+		Connection conn = dbUtilities.estConnection();
+		if(route.getRId() == 0) {
 			try {
 				CallableStatement stmt = conn.prepareCall("{call addRoute( ? , ? , ?)}");
 				stmt.setInt(1, route.getSourceId());
@@ -37,15 +37,13 @@ public class RouteDAO implements IRouteDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				dbutilities.closeConnection(conn);
+				dbUtilities.closeConnection(conn);
 			}
 		}
 		else {
-			System.out.println("in edit");
 			try {
 				CallableStatement stmt = conn.prepareCall("{call editRoute( ? , ? , ? , ?)}");
-				System.out.println(route);
-				stmt.setInt(1, route.getrId());
+				stmt.setInt(1, route.getRId());
 				stmt.setInt(2, route.getSourceId());
 				stmt.setInt(3, route.getDestinationId());
 				stmt.setDouble(4, route.getDistance());
@@ -53,10 +51,9 @@ public class RouteDAO implements IRouteDAO {
 				stmt.execute();
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
-				dbutilities.closeConnection(conn);
+				dbUtilities.closeConnection(conn);
 			}
 		}
 		
@@ -65,40 +62,36 @@ public class RouteDAO implements IRouteDAO {
 	@Override
 	public List<Route> getAllRoute() {
 		List<Route> listOfRoutes = new ArrayList<>();
-		// TODO Auto-generated method stub
-		Connection conn = dbutilities.EstConnection();
+		Connection conn = dbUtilities.estConnection();
 		try {
 			CallableStatement stmt = conn.prepareCall("{call getAllRoute()}");
-
 			boolean hadResultsForList = stmt.execute();
-
 			if (hadResultsForList) {
-				
 				ResultSet resultSet = stmt.getResultSet();
 				while (resultSet.next()) {
 					Route route = new Route();
 					Station sourceStation = new Station();
 					Station destinationStation = new Station();
 					
-					route.setrId(resultSet.getInt("rid"));
+					route.setRId(resultSet.getInt("rId"));
 					
-					sourceStation.setSid(resultSet.getInt("sourceStationId"));
+					sourceStation.setSId(resultSet.getInt("sourceStationId"));
 					sourceStation.setStationName(resultSet.getString("sourceStationName"));
 					sourceStation.setStationCode(resultSet.getString("sourceStationCode"));
 					sourceStation.setStationCity(resultSet.getString("sourceStationCity"));
 					sourceStation.setStationState(resultSet.getString("sourceStationState"));
 						
 					route.setSource(sourceStation);
-					route.setSourceId(sourceStation.sid);
+					route.setSourceId(sourceStation.sId);
 					
-					destinationStation.setSid(resultSet.getInt("destinationStationId"));
+					destinationStation.setSId(resultSet.getInt("destinationStationId"));
 					destinationStation.setStationName(resultSet.getString("destinationStationName"));
 					destinationStation.setStationCode(resultSet.getString("destinationStationCode"));
 					destinationStation.setStationCity(resultSet.getString("destinationStationCity"));
 					destinationStation.setStationState(resultSet.getString("destinationStationState"));
 					
 					route.setDestination(destinationStation);
-					route.setDestinationId(destinationStation.sid);
+					route.setDestinationId(destinationStation.sId);
 					
 					route.setDistance(resultSet.getDouble("distance"));
 				 
@@ -107,10 +100,9 @@ public class RouteDAO implements IRouteDAO {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			dbutilities.closeConnection(conn);
+			dbUtilities.closeConnection(conn);
 		}
 
 		return listOfRoutes;
@@ -118,8 +110,7 @@ public class RouteDAO implements IRouteDAO {
 
 	@Override
 	public Route getRoute(Integer rId) {
-		// TODO Auto-generated method stub
-		Connection conn = dbutilities.EstConnection();
+		Connection conn = dbUtilities.estConnection();
 		
 		Route route = new Route();
 		Station sourceStation = new Station();
@@ -133,43 +124,41 @@ public class RouteDAO implements IRouteDAO {
 				ResultSet resultSet = stmt.getResultSet();
 				if (resultSet.next()) {
 
-					route.setrId(resultSet.getInt("rId"));
+					route.setRId(resultSet.getInt("rId"));
 					
-					sourceStation.setSid(resultSet.getInt("sourceStationId"));
+					sourceStation.setSId(resultSet.getInt("sourceStationId"));
 					sourceStation.setStationName(resultSet.getString("sourceStationName"));
 					sourceStation.setStationCode(resultSet.getString("sourceStationCode"));
 					sourceStation.setStationCity(resultSet.getString("sourceStationCity"));
 					sourceStation.setStationState(resultSet.getString("sourceStationState"));
 						
 					route.setSource(sourceStation);
-					route.setSourceId(sourceStation.sid);
+					route.setSourceId(sourceStation.sId);
 					
-					destinationStation.setSid(resultSet.getInt("destinationStationId"));
+					destinationStation.setSId(resultSet.getInt("destinationStationId"));
 					destinationStation.setStationName(resultSet.getString("destinationStationName"));
 					destinationStation.setStationCode(resultSet.getString("destinationStationCode"));
 					destinationStation.setStationCity(resultSet.getString("destinationStationCity"));
 					destinationStation.setStationState(resultSet.getString("destinationStationState"));
 					
 					route.setDestination(destinationStation);
-					route.setDestinationId(destinationStation.sid);
+					route.setDestinationId(destinationStation.sId);
 					
 					route.setDistance(resultSet.getDouble("distance"));
 				 
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			dbutilities.closeConnection(conn);
+			dbUtilities.closeConnection(conn);
 		}
-		// TODO Auto-generated method stub
 		return route;
 	}
 
 	@Override
 	public void deleteRoute(Integer rId) {
-		Connection conn = dbutilities.EstConnection();
+		Connection conn = dbUtilities.estConnection();
 		try {
 			CallableStatement stmt = conn.prepareCall("{call deleteRoute( ? )}");
 			stmt.setInt(1, rId);
@@ -177,7 +166,7 @@ public class RouteDAO implements IRouteDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dbutilities.closeConnection(conn);
+			dbUtilities.closeConnection(conn);
 		}
 	}
 	

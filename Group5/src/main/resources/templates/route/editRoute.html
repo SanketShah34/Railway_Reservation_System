@@ -10,7 +10,7 @@
 			integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 			crossorigin="anonymous">
 		
-		<title>Add Route</title>
+		<title>Edit Route</title>
 		
 	</head>
 	<body>
@@ -35,16 +35,22 @@
 						<div class="row col-md-12">
 							<div class="row col-md-12" style="margin-top: 50px">
 								<div class="border border-secondary p-3 rounded" style="width: 100%">
-									<h1>Add New Route</h1>
+									<h1>Edit Route</h1>
 									<br />
 									<form action="#" th:action="@{/route/save}" th:object="${route}"
 										method="post">
 										<table border="0" cellpadding="10" style="width: 100%">
 											<tr>
+												<td>Route ID:</td>
+												<td>
+													<input type="text" th:field="*{rId}"
+													readonly="readonly" style="width: 70%" /></td>
+											</tr>
+											<tr>
 												<td>Source:</td>
 												<td>
 													<select th:field="*{sourceId}">
-    													<option th:each="station : ${listOfStations}" th:value="${station.sid}" th:text="${station.stationName}">
+    													<option th:each="station : ${listOfStations}" th:value="${station.sId}" th:text="${station.stationName}" th:selected="(${station.sId} == *{source.sId})">
     													</option>
 													</select>
 												</td>
@@ -53,7 +59,7 @@
 												<td>Destination:</td>
 												<td>
 													<select th:field="*{destinationId}">
-    													<option th:each="station : ${listOfStations}" th:value="${station.sid}" th:text="${station.stationName}">
+    													<option th:each="station : ${listOfStations}" th:value="${station.sId}" th:text="${station.stationName}" th:selected="(${station.sId} == *{destination.sId})">
     													</option>
 													</select>
 												</td>
@@ -62,12 +68,11 @@
 												<td>Distance:</td>
 												<td>
 													<input type="text" style="width: 70%" th:field="*{distance}" />
-													<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('distance')}" th:errors="*{distance}" />
 												</td>
 											</tr>
 											<tr style="text-align: center;">
 												<td colspan="2">
-													<button type="submit">Add Route</button>
+													<button type="submit">Edit Route</button>
 												</td>
 											</tr>
 										</table>

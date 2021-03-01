@@ -7,9 +7,9 @@ import com.project.entity.Station;
 public interface StationService {
 	public void save(Station station);
 	
-	public List<Station> ListOfStations();
+	public List<Station> listOfStations();
 	
-	public Station getStation(Integer sid);
+	public Station getStation(Integer sId);
 	
-	public void deleteStation(Integer sid);
+	public void deleteStation(Integer sId);
 }

@@ -16,27 +16,23 @@ public class RouteService implements IRouteService{
 	
 	@Override
 	public void save(Route route) {
-		// TODO Auto-generated method stub
 		System.out.println(route);
 		routeDAO.save(route);
 	}
 
 	@Override
-	public List<Route> ListOfRoute() {
-		// TODO Auto-generated method stub
+	public List<Route> listOfRoute() {
 		return routeDAO.getAllRoute();
 	}
 
 	@Override
-	public Route getRoute(Integer rid) {
-		// TODO Auto-generated method stub
-		return routeDAO.getRoute(rid);
+	public Route getRoute(Integer rId) {
+		return routeDAO.getRoute(rId);
 	}
 
 	@Override
-	public void deleteRoute(Integer rid) {
-		// TODO Auto-generated method stub
-		routeDAO.deleteRoute(rid);
+	public void deleteRoute(Integer rId) {
+		routeDAO.deleteRoute(rId);
 	}
 
 }

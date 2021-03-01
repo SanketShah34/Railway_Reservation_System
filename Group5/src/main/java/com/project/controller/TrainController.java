@@ -34,24 +34,24 @@ public class TrainController {
 	StationService stationService;
 	
 	@GetMapping(value = "/train/list")
-	public String ShowTrainPage(Model model) {
-		List<Train> listOfTrain = trainService.ListOfTrains();
+	public String showTrainPage(Model model) {
+		List<Train> listOfTrain = trainService.listOfTrains();
 		System.out.println("PPPP" + listOfTrain.size());
 		model.addAttribute("listOfTrain", listOfTrain);
 		return "train/train";
 	}
 
 	@GetMapping(value = "/train")
-	public String ShowTrain(Model model) {
-		List<Train> listOfTrain = trainService.ListOfTrains();
+	public String showTrain(Model model) {
+		List<Train> listOfTrain = trainService.listOfTrains();
 		System.out.println("PPPP" + listOfTrain.size());
 		model.addAttribute("listOfTrain", listOfTrain);
 		return "train/train";
 	}
 
 	@GetMapping(value = "/train/add")
-	public String ShowAddTrainPage(Model model) {
-		List<Station> stations = stationService.ListOfStations();
+	public String showAddTrainPage(Model model) {
+		List<Station> stations = stationService.listOfStations();
 		model.addAttribute("listOfStations", stations);
 
 		Train train = new Train();
@@ -79,7 +79,7 @@ public class TrainController {
 	@RequestMapping("/train/edit/{trainId}")
 	public String showEditTrainPage(@PathVariable(name = "trainId") Integer trainId, Model model) {
 
-		List<Station> stations = stationService.ListOfStations();
+		List<Station> stations = stationService.listOfStations();
 		model.addAttribute("listOfStations", stations);
 		
 		Train train = trainService.getTrain(trainId);
@@ -108,7 +108,7 @@ public class TrainController {
 	@RequestMapping("/train-route-error")
 	public String trainRouteError(Model model) {
 		model.addAttribute("trainRouteError", true);
-		List<Train> listOfTrain = trainService.ListOfTrains();
+		List<Train> listOfTrain = trainService.listOfTrains();
 		model.addAttribute("listOfTrain", listOfTrain);
 		return "train/train";
 	}

@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 public class Station {
 	
-	public int sid;
+	public int sId;
 	
 	@NotNull(message = "stationName can not be null!!")
 
@@ -24,21 +24,21 @@ public class Station {
 		
 	}
 	
-	public Station(int sid, String stationName, String stationCode, String stationCity, String stationState) {
+	public Station(int sId, String stationName, String stationCode, String stationCity, String stationState) {
 		super();
-		this.sid = sid;
+		this.sId = sId;
 		this.stationName = stationName;
 		this.stationCode = stationCode;
 		this.stationCity = stationCity;
 		this.stationState = stationState;
 	}
 	
-	public int getSid() {
-		return sid;
+	public int getSId() {
+		return sId;
 	}
 
-	public void setSid(int sid) {
-		this.sid = sid;
+	public void setSId(int sId) {
+		this.sId = sId;
 	}
 
 	public String getStationName() {
