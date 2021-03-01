@@ -21,7 +21,7 @@ public class UserDAOImpl implements UserDAO {
 	public User getUserByUsername(String username) {
 		System.out.println("in user dao imple ");
 		User userfromDB = new User();
-		Connection connection = this.dbUtilities.EstConnection();
+		Connection connection = this.dbUtilities.estConnection();
 		try {
 			java.sql.CallableStatement stmt = connection.prepareCall("{call findUserByUserName(? )}");
 			stmt.setString(1, username);
@@ -46,6 +46,8 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			dbUtilities.closeConnection(connection);
 		}
 		System.out.println(userfromDB);
 		return userfromDB;

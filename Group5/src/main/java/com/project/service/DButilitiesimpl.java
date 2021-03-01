@@ -21,7 +21,7 @@ public class DButilitiesimpl implements DButilities {
 	private String PASSWORD;
 
 	@Override
-	public Connection EstConnection() {
+	public Connection estConnection() {
 		System.out.println("----");
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");

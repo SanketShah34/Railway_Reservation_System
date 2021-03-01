@@ -34,23 +34,23 @@ public class StationController {
 	StationService stationService;
 
 	@GetMapping(value = "/station/list")
-	public String ShowStationPage(Model model) {
-		List<Station> listOfStation = stationService.ListOfStations();
+	public String showStationPage(Model model) {
+		List<Station> listOfStation = stationService.listOfStations();
 		System.out.println("PPPP" + listOfStation.size());
 		model.addAttribute("listOfStation", listOfStation);
 		return "station/station";
 	}
 
 	@GetMapping(value = "/station")
-	public String ShowStation(Model model) {
-		List<Station> listOfStation = stationService.ListOfStations();
+	public String showStation(Model model) {
+		List<Station> listOfStation = stationService.listOfStations();
 		System.out.println("PPPP" + listOfStation.size());
 		model.addAttribute("listOfStation", listOfStation);
 		return "station/station";
 	}
 
 	@GetMapping(value = "/station/add")
-	public String ShowAddStationPage(Model model) {
+	public String showAddStationPage(Model model) {
 		Station station = new Station();
 		model.addAttribute(station);
 		return "station/add_station";
@@ -71,16 +71,16 @@ public class StationController {
 	}
 
 	@RequestMapping("/station/edit/{sid}")
-	public String showEditStationPage(@PathVariable(name = "sid") Integer sid, Model model) {
+	public String showEditStationPage(@PathVariable(name = "sId") Integer sId, Model model) {
 
-		Station station = stationService.getStation(sid);
+		Station station = stationService.getStation(sId);
 		model.addAttribute(station);
 		return "station/edit_station";
 	}
 
-	@RequestMapping("/station/delete/{sid}")
-	public String deleteStation(@PathVariable(name = "sid") Integer sid, Model model) {
-		stationService.deleteStation(sid);
+	@RequestMapping("/station/delete/{sId}")
+	public String deleteStation(@PathVariable(name = "sId") Integer sId, Model model) {
+		stationService.deleteStation(sId);
 		return "redirect:/station/list";
 
 	}

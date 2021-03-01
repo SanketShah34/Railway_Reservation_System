@@ -23,12 +23,12 @@ public class StationDAOImpl implements StationDAO {
 	
 
 	@Autowired
-	DButilities dbutilities;
+	DButilities dbUtilities;
 
 	@Override
 	public void save(Station station) {
-		Connection conn = dbutilities.EstConnection();
-		if(station.getSid() == 0) {
+		Connection conn = dbUtilities.estConnection();
+		if(station.getSId() == 0) {
 			System.out.println("in add new ");
 			try {
 				CallableStatement stmt = conn.prepareCall("{call addStation( ? , ? , ? , ?)}");
@@ -42,13 +42,15 @@ public class StationDAOImpl implements StationDAO {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} finally {
+				dbUtilities.closeConnection(conn);
 			}
 		}
 		else {
 			System.out.println("in edit");
 			try {
 				CallableStatement stmt = conn.prepareCall("{call editStation( ? , ? , ? , ? , ?)}");
-				stmt.setInt(1, station.getSid());
+				stmt.setInt(1, station.getSId());
 				stmt.setString(2, station.getStationName());
 				stmt.setString(3, station.getStationCode());
 				stmt.setString(4, station.getStationCity());
@@ -59,6 +61,8 @@ public class StationDAOImpl implements StationDAO {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} finally {
+				dbUtilities.closeConnection(conn);
 			}
 		}
 		
@@ -69,7 +73,7 @@ public class StationDAOImpl implements StationDAO {
 	@Override
 	public List<Station> getAllStation() {
 		listOfStation.removeAll(listOfStation);
-		Connection conn = dbutilities.EstConnection();
+		Connection conn = dbUtilities.estConnection();
 
 		try {
 			CallableStatement stmt = conn.prepareCall("{call getAllStation()}");
@@ -81,7 +85,7 @@ public class StationDAOImpl implements StationDAO {
 				ResultSet resultSet = stmt.getResultSet();
 				while (resultSet.next()) {
 					Station station = new Station();
-					station.setSid(resultSet.getInt("sid"));
+					station.setSId(resultSet.getInt("sId"));
 			//		System.out.println("++" + station.getId());
 
 					station.setStationName(resultSet.getString("stationName"));
@@ -103,25 +107,27 @@ public class StationDAOImpl implements StationDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			dbUtilities.closeConnection(conn);
 		}
 
 		return listOfStation;
 	}
 
 	@Override
-	public Station getStation(Integer sid) {
-		Connection conn = dbutilities.EstConnection();
+	public Station getStation(Integer sId) {
+		Connection conn = dbUtilities.estConnection();
 		
 		Station station = new Station();
 		try {
 			CallableStatement stmt = conn.prepareCall("{call getStation(?)}");
-			stmt.setInt(1, sid);
+			stmt.setInt(1, sId);
 			
 			boolean hadStation = stmt.execute();
 			if (hadStation) {
 				ResultSet resultSet = stmt.getResultSet();
 				if (resultSet.next()) {
-					station.setSid(resultSet.getInt("sid"));
+					station.setSId(resultSet.getInt("sId"));
 					station.setStationName(resultSet.getString("stationName"));
 					station.setStationCode(resultSet.getString("stationCode"));
 					station.setStationCity(resultSet.getString("stationCity"));
@@ -131,22 +137,26 @@ public class StationDAOImpl implements StationDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			dbUtilities.closeConnection(conn);
 		}
 		// TODO Auto-generated method stub
 		return station;
-		}
+		} 
 
 	@Override
-	public void delete(Integer sid) {
+	public void delete(Integer sId) {
 		
-		Connection conn = dbutilities.EstConnection();
+		Connection conn = dbUtilities.estConnection();
 		try {
 			CallableStatement stmt = conn.prepareCall("{call deleteStation( ? )}");
-			stmt.setInt(1, sid);
+			stmt.setInt(1, sId);
 			stmt.execute();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			dbUtilities.closeConnection(conn);
 		}
 		
 		// TODO Auto-generated method stub
