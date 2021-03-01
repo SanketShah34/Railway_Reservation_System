@@ -67,10 +67,13 @@ public class TrainController {
 			return "train/add_train";
 		} else {
 			System.out.println("in else");
-			trainService.saveTrain(train);
-			return "redirect:/train/list";
+			if(trainService.saveTrain(train)) {
+				return "redirect:/train/list";
+			}
+			else {
+				return "redirect:/train-route-error";
+			}
 		}
-
 	}
 
 	@RequestMapping("/train/edit/{trainId}")
@@ -102,4 +105,11 @@ public class TrainController {
 
 	}
 	
+	@RequestMapping("/train-route-error")
+	public String trainRouteError(Model model) {
+		model.addAttribute("trainRouteError", true);
+		List<Train> listOfTrain = trainService.ListOfTrains();
+		model.addAttribute("listOfTrain", listOfTrain);
+		return "train/train";
+	}
 }

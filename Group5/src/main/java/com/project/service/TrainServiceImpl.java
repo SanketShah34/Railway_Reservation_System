@@ -18,8 +18,8 @@ public class TrainServiceImpl implements TrainService{
 		return trainDAO.getAllTrain();
 	}
 
-	public void saveTrain(Train train) {
-		trainDAO.saveTrain(train);
+	public boolean saveTrain(Train train) {
+		return trainDAO.saveTrain(train);
 	}
 
 	public Train getTrain(Integer trainId) {
