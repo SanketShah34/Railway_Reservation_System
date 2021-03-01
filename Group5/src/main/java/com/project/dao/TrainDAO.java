@@ -8,7 +8,7 @@ public interface TrainDAO {
 
 	public List<Train> getAllTrain();
 
-	public void saveTrain(Train train);
+	public boolean saveTrain(Train train);
 
 	public Train getTrain(Integer trainId);
 

@@ -19,7 +19,7 @@
 
 <body>
 	<div align="center">
-		<div style="max-width: 1000px; margin: 0 auto;">
+		<div style="max-width: 1320px; margin: 0 auto;">
 			<div class="border border-secondary p-3 rounded">
 				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
 					<div style="text-align: start" class="col-md-4">
@@ -60,7 +60,7 @@
 						<div class="col-md-12">
 							<h3>------List of Trains------</h3>
 							<div class="border border-secondary p-3 rounded">
-
+								<p style="color:red;" th:if="${trainRouteError}" class="error">Data could not entered/updated. Please check available route and enter the data again.</p>
 								<table border="1" cellpadding="10" style="width: 100%">
 									<thead>
 										<tr>

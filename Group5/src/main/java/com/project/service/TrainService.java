@@ -8,7 +8,7 @@ public interface TrainService {
 
 	public List<Train> ListOfTrains();
 
-	public void saveTrain(Train train);
+	public boolean saveTrain(Train train);
 
 	public Train getTrain(Integer trainId);
 
