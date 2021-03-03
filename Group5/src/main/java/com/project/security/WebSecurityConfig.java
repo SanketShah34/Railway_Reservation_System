@@ -45,6 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		System.out.println("in web security method 5");
 		http.authorizeRequests()
+		.antMatchers("/signup").permitAll()
+		.antMatchers("/signup/save").permitAll()
 		.antMatchers("/").hasAnyAuthority("USER",  "ADMIN")
 		.antMatchers("/new").hasAnyAuthority("ADMIN", "CREATOR")
 		.antMatchers("/edit/**").hasAnyAuthority("ADMIN", "EDITOR")

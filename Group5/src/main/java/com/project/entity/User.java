@@ -2,6 +2,8 @@ package com.project.entity;
 
 
 
+import java.sql.Date;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,16 +25,37 @@ public class User {
 	public boolean enabled;
 	public String role;
 	
+	@NotNull(message = "First Name may not be null")
+	public String firstName;
+	
+	@NotNull(message = "Last Name may not be null")
+	@NotEmpty(message = "Last Name should not be empty")
+	public String lastName;
+	
+	public String gender;
+	
+	@NotNull(message = "Date of birth may not be null")
+	public Date dateOfBirth;
+	
+	@NotNull(message = "Mobile Number may not be null")
+	public int mobileNumber;
+	
 	public User() {
 		
 	}
 	
-	public User(int id , String userName , String password , String  role , boolean enabled) {
+	public User(int id , String userName , String password , String  role , boolean enabled, 
+			String firstName, String lastName, String gender,  Date dateOfBirth, int mobileNumber) {
 		this.id = id;
 		this.userName = userName;
 		this.password = password;
 		this.enabled = enabled;
 		this.role = role;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.gender = gender;
+		this.dateOfBirth = dateOfBirth;
+		this.mobileNumber = mobileNumber;
 	}
 	
 	public String getRole() {
@@ -73,6 +96,46 @@ public class User {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+	
+	public int getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(int mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 	@Override
