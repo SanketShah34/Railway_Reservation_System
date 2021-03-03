@@ -1,5 +1,6 @@
 package com.project.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,4 +53,33 @@ public class UserDAOImpl implements UserDAO {
 		System.out.println(userfromDB);
 		return userfromDB;
 	}
+	
+	
+	@Override
+	public void saveUser(User user) {
+		Connection conn = dbUtilities.estConnection();
+		if(user.getId() == 0) {
+			System.out.println("add new user");
+			try {
+				CallableStatement stmt = conn.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ?)}");
+				stmt.setString(1, user.getFirstName());
+				stmt.setString(2, user.getLastName());
+				stmt.setString(3, user.getGender());
+				stmt.setDate(4, user.getDateOfBirth());
+				stmt.setInt(5, user.getMobileNumber());
+				stmt.setString(6, user.getUserName());
+				stmt.setString(7, user.getPassword());
+				//stmt.setString(7, passwordEncoder.encode(user.getPassword()));
+
+				stmt.execute();
+				System.out.println("Data entered");
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
 }
