@@ -38,7 +38,7 @@
 							<div class="border border-secondary p-3 rounded">
 								<h1>Add New Train</h1>
 								<br />
-								<form action="#" th:action="@{/train/save}" th:object="${train}"
+								<form action="#" th:action="@{/admin/train/save}" th:object="${train}"
 									method="post" id="trainForm">
 									<table border="0" cellpadding="10" style="width: 100%">
 										<tr>
@@ -115,9 +115,7 @@
 											<td><button type="button" id="buttonMid">Add Middle Station</button></td> 
 										</tr>
 										</table>
-										<div>
-											<p id="checkMid"/>
-										</div>
+										
 										<div style="width:100%">
 											<p id="mid"/>
 										</div>
@@ -152,32 +150,7 @@
 								       });
 								     });
 							    </script>
-							    <!-- <script th:inline="javascript">
-								    $('#trainForm').submit(function() {
-								    	 var start = /*[[${train}]]*/ {};
-								    	console.log(start);
-								    	
-								    		return true;
-								    	
-								    });
-								    
-								    /* var loginData = { 
-							    	       memberId : "test1",
-							    	       memberPw : "test2"
-							    	}
-
-							    	$.ajax({
-						    	        type: "POST",
-						    	        url: "/route/validate",
-						    	        data: loginData,
-						    	        success: function (result) {
-						    	            // do something.
-						    	        },
-						    	        error: function (result) {
-						    	            // do something.
-						    	        }
-							    	}); */
-							    </script> -->
+							   
 							</div>
 						</div>
 					</div>

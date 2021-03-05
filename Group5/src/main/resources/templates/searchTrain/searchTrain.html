@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>Home</title>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1000px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div class="col-md-12 row">
+					<div style="text-align: start" class="col-md-6">
+						Welcome <b><span sec:authentication="name">Username</span></b>
+						&nbsp;
+						<!-- 
+							<i><span sec:authentication="principal.authorities">Roles</span></i>
+						 -->
+					</div>
+					<div style="text-align: end" class="col-md-6">
+						<form th:action="@{/logout}" method="post">
+							<input type="submit" value="Logout" />
+						</form>
+					</div>
+					<div class="row col-md-12" style="margin-top: 50px">
+						<div class="col-md-12">
+							<div class="border border-secondary p-3 rounded">
+								<h3>Search Train</h3>
+							</div>
+						</div>
+					</div>
+					<div class="row col-md-12" style="margin-top: 50px">
+						<div class="col-md-12">
+							<div class="border border-secondary p-3 rounded">
+								<form action="#" th:action="@{/user/searchTrain}"
+									th:object="${searchTrain}" method="post">
+									<table border="0" cellpadding="10" style="width: 100%">
+
+
+									<!-- 
+										<tr>
+											<td><select class="drop">
+													<option value="1">A</option>
+													<option value="2">B</option>
+													<option value="3">C</option>
+											</select></td>
+										</tr>
+
+										<tr>
+											<td><select class="drop">
+													<option value="1">A</option>
+													<option value="2">B</option>
+													<option value="3">C</option>
+											</select></td>
+										</tr>
+ 									-->
+ 									
+ 									<tr>
+											<td>Starting Station:</td>
+											<td>
+												<select name="startStation" th:field="*{sourceStation}" style="width: 70%">
+												<option th:each="sstation : ${listOfSourceStations}" th:value="${sstation.sId}" th:text="${sstation.stationName}">
+												</option>
+												</select>
+												<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('sourceStation')}" th:errors="*{startStation}" />
+											</td>
+										</tr>
+						
+										<tr>
+											<td>Destination Station:</td>
+											<td>
+												<select name="startStation" th:field="*{destinationStation}" style="width: 70%">
+												<option th:each="dstation : ${listOfDestinationStations}" th:value="${dstation.sId}" th:text="${dstation.stationName}">
+												</option>
+												</select>
+												<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('destinationStation')}" th:errors="*{startStation}" />
+											</td>
+										</tr>
+										
+										<!-- 
+										<tr>
+											<td>Source Station</td>
+											<td><input type="text" style="width: 70%"
+												th:field="*{sourceStation}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('sourceStation')}"
+													th:errors="*{sourceStation}" /></td>
+										</tr>
+										<tr>
+											<td>Destination Station</td>
+											<td><input type="text" style="width: 70%"
+												th:field="*{destinationStation}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('destinationStation')}"
+													th:errors="*{destinationStation}" /></td>
+										</tr>
+ -->
+
+										<tr>
+											<td>Date of Journey</td>
+											<td><input type="date" th:field="*{dateofJourny}" /></td>
+										</tr>
+
+
+
+										<tr>
+											<td>Train Type:</td>
+											<td><select name="trainType" style="width: 70%"
+												th:field="*{trainType}">
+													<option value="AC Sleeper" selected>AC Sleeper</option>
+													<option value="AC Seater">AC Seater</option>
+													<option value="Non AC Sleeper">Non AC Sleeper</option>
+													<option value="Non AC Seater">Non AC Seater</option>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('trainType')}"
+													th:errors="*{trainType}" /></td>
+										</tr>
+										<tr style="text-align: center;">
+											<td colspan="2"><button type="submit">Search</button></td>
+										</tr>
+									</table>
+								</form>
+
+	<!--
+								<script th:inline="javascript">
+										$(document).on('change', '.drop', function () {
+										var value = $(this).val();
+										var same_selected = $(".drop").not(this).find(`option[value="${value}"]:selected`)
+										if (same_selected.length<=0) console.log("No Match")
+									 else console.log(`there is ${same_selected.length} Match with current selection !`) 
+										else alert("Source Station and Destination Station can not be same");
+										});
+										 </script>
+
+-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+
+</html>

@@ -2,20 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 	crossorigin="anonymous">
-<title>Edit Station</title>
+<title>Home</title>
 </head>
 <body>
 	<div align="center">
 		<div style="max-width: 1000px; margin: 0 auto;">
 			<div class="border border-secondary p-3 rounded">
 				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
+				
+				
 				<div style="text-align: start" class="col-md-4">
 						<input action="action" type="button" onclick="history.go(-1);" value="Back" />
 					</div>
@@ -31,52 +35,59 @@
 							<input type="submit" value="Logout" />
 						</form>
 					</div>
-					<div class="row col-md-12" style="margin-top: 50px">
-						<div class="col-md-12">
-							<div class="border border-secondary p-3 rounded">
-								<h1>Edit Station</h1>
-								<br />
-								<form action="#" th:action="@{/admin/station/save}"
-									th:object="${station}" method="post">
 
-									<table border="0" cellpadding="10" style="width: 100%">
+					<div th:each="train : ${listOfTrain}"> 
+					<div  class="border border-secondary p-3 rounded" style="width:930px">
+						<div   class="row col-md-12" style="margin-top : 50px">
+					
+							<table border="1" cellpadding="10" style="width: 100%">
+							<thead>
 										<tr>
-											<td>Station ID:</td>
-											<td><input type="text" th:field="*{sId}"
-												readonly="readonly" style="width: 70%" /></td>
+											<th>Train Code</th>
+											<th>Train Name</th>
+											<th >Train Type</th>
+											<th>Source Station</th>
+											<th>Destination Station</th>
+											<th>Pick UP Time</th>
+											<th>Drop Time</th>
+											<th>Fair</th>
+											<th>Available Seats</th>
+											<th>Option</th>
+											
 										</tr>
+									</thead>
+									
+									<tbody>
 										<tr>
-											<td>Station Name:</td>
-											<td><input type="text" style="width: 70%"
-												th:field="*{stationName}" /></td>
+											<td th:text="${train.trainCode}">Train Code</td>
+											<td th:text="${train.trainName}">Train Name</td>
+											<td  th:text="${train.trainType}">Train Type</td>
+											
+											<td th:text="${sourceStation}">Source Station</td>
+											<td th:text="${destinationStation}">Destination Station</td>
+											
+											
+											<td th:text="${train.pickUPTime}">PickUp Time</td>
+											<td  th:text="${train.dropTime}">Drop Time</td>
+											<td th:text="${train.fair}">Fair</td>
+											
+											<td>Available Seats</td>
+											<td >UPDATE</td>
+											
 										</tr>
-										<tr>
-											<td>Station Code:</td>
-											<td><input type="text" style="width: 70%"
-												th:field="*{stationCode}" /></td>
-										</tr>
-										<tr>
-											<td>Station City:</td>
-											<td><input type="text" style="width: 70%"
-												th:field="*{stationCity}" /></td>
-										</tr>
-										<tr>
-											<td>Station State:</td>
-											<td><input type="text" style="width: 70%"
-												th:field="*{stationState}" /></td>
-										</tr>
-										<tr style="text-align: center;">
-											<td colspan="2"><button type="submit">Edit
-													Station</button></td>
-										</tr>
-									</table>
-								</form>
-							</div>
+									</tbody>
+							</table>
 						</div>
+							
+						</div>
+					
 					</div>
+					
+					
 				</div>
 			</div>
 		</div>
+		
 	</div>
 </body>
 </html>

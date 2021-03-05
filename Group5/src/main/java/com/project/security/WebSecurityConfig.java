@@ -1,5 +1,6 @@
 package com.project.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -10,11 +11,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.*;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	
+	@Autowired
+	AuthenticationSuccessHandler successHandler;
+	
+	
 	@Bean
 	public UserDetailsService userDetailsService() {
 		System.out.println("in web security method 1");
@@ -41,17 +48,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(authenticationprovider());
 	}
 	
+	
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		System.out.println("in web security method 5");
 		http.authorizeRequests()
-		.antMatchers("/").hasAnyAuthority("USER",  "ADMIN")
-		.antMatchers("/new").hasAnyAuthority("ADMIN", "CREATOR")
-		.antMatchers("/edit/**").hasAnyAuthority("ADMIN", "EDITOR")
-		.antMatchers("/delete/**").hasAuthority("ADMIN")
+		.antMatchers("/user/home").permitAll()
+		.antMatchers("/admin*").hasAnyAuthority("ADMIN")
+		.antMatchers("/user*").hasAnyAuthority("USER")
+//		.antMatchers("/new").hasAnyAuthority("ADMIN", "CREATOR")
+//		.antMatchers("/edit/**").hasAnyAuthority("ADMIN", "EDITOR")
+//		.antMatchers("/delete/**").hasAuthority("ADMIN")
 		.anyRequest().authenticated()
 		.and()
-		.formLogin().loginPage("/login").usernameParameter("userName").passwordParameter("password")
+		.formLogin().loginPage("/login").usernameParameter("userName").passwordParameter("password").successHandler(successHandler)
 		.failureUrl("/login-error")
 		.permitAll()
 		.and().logout().permitAll()

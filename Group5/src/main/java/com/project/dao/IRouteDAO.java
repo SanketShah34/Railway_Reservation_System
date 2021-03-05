@@ -11,4 +11,6 @@ public interface IRouteDAO {
 	public Route getRoute(Integer rId);
 	
 	public void deleteRoute(Integer rId);
+	
+	public Route  getrouteByStation(int station1 ,int station2);
 }
