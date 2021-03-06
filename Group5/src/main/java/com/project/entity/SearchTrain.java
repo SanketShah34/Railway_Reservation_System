@@ -1,6 +1,8 @@
 package com.project.entity;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -18,6 +20,7 @@ public class SearchTrain {
 	private String destinationStation;
 	
 	@NotNull(message = "Date of birth cannot be null")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateofJourny;
 	
 	@NotNull(message = "Train Type cannot be null!!")
@@ -55,6 +58,7 @@ public class SearchTrain {
 	public void setDestinationStation(String destinationStation) {
 		this.destinationStation = destinationStation;
 	}
+	
 
 	public Date getDateofJourny() {
 		return dateofJourny;

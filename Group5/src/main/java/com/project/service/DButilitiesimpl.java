@@ -22,14 +22,14 @@ public class DButilitiesimpl implements DButilities {
 
 	@Override
 	public Connection estConnection() {
-		System.out.println("----");
+	//	System.out.println("----");
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			java.sql.Connection com = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-			System.out.println("com object " + com);
+		//	System.out.println("com object " + com);
 			return com;
 		} catch (Exception e) {
-			System.out.println("exception:=" + e);
+		//	System.out.println("exception:=" + e);
 			e.printStackTrace();
 			return null;
 		}
@@ -40,7 +40,7 @@ public class DButilitiesimpl implements DButilities {
 		try {
 			con.close();
 		} catch (Exception e) {
-			System.out.println("exception:=" + e);
+		//	System.out.println("exception:=" + e);
 			e.printStackTrace();
 		}
 	}

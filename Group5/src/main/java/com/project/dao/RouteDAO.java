@@ -173,7 +173,7 @@ public class RouteDAO implements IRouteDAO {
 	@Override
 	public Route getrouteByStation(int station1, int station2) {
 	//	System.out.println("in getroute by station method");
-		System.out.println("---source station-----"+station1+"---destination station ---"+station2);
+	//	System.out.println("---source station-----"+station1+"---destination station ---"+station2);
 		Connection conn = dbUtilities.estConnection();
 
 		Route route = new Route();
@@ -190,7 +190,7 @@ public class RouteDAO implements IRouteDAO {
 
 					route.setRId(resultSet.getInt("rId"));
 					route.setDistance(resultSet.getDouble("distance"));
-					System.out.println(resultSet.getDouble("distance"));
+				//	System.out.println(resultSet.getDouble("distance"));
 				}
 			}
 		} catch (SQLException e) {

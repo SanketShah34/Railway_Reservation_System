@@ -4,7 +4,11 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,8 @@ import com.project.entity.SearchTrain;
 import com.project.entity.Station;
 import com.project.entity.Train;
 import com.project.service.DButilities;
+
+import ch.qos.logback.core.subst.Token.Type;
 
 
 @Component
@@ -32,15 +38,23 @@ public class SearchTrainDAOImpl implements SearchTrainDAO {
 		Connection conn = dbUtilities.estConnection();	
 		
 		try {
-			CallableStatement stmt = conn.prepareCall("{call searchTrain(? ,? , ? , ? , ?)}");
+			CallableStatement stmt = conn.prepareCall("{call searchTrain(? ,? , ? , ? , ?, ?)}");
 			stmt.setInt(1, Integer.parseInt(searchTrain.getSourceStation()));
 			stmt.setInt(2, Integer.parseInt(searchTrain.getDestinationStation()));
+			
+			String dayName = getDaysNameFromDate(searchTrain.getDateofJourny());
 			String searchStringForSourceStation = '%'+searchTrain.getSourceStation()+'%';
 			String searchStringForDestinationStation = '%'+searchTrain.getDestinationStation()+'%';
+			String daysToBeSearch = '%'+dayName+'%';
+			
+			
+			
+			System.out.println("-----"+dayName);
 			
 			stmt.setString(3, searchStringForSourceStation);
 			stmt.setString(4, searchStringForDestinationStation);
 			stmt.setString(5, searchTrain.getTrainType());
+			stmt.setString(6, daysToBeSearch);
 			
 			boolean hadResultsForList = stmt.execute();
 
@@ -67,7 +81,8 @@ public class SearchTrainDAOImpl implements SearchTrainDAO {
 					
 					train.setStartStation(resultSet.getString("startStation"));
 					allStations.add(Integer.parseInt(train.getStartStation()));
-				//	System.out.println("size after aading first one "+allStations.size());
+					
+					
 					
 					train.setMiddleStations(resultSet.getString("middleStations"));
 					if(train.getMiddleStations() == null) {
@@ -94,7 +109,7 @@ public class SearchTrainDAOImpl implements SearchTrainDAO {
 					count++;
 				}
 			}
-			System.out.println(count);
+		//	System.out.println(count);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,6 +119,13 @@ public class SearchTrainDAOImpl implements SearchTrainDAO {
 
 		// TODO Auto-generated method stub
 		return trains;
+	}
+	
+	public String getDaysNameFromDate(Date dateToBeformate) {
+		
+		final Date currentTime = dateToBeformate;
+		SimpleDateFormat  simpleDateformat = new SimpleDateFormat("EEEE"); // the day of the week spelled out completely
+		return simpleDateformat.format(currentTime);
 	}
 
 }
