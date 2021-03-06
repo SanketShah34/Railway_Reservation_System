@@ -17,32 +17,12 @@
 </head>
 
 <body>
-	<!-- <script>
-		var password = document.getElementById("password"), confirmPassword = document
-				.getElementById("confirmPassword");
 
-		function validatePassword() {
-			if (password.value != confirmPassword.value) {
-				confirmPassword.setCustomValidity("Passwords Don't Match");
-			} else {
-				confirmPassword.setCustomValidity('');
-			}
-		}
-
-		$(document).ready(function(){
-
-			 $('#password').change(function(){ 
-			    validatePassword;
-			 })
-
-			});
-		
-		password.onchange = validatePassword;
-		confirm_password.onkeyup = validatePassword;
-	</script> -->
-
-	<form action="#" th:action="@{/signup/save}" th:object="${user}" method="post">
+	<form action="#" th:action="@{/signup/save}"  method="post">  <!-- th:object="${user}" -->
 		<div class="border border-secondary p-3 rounded">
+		<p th:if="${dobError}" class="error" >Date is incorrect</p> 
+		<p th:if="${emailError}" class="error">Email pattern is wrong</p>
+		<p th:if="${passwordError}" class="error">Password doesn't match</p>
 			<h1 style="text-align: center">Sign-up</h1>
 			<h3>Basic Information</h3>
 			<div class="form-group">
@@ -51,7 +31,7 @@
 						<label for="firstName">First Name:</label>
 					</div>
 					<div class="col-md-9">
-						<input type="text" th:field="*{firstName}" placeholder="Enter First Name">
+						<input type="text" name="firstName" placeholder="Enter First Name">
 					</div>
 				</div>
 			</div>
@@ -61,7 +41,7 @@
 						<label for="lastName">Last Name:</label>
 					</div>
 					<div class="col-md-9">
-						<input type="text" th:field="*{lastName}" class="form-control"
+						<input type="text" name="lastName" class="form-control"
 							placeholder="Enter Last Name" >
 					</div>
 				</div>
@@ -72,7 +52,7 @@
 						<label for="gender">Gender:</label>
 					</div>
 					<div class="dropdown-content">
-						<select name="gender" th:field="*{gender}">
+						<select name="gender">
 							<option value="Male">Male</option>
 							<option value="Female">Female</option>
 						</select>
@@ -85,7 +65,7 @@
 						<label for="dateOfBirth">Date Of Birth:</label>
 					</div>
 					<div class="col-md-9">
-						<input type="date" th:field="*{dateOfBirth}">
+						<input type="date" name="dateOfBirth">
 					</div>
 				</div>
 			</div>
@@ -95,7 +75,7 @@
 						<label for="mobileNubmer">Mobile Number:</label>
 					</div>
 					<div class="col-md-9">
-						<input type="tel" th:field="*{mobileNumber}" class="form-control "
+						<input type="tel" name="mobileNumber" class="form-control "
 							placeholder="Enter Mobile Number">
 					</div>
 				</div>
@@ -104,10 +84,10 @@
 			<div class="form-group">
 				<div class="row col-md-12">
 					<div class="col-md-3">
-						<label for="email">Email:</label>
+						<label for="email">Email Address:</label>
 					</div>
 					<div class="col-md-9">
-						<input type="email" th:field="*{userName}" class="form-control "
+						<input type="email" name="userName" class="form-control "
 							placeholder="Enter Email Address" >
 					</div>
 				</div>
@@ -118,7 +98,7 @@
 						<label for="pwd">Password:</label>
 					</div>
 					<div class="col-md-9">
-						<input type="password" th:field="*{password}" class="form-control "
+						<input type="password" class="form-control "
 							placeholder="Enter Password" id="password" name="password">
 					</div>
 				</div>
@@ -129,15 +109,15 @@
 						<label for="pwd">Confirm Password:</label>
 					</div>
 					<div class="col-md-9">
-						<input type="password" class="form-control "
-							placeholder="Enter Confirm Password" id="confirmPassword"
-							name="comfirmPassword">
+					<!-- <input type="password" th:name="comfirmPassword" th:placeholder="Enter Confirm Password"/> -->
+						<input type="password" class="form-control" placeholder="Enter Confirm Password" id="confirmPassword"
+							name="confirmPassword">
 					</div>
 				</div>
 			</div>
 		
 			<div class="form-group" style="text-align: center;">
-				<button type="submit" class="btn btn-info col-4">Submit</button>
+				<button type="submit" class="btn btn-info col-4">Create Account</button>
 			</div>
 		</div>
 	</form>

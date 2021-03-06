@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.project.entity.User;
@@ -61,6 +62,8 @@ public class UserDAOImpl implements UserDAO {
 		if(user.getId() == 0) {
 			System.out.println("add new user");
 			try {
+				BCryptPasswordEncoder encoder  = new BCryptPasswordEncoder();
+		        String encodedpassword = encoder.encode(user.getPassword());
 				CallableStatement stmt = conn.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ?)}");
 				stmt.setString(1, user.getFirstName());
 				stmt.setString(2, user.getLastName());
@@ -68,14 +71,12 @@ public class UserDAOImpl implements UserDAO {
 				stmt.setDate(4, user.getDateOfBirth());
 				stmt.setInt(5, user.getMobileNumber());
 				stmt.setString(6, user.getUserName());
-				stmt.setString(7, user.getPassword());
-				//stmt.setString(7, passwordEncoder.encode(user.getPassword()));
+				stmt.setString(7, encodedpassword);
 
 				stmt.execute();
 				System.out.println("Data entered");
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
