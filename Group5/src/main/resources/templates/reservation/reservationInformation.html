@@ -45,6 +45,11 @@
 						<div  class="border border-secondary p-3 rounded" style="width:930px">
 							<div   class="row col-md-12" style="margin-top : 50px">
 								<form th:action="@{/user/payNow}" th:object="${reservationInformation}" method="post">
+									<input type="hidden" name="trainId" th:value="${reservationInformation.trainId}">
+									<input type="hidden" name="sourceStationId" th:value="${reservationInformation.sourceStationId}">
+									<input type="hidden" name="destinationStationId" th:value="${reservationInformation.destinationStationId}">
+									<input type="hidden" name="distance" th:value="${reservationInformation.distance}">
+									<input type="hidden" name="trainType" th:value="${reservationInformation.trainType}">
 									<table border="1" cellpadding="10" style="width: 100%">
 										<thead>
 											<tr>
@@ -56,25 +61,25 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="passenger: ${passengerInformation}">
+											<tr th:each="passenger, stat : ${reservationInformation.passengerInformation}">
 												<td>
-													<input type="text" th:field="*{firstName}"/>
+													<input type="text" th:field="*{passengerInformation[__${stat.index}__].firstName}"/>
 												</td>
 												<td>
-													<input type="text" th:field="*{lastName}"/>
+													<input type="text" th:field="*{passengerInformation[__${stat.index}__].lastName}"/>
 												</td>
 												<td>
-													<select th:field="*{gender}">
+													<select th:field="*{passengerInformation[__${stat.index}__].gender}">
 														<option value="Male" selected>Male</option>
 														<option value="Female">Female</option>
 														<option value="Other">Other</option>
 													</select>
 												</td>
 												<td>
-													<input type="number" th:field="*{age}"/>
+													<input type="number" th:field="*{passengerInformation[__${stat.index}__].age}"/>
 												</td>
 												<td>
-													<select th:field="*{berthPreference}">
+													<select th:field="*{passengerInformation[__${stat.index}__].berthPreference}">
 														<option value="No Preference" selected>No Preference</option>
 														<option value="Lower Berth" selected>Lower Berth</option>
 														<option value="Upper Berth">Upper Berth</option>

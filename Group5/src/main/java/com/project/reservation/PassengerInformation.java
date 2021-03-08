@@ -10,6 +10,14 @@ public class PassengerInformation {
     public String berthPreference;
     public String seatNumber;
     public String coachNumber;
+    public double amountPaid;
+    
+	public double getAmountPaid() {
+		return amountPaid;
+	}
+	public void setAmountPaid(double amountPaid) {
+		this.amountPaid = amountPaid;
+	}
 	public int getPassengerInformationId() {
 		return passengerInformationId;
 	}

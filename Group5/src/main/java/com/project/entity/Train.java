@@ -35,7 +35,7 @@ public class Train {
 
 	public List<Integer> totalStation;
 	
-	public int fare;
+	public double fare;
 	
 	public String pickUPTime;
 	
@@ -164,11 +164,11 @@ public class Train {
 
 	
 
-	public int getFare() {
+	public double getFare() {
 		return fare;
 	}
 
-	public void setFare(int fare) {
+	public void setFare(double fare) {
 		this.fare = fare;
 	}
 

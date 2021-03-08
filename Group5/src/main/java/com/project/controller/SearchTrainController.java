@@ -97,6 +97,7 @@ public class SearchTrainController {
 				model.addAttribute("sourceStation",sourceStation);
 				model.addAttribute("destinationStation",destinationStation);
 				model.addAttribute("noTrain" , false);
+				model.addAttribute("reservationInformation", new Reservation());
 				System.out.println(trainList.size());
 				return "searchTrain/listOfSearchTrain";
 			}

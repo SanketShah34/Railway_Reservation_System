@@ -24,13 +24,14 @@ public class ReservationController {
 	
 	@PostMapping("/user/bookNow")
 	public String getReservationInformation(@ModelAttribute("${reservationInformation}") Reservation reservationInformation, Model model) {
-		System.out.print(reservationInformation);
 		model.addAttribute("reservationInformation", reservationInformation);
 		return "reservation/reservationInformation";
 	}
 	
 	@PostMapping("/user/payNow")
 	public String getPassengerInformation(@ModelAttribute("${reservationInformation}") Reservation reservationInformation, Model model) {
+		reservationInformation.calculateReservationFarePerPassenger(reservationInformation);
+		reservationInformation.calculateTotalReservationFare(reservationInformation);
 		model.addAttribute("reservationInformation", reservationInformation);
 		return "reservation/confirmAndPay";
 	}

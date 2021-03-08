@@ -36,7 +36,6 @@ public class findFareImpl implements findFare{
 			int distanceRequiredToreachSourceStation = 0;
 			int distanceRequiredForDestinationStation = 0;
 			
-			int fare = 0;
 
 			List<Integer> allStation = trains.get(i).getTotalStation();
 
@@ -90,7 +89,7 @@ public class findFareImpl implements findFare{
 					- distanceRequiredToreachSourceStation;
 		//	System.out.println("distance covered in whole journey" + distanceCoveredDuringJourney);
 			try {
-				fare = this.calculateFareByTrainType(distanceCoveredDuringJourney, trains.get(i).getTrainType());
+				double fare = this.calculateFareByTrainType(distanceCoveredDuringJourney, trains.get(i).getTrainType());
 				trains.get(i).setFare(fare);
 			} catch (Exception e) {
 				System.err.print(e);
@@ -124,7 +123,7 @@ public class findFareImpl implements findFare{
 
 	
 	@Override
-	public double calculateFareByDistance(int distance, int fare) {
+	public double calculateFareByDistance(int distance, double fare) {
 		if (distance < 100) {
 			return (double)fare;
 		} else {
@@ -133,7 +132,7 @@ public class findFareImpl implements findFare{
 	}
 	
 	@Override
-	public int calculateFareByTrainType(int distance, String trainType) throws Exception{
+	public double calculateFareByTrainType(int distance, String trainType) throws Exception{
 		if (trainType.equals("Non AC Sleeper")) {
 			return distance*3;
 		} else if (trainType.equals("AC Sleeper")) {
@@ -148,8 +147,8 @@ public class findFareImpl implements findFare{
 	}
 	
 	@Override
-	public double calculateFareByAge(int fare, int age) {
-		if (age < 5) {
+	public double calculateFareByAge(double fare, int age) {
+		if (age > 0 && age < 5) {
 			return (fare * 0.5);
 		} else if (age >= 60) {
 			return (fare * 0.7);
