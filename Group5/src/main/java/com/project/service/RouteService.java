@@ -16,6 +16,7 @@ public class RouteService implements IRouteService{
 	
 	@Override
 	public void save(Route route) {
+		System.out.println(route);
 		routeDAO.save(route);
 	}
 

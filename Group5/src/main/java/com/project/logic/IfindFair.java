@@ -8,9 +8,5 @@ public interface IfindFair {
 
 	public List<Train> findFairofTrainjourney(List<Train> trains , String sourceStation , String destinationStation);
 		
-	public double calculateFareByDistance(int distance, int fare);
 	
-	public int calculateFareByTrainType(int distance, String trainType) throws Exception;
-	
-	public double calculateFareByAge(int fare, int age);
 }

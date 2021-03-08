@@ -36,6 +36,7 @@
 						</form>
 					</div>
 
+					<div th:each="train : ${listOfTrain}"> 
 					<div  class="border border-secondary p-3 rounded" style="width:930px">
 						<div   class="row col-md-12" style="margin-top : 50px">
 					
@@ -57,33 +58,22 @@
 									</thead>
 									
 									<tbody>
-										<tr th:each="train: ${listOfTrain}">
-											<td th:text="${train.trainCode}">
-											</td>
+										<tr>
+											<td th:text="${train.trainCode}">Train Code</td>
 											<td th:text="${train.trainName}">Train Name</td>
 											<td  th:text="${train.trainType}">Train Type</td>
-							
-											<td th:text="${sourceStation.stationName}">Source Station</td>
-											<td th:text="${destinationStation.stationName}">Destination Station</td>
-								
-										
+											
+											<td th:text="${sourceStation}">Source Station</td>
+											<td th:text="${destinationStation}">Destination Station</td>
+											
+											
 											<td th:text="${train.pickUPTime}">PickUp Time</td>
-											<td th:text="${train.dropTime}">Drop Time</td>
+											<td  th:text="${train.dropTime}">Drop Time</td>
 											<td th:text="${train.fair}">Fair</td>
-									
+											
 											<td>Available Seats</td>
-											<td >
-												<form th:action="@{/user/bookNow}" th:object="${reservationInformation}" method="post">
-													<input type="hidden" name="trainId" th:value="${train.trainId}">
-													<input type="hidden" name="sourceStationId" th:value="${sourceStation.sId}">
-													<input type="hidden" name="destinationStationId" th:value="${destinationStation.sId}">
-													<input type="hidden" name="amountPaid" th:value="${train.fair}">
-													<input type="hidden" name="distance" th:value="${train.totalDistance}">
-													<button type="submit">Book Now</button>
-												</form>
-												<!--  <a th:href=" + ${train.trainId}}">Book Now</a>
-												 -->
-											</td>							
+											<td >UPDATE</td>
+											
 										</tr>
 									</tbody>
 							</table>
@@ -91,6 +81,7 @@
 							
 						</div>
 					
+					</div>
 					
 					
 				</div>

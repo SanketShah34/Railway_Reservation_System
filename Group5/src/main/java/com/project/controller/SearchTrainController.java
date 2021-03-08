@@ -19,7 +19,6 @@ import com.project.entity.Station;
 import com.project.entity.Train;
 import com.project.logic.IfindFair;
 import com.project.logic.findFair;
-import com.project.reservation.Reservation;
 import com.project.service.StationService;
 
 @Controller
@@ -58,8 +57,8 @@ public class SearchTrainController {
 //		System.out.println("____"+searchTrain.getDestinationStation());
 //		System.out.println("____"+searchTrain.getTrainType());
 //		System.out.println("____"+searchTrain.getDateofJourny());
-		Station sourceStation = null;
-		Station destinationStation = null;
+		String sourceStation = null;
+		String destinationStation = null;
 		if (result.hasErrors()) {
 			System.out.println("in if");
 			return "searchTrain/searchTrain";
@@ -75,11 +74,11 @@ public class SearchTrainController {
 				List<Station> listOfStation = stationService.listOfStations();
 				for(Station station : listOfStation) {
 					if(station.getSId() == Integer.parseInt(searchTrain.getSourceStation()) ) {
-						sourceStation =  station;
+						sourceStation =  station.getStationName();
 						System.out.println("-------"+station.getStationName());
 					}
 					else if(station.getSId() == Integer.parseInt(searchTrain.getDestinationStation())) {
-								destinationStation = station;
+								destinationStation = station.getStationName();
 					}
 				}
 				
@@ -89,7 +88,6 @@ public class SearchTrainController {
 				model.addAttribute("listOfTrain", trainListWithFairCalculation);
 				model.addAttribute("sourceStation",sourceStation);
 				model.addAttribute("destinationStation",destinationStation);
-				model.addAttribute("reservationInformation", new Reservation());
 				
 			}
 			
