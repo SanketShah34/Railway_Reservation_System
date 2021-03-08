@@ -92,7 +92,7 @@ public class SearchTrainController {
 				List<Train> trainListWithFairCalculation =findfare.findFareofTrainjourney(trainList,searchTrain.getSourceStation() , searchTrain.getDestinationStation());
 				
 				//for seat avalibility algorithm
-				List<Train> trainWithSeatAvalibility = availbility.findAvailableSeats(trainListWithFairCalculation , searchTrain , sourceStation, destinationStation); 
+				List<Train> trainWithSeatAvalibility = availbility.findAvailableSeats(trainListWithFairCalculation , searchTrain , sourceStation.stationName, destinationStation.stationName); 
 				model.addAttribute("listOfTrain", trainListWithFairCalculation);
 				model.addAttribute("sourceStation",sourceStation);
 				model.addAttribute("destinationStation",destinationStation);
