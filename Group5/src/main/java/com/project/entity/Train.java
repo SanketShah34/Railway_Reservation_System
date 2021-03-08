@@ -35,11 +35,13 @@ public class Train {
 
 	public List<Integer> totalStation;
 	
-	public int fair;
+	public int fare;
 	
 	public String pickUPTime;
 	
 	public String dropTime;
+	
+	public int availableSeat;
 	
 	public Train() {
 		
@@ -160,12 +162,12 @@ public class Train {
 
 	
 
-	public int getFair() {
-		return fair;
+	public int getFare() {
+		return fare;
 	}
 
-	public void setFair(int fair) {
-		this.fair = fair;
+	public void setFare(int fare) {
+		this.fare = fare;
 	}
 
 	public String getPickUPTime() {
@@ -183,6 +185,16 @@ public class Train {
 	public void setDropTime(String dropTime) {
 		this.dropTime = dropTime;
 	}
+
+	public int getAvailableSeat() {
+		return availableSeat;
+	}
+
+	public void setAvailableSeat(int availableSeat) {
+		this.availableSeat = availableSeat;
+	}
+	
+	
 	
 	
 }

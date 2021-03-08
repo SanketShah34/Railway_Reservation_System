@@ -5,28 +5,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import com.project.dao.IRouteDAO;
 import com.project.dao.RouteDAO;
 import com.project.entity.Route;
 import com.project.entity.Train;
-import com.project.service.IRouteService;
+
 
 @Component
 @ComponentScan("com.project.service")
-public class findFair implements IfindFair {
+public class findFareImpl implements findFare{
 
 	@Autowired
 	RouteDAO routeDAO;
 
-	public List<Train> findFairofTrainjourney(List<Train> trains, String sourceStation, String destinationStation) {
+	public List<Train> findFareofTrainjourney(List<Train> trains, String sourceStation, String destinationStation) {
 
 		// routeDAO.listOfRoute();
 
 		for (int i = 0; i < trains.size(); i++) {
 
-			System.out.println("-------------------------for train" + i + 1 + "--------------------");
+		//	System.out.println("-------------------------for train" + i + 1 + "--------------------");
 			String time = trains.get(i).getDepartureTime();
 
 			int timeInminutes = timeCounter(time);
@@ -38,13 +36,15 @@ public class findFair implements IfindFair {
 			int distanceRequiredToreachSourceStation = 0;
 			int distanceRequiredForDestinationStation = 0;
 			
-			int fair = 0;
+			int fare = 0;
 
 			List<Integer> allStation = trains.get(i).getTotalStation();
 
 			int sourceStationIndex = allStation.indexOf(Integer.parseInt(sourceStation));
 			int destinationStationIndex = allStation.indexOf(Integer.parseInt(destinationStation));
 
+			System.out.println("total station ==" +allStation.size());
+			
 			for (int k = 0; k < sourceStationIndex; k++) {
 				// System.out.println("--"+k+"--");
 				Route route = routeDAO.getrouteByStation(allStation.get(k), allStation.get(k + 1));
@@ -54,51 +54,53 @@ public class findFair implements IfindFair {
 
 			}
 
-			System.out.println("distance total train need to cover " + distanceRequiredToreachSourceStation);
-			System.out.println(
-					"timerequired by train to reach source station " + timeRequiredByTrainToreachSourceStation);
+			System.out.println("distance total train  to reach source station  cover " + distanceRequiredToreachSourceStation);
+			System.out.println("timerequired by train to reach source station " + timeRequiredByTrainToreachSourceStation);
 			System.out.println("time in minutes " + timeInminutes);
-			System.out.println(
-					"distance time  " + (distanceRequiredToreachSourceStation * timerequiredByTrainToCoverOneKM));
+			System.out.println("distance time  " + (distanceRequiredToreachSourceStation * timerequiredByTrainToCoverOneKM));
 
 			timeRequiredByTrainToreachSourceStation = timeRequiredByTrainToreachSourceStation + timeInminutes
 					+ (distanceRequiredToreachSourceStation * timerequiredByTrainToCoverOneKM);
 
 			System.out.println("time reqruied for  source station  " + timeRequiredByTrainToreachSourceStation);
 			trains.get(i).setPickUPTime(minuteToHoursConverter(timeRequiredByTrainToreachSourceStation));
+			
+			System.out.println("====destination station index"+destinationStationIndex);
+			
 
 			for (int j = 0; j < destinationStationIndex; j++) {
-				// System.out.println("--"+j+"--");
+			//	 System.out.println(allStation.get(j)+"--"+j+"--"+allStation.get(j + 1));
 				Route route = routeDAO.getrouteByStation(allStation.get(j), allStation.get(j + 1));
 				// System.out.println(route.getDistance());
 				distanceRequiredForDestinationStation += route.getDistance();
 				timeRequiredByTrainForDestinationStation += 10;
 
 			}
-
+			System.out.println("distance required for destination station "+distanceRequiredForDestinationStation);
+			System.out.println("time required for destination station "+timeRequiredByTrainForDestinationStation);
 //          logic for time calculation
 			timeRequiredByTrainForDestinationStation = timeRequiredByTrainForDestinationStation + timeInminutes
 					+ (distanceRequiredForDestinationStation * timerequiredByTrainToCoverOneKM);
-			System.out.println("time reqruied for destination station " + timeRequiredByTrainForDestinationStation);
+		//	System.out.println("time reqruied for destination station " + timeRequiredByTrainForDestinationStation);
 
 			trains.get(i).setDropTime(minuteToHoursConverter(timeRequiredByTrainForDestinationStation));
 
 			// for fair calculation for general purpose
 			int distanceCoveredDuringJourney = distanceRequiredForDestinationStation
 					- distanceRequiredToreachSourceStation;
-			System.out.println("distance covered in whole journey" + distanceCoveredDuringJourney);
+		//	System.out.println("distance covered in whole journey" + distanceCoveredDuringJourney);
 			if (trains.get(i).getTrainType().equals("Non AC Sleeper")) {
-				fair = distanceCoveredDuringJourney* 3;
+				fare = distanceCoveredDuringJourney* 3;
 			} else if (trains.get(i).getTrainType().equals("AC Sleeper")) {
-				fair = distanceCoveredDuringJourney* 4;
+				fare = distanceCoveredDuringJourney* 4;
 			} else if (trains.get(i).getTrainType().equals("Non AC Seater")) {
-				fair = distanceCoveredDuringJourney* 2;
+				fare = distanceCoveredDuringJourney* 2;
 			}
 			else if (trains.get(i).getTrainType().equals("AC Seater")) {
-				fair = distanceCoveredDuringJourney* 3;
+				fare = distanceCoveredDuringJourney* 3;
 			}
 			
-			trains.get(i).setFair(fair);
+			trains.get(i).setFare(fare);
 
 		}
 		return trains;
@@ -120,7 +122,7 @@ public class findFair implements IfindFair {
 		long hours = minute / 60;
 		long minnutesRemaining = minutes % 60;
 		String formatedTime = hours + ":" + minnutesRemaining;
-		System.out.println(hours + "h" + minnutesRemaining + "minutes");
+	//	System.out.println(hours + "h" + minnutesRemaining + "minutes");
 		return formatedTime;
 
 	}

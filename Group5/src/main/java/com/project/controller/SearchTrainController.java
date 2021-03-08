@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.project.entity.SearchTrain;
 import com.project.entity.Station;
 import com.project.entity.Train;
-import com.project.logic.IfindFair;
-import com.project.logic.findFair;
+import com.project.logic.AvailableSeats;
+import com.project.logic.findFare;
 import com.project.service.StationService;
 
 @Controller
@@ -32,9 +32,10 @@ public class SearchTrainController {
 	com.project.service.SearchTrain searchTrainService;
 	
 	@Autowired
-	IfindFair findfair;
+	findFare findfare;
 	
-	
+	@Autowired
+	AvailableSeats availbility;
 	
 	@GetMapping(value = "/user/home")
 	public String showSearchTrainModel(Model model) {
@@ -50,24 +51,27 @@ public class SearchTrainController {
 	}
 	
 	
-	@RequestMapping(value = "/user/searchTrain")
+	@PostMapping(value = "/user/home")
 	public String SearchTrainModel(@Valid @ModelAttribute("searchTrain")  SearchTrain searchTrain ,  BindingResult result , Model model) {
 		
-//		System.out.println("____"+searchTrain.getSourceStation());
-//		System.out.println("____"+searchTrain.getDestinationStation());
-//		System.out.println("____"+searchTrain.getTrainType());
-//		System.out.println("____"+searchTrain.getDateofJourny());
 		String sourceStation = null;
 		String destinationStation = null;
 		if (result.hasErrors()) {
-			System.out.println("in if");
+			
+			List<Station> sourceStations = stationService.listOfStations();
+			List<Station> destinationStations = stationService.listOfStations();
+			model.addAttribute("listOfSourceStations", sourceStations);
+			model.addAttribute("listOfDestinationStations", destinationStations);
+			System.out.println("in if 1");
 			return "searchTrain/searchTrain";
 		} else {
 			System.out.println("in else");
 			List<Train> trainList =  searchTrainService.searchTrains(searchTrain);
 			
 			if(trainList.size() <= 0) {
-				System.out.println("in if ");
+				System.out.println("in if 2");
+				model.addAttribute("noTrain" , true);
+				return "searchTrain/listOfSearchTrain";
 			}
 			else {
 				
@@ -75,7 +79,6 @@ public class SearchTrainController {
 				for(Station station : listOfStation) {
 					if(station.getSId() == Integer.parseInt(searchTrain.getSourceStation()) ) {
 						sourceStation =  station.getStationName();
-						System.out.println("-------"+station.getStationName());
 					}
 					else if(station.getSId() == Integer.parseInt(searchTrain.getDestinationStation())) {
 								destinationStation = station.getStationName();
@@ -83,19 +86,20 @@ public class SearchTrainController {
 				}
 				
 				
-				System.out.println("in else");
-				List<Train> trainListWithFairCalculation =findfair.findFairofTrainjourney(trainList,searchTrain.getSourceStation() , searchTrain.getDestinationStation());
+				System.out.println("in else b");
+				//for fair calculation
+				List<Train> trainListWithFairCalculation =findfare.findFareofTrainjourney(trainList,searchTrain.getSourceStation() , searchTrain.getDestinationStation());
+				
+				//for seat avalibility algorithm
+				List<Train> trainWithSeatAvalibility = availbility.findAvailableSeats(trainListWithFairCalculation , searchTrain , sourceStation, destinationStation); 
 				model.addAttribute("listOfTrain", trainListWithFairCalculation);
 				model.addAttribute("sourceStation",sourceStation);
 				model.addAttribute("destinationStation",destinationStation);
-				
+				model.addAttribute("noTrain" , false);
+				System.out.println(trainList.size());
+				return "searchTrain/listOfSearchTrain";
 			}
-			
-			
-			
-			
-			System.out.println(trainList.size());
-			return "searchTrain/listOfSearchTrain";
+		
 		}
 	}
 	

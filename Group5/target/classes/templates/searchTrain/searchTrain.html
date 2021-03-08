@@ -41,7 +41,7 @@
 					<div class="row col-md-12" style="margin-top: 50px">
 						<div class="col-md-12">
 							<div class="border border-secondary p-3 rounded">
-								<form action="#" th:action="@{/user/searchTrain}"
+								<form  th:action="@{/user/home}"
 									th:object="${searchTrain}" method="post">
 									<table border="0" cellpadding="10" style="width: 100%">
 
@@ -107,7 +107,8 @@
 
 										<tr>
 											<td>Date of Journey</td>
-											<td><input type="date" th:field="*{dateofJourny}" /></td>
+											<td><input type="date" th:field="*{dateofJourny}" />
+											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('dateofJourny')}" th:errors="*{dateofJourny}" /></td>
 										</tr>
 
 

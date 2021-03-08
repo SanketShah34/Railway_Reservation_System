@@ -190,7 +190,7 @@ public class RouteDAO implements IRouteDAO {
 
 					route.setRId(resultSet.getInt("rId"));
 					route.setDistance(resultSet.getDouble("distance"));
-					System.out.println(resultSet.getDouble("distance"));
+				//	System.out.println(resultSet.getDouble("distance"));
 				}
 			}
 		} catch (SQLException e) {
