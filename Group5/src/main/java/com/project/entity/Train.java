@@ -41,6 +41,8 @@ public class Train {
 	
 	public String dropTime;
 	
+	public int totalDistance;
+	
 	public Train() {
 		
 	}
@@ -184,5 +186,11 @@ public class Train {
 		this.dropTime = dropTime;
 	}
 	
+	public int getTotalDistance() {
+		return this.totalDistance;
+	}
 	
+	public void setTotalDistance(int distance) {
+		this.totalDistance = distance;
+	}
 }

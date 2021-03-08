@@ -1,4 +1,4 @@
-package com.project.logic;
+ package com.project.logic;
 
 import java.util.List;
 
@@ -22,8 +22,6 @@ public class findFair implements IfindFair {
 
 	public List<Train> findFairofTrainjourney(List<Train> trains, String sourceStation, String destinationStation) {
 
-		// routeDAO.listOfRoute();
-
 		for (int i = 0; i < trains.size(); i++) {
 
 			System.out.println("-------------------------for train" + i + 1 + "--------------------");
@@ -46,9 +44,7 @@ public class findFair implements IfindFair {
 			int destinationStationIndex = allStation.indexOf(Integer.parseInt(destinationStation));
 
 			for (int k = 0; k < sourceStationIndex; k++) {
-				// System.out.println("--"+k+"--");
 				Route route = routeDAO.getrouteByStation(allStation.get(k), allStation.get(k + 1));
-				// System.out.println(route.getDistance());
 				distanceRequiredToreachSourceStation += route.getDistance();
 				timeRequiredByTrainToreachSourceStation += 10;
 
@@ -86,20 +82,17 @@ public class findFair implements IfindFair {
 			// for fair calculation for general purpose
 			int distanceCoveredDuringJourney = distanceRequiredForDestinationStation
 					- distanceRequiredToreachSourceStation;
-			System.out.println("distance covered in whole journey" + distanceCoveredDuringJourney);
-			if (trains.get(i).getTrainType().equals("Non AC Sleeper")) {
-				fair = distanceCoveredDuringJourney* 3;
-			} else if (trains.get(i).getTrainType().equals("AC Sleeper")) {
-				fair = distanceCoveredDuringJourney* 4;
-			} else if (trains.get(i).getTrainType().equals("Non AC Seater")) {
-				fair = distanceCoveredDuringJourney* 2;
-			}
-			else if (trains.get(i).getTrainType().equals("AC Seater")) {
-				fair = distanceCoveredDuringJourney* 3;
+			try {
+				fair = this.calculateFareByTrainType(distanceCoveredDuringJourney, trains.get(i).getTrainType());
+				trains.get(i).setFair(fair);
+			} catch (Exception e) {
+				System.err.print(e);
 			}
 			
+			System.out.println("distance covered in whole journey" + distanceCoveredDuringJourney);
+			
 			trains.get(i).setFair(fair);
-
+			trains.get(i).setTotalDistance(distanceCoveredDuringJourney);
 		}
 		return trains;
 	}
@@ -123,6 +116,41 @@ public class findFair implements IfindFair {
 		System.out.println(hours + "h" + minnutesRemaining + "minutes");
 		return formatedTime;
 
+	}
+	
+	@Override
+	public double calculateFareByDistance(int distance, int fare) {
+		if (distance < 100) {
+			return (double)fare;
+		} else {
+			return (fare - fare * 0.2);
+		}
+	}
+	
+	@Override
+	public int calculateFareByTrainType(int distance, String trainType) throws Exception{
+		if (trainType.equals("Non AC Sleeper")) {
+			return distance*3;
+		} else if (trainType.equals("AC Sleeper")) {
+			return distance*4;
+		} else if (trainType.equals("Non AC Seater")) {
+			return distance*2;
+		} else if (trainType.equals("AC Seater")) {
+			return distance*3;
+		} else {
+			throw new Exception("Invalid Train Type");
+		}
+	}
+	
+	@Override
+	public double calculateFareByAge(int fare, int age) {
+		if (age < 5) {
+			return (fare * 0.5);
+		} else if (age >= 60) {
+			return (fare * 0.7);
+		} else {
+			return fare;
+		}
 	}
 
 }
