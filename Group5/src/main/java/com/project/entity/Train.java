@@ -43,6 +43,8 @@ public class Train {
 	
 	public int availableSeat;
 	
+	public int totalDistance;
+	
 	public Train() {
 		
 	}
@@ -192,6 +194,14 @@ public class Train {
 
 	public void setAvailableSeat(int availableSeat) {
 		this.availableSeat = availableSeat;
+	}
+
+	public int getTotalDistance() {
+		return totalDistance;
+	}
+
+	public void setTotalDistance(int totalDistance) {
+		this.totalDistance = totalDistance;
 	}
 	
 	

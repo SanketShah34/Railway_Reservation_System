@@ -19,6 +19,7 @@ import com.project.entity.Station;
 import com.project.entity.Train;
 import com.project.logic.AvailableSeats;
 import com.project.logic.findFare;
+import com.project.reservation.Reservation;
 import com.project.service.StationService;
 
 @Controller
@@ -54,8 +55,8 @@ public class SearchTrainController {
 	@PostMapping(value = "/user/home")
 	public String SearchTrainModel(@Valid @ModelAttribute("searchTrain")  SearchTrain searchTrain ,  BindingResult result , Model model) {
 		
-		String sourceStation = null;
-		String destinationStation = null;
+		Station sourceStation = null;
+		Station destinationStation = null;
 		if (result.hasErrors()) {
 			
 			List<Station> sourceStations = stationService.listOfStations();
@@ -78,10 +79,10 @@ public class SearchTrainController {
 				List<Station> listOfStation = stationService.listOfStations();
 				for(Station station : listOfStation) {
 					if(station.getSId() == Integer.parseInt(searchTrain.getSourceStation()) ) {
-						sourceStation =  station.getStationName();
+						sourceStation =  station;
 					}
 					else if(station.getSId() == Integer.parseInt(searchTrain.getDestinationStation())) {
-								destinationStation = station.getStationName();
+								destinationStation = station;
 					}
 				}
 				

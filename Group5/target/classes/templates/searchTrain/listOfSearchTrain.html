@@ -36,7 +36,6 @@
 						</form>
 					</div>
 					<div  th:if="${noTrain}" style = "text-align: center ; width : 100%"><h3 >There is no train on that day.</h3></div>
-					<div th:each="train : ${listOfTrain}"> 
 					<div  class="border border-secondary p-3 rounded" style="width:930px">
 						<div   class="row col-md-12" style="margin-top : 50px">
 					
@@ -58,13 +57,13 @@
 									</thead>
 									
 									<tbody>
-										<tr>
+										<tr th:each="train : ${listOfTrain}">
 											<td th:text="${train.trainCode}">Train Code</td>
 											<td th:text="${train.trainName}">Train Name</td>
 											<td  th:text="${train.trainType}">Train Type</td>
 											
-											<td th:text="${sourceStation}">Source Station</td>
-											<td th:text="${destinationStation}">Destination Station</td>
+											<td th:text="${sourceStation.stationName}">Source Station</td>
+											<td th:text="${destinationStation.stationName}">Destination Station</td>
 											
 											
 											<td th:text="${train.pickUPTime}">PickUp Time</td>
@@ -72,7 +71,16 @@
 											<td th:text="${train.fare}">Fair</td>
 											
 											<td th:text="${train.availableSeat}">Available Seats</td>
-											<td >UPDATE</td>
+																						<td >
+												<form th:action="@{/user/bookNow}" th:object="${reservationInformation}" method="post">
+													<input type="hidden" name="trainId" th:value="${train.trainId}">
+													<input type="hidden" name="sourceStationId" th:value="${sourceStation.sId}">
+													<input type="hidden" name="destinationStationId" th:value="${destinationStation.sId}">
+													<input type="hidden" name="amountPaid" th:value="${train.fair}">
+													<input type="hidden" name="distance" th:value="${train.totalDistance}">
+													<button type="submit">Book Now</button>
+												</form>
+											</td>	
 											
 										</tr>
 									</tbody>
@@ -81,7 +89,6 @@
 							
 						</div>
 					
-					</div>
 					
 					
 				</div>
