@@ -1,6 +1,8 @@
 package com.project.entity;
 
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 public class Train {
@@ -31,6 +33,18 @@ public class Train {
 	@NotNull(message = "Start Station can not be null!!")
 	public String endStation;
 
+	public List<Integer> totalStation;
+	
+	public double fare;
+	
+	public String pickUPTime;
+	
+	public String dropTime;
+	
+	public int availableSeat;
+	
+	public int totalDistance;
+	
 	public Train() {
 		
 	}
@@ -137,4 +151,60 @@ public class Train {
 	public void setEndStation(String endStation) {
 		this.endStation = endStation;
 	}
+
+	
+
+	public List<Integer> getTotalStation() {
+		return totalStation;
+	}
+
+	public void setTotalStation(List<Integer> totalStation) {
+		this.totalStation = totalStation;
+	}
+
+	
+
+	public double getFare() {
+		return fare;
+	}
+
+	public void setFare(double fare) {
+		this.fare = fare;
+	}
+
+	public String getPickUPTime() {
+		return pickUPTime;
+	}
+
+	public void setPickUPTime(String pickUPTime) {
+		this.pickUPTime = pickUPTime;
+	}
+
+	public String getDropTime() {
+		return dropTime;
+	}
+
+	public void setDropTime(String dropTime) {
+		this.dropTime = dropTime;
+	}
+
+	public int getAvailableSeat() {
+		return availableSeat;
+	}
+
+	public void setAvailableSeat(int availableSeat) {
+		this.availableSeat = availableSeat;
+	}
+
+	public int getTotalDistance() {
+		return totalDistance;
+	}
+
+	public void setTotalDistance(int totalDistance) {
+		this.totalDistance = totalDistance;
+	}
+	
+	
+	
+	
 }

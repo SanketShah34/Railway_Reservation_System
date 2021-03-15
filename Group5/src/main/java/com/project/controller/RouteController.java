@@ -30,14 +30,14 @@ public class RouteController {
 	@Autowired
 	StationService stationService;
 	
-	@GetMapping(value = "/route/list")
+	@GetMapping(value = "/admin/route/list")
 	public String showRoutePage(Model model) {
 		List<Route> listOfRoute = routeService.listOfRoute();
 		model.addAttribute("listOfRoute", listOfRoute);
 		return "route/route";
 	}
 
-	@GetMapping(value = "/route")
+	@GetMapping(value = "/admin/route")
 	public String showRoute(Model model) {
 		List<Route> listOfRoute = routeService.listOfRoute();
 		model.addAttribute("listOfRoute", listOfRoute);
@@ -45,7 +45,7 @@ public class RouteController {
 		
 	}
 
-	@GetMapping(value = "/route/add")
+	@GetMapping(value = "/admin/route/add")
 	public String showAddRoutePage(Model model) {
 		List<Station> stations = stationService.listOfStations();
 		Route route = new Route();
@@ -54,18 +54,18 @@ public class RouteController {
 		return "route/addRoute";
 	}
 
-	@PostMapping(value = "/route/save")
+	@PostMapping(value = "/admin/route/save")
 	public String saveRoute(@Valid @ModelAttribute("route") Route route, BindingResult result) {
 		if (result.hasErrors()) {
 			return "route/addRoute";
 		} else {
 			routeService.save(route);
-			return "redirect:/route/list";
+			return "redirect:/admin/route/list";
 		}
 
 	}
 
-	@RequestMapping("/route/edit/{rId}")
+	@RequestMapping("/admin/route/edit/{rId}")
 	public String showEditRoutePage(@PathVariable(name = "rId") Integer rId, Model model) {
 		List<Station> stations = stationService.listOfStations();
 		Route route = routeService.getRoute(rId);
@@ -74,10 +74,10 @@ public class RouteController {
 		return "route/editRoute";
 	}
 
-	@RequestMapping("/route/delete/{rId}")
+	@RequestMapping("/admin/route/delete/{rId}")
 	public String deleteRoute(@PathVariable(name = "rId") Integer rId, Model model) {
 		routeService.deleteRoute(rId);
-		return "redirect:/route/list";
+		return "redirect:/admin/route/list";
 
 	}
 }

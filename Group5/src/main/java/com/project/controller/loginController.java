@@ -18,25 +18,26 @@ import com.project.validation.UserValidation;
 @Controller
 public class loginController {
 	
-	@Autowired
-	UserDAO userDAO;
-	
-	@RequestMapping("/")
-	public String viewHomePage(Model model) {
-		System.out.println("home");
+	@RequestMapping("/admin/home")
+	public String viewHomePageForAdmin(Model model) {
+		//System.out.println("home");
 		return "home";
 	}
+	
+	@RequestMapping("/user/home")
+	public String viewHomePageForUser(Model model) {
+		//System.out.println("home");
+		return "searchTrain/searchTrain";
+	}
+	
+	
 
 	@RequestMapping("/login")
 	public String showLoginPage() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-			System.out.println("in if part");
-			return "login";
-		} else {
-			System.out.println("in else part");
-			return "redirect:/";
-		}
+//		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+//		} 
+		return "login";
 	}
 
 	@RequestMapping("/login-error")

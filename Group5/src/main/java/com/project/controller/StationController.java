@@ -33,7 +33,7 @@ public class StationController {
 	@Autowired
 	StationService stationService;
 
-	@GetMapping(value = "/station/list")
+	@GetMapping(value = "/admin/station/list")
 	public String showStationPage(Model model) {
 		List<Station> listOfStation = stationService.listOfStations();
 		System.out.println("PPPP" + listOfStation.size());
@@ -41,7 +41,7 @@ public class StationController {
 		return "station/station";
 	}
 
-	@GetMapping(value = "/station")
+	@GetMapping(value = "/admin/station")
 	public String showStation(Model model) {
 		List<Station> listOfStation = stationService.listOfStations();
 		System.out.println("PPPP" + listOfStation.size());
@@ -49,15 +49,15 @@ public class StationController {
 		return "station/station";
 	}
 
-	@GetMapping(value = "/station/add")
+	@GetMapping(value = "/admin/station/add")
 	public String showAddStationPage(Model model) {
 		Station station = new Station();
 		model.addAttribute(station);
 		return "station/add_station";
 	}
 
-	@PostMapping(value = "/station/save")
-	public String saveStation(@Valid @ModelAttribute("station") Station station,BindingResult result) {
+	@PostMapping(value = "/admin/station/save")
+	public String saveStation(@Valid @ModelAttribute("station") Station station, BindingResult result) {
 
 		if (result.hasErrors()) {
 			System.out.println("in if");
@@ -65,12 +65,12 @@ public class StationController {
 		} else {
 			System.out.println("in else");
 			stationService.save(station);
-			return "redirect:/station/list";
+			return "redirect:/admin/station/list";
 		}
 
 	}
 
-	@RequestMapping("/station/edit/{sid}")
+	@RequestMapping("/admin/station/edit/{sId}")
 	public String showEditStationPage(@PathVariable(name = "sId") Integer sId, Model model) {
 
 		Station station = stationService.getStation(sId);
@@ -78,10 +78,10 @@ public class StationController {
 		return "station/edit_station";
 	}
 
-	@RequestMapping("/station/delete/{sId}")
+	@RequestMapping("/admin/station/delete/{sId}")
 	public String deleteStation(@PathVariable(name = "sId") Integer sId, Model model) {
 		stationService.deleteStation(sId);
-		return "redirect:/station/list";
+		return "redirect:/admin/station/list";
 
 	}
 

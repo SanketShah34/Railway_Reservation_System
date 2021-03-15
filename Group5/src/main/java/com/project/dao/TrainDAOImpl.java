@@ -23,6 +23,7 @@ public class TrainDAOImpl implements TrainDAO {
 	
 	@Override
 	public List<Train> getAllTrain() {
+		
 		List<Train> listOfTrain = new ArrayList<Train>();
 		listOfTrain.removeAll(listOfTrain);
 		Connection conn = dbUtilities.estConnection();
@@ -49,22 +50,28 @@ public class TrainDAOImpl implements TrainDAO {
 					train.setEndStation(resultSet.getString(10));
 
 					String middleStationString = "";
-					String[] middleStations = resultSet.getString(9).split(",");
-					for (String midd : middleStations) {
-						int middle = Integer.parseInt(midd);
-						CallableStatement stmt1 = conn.prepareCall("{call getMiddleStation(?)}");
-						stmt1.setInt(1, middle);
-						boolean hasResultsForList1 = stmt1.execute();
+					
+					if(resultSet.getString(9) == null) {
+						
+					}
+					else {
+						String[] middleStations = resultSet.getString(9).split(",");
+						for (String midd : middleStations) {
+							int middle = Integer.parseInt(midd);
+							CallableStatement stmt1 = conn.prepareCall("{call getMiddleStation(?)}");
+							stmt1.setInt(1, middle);
+							boolean hasResultsForList1 = stmt1.execute();
 
-						if (hasResultsForList1) {
+							if (hasResultsForList1) {
 
-							ResultSet resultSet1 = stmt1.getResultSet();
-							while (resultSet1.next()) {
-								middleStationString += resultSet1.getString(1)+",";
+								ResultSet resultSet1 = stmt1.getResultSet();
+								while (resultSet1.next()) {
+									middleStationString += resultSet1.getString(1)+",";
+								}
 							}
 						}
+						train.setMiddleStations(middleStationString);
 					}
-					train.setMiddleStations(middleStationString);
 					listOfTrain.add(train);
 				}
 			}
@@ -78,10 +85,11 @@ public class TrainDAOImpl implements TrainDAO {
 
 	@Override
 	public boolean saveTrain(Train train) {
+		System.out.println("456");
 		Connection conn = dbUtilities.estConnection();
 		
 		boolean validRoute = validateRoutes(conn, train);
-		
+		System.out.println("123");
 		if(validRoute) {
 			if(train.getTrainId() == 0) {
 				System.out.println("in add new ");
@@ -135,14 +143,21 @@ public class TrainDAOImpl implements TrainDAO {
 	}
 
 	private boolean validateRoutes(Connection conn, Train train) {
-		List<Integer> allStations = new ArrayList<>();
+		System.out.println("WWW");
+		List<Integer> allStations = new ArrayList();
 		
 		allStations.add(Integer.parseInt(train.getStartStation()));
-		
-		String[] middleStationsList = train.getMiddleStations().split(",");
-		for(String mid : middleStationsList) {
-			allStations.add(Integer.parseInt(mid));
+	
+		if(train.getMiddleStations() == null) {
+			
 		}
+		else {
+			String[] middleStationsList = train.getMiddleStations().split(",");
+			for(String mid : middleStationsList) {
+				allStations.add(Integer.parseInt(mid));
+			}
+		}
+			
 		
 		allStations.add(Integer.parseInt(train.getEndStation()));
 		
@@ -178,10 +193,9 @@ public class TrainDAOImpl implements TrainDAO {
 				}
 				
 			} catch (SQLException e) {
+				// System.out.println(")))))))");
 				e.printStackTrace();
-			} finally {
-				dbUtilities.closeConnection(conn);
-			}
+			} 
 		}
 		
 		return routeFound;

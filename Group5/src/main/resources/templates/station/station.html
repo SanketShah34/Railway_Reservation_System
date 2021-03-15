@@ -43,7 +43,7 @@
 						<div class="col-md-12"   >
 							<div class="border border-secondary p-3 rounded"
 								style="text-align: end">
-								<form th:action="@{/station/add}" method="get">
+								<form th:action="@{/admin/station/add}" method="get">
 									<input type="submit" value="Add Station" />
 								</form>
 
@@ -83,7 +83,7 @@
 
 											<td sec:authorize="hasAnyAuthority('ADMIN')">
 												<div sec:authorize="hasAnyAuthority('ADMIN')">
-													<a th:href="@{'/station/edit/' + ${station.sId}}">Edit</a>
+													<a th:href="@{'/admin/station/edit/' + ${station.sId}}">Edit</a>
 												</div>
 											</td>
 											<td sec:authorize="hasAnyAuthority('ADMIN')">
@@ -95,7 +95,7 @@
 													-->
 													
 												<div sec:authorize="hasAnyAuthority('ADMIN')">
-													<a th:href="@{'/station/delete/' + ${station.sId}}" onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">Delete</a>
+													<a th:href="@{'/admin/station/delete/' + ${station.sId}}" onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">Delete</a>
 												</div>
 											</td>
 										</tr>

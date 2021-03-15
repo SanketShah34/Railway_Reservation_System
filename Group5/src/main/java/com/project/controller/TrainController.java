@@ -33,7 +33,7 @@ public class TrainController {
 	@Autowired
 	StationService stationService;
 	
-	@GetMapping(value = "/train/list")
+	@GetMapping(value = "/admin/train/list")
 	public String showTrainPage(Model model) {
 		List<Train> listOfTrain = trainService.listOfTrains();
 		System.out.println("PPPP" + listOfTrain.size());
@@ -41,7 +41,7 @@ public class TrainController {
 		return "train/train";
 	}
 
-	@GetMapping(value = "/train")
+	@GetMapping(value = "/admin/train")
 	public String showTrain(Model model) {
 		List<Train> listOfTrain = trainService.listOfTrains();
 		System.out.println("PPPP" + listOfTrain.size());
@@ -49,7 +49,7 @@ public class TrainController {
 		return "train/train";
 	}
 
-	@GetMapping(value = "/train/add")
+	@GetMapping(value = "/admin/train/add")
 	public String showAddTrainPage(Model model) {
 		List<Station> stations = stationService.listOfStations();
 		model.addAttribute("listOfStations", stations);
@@ -59,7 +59,7 @@ public class TrainController {
 		return "train/add_train";
 	}
 
-	@PostMapping(value = "/train/save")
+	@PostMapping(value = "/admin/train/save")
 	public String saveTrain(@Valid @ModelAttribute("train") Train train,BindingResult result) {
 
 		if (result.hasErrors()) {
@@ -68,15 +68,15 @@ public class TrainController {
 		} else {
 			System.out.println("in else");
 			if(trainService.saveTrain(train)) {
-				return "redirect:/train/list";
+				return "redirect:/admin/train/list";
 			}
 			else {
-				return "redirect:/train-route-error";
+				return "redirect:/admin/train-route-error";
 			}
 		}
 	}
 
-	@RequestMapping("/train/edit/{trainId}")
+	@RequestMapping("/admin/train/edit/{trainId}")
 	public String showEditTrainPage(@PathVariable(name = "trainId") Integer trainId, Model model) {
 
 		List<Station> stations = stationService.listOfStations();
@@ -98,14 +98,14 @@ public class TrainController {
 		return "train/edit_train";
 	}
 
-	@RequestMapping("/train/delete/{trainId}")
+	@RequestMapping("/admin/train/delete/{trainId}")
 	public String deleteTrain(@PathVariable(name = "trainId") Integer trainId, Model model) {
 		trainService.deleteTrain(trainId);
-		return "redirect:/train/list";
+		return "redirect:/admin/train/list";
 
 	}
 	
-	@RequestMapping("/train-route-error")
+	@RequestMapping("/admin/train-route-error")
 	public String trainRouteError(Model model) {
 		model.addAttribute("trainRouteError", true);
 		List<Train> listOfTrain = trainService.listOfTrains();
