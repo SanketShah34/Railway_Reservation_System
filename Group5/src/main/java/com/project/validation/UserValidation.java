@@ -9,6 +9,10 @@ import java.util.regex.Pattern;
 
 public class UserValidation {
 	
+	public UserValidation() {
+		
+	}
+	
 	public boolean passwordValidation(String password, String confirmPassword) {
 		if(password.equals(confirmPassword)) {
 			return true;   //password matches

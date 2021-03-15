@@ -15,8 +15,14 @@ import com.project.dao.UserDAO;
 import com.project.entity.User;
 import com.project.validation.UserValidation;
 
+
 @Controller
 public class loginController {
+	
+	@Autowired
+	UserDAO userDAO;
+	
+	UserValidation userVal = new UserValidation();
 	
 	@RequestMapping("/admin/home")
 	public String viewHomePageForAdmin(Model model) {
@@ -66,7 +72,7 @@ public class loginController {
 								Model model) {
 		
 		System.out.println("signup page");
-		UserValidation userVal = new UserValidation();
+		
 		
 		if(userVal.dateValidation(dateOfBirth) == false) {
 			model.addAttribute("dobError", true);
