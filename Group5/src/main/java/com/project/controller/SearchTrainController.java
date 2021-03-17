@@ -15,19 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.entity.SearchTrain;
-import com.project.entity.Station;
-import com.project.entity.Train;
 import com.project.logic.AvailableSeats;
 import com.project.logic.findFare;
+import com.project.reservation.IReservation;
 import com.project.reservation.Reservation;
-import com.project.service.StationService;
+import com.project.reservation.ReservationAbstractFactory;
+import com.project.setup.Station;
+import com.project.setup.Train;
+import com.project.setup.IStation;
+import com.project.setup.IStationDAO;
+import com.project.setup.SetupAbstractFactory;
 
 @Controller
 @ComponentScan("com.project.entity")
 public class SearchTrainController {
-	
-	@Autowired
-	StationService stationService;
 	
 	@Autowired
 	com.project.service.SearchTrain searchTrainService;
@@ -40,10 +41,11 @@ public class SearchTrainController {
 	
 	@GetMapping(value = "/user/home")
 	public String showSearchTrainModel(Model model) {
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		SearchTrain searchTrain = new SearchTrain();
-		
-		List<Station> sourceStations = stationService.listOfStations();
-		List<Station> destinationStation = stationService.listOfStations();
+		List<Station> sourceStations = stationDAO.getAllStation();
+		List<Station> destinationStation = stationDAO.getAllStation();
 		model.addAttribute("listOfSourceStations", sourceStations);
 		model.addAttribute("listOfDestinationStations", destinationStation);
 		model.addAttribute(searchTrain); 
@@ -54,29 +56,30 @@ public class SearchTrainController {
 	
 	@PostMapping(value = "/user/home")
 	public String SearchTrainModel(@Valid @ModelAttribute("searchTrain")  SearchTrain searchTrain ,  BindingResult result , Model model) {
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
+		IReservation reservation = reservationAbstractFactory.createReservation();
+		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		
 		Station sourceStation = null;
 		Station destinationStation = null;
 		if (result.hasErrors()) {
 			
-			List<Station> sourceStations = stationService.listOfStations();
-			List<Station> destinationStations = stationService.listOfStations();
+			List<Station> sourceStations = stationDAO.getAllStation();
+			List<Station> destinationStations = stationDAO.getAllStation();
 			model.addAttribute("listOfSourceStations", sourceStations);
 			model.addAttribute("listOfDestinationStations", destinationStations);
-			System.out.println("in if 1");
 			return "searchTrain/searchTrain";
 		} else {
-			System.out.println("in else");
 			List<Train> trainList =  searchTrainService.searchTrains(searchTrain);
 			
 			if(trainList.size() <= 0) {
-				System.out.println("in if 2");
 				model.addAttribute("noTrain" , true);
 				return "searchTrain/listOfSearchTrain";
 			}
 			else {
 				
-				List<Station> listOfStation = stationService.listOfStations();
+				List<Station> listOfStation = stationDAO.getAllStation();
 				for(Station station : listOfStation) {
 					if(station.getSId() == Integer.parseInt(searchTrain.getSourceStation()) ) {
 						sourceStation =  station;
@@ -89,7 +92,7 @@ public class SearchTrainController {
 				
 				System.out.println("in else b");
 				//for fair calculation
-				List<Train> trainListWithFairCalculation =findfare.findFareofTrainjourney(trainList,searchTrain.getSourceStation() , searchTrain.getDestinationStation());
+				List<Train> trainListWithFairCalculation = findfare.findFareofTrainjourney(trainList,searchTrain.getSourceStation() , searchTrain.getDestinationStation());
 				
 				//for seat avalibility algorithm
 				List<Train> trainWithSeatAvalibility = availbility.findAvailableSeats(trainListWithFairCalculation , searchTrain , sourceStation.stationName, destinationStation.stationName); 
@@ -97,7 +100,7 @@ public class SearchTrainController {
 				model.addAttribute("sourceStation",sourceStation);
 				model.addAttribute("destinationStation",destinationStation);
 				model.addAttribute("noTrain" , false);
-				model.addAttribute("reservationInformation", new Reservation());
+				model.addAttribute("reservationInformation", reservation);
 				System.out.println(trainList.size());
 				return "searchTrain/listOfSearchTrain";
 			}

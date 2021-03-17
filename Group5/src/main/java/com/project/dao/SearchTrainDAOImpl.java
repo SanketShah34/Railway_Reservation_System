@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.project.entity.SearchTrain;
-import com.project.entity.Station;
-import com.project.entity.Train;
+import com.project.setup.Train;
 import com.project.service.DButilities;
 
 import ch.qos.logback.core.subst.Token.Type;

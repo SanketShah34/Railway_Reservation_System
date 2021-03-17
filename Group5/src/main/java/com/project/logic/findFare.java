@@ -2,7 +2,7 @@ package com.project.logic;
 
 import java.util.List;
 
-import com.project.entity.Train;
+import com.project.setup.Train;
 
 public interface findFare {
 

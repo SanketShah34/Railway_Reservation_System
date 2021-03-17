@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.project.dao.RouteDAO;
+import com.project.setup.RouteDAO;
 import com.project.dao.SeatAvailibilityDAO;
 import com.project.entity.SearchTrain;
-import com.project.entity.Station;
-import com.project.entity.Train;
+import com.project.setup.Station;
+import com.project.setup.Train;
 
 @Component
 public class AvailableSeatsImpl implements AvailableSeats {

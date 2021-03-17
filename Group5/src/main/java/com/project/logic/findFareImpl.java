@@ -6,25 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import com.project.dao.RouteDAO;
-import com.project.entity.Route;
-import com.project.entity.Train;
+import com.project.setup.IRoute;
+import com.project.setup.IRouteDAO;
+import com.project.setup.Route;
+import com.project.setup.SetupAbstractFactory;
+import com.project.setup.Train;
 
 
 @Component
 @ComponentScan("com.project.service")
 public class findFareImpl implements findFare{
 
-	@Autowired
-	RouteDAO routeDAO;
-
 	public List<Train> findFareofTrainjourney(List<Train> trains, String sourceStation, String destinationStation) {
-
-		// routeDAO.listOfRoute();
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
 
 		for (int i = 0; i < trains.size(); i++) {
-
-		//	System.out.println("-------------------------for train" + i + 1 + "--------------------");
 			String time = trains.get(i).getDepartureTime();
 
 			int timeInminutes = timeCounter(time);
@@ -46,7 +43,7 @@ public class findFareImpl implements findFare{
 			
 			for (int k = 0; k < sourceStationIndex; k++) {
 				// System.out.println("--"+k+"--");
-				Route route = routeDAO.getrouteByStation(allStation.get(k), allStation.get(k + 1));
+				IRoute route = routeDAO.getrouteByStation(allStation.get(k), allStation.get(k + 1));
 				// System.out.println(route.getDistance());
 				distanceRequiredToreachSourceStation += route.getDistance();
 				timeRequiredByTrainToreachSourceStation += 10;
@@ -69,7 +66,7 @@ public class findFareImpl implements findFare{
 
 			for (int j = 0; j < destinationStationIndex; j++) {
 			//	 System.out.println(allStation.get(j)+"--"+j+"--"+allStation.get(j + 1));
-				Route route = routeDAO.getrouteByStation(allStation.get(j), allStation.get(j + 1));
+				IRoute route = routeDAO.getrouteByStation(allStation.get(j), allStation.get(j + 1));
 				// System.out.println(route.getDistance());
 				distanceRequiredForDestinationStation += route.getDistance();
 				timeRequiredByTrainForDestinationStation += 10;
