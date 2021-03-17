@@ -5,10 +5,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import com.project.database.DatabaseAbstactFactory;
+import com.project.database.DatabaseConcreteFactory;
 import com.project.user.IUser;
 
 
 public abstract class SecurityAbstractFactory   {
+	
+	private static SecurityAbstractFactory instance = null;
 	
 	public abstract UserDetailsService createUserDetailsService();
 	
@@ -19,5 +24,12 @@ public abstract class SecurityAbstractFactory   {
 	public abstract AuthenticationSuccessHandler createCustomeSuccessHandler();
 	
 	public abstract UserDetails createMyUserDetail(IUser user);
+	
+	public static SecurityAbstractFactory instance() {
+		if (instance == null) {
+			instance = new SecurityConcreteFactory();
+		}
+		return instance;
+	}
 
 }

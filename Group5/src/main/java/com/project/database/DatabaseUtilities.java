@@ -23,7 +23,7 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 	
 	@Override
 	public Connection  establishConnection(){
-		
+		System.out.println(" hello");
 		try {
 			Class.forName(DRIVER);
 		    connection = DriverManager.getConnection(URL , USERNAME, PASSWORD);

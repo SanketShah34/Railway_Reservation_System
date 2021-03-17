@@ -12,6 +12,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	
+	//reference taken for spring security from "https://www.codejava.net/frameworks/spring-boot/spring-security-custom-login-page"
+	//for role based authentication "https://www.youtube.com/watch?v=_TrpJzuK-p4"
+		
+	
 	private String redirectUrl = null;
 	
 	@Override

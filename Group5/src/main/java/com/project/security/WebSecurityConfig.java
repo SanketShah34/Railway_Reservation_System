@@ -15,7 +15,11 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	SecurityAbstractFactory securityAbstractFactory = new SecurityConcreteFactory();
+	
+	//reference taken for spring security from "https://www.codejava.net/frameworks/spring-boot/spring-security-custom-login-page"
+	//for role based authentication "https://www.youtube.com/watch?v=_TrpJzuK-p4"
+	
+	SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 	AuthenticationSuccessHandler successHandler = securityAbstractFactory.createCustomeSuccessHandler();
 	DaoAuthenticationProvider authProvider;
 	
@@ -52,7 +56,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception
 	{
 		http.authorizeRequests()
-//		.antMatchers("/user/home").permitAll()
 		.antMatchers("/signup").permitAll()
 		.antMatchers("/admin*").hasAnyAuthority("ADMIN")
 		.antMatchers("/user*").hasAnyAuthority("USER")

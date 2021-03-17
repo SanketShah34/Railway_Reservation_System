@@ -1,10 +1,11 @@
 package com.project.database;
 
 public class DatabaseConcreteFactory extends DatabaseAbstactFactory{
+	
 	private IDatabaseUtilities databaseUtilities;
 	
 	public IDatabaseUtilities createDatabaseUtilities() {
-		if (databaseUtilities == null) {
+		if (null ==  databaseUtilities) {
 			databaseUtilities = new DatabaseUtilities();
 		}
 		return databaseUtilities;
