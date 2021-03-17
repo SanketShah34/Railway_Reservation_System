@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.project.database.DatabaseAbstactFactory;
-import com.project.database.DatabaseConcreteFactory;
+import com.project.database.DatabaseConcrete;
 import com.project.database.IDatabaseUtilities;
 import com.project.security.SecurityAbstractFactory;
 import com.project.security.SecurityConcreteFactory;
@@ -26,7 +26,7 @@ public class UserDAO implements IUserDAO {
 		System.out.println("in user dao imple ");
 		IUser userfromDB = new User();
 		Connection connection = null;
-		DatabaseAbstactFactory databaseAbstractFactory = new DatabaseConcreteFactory();
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		
 		try {
@@ -67,9 +67,9 @@ public class UserDAO implements IUserDAO {
 	@Override
 	public void saveUser(IUser user) {
 		
-		DatabaseAbstactFactory databaseAbstractFactory = new DatabaseConcreteFactory();
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		SecurityAbstractFactory securityAbstractFactory = new SecurityConcreteFactory();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();	
 		Connection connection = databaseUtilities.establishConnection();
 		
 		if(user.getId() == 0) {

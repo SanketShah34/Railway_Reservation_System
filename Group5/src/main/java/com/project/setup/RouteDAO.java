@@ -11,18 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import com.project.database.DButilities;
+import com.project.database.DatabaseAbstactFactory;
+import com.project.database.IDatabaseUtilities;
 
 @Component
-@ComponentScan("com.code.service")
-@ComponentScan("com.code.logic")
+
 public class RouteDAO implements IRouteDAO {
-
-	@Autowired
-	DButilities dbUtilities;
-
 	@Override
 	public void save(IRoute route) {
-		Connection conn = dbUtilities.estConnection();
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection conn = databaseUtilities.establishConnection();
 		if (route.getRId() == 0) {
 			try {
 				CallableStatement stmt = conn.prepareCall("{call addRoute( ? , ? , ?)}");
@@ -35,7 +34,7 @@ public class RouteDAO implements IRouteDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				dbUtilities.closeConnection(conn);
+				databaseUtilities.closeConnection(conn);
 			}
 		} else {
 			try {
@@ -50,7 +49,7 @@ public class RouteDAO implements IRouteDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				dbUtilities.closeConnection(conn);
+				databaseUtilities.closeConnection(conn);
 			}
 		}
 	}
@@ -58,7 +57,9 @@ public class RouteDAO implements IRouteDAO {
 	@Override
 	public List<Route> getAllRoute() {
 		List<Route> listOfRoutes = new ArrayList<>();
-		Connection conn = dbUtilities.estConnection();
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection conn = databaseUtilities.establishConnection();
 		try {
 			CallableStatement stmt = conn.prepareCall("{call getAllRoute()}");
 			boolean hadResultsForList = stmt.execute();
@@ -98,7 +99,7 @@ public class RouteDAO implements IRouteDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dbUtilities.closeConnection(conn);
+			databaseUtilities.closeConnection(conn);
 		}
 
 		return listOfRoutes;
@@ -106,7 +107,9 @@ public class RouteDAO implements IRouteDAO {
 
 	@Override
 	public IRoute getRoute(Integer rId) {
-		Connection conn = dbUtilities.estConnection();
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection conn = databaseUtilities.establishConnection();
 
 		IRoute route = new Route();
 		Station sourceStation = new Station();
@@ -147,14 +150,16 @@ public class RouteDAO implements IRouteDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dbUtilities.closeConnection(conn);
+			databaseUtilities.closeConnection(conn);
 		}
 		return route;
 	}
 
 	@Override
 	public void deleteRoute(Integer rId) {
-		Connection conn = dbUtilities.estConnection();
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection conn = databaseUtilities.establishConnection();
 		try {
 			CallableStatement stmt = conn.prepareCall("{call deleteRoute( ? )}");
 			stmt.setInt(1, rId);
@@ -162,15 +167,15 @@ public class RouteDAO implements IRouteDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dbUtilities.closeConnection(conn);
+			databaseUtilities.closeConnection(conn);
 		}
 	}
 
 	@Override
 	public IRoute getrouteByStation(int station1, int station2) {
-	//	System.out.println("in getroute by station method");
-		System.out.println("---source station-----"+station1+"---destination station ---"+station2);
-		Connection conn = dbUtilities.estConnection();
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection conn = databaseUtilities.establishConnection();
 
 		IRoute route = new Route();
 
@@ -186,13 +191,12 @@ public class RouteDAO implements IRouteDAO {
 
 					route.setRId(resultSet.getInt("rId"));
 					route.setDistance(resultSet.getDouble("distance"));
-				//	System.out.println(resultSet.getDouble("distance"));
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dbUtilities.closeConnection(conn);
+			databaseUtilities.closeConnection(conn);
 		}
 
 		// TODO Auto-generated method stub
