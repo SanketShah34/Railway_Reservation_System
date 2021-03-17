@@ -9,11 +9,13 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import com.project.service.DButilities;
+import com.project.database.DButilities;
 
 @Component
+@ComponentScan("com.code.database")
 public class SeatAvailibilityDAOImpl implements SeatAvailibilityDAO{
 	
 	@Autowired

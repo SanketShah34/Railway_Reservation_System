@@ -10,7 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import com.project.service.DButilities;
+import com.project.database.DButilities;
 
 @Component
 @ComponentScan("com.code.service")
@@ -53,7 +53,6 @@ public class RouteDAO implements IRouteDAO {
 				dbUtilities.closeConnection(conn);
 			}
 		}
-
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.project.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.project.entity.User;
-import com.project.service.DButilities;
+import com.project.database.DButilities;
+import com.project.user.User;
 
 @Component
 @ComponentScan("com.project.service")
+@ComponentScan("com.code.database")
 public class UserDAOImpl implements UserDAO {
 
 	@Autowired
@@ -68,7 +70,7 @@ public class UserDAOImpl implements UserDAO {
 				stmt.setString(1, user.getFirstName());
 				stmt.setString(2, user.getLastName());
 				stmt.setString(3, user.getGender());
-				stmt.setDate(4, user.getDateOfBirth());
+				stmt.setDate(4, (Date) user.getDateOfBirth());
 				stmt.setInt(5, user.getMobileNumber());
 				stmt.setString(6, user.getUserName());
 				stmt.setString(7, encodedpassword);

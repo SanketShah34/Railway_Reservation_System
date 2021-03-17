@@ -1,6 +1,5 @@
 package com.project.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -8,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.*;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -17,49 +15,48 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
-	@Autowired
-	AuthenticationSuccessHandler successHandler;
-	
+	SecurityAbstractFactory securityAbstractFactory = new SecurityConcreteFactory();
+	AuthenticationSuccessHandler successHandler = securityAbstractFactory.createCustomeSuccessHandler();
+	DaoAuthenticationProvider authProvider;
 	
 	@Bean
-	public UserDetailsService userDetailsService() {
-		System.out.println("in web security method 1");
-		return new UserDetailsServiceImpl();
+	public UserDetailsService userDetailsService()
+	{
+		return securityAbstractFactory.createUserDetailsService();
 	}
 
 	@Bean
-	public BCryptPasswordEncoder passwordEncoder() { 
-		System.out.println("in web security method 2");
-		return new BCryptPasswordEncoder();
+	public BCryptPasswordEncoder passwordEncoder()
+	{ 
+		return securityAbstractFactory.createPasswordEncoder();
 	}
+	
 	@Bean
-	public DaoAuthenticationProvider authenticationprovider() {
-		System.out.println("in web security method 3");
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+	public DaoAuthenticationProvider authenticationprovider()
+	{
+		authProvider = securityAbstractFactory.createAuthenticationprovider();
 		authProvider.setUserDetailsService(userDetailsService());
 		authProvider.setPasswordEncoder(passwordEncoder());
 		return authProvider;
 	}
 	
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception { 
-		System.out.println("in web security method 4");
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception
+	{ 
 		auth.authenticationProvider(authenticationprovider());
 	}
 	
 	
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		System.out.println("in web security method 5");
+	protected void configure(HttpSecurity http) throws Exception
+	{
 		http.authorizeRequests()
-		.antMatchers("/user/home").permitAll()
+//		.antMatchers("/user/home").permitAll()
+		.antMatchers("/signup").permitAll()
 		.antMatchers("/admin*").hasAnyAuthority("ADMIN")
 		.antMatchers("/user*").hasAnyAuthority("USER")
 //		.antMatchers("/new").hasAnyAuthority("ADMIN", "CREATOR")
-//		.antMatchers("/edit/**").hasAnyAuthority("ADMIN", "EDITOR")
-//		.antMatchers("/delete/**").hasAuthority("ADMIN")
 		.anyRequest().authenticated()
 		.and()
 		.formLogin().loginPage("/login").usernameParameter("userName").passwordParameter("password").successHandler(successHandler)
@@ -72,6 +69,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.csrf().disable();
 		http.headers().frameOptions().disable();
-	}
-	
+	}	
 }
