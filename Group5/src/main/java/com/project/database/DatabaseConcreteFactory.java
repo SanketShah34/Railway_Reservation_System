@@ -1,6 +1,6 @@
 package com.project.database;
 
-public class DatabaseConcrete extends DatabaseAbstactFactory{
+public class DatabaseConcreteFactory extends DatabaseAbstactFactory{
 	private IDatabaseUtilities databaseUtilities;
 	
 	public IDatabaseUtilities createDatabaseUtilities() {

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.project.database.DatabaseAbstactFactory;
-import com.project.database.DatabaseConcrete;
+import com.project.database.DatabaseConcreteFactory;
 import com.project.database.IDatabaseUtilities;
 import com.project.security.SecurityAbstractFactory;
 import com.project.security.SecurityConcreteFactory;

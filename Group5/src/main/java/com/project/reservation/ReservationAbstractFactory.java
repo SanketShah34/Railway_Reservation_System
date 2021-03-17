@@ -10,7 +10,7 @@ public abstract class ReservationAbstractFactory {
 	
 	public static ReservationAbstractFactory instance() {
         if (instance == null) {
-            instance = new ReservationConcrete();
+            instance = new ReservationConcreteFactory();
         }
         return instance;
     }

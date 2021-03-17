@@ -1,6 +1,6 @@
 package com.project.reservation;
 
-public class ReservationConcrete extends ReservationAbstractFactory {
+public class ReservationConcreteFactory extends ReservationAbstractFactory {
 	public IPassengerInformation passengerInformation;
 	public IReservation reservation;
 	

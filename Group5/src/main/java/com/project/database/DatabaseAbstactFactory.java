@@ -7,7 +7,7 @@ public abstract class DatabaseAbstactFactory {
 	
 	public static DatabaseAbstactFactory instance() {
 		if (instance == null) {
-			instance = new DatabaseConcrete();
+			instance = new DatabaseConcreteFactory();
 		}
 		return instance;
 	}

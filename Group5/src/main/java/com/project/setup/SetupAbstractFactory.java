@@ -18,7 +18,7 @@ public abstract class SetupAbstractFactory {
 	 
 	 public static SetupAbstractFactory instance() {
         if (instance == null) {
-            instance = new SetupConcrete();
+            instance = new SetupConcreteFactory();
         }
         return instance;
 	}
