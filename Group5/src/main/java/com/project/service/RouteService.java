@@ -32,7 +32,8 @@ public class RouteService implements IRouteService{
 
 	@Override
 	public void deleteRoute(Integer rId) {
-		routeDAO.deleteRoute(rId);
+		System.out.println("sddsd");
+//		routeDAO.deleteRoute(rId);
 	}
 
 }

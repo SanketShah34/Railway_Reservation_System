@@ -12,17 +12,19 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
+import com.project.database.DButilities;
 import com.project.entity.SearchTrain;
 import com.project.entity.Station;
 import com.project.entity.Train;
-import com.project.service.DButilities;
 
 import ch.qos.logback.core.subst.Token.Type;
 
 
 @Component
+@ComponentScan("com.code.database")
 public class SearchTrainDAOImpl implements SearchTrainDAO {
 
 

@@ -1,18 +1,17 @@
-package com.project.entity;
+package com.project.user;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-@EntityScan
-public class User {
+public class User implements IUser{
 	
 	public int id;
 	
 	@NotNull
-	@NotEmpty(message = "required field")
 	@Size(min=2, max=30 , message = "should be more than 2")
 	public String userName;
 	
@@ -24,7 +23,6 @@ public class User {
 	public String firstName;
 	
 	@NotNull(message = "Last Name may not be null")
-	@NotEmpty(message = "Last Name should not be empty")
 	public String lastName;
 	
 	public String gender;
@@ -132,10 +130,56 @@ public class User {
 	public void setMobileNumber(int mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", password=" + password + "]";
+	
+	public boolean passwordValidation(String password, String confirmPassword) {
+		if(password.equals(confirmPassword)) {
+			return true;  
+		}
+		else {
+			return false; 
+		}
+		
 	}
+	
+	public boolean emailValidation(String email) {
+		String regex = "^(.+)@(.+)$";  
+		Pattern pattern = Pattern.compile(regex);  
+		Matcher matcher = pattern.matcher(email);  
+		if(matcher.matches() == true) {
+			return true;    
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
+		//source: https://stackoverflow.com/questions/14892536/to-check-if-the-date-is-after-the-specified-date
+		public boolean dateValidation(Date date) {
+			
+			long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+			Date current = new Date();
+			String dateStr = date.toString();
+		    Date dateParse;
+			try {
+				dateParse = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+			    Long dateTime = dateParse.getTime();
+			    Date nextDate = new Date(dateTime);
+			    long nextDateTime = dateTime + MILLIS_IN_A_DAY;
+			    Date nextDay = new Date(nextDateTime);
+			    if(nextDay.after(current) || current.equals(nextDate)){
+			    	return false;   
+			    } 
+			    else {
+			        return true;
+			    }
+			
+			}
+			catch(Exception ex) {
+		        ex.printStackTrace();
+		    }
+			return true;
+			
+		}
 
 }

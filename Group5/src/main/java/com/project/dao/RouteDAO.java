@@ -11,13 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
+import com.project.database.DButilities;
 import com.project.entity.Route;
 import com.project.entity.Station;
-import com.project.service.DButilities;
 
 @Component
 @ComponentScan("com.code.service")
 @ComponentScan("com.code.logic")
+@ComponentScan("com.code.database")
 public class RouteDAO implements IRouteDAO {
 
 	@Autowired

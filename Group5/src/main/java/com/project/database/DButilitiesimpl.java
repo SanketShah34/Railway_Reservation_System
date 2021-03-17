@@ -1,11 +1,12 @@
-package com.project.service;
+package com.project.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class DButilitiesimpl implements DButilities {
 
 	@Value("${db.driver}")
@@ -22,7 +23,7 @@ public class DButilitiesimpl implements DButilities {
 
 	@Override
 	public Connection estConnection() {
-	//	System.out.println("----");
+		System.out.println("----");
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			java.sql.Connection com = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -44,4 +45,5 @@ public class DButilitiesimpl implements DButilities {
 			e.printStackTrace();
 		}
 	}
+
 }

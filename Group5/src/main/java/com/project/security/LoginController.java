@@ -1,8 +1,6 @@
-package com.project.controller;
+package com.project.security;
 
 import java.sql.Date;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,29 +8,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.project.dao.UserDAO;
-import com.project.entity.User;
-import com.project.validation.UserValidation;
-
+import com.project.user.IUser;
+import com.project.user.IUserDAO;
+import com.project.user.UserAbstractFactory;
+import com.project.user.UserConcreteFactory;
 
 @Controller
-public class loginController {
-	
-	@Autowired
-	UserDAO userDAO;
-	
-	UserValidation userVal = new UserValidation();
+public class LoginController {
 	
 	@RequestMapping("/admin/home")
 	public String viewHomePageForAdmin(Model model) {
-		//System.out.println("home");
 		return "home";
 	}
 	
 	@RequestMapping("/user/home")
 	public String viewHomePageForUser(Model model) {
-		//System.out.println("home");
 		return "searchTrain/searchTrain";
 	}
 	
@@ -54,8 +44,10 @@ public class loginController {
 	
 	@RequestMapping("/signup")
 	public String signUpPage(Model model) {
+		
+		UserAbstractFactory userAbstractFactory = new UserConcreteFactory();
+		IUser user = userAbstractFactory.createUser();
 		System.out.println("signup");
-		User user = new User();
 		model.addAttribute(user);
 		return "signup";
 	}
@@ -71,25 +63,28 @@ public class loginController {
 								@RequestParam(name = "confirmPassword") String confirmPassword,
 								Model model) {
 		
+		UserAbstractFactory userAbstractFactory = new UserConcreteFactory();
+		IUserDAO userDAO =  userAbstractFactory.createUserDAO();
+		IUser user = userAbstractFactory.createUser();
+		
 		System.out.println("signup page");
 		
 		
-		if(userVal.dateValidation(dateOfBirth) == false) {
+		if(user.dateValidation(dateOfBirth) == false) {
 			model.addAttribute("dobError", true);
 			return "signup";
 		}
-		if(userVal.emailValidation(userName) == false) {
+		if(user.emailValidation(userName) == false) {
 			model.addAttribute("emailError", true);
 			return "signup";
 		}
 		
 		
-		else if(userVal.passwordValidation(password, confirmPassword) == false) {
+		else if(user.passwordValidation(password, confirmPassword) == false) {
 		  model.addAttribute("passwordError", true); 
 		  return "signup"; 
 		}
 		
-		User user = new User();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setGender(gender);

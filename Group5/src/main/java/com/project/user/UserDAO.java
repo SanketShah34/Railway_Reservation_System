@@ -1,32 +1,38 @@
-package com.project.dao;
+package com.project.user;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import com.project.database.DButilities;
-import com.project.user.User;
+import com.project.database.DatabaseAbstactFactory;
+import com.project.database.DatabaseConcreteFactory;
+import com.project.database.IDatabaseUtilities;
+import com.project.security.SecurityAbstractFactory;
+import com.project.security.SecurityConcreteFactory;
 
 @Component
 @ComponentScan("com.project.service")
 @ComponentScan("com.code.database")
-public class UserDAOImpl implements UserDAO {
-
-	@Autowired
-	private DButilities dbUtilities;
+public class UserDAO implements IUserDAO {
+	
+	
 
 	@Override
-	public User getUserByUsername(String username) {
+	public IUser getUserByUsername(String username) {
 		System.out.println("in user dao imple ");
-		User userfromDB = new User();
-		Connection connection = this.dbUtilities.estConnection();
+		IUser userfromDB = new User();
+		Connection connection = null;
+		DatabaseAbstactFactory databaseAbstractFactory = new DatabaseConcreteFactory();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		
 		try {
+			
+			
+     		connection = databaseUtilities.establishConnection();
 			java.sql.CallableStatement stmt = connection.prepareCall("{call findUserByUserName(? )}");
 			stmt.setString(1, username);
 			boolean hadResults = stmt.execute();
@@ -46,12 +52,12 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 			
-			
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			dbUtilities.closeConnection(connection);
+			databaseUtilities.closeConnection(connection);
 		}
 		System.out.println(userfromDB);
 		return userfromDB;
@@ -59,18 +65,23 @@ public class UserDAOImpl implements UserDAO {
 	
 	
 	@Override
-	public void saveUser(User user) {
-		Connection conn = dbUtilities.estConnection();
+	public void saveUser(IUser user) {
+		
+		DatabaseAbstactFactory databaseAbstractFactory = new DatabaseConcreteFactory();
+		SecurityAbstractFactory securityAbstractFactory = new SecurityConcreteFactory();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();	
+		Connection connection = databaseUtilities.establishConnection();
+		
 		if(user.getId() == 0) {
 			System.out.println("add new user");
 			try {
-				BCryptPasswordEncoder encoder  = new BCryptPasswordEncoder();
+				BCryptPasswordEncoder encoder  = securityAbstractFactory.createPasswordEncoder();
 		        String encodedpassword = encoder.encode(user.getPassword());
-				CallableStatement stmt = conn.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ?)}");
+				CallableStatement stmt = connection.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ?)}");
 				stmt.setString(1, user.getFirstName());
 				stmt.setString(2, user.getLastName());
 				stmt.setString(3, user.getGender());
-				stmt.setDate(4, (Date) user.getDateOfBirth());
+				stmt.setDate(4, (Date)user.getDateOfBirth());
 				stmt.setInt(5, user.getMobileNumber());
 				stmt.setString(6, user.getUserName());
 				stmt.setString(7, encodedpassword);
@@ -81,8 +92,13 @@ public class UserDAOImpl implements UserDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			finally {
+				databaseUtilities.closeConnection(connection);
+			}
 		}
 		
 	}
-	
+
+
+
 }

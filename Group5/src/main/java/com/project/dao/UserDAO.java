@@ -1,6 +1,6 @@
 package com.project.dao;
 
-import com.project.entity.User;
+import com.project.user.User;
 
 public interface UserDAO {
 	public  User getUserByUsername(String username); 
