@@ -17,7 +17,11 @@
 			<div class="border border-secondary p-3 rounded">
 				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
 				<div style="text-align: start" class="col-md-4">
-						<input action="action" type="button" onclick="history.go(-1);" value="Back" />
+				<form th:action="@{/admin/station/list}" method="get">
+							<input type="submit" value="Back" />
+						</form>
+					<!-- 	<input action="action" type="button" onclick="history.go(-1);"
+							value="Back" />  -->
 					</div>
 					<div style="text-align: center;" class="col-md-4">
 						Welcome <b><span sec:authentication="name">Username</span></b>
@@ -42,25 +46,25 @@
 										<tr>
 											<td>Station Name:</td>
 											<td><input type="text" style="width: 70%" th:field="*{stationName}" />
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('stationName')}" th:errors="*{stationName}" />
+											<p class="alert alert-danger" style="width: 70%" th:if="${ErrorStationName}"  >Station name can't be empty or Null </p>
 											</td>
 										</tr>
 										<tr>
 											<td>Station Code:</td>
 											<td><input type="text" style="width: 70%" th:field="*{stationCode}" />
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('stationCode')}" th:errors="*{stationCode}" />
+											<p class="alert alert-danger" style="width: 70%" th:if="${ErrorStationCode}" > Station Code can't be empty or Null </p>
 											</td>
 										</tr>
 										<tr>
 											<td>Station City:</td>
 											<td><input type="text" style="width: 70%" th:field="*{stationCity}" />
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('stationCity')}" th:errors="*{stationCity}" />
+											<p class="alert alert-danger" style="width: 70%" th:if="${ErrorStationCity}"  > Station City can't be empty or Null </p>
 											</td>
 										</tr>
 										<tr>
 											<td>Station State:</td>
 											<td><input type="text" style="width: 70%" th:field="*{stationState}" />
-											<p class="alert alert-danger" style="width: 70%" th:if="${#fields.hasErrors('stationState')}" th:errors="*{stationState}" />
+											<p class="alert alert-danger" style="width: 70%" th:if="${ErrorStationState}"  > Station State can't be empty or Null </p>
 											</td>
 										</tr>
 										<tr style="text-align: center;">

@@ -1,12 +1,11 @@
 package com.project.setup;
 
-
 import javax.validation.constraints.NotNull;
 
 public class Station implements IStation {
-	
+
 	public int sId;
-	
+
 	@NotNull(message = "stationName can not be null!!")
 
 	public String stationName;
@@ -14,16 +13,16 @@ public class Station implements IStation {
 
 	public String stationCode;
 	@NotNull(message = "station City can not be null!!")
-	
+
 	public String stationCity;
 	@NotNull(message = "Station State can not be null!!")
 
 	public String stationState;
-	
-	public Station(){
-		
+
+	public Station() {
+
 	}
-	
+
 	public Station(int sId, String stationName, String stationCode, String stationCity, String stationState) {
 		super();
 		this.sId = sId;
@@ -32,7 +31,7 @@ public class Station implements IStation {
 		this.stationCity = stationCity;
 		this.stationState = stationState;
 	}
-	
+
 	@Override
 	public int getSId() {
 		return sId;
@@ -47,35 +46,72 @@ public class Station implements IStation {
 	public String getStationName() {
 		return stationName;
 	}
+
 	@Override
 	public void setStationName(String stationName) {
 		this.stationName = stationName;
 	}
+
 	@Override
 	public String getStationCode() {
 		return stationCode;
 	}
+
 	@Override
 	public void setStationCode(String stationCode) {
 		this.stationCode = stationCode;
 	}
-	
+
 	@Override
 	public String getStationState() {
 		return stationState;
 	}
+
 	@Override
 	public void setStationState(String stationState) {
 		this.stationState = stationState;
 	}
+
 	@Override
 	public String getStationCity() {
 		return stationCity;
 	}
+
 	@Override
 	public void setStationCity(String stationCity) {
 		this.stationCity = stationCity;
 	}
-	
-	
+
+	public boolean isStationNameValid() {
+		String StationNameWithoutSpace = this.stationName.trim();	
+		if(StationNameWithoutSpace.length() > 0 ){
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isStationCodeValid() {
+		String StationCodeWithoutSpace = this.stationCode.trim();
+		if(StationCodeWithoutSpace.length() > 0 ){
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isStationStateValid() {
+		String StationStateWithoutSpace = this.stationState.trim();
+		if(StationStateWithoutSpace.length() > 0 ){
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isStationCityValid() {
+		String StationCityWithoutSpace = this.stationCity.trim();
+		if(StationCityWithoutSpace.length() > 0 ){
+			return false;
+		}
+		return true;
+	}
+
 }

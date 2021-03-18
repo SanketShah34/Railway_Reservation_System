@@ -21,5 +21,13 @@ public interface IStation {
 	String getStationCity();
 
 	void setStationCity(String stationCity);
+	
+    boolean isStationNameValid();
+    
+    boolean isStationCodeValid();
+    
+    boolean isStationStateValid();
+    
+    boolean isStationCityValid();
 
 }
