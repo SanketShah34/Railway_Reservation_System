@@ -2,10 +2,9 @@ package com.project.setup;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,27 +15,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RouteController {
 	
+	@ModelAttribute("route")
+    public IRoute getIRouteModelObject(HttpServletRequest request) {
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		IRoute route = setupAbstractFactory.createRoute();
+		return route ;
+	}
+	
 	@GetMapping(value = "/admin/route/list")
-	public String showRoutePage(Model model) {
+	public String displayRouteList(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
-		List<Route> listOfRoute = routeDAO.getAllRoute();
+		List<IRoute> listOfRoute = routeDAO.getAllRoute();
 		model.addAttribute("listOfRoute", listOfRoute);
 		return "route/route";
 	}
 
 	@GetMapping(value = "/admin/route")
-	public String showRoute(Model model) {
+	public String displayRoute(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
-		List<Route> listOfRoute = routeDAO.getAllRoute();
+		List<IRoute> listOfRoute = routeDAO.getAllRoute();
 		model.addAttribute("listOfRoute", listOfRoute);
 		return "route/route";
 		
 	}
 
 	@GetMapping(value = "/admin/route/add")
-	public String showAddRoutePage(Model model) {
+	public String displayAddRoute(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRoute route = setupAbstractFactory.createRoute();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
@@ -45,37 +51,53 @@ public class RouteController {
 		model.addAttribute("listOfStations", stations);
 		return "route/addRoute";
 	}
-
-	@PostMapping(value = "/admin/route/save")
-	public String saveRoute(@Valid @ModelAttribute("route") IRoute route, BindingResult result) {
-		if (result.hasErrors()) {
-			return "route/addRoute";
-		} else {
-			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-			IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
-			routeDAO.save(route);
-			return "redirect:/admin/route/list";
-		}
-
-	}
-
-	@RequestMapping("/admin/route/edit/{rId}")
-	public String showEditRoutePage(@PathVariable(name = "rId") Integer rId, Model model) {
+	
+	@RequestMapping("/admin/route/edit/{routeId}")
+	public String displayEditRoute(@PathVariable(name = "routeId") Integer routeId, Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		List<Station> stations = stationDAO.getAllStation();
-		IRoute route = routeDAO.getRoute(rId);
+		IRoute route = routeDAO.getRoute(routeId);
 		model.addAttribute(route);
 		model.addAttribute("listOfStations", stations);
 		return "route/editRoute";
 	}
 
-	@RequestMapping("/admin/route/delete/{rId}")
-	public String deleteRoute(@PathVariable(name = "rId") Integer rId, Model model) {
+	@PostMapping(value = "/admin/route/new/save")
+	public String saveNewRoute(@ModelAttribute("route") IRoute route, Model model) {
+		String errorCodes = route.isRouteEntryValid(); 
+		if (errorCodes.equals("")) {
+			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+			IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
+			routeDAO.saveRoute(route);
+			return "redirect:/admin/route/list";
+		} else {
+			model.addAttribute("errorCodes", errorCodes);
+			return this.displayAddRoute(model);
+		}
+	}
+	
+	@PostMapping(value = "/admin/route/edit/save")
+	public String saveEditRoute(@ModelAttribute("route") IRoute route, Model model) {
+		String errorCodes = route.isRouteEntryValid();
+		int routeId = route.getRouteId();
+		if (errorCodes.equals("")) {
+			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+			IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
+			routeDAO.saveRoute(route);
+			return "redirect:/admin/route/list";
+		} else {
+			model.addAttribute("errorCodes", errorCodes);
+			return this.displayEditRoute(routeId, model);
+		}
+	}
+
+	@RequestMapping("/admin/route/delete/{routeId}")
+	public String deleteRoute(@PathVariable(name = "routeId") Integer routeId, Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
-		routeDAO.deleteRoute(rId);
+		routeDAO.deleteRoute(routeId);
 		return "redirect:/admin/route/list";
 
 	}

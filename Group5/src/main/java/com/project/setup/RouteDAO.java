@@ -15,48 +15,50 @@ import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
 
 @Component
-
 public class RouteDAO implements IRouteDAO {
+	
 	@Override
-	public void save(IRoute route) {
+	public void saveRoute(IRoute route){
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
-		if (route.getRId() == 0) {
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statement = null;
+		if (route.getRouteId() == 0) {
 			try {
-				CallableStatement stmt = conn.prepareCall("{call addRoute( ? , ? , ?)}");
-				stmt.setInt(1, route.getSourceId());
-				stmt.setInt(2, route.getDestinationId());
-				stmt.setDouble(3, route.getDistance());
+				statement = connection.prepareCall("{call addRoute( ? , ? , ?)}");
+				statement.setInt(1, route.getSourceId());
+				statement.setInt(2, route.getDestinationId());
+				statement.setDouble(3, route.getDistance());
 
-				stmt.execute();
+				statement.execute();
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				databaseUtilities.closeConnection(conn);
+				databaseUtilities.closeConnection(connection);
 			}
 		} else {
 			try {
-				CallableStatement stmt = conn.prepareCall("{call editRoute( ? , ? , ? , ?)}");
-				stmt.setInt(1, route.getRId());
-				stmt.setInt(2, route.getSourceId());
-				stmt.setInt(3, route.getDestinationId());
-				stmt.setDouble(4, route.getDistance());
+				statement = connection.prepareCall("{call editRoute( ? , ? , ? , ?)}");
+				statement.setInt(1, route.getRouteId());
+				statement.setInt(2, route.getSourceId());
+				statement.setInt(3, route.getDestinationId());
+				statement.setDouble(4, route.getDistance());
 
-				stmt.execute();
+				statement.execute();
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				databaseUtilities.closeConnection(conn);
+				databaseUtilities.closeStatement(statement);
+				databaseUtilities.closeConnection(connection);
 			}
 		}
 	}
 
 	@Override
-	public List<Route> getAllRoute() {
-		List<Route> listOfRoutes = new ArrayList<>();
+	public List<IRoute> getAllRoute() {
+		List<IRoute> listOfRoutes = new ArrayList<>();
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection conn = databaseUtilities.establishConnection();
@@ -70,7 +72,7 @@ public class RouteDAO implements IRouteDAO {
 					Station sourceStation = new Station();
 					Station destinationStation = new Station();
 
-					route.setRId(resultSet.getInt("rId"));
+					route.setRouteId(resultSet.getInt("rId"));
 
 					sourceStation.setSId(resultSet.getInt("sourceStationId"));
 					sourceStation.setStationName(resultSet.getString("sourceStationName"));
@@ -123,7 +125,7 @@ public class RouteDAO implements IRouteDAO {
 				ResultSet resultSet = stmt.getResultSet();
 				if (resultSet.next()) {
 
-					route.setRId(resultSet.getInt("rId"));
+					route.setRouteId(resultSet.getInt("rId"));
 
 					sourceStation.setSId(resultSet.getInt("sourceStationId"));
 					sourceStation.setStationName(resultSet.getString("sourceStationName"));
@@ -172,7 +174,7 @@ public class RouteDAO implements IRouteDAO {
 	}
 
 	@Override
-	public IRoute getrouteByStation(int station1, int station2) {
+	public IRoute getRouteByStation(int station1, int station2) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection conn = databaseUtilities.establishConnection();
@@ -189,7 +191,7 @@ public class RouteDAO implements IRouteDAO {
 				ResultSet resultSet = stmt.getResultSet();
 				if (resultSet.next()) {
 
-					route.setRId(resultSet.getInt("rId"));
+					route.setRouteId(resultSet.getInt("rId"));
 					route.setDistance(resultSet.getDouble("distance"));
 				}
 			}

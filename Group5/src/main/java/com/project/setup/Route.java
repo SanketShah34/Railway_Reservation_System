@@ -1,7 +1,7 @@
 package com.project.setup;
 
 public class Route implements IRoute {
-	public int rId;
+	public int routeId;
 	public int sourceId;
 	public int destinationId;
 	public IStation source;
@@ -10,8 +10,8 @@ public class Route implements IRoute {
 		
 	public Route() {}
 	
-	public Route(int rId, IStation source, int sourceId, IStation destination, int destinationId, double distance) {
-		this.rId = rId;
+	public Route(int routeId, IStation source, int sourceId, IStation destination, int destinationId, double distance) {
+		this.routeId = routeId;
 		this.source = source;
 		this.destination = destination;
 		this.distance = distance;
@@ -50,13 +50,13 @@ public class Route implements IRoute {
 	}
 
 	@Override
-	public int getRId() {
-		return rId;
+	public int getRouteId() {
+		return routeId;
 	}
 
 	@Override
-	public void setRId(int rId) {
-		this.rId = rId;
+	public void setRouteId(int routeId) {
+		this.routeId = routeId;
 	}
 
 	@Override
@@ -78,4 +78,59 @@ public class Route implements IRoute {
 	public void setDestinationId(int destinationId) {
 		this.destinationId = destinationId;
 	}
+	
+	@Override
+	public boolean isSourceStationIdNull() {
+		if (this.sourceId <= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean isDestinationStationIdNull() {
+		if (this.destinationId <= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean isDistanceInvalid() {
+		if (this.distance <= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean isSourceAndDestinationSame() {
+		if (this.sourceId == this.destinationId) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public String isRouteEntryValid() {
+		String errorMessage = "";
+		if (this.isSourceStationIdNull()) {
+			errorMessage += RouteErrorCodes.sourceStationMissing;
+		}
+		if (this.isDestinationStationIdNull()) {
+			errorMessage += RouteErrorCodes.destinationStationMissing;
+		}
+		if (this.isSourceAndDestinationSame()) {
+			errorMessage += RouteErrorCodes.sourceAndDestinationStationSame;
+		}
+		if (this.isDistanceInvalid()) {
+			errorMessage += RouteErrorCodes.distanceNegativeOrZero;
+		}
+		return errorMessage;
+	}
+	
 }
