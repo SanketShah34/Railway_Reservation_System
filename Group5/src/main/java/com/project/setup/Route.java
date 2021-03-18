@@ -35,8 +35,8 @@ public class Route implements IRoute {
 	}
 
 	@Override
-	public void setDestination(IStation destintion) {
-		this.destination = destintion;
+	public void setDestination(IStation destination) {
+		this.destination = destination;
 	}
 	
 	@Override

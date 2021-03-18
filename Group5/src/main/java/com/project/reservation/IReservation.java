@@ -28,9 +28,9 @@ public interface IReservation {
 
 	void setAmountPaid(double amountPaid);
 
-	List<PassengerInformation> getPassengerInformation();
+	List<IPassengerInformation> getPassengerInformation();
 
-	void setPassengerInformation(List<PassengerInformation> passengerInformation);
+	void setPassengerInformation(List<IPassengerInformation> passengerInformation);
 
 	void setDistance(int distance);
 
@@ -40,8 +40,10 @@ public interface IReservation {
 
 	void setTrainType(String trainType);
 
-	void calculateReservationFarePerPassenger(Reservation reservation);
+	void calculateReservationFarePerPassenger(IReservation reservation);
 
-	void calculateTotalReservationFare(Reservation reservation);
+	void calculateTotalReservationFare(IReservation reservation);
+
+	void addInPassengerInformationList(List<IPassengerInformation>passengerInformationList, IPassengerInformation passengerInformation);
 
 }

@@ -16,6 +16,18 @@ import com.project.database.IDatabaseUtilities;
 
 @Component
 public class RouteDAO implements IRouteDAO {
+	public final String routeIdColumnName = "routeId";
+	public final String sourceStationIdColumnName = "sourceStationId";
+	public final String sourceStationNameColumnName = "sourceStationName";
+	public final String sourceStationCodeColumnName = "sourceStationCode";
+	public final String sourceStationCityColumnName = "sourceStationCity";
+	public final String sourceStationStateColumnName = "sourceStationState";
+	public final String destinationStationIdColumnName = "destinationStationId";
+	public final String destinationStationNameColumnName = "destinationStationName";
+	public final String destinationStationCodeColumnName = "destinationStationCode";
+	public final String destinationStationCityColumnName = "destinationStationCity";
+	public final String destinationStationStateColumnName = "destinationStationState";
+	public final String distanceColumnName = "distance";
 	
 	@Override
 	public void saveRoute(IRoute route){
@@ -32,9 +44,10 @@ public class RouteDAO implements IRouteDAO {
 
 				statement.execute();
 
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (SQLException exception) {
+				exception.printStackTrace();
 			} finally {
+				databaseUtilities.closeStatement(statement);
 				databaseUtilities.closeConnection(connection);
 			}
 		} else {
@@ -47,8 +60,8 @@ public class RouteDAO implements IRouteDAO {
 
 				statement.execute();
 
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (SQLException exception) {
+				exception.printStackTrace();
 			} finally {
 				databaseUtilities.closeStatement(statement);
 				databaseUtilities.closeConnection(connection);
@@ -60,148 +73,162 @@ public class RouteDAO implements IRouteDAO {
 	public List<IRoute> getAllRoute() {
 		List<IRoute> listOfRoutes = new ArrayList<>();
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statement = null;
+		ResultSet resultSet = null;
 		try {
-			CallableStatement stmt = conn.prepareCall("{call getAllRoute()}");
-			boolean hadResultsForList = stmt.execute();
-			if (hadResultsForList) {
-				ResultSet resultSet = stmt.getResultSet();
+			statement = connection.prepareCall("{call getAllRoute()}");
+			boolean hadResult = statement.execute();
+			if (hadResult) {
+				resultSet = statement.getResultSet();
+				
 				while (resultSet.next()) {
-					Route route = new Route();
-					Station sourceStation = new Station();
-					Station destinationStation = new Station();
+					IRoute route = setupAbstractFactory.createNewRoute();
+					IStation sourceStation = setupAbstractFactory.createNewStation();
+					IStation destinationStation = setupAbstractFactory.createNewStation();
 
-					route.setRouteId(resultSet.getInt("rId"));
+					route.setRouteId(resultSet.getInt(routeIdColumnName));
 
-					sourceStation.setSId(resultSet.getInt("sourceStationId"));
-					sourceStation.setStationName(resultSet.getString("sourceStationName"));
-					sourceStation.setStationCode(resultSet.getString("sourceStationCode"));
-					sourceStation.setStationCity(resultSet.getString("sourceStationCity"));
-					sourceStation.setStationState(resultSet.getString("sourceStationState"));
+					sourceStation.setSId(resultSet.getInt(sourceStationIdColumnName));
+					sourceStation.setStationName(resultSet.getString(sourceStationNameColumnName));
+					sourceStation.setStationCode(resultSet.getString(sourceStationCodeColumnName));
+					sourceStation.setStationCity(resultSet.getString(sourceStationCityColumnName));
+					sourceStation.setStationState(resultSet.getString(sourceStationStateColumnName));
 
 					route.setSource(sourceStation);
-					route.setSourceId(sourceStation.sId);
+					route.setSourceId(sourceStation.getSId());
 
-					destinationStation.setSId(resultSet.getInt("destinationStationId"));
-					destinationStation.setStationName(resultSet.getString("destinationStationName"));
-					destinationStation.setStationCode(resultSet.getString("destinationStationCode"));
-					destinationStation.setStationCity(resultSet.getString("destinationStationCity"));
-					destinationStation.setStationState(resultSet.getString("destinationStationState"));
+					destinationStation.setSId(resultSet.getInt(destinationStationIdColumnName));
+					destinationStation.setStationName(resultSet.getString(destinationStationNameColumnName));
+					destinationStation.setStationCode(resultSet.getString(destinationStationCodeColumnName));
+					destinationStation.setStationCity(resultSet.getString(destinationStationCityColumnName));
+					destinationStation.setStationState(resultSet.getString(destinationStationStateColumnName));
 
 					route.setDestination(destinationStation);
-					route.setDestinationId(destinationStation.sId);
+					route.setDestinationId(destinationStation.getSId());
 
-					route.setDistance(resultSet.getDouble("distance"));
+					route.setDistance(resultSet.getDouble(distanceColumnName));
 
 					listOfRoutes.add(route);
 
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeResultSet(resultSet);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
 		}
 
 		return listOfRoutes;
 	}
 
 	@Override
-	public IRoute getRoute(Integer rId) {
+	public IRoute getRoute(Integer routeId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		IRoute route = setupAbstractFactory.createNewRoute();
+		IStation sourceStation = setupAbstractFactory.createNewStation();
+		IStation destinationStation = setupAbstractFactory.createNewStation();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
-
-		IRoute route = new Route();
-		Station sourceStation = new Station();
-		Station destinationStation = new Station();
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statement = null;
+		ResultSet resultSet = null;
 		try {
-			CallableStatement stmt = conn.prepareCall("{call getRoute(?)}");
-			stmt.setInt(1, rId);
+			statement = connection.prepareCall("{call getRoute(?)}");
+			statement.setInt(1, routeId);
 
-			boolean hasRoute = stmt.execute();
+			boolean hasRoute = statement.execute();
 			if (hasRoute) {
-				ResultSet resultSet = stmt.getResultSet();
+				resultSet = statement.getResultSet();
 				if (resultSet.next()) {
 
-					route.setRouteId(resultSet.getInt("rId"));
+					route.setRouteId(resultSet.getInt(routeIdColumnName));
 
-					sourceStation.setSId(resultSet.getInt("sourceStationId"));
-					sourceStation.setStationName(resultSet.getString("sourceStationName"));
-					sourceStation.setStationCode(resultSet.getString("sourceStationCode"));
-					sourceStation.setStationCity(resultSet.getString("sourceStationCity"));
-					sourceStation.setStationState(resultSet.getString("sourceStationState"));
+					sourceStation.setSId(resultSet.getInt(sourceStationIdColumnName));
+					sourceStation.setStationName(resultSet.getString(sourceStationNameColumnName));
+					sourceStation.setStationCode(resultSet.getString(sourceStationCodeColumnName));
+					sourceStation.setStationCity(resultSet.getString(sourceStationCityColumnName));
+					sourceStation.setStationState(resultSet.getString(sourceStationStateColumnName));
 
 					route.setSource(sourceStation);
-					route.setSourceId(sourceStation.sId);
+					route.setSourceId(sourceStation.getSId());
 
-					destinationStation.setSId(resultSet.getInt("destinationStationId"));
-					destinationStation.setStationName(resultSet.getString("destinationStationName"));
-					destinationStation.setStationCode(resultSet.getString("destinationStationCode"));
-					destinationStation.setStationCity(resultSet.getString("destinationStationCity"));
-					destinationStation.setStationState(resultSet.getString("destinationStationState"));
+					destinationStation.setSId(resultSet.getInt(destinationStationIdColumnName));
+					destinationStation.setStationName(resultSet.getString(destinationStationNameColumnName));
+					destinationStation.setStationCode(resultSet.getString(destinationStationCodeColumnName));
+					destinationStation.setStationCity(resultSet.getString(destinationStationCityColumnName));
+					destinationStation.setStationState(resultSet.getString(destinationStationStateColumnName));
 
 					route.setDestination(destinationStation);
-					route.setDestinationId(destinationStation.sId);
+					route.setDestinationId(destinationStation.getSId());
 
-					route.setDistance(resultSet.getDouble("distance"));
+					route.setDistance(resultSet.getDouble(distanceColumnName));
 
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeResultSet(resultSet);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
 		}
 		return route;
 	}
 
 	@Override
-	public void deleteRoute(Integer rId) {
+	public void deleteRoute(Integer routeId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statement = null;
 		try {
-			CallableStatement stmt = conn.prepareCall("{call deleteRoute( ? )}");
-			stmt.setInt(1, rId);
-			stmt.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			statement = connection.prepareCall("{call deleteRoute( ? )}");
+			statement.setInt(1, routeId);
+			statement.execute();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
 		}
 	}
 
 	@Override
-	public IRoute getRouteByStation(int station1, int station2) {
+	public IRoute getRouteByStation(int sourcePoint, int destinationPoint) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
-
-		IRoute route = new Route();
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statement = null;
+		ResultSet resultSet = null;
+		IRoute route = setupAbstractFactory.createNewRoute();
 
 		try {
-			CallableStatement stmt = conn.prepareCall("{call getRoutebyStation(?, ?)}");
-			stmt.setInt(1, station1);
-			stmt.setInt(2, station2);
+			statement = connection.prepareCall("{call getRoutebyStation(?, ?)}");
+			statement.setInt(1, sourcePoint);
+			statement.setInt(2, destinationPoint);
 
-			boolean hasRoute = stmt.execute();
+			boolean hasRoute = statement.execute();
 			if (hasRoute) {
-				ResultSet resultSet = stmt.getResultSet();
+				resultSet = statement.getResultSet();
 				if (resultSet.next()) {
 
-					route.setRouteId(resultSet.getInt("rId"));
-					route.setDistance(resultSet.getDouble("distance"));
+					route.setRouteId(resultSet.getInt(routeIdColumnName));
+					route.setDistance(resultSet.getDouble(distanceColumnName));
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeResultSet(resultSet);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
 		}
-
-		// TODO Auto-generated method stub
 		return route;
 	}
 

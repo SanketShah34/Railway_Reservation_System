@@ -42,4 +42,16 @@ public interface IPassengerInformation {
 
 	void setCoachNumber(String coachNumber);
 
+	String isPassengerInformationValid();
+
+	boolean isBerthPreferenceNullOrEmpty();
+
+	boolean isAgeInvalid();
+
+	boolean isGenderNullOrEmpty();
+
+	boolean isLastNameNullOrEmpty();
+
+	boolean isFirstNameNullOrEmpty();
+
 }

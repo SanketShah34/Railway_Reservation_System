@@ -18,16 +18,21 @@ public class Reservation implements IReservation {
     public double amountPaid;
     public int distance;
     public String trainType;
-    public List<PassengerInformation> passengerInformation;
+    public List<IPassengerInformation> passengerInformation;
+    
+    public static final int numberOfPassengersPerReservation = 6;
     
     public Reservation() {
-    	this.passengerInformation = new ArrayList<PassengerInformation>(6);
-    	this.passengerInformation.add(new PassengerInformation());
-    	this.passengerInformation.add(new PassengerInformation());
-    	this.passengerInformation.add(new PassengerInformation());
-    	this.passengerInformation.add(new PassengerInformation());
-    	this.passengerInformation.add(new PassengerInformation());
-    	this.passengerInformation.add(new PassengerInformation());
+    	this.initializePassengerList();
+    }
+    
+    private void initializePassengerList() {
+    	ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
+    	List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(numberOfPassengersPerReservation);
+    	for (int index = 0; index < numberOfPassengersPerReservation; index++) {
+    		this.addInPassengerInformationList(passengerInformationList, reservationAbstractFactory.createNewPassengerInformation());	
+    	}
+    	this.setPassengerInformation(passengerInformationList);
     }
     
 	@Override
@@ -79,11 +84,17 @@ public class Reservation implements IReservation {
 		this.amountPaid = amountPaid;
 	}
 	@Override
-	public List<PassengerInformation> getPassengerInformation() {
+	public List<IPassengerInformation> getPassengerInformation() {
 		return passengerInformation;
 	}
+	
 	@Override
-	public void setPassengerInformation(List<PassengerInformation> passengerInformation) {
+	public void addInPassengerInformationList(List<IPassengerInformation> passengerInformationList, IPassengerInformation passengerInformation) {
+		passengerInformationList.add(passengerInformation);
+	}
+	
+	@Override
+	public void setPassengerInformation(List<IPassengerInformation> passengerInformation) {
 		this.passengerInformation = passengerInformation;
 	}
 	@Override
@@ -105,28 +116,31 @@ public class Reservation implements IReservation {
 		this.trainType = trainType;
 	}
 	
-	
-
 	@Override
-	public void calculateReservationFarePerPassenger(Reservation reservation) {
+	public void calculateReservationFarePerPassenger(IReservation reservation) {
 		findFareImpl findFare = new findFareImpl();
 		try {
-			double fareBasedOnTrainType = findFare.calculateFareByTrainType(reservation.distance, reservation.trainType);
-			double fareBasedOnDistance = findFare.calculateFareByDistance(reservation.distance, fareBasedOnTrainType);
-			for ( int index = 0; index < reservation.passengerInformation.size(); index++) {
-				
-				reservation.passengerInformation.get(index).amountPaid = findFare.calculateFareByAge(fareBasedOnDistance, reservation.passengerInformation.get(index).age);
+			double fareBasedOnTrainType = findFare.calculateFareByTrainType(reservation.getDistance(), reservation.getTrainType());
+			double fareBasedOnDistance = findFare.calculateFareByDistance(reservation.getDistance(), fareBasedOnTrainType);
+			int passengerInformationLength = reservation.getPassengerInformation().size();
+			for ( int index = 0; index < passengerInformationLength; index++) {
+				double amountPaid = findFare.calculateFareByAge(fareBasedOnDistance, reservation.getPassengerInformation().get(index).getAge());
+				reservation.getPassengerInformation().get(index).setAmountPaid(amountPaid);
 			}		
-		} catch(Exception e) {
-			System.err.print(e);
+		} catch(Exception exception) {
+			exception.printStackTrace();
 		}
 	}    
 	
 	@Override
-	public void calculateTotalReservationFare(Reservation reservation) {
-		for ( int index = 0; index < reservation.passengerInformation.size(); index++) {
-			reservation.amountPaid = reservation.amountPaid + reservation.passengerInformation.get(index).amountPaid;
+	public void calculateTotalReservationFare(IReservation reservation) {
+		this.calculateReservationFarePerPassenger(reservation);
+		int passengerInformationLength = reservation.getPassengerInformation().size();
+		double amountPaid = 0.0;
+		for ( int index = 0; index < passengerInformationLength; index++) {
+			amountPaid = amountPaid + reservation.getPassengerInformation().get(index).getAmountPaid();
 		}
+		reservation.setAmountPaid(amountPaid); 
 	}
     
 }
