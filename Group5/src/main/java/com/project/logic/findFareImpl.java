@@ -43,7 +43,7 @@ public class findFareImpl implements findFare{
 			
 			for (int k = 0; k < sourceStationIndex; k++) {
 				// System.out.println("--"+k+"--");
-				IRoute route = routeDAO.getrouteByStation(allStation.get(k), allStation.get(k + 1));
+				IRoute route = routeDAO.getRouteByStation(allStation.get(k), allStation.get(k + 1));
 				// System.out.println(route.getDistance());
 				distanceRequiredToreachSourceStation += route.getDistance();
 				timeRequiredByTrainToreachSourceStation += 10;
@@ -66,7 +66,7 @@ public class findFareImpl implements findFare{
 
 			for (int j = 0; j < destinationStationIndex; j++) {
 			//	 System.out.println(allStation.get(j)+"--"+j+"--"+allStation.get(j + 1));
-				IRoute route = routeDAO.getrouteByStation(allStation.get(j), allStation.get(j + 1));
+				IRoute route = routeDAO.getRouteByStation(allStation.get(j), allStation.get(j + 1));
 				// System.out.println(route.getDistance());
 				distanceRequiredForDestinationStation += route.getDistance();
 				timeRequiredByTrainForDestinationStation += 10;

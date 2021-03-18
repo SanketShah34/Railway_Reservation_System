@@ -1,7 +1,9 @@
 package com.project.database;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 
 import javax.annotation.PostConstruct;
 
@@ -42,5 +44,22 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void closeStatement(CallableStatement statement) {
+		try {
+			statement.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+	@Override
+	public void closeResultSet(ResultSet resultSet) {
+		try {
+			resultSet.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

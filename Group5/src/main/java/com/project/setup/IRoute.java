@@ -14,9 +14,9 @@ public interface IRoute {
 
 	void setDistance(double distance);
 
-	int getRId();
+	int getRouteId();
 
-	void setRId(int rId);
+	void setRouteId(int routeId);
 
 	int getSourceId();
 
@@ -25,5 +25,15 @@ public interface IRoute {
 	int getDestinationId();
 
 	void setDestinationId(int destinationId);
+	
+	boolean isSourceStationIdNull();
+	
+	boolean isDestinationStationIdNull();
+	
+	boolean isDistanceInvalid();
+	
+	boolean isSourceAndDestinationSame();
+	
+	String isRouteEntryValid();
 
 }
