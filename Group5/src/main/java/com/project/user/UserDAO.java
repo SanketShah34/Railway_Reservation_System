@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.project.database.DatabaseAbstactFactory;
-import com.project.database.DatabaseConcreteFactory;
 import com.project.database.IDatabaseUtilities;
 import com.project.security.SecurityAbstractFactory;
 import com.project.security.SecurityConcreteFactory;
@@ -19,25 +18,25 @@ import com.project.security.SecurityConcreteFactory;
 @ComponentScan("com.code.database")
 public class UserDAO implements IUserDAO {
 	
-	
-
 	@Override
 	public IUser getUserByUsername(String username) {
 		System.out.println("in user dao imple ");
-		IUser userfromDB = new User();
-		Connection connection = null;
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
+		IUser userfromDB = userAbstractFactory.createUser();
+		Connection connection = null;
+		CallableStatement stmt = null;
+		ResultSet resultSet = null;
+		
 		
 		try {
-			
-			
      		connection = databaseUtilities.establishConnection();
-			java.sql.CallableStatement stmt = connection.prepareCall("{call findUserByUserName(? )}");
+			stmt = connection.prepareCall("{call findUserByUserName(? )}");
 			stmt.setString(1, username);
 			boolean hadResults = stmt.execute();
 			if (hadResults) {
-				ResultSet resultSet = stmt.getResultSet();
+				 resultSet = stmt.getResultSet();
 				if (resultSet.next()) {
 					int id = resultSet.getInt("id");
 					String userName = resultSet.getString("userName");
@@ -54,9 +53,16 @@ public class UserDAO implements IUserDAO {
 			
 		}
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} finally {
+			try {
+				stmt.close();
+				resultSet.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 			databaseUtilities.closeConnection(connection);
 		}
 		System.out.println(userfromDB);
@@ -69,15 +75,16 @@ public class UserDAO implements IUserDAO {
 		
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		SecurityAbstractFactory securityAbstractFactory = new SecurityConcreteFactory();
+		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement stmt = null;
 		
 		if(user.getId() == 0) {
 			System.out.println("add new user");
 			try {
 				BCryptPasswordEncoder encoder  = securityAbstractFactory.createPasswordEncoder();
 		        String encodedpassword = encoder.encode(user.getPassword());
-				CallableStatement stmt = connection.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ?)}");
+				stmt = connection.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ?)}");
 				stmt.setString(1, user.getFirstName());
 				stmt.setString(2, user.getLastName());
 				stmt.setString(3, user.getGender());
@@ -93,12 +100,15 @@ public class UserDAO implements IUserDAO {
 				e.printStackTrace();
 			}
 			finally {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				}
 				databaseUtilities.closeConnection(connection);
 			}
 		}
-		
 	}
-
-
 
 }

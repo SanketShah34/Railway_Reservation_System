@@ -17,7 +17,7 @@ public abstract class SetupAbstractFactory {
 	 public abstract ITrain createNewTrain();
 	 
 	 public static SetupAbstractFactory instance() {
-        if (instance == null) {
+        if (null == instance) {
             instance = new SetupConcreteFactory();
         }
         return instance;

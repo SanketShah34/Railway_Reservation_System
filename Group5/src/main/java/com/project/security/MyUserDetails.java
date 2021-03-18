@@ -11,6 +11,10 @@ import com.project.user.IUser;
 
 public class MyUserDetails implements UserDetails {
 	
+	//reference taken for spring security from "https://www.codejava.net/frameworks/spring-boot/spring-security-custom-login-page"
+	//for role based authentication "https://www.youtube.com/watch?v=_TrpJzuK-p4"
+		
+	
 	private IUser user;
 	
 	public MyUserDetails(IUser user)

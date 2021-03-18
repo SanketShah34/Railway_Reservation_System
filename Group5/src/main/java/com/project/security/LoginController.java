@@ -1,10 +1,9 @@
 package com.project.security;
 
 import java.sql.Date;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,23 +15,13 @@ import com.project.user.UserConcreteFactory;
 @Controller
 public class LoginController {
 	
-	@RequestMapping("/admin/home")
+	@GetMapping("/admin/home")
 	public String viewHomePageForAdmin(Model model) {
 		return "home";
 	}
-	
-	@RequestMapping("/user/home")
-	public String viewHomePageForUser(Model model) {
-		return "searchTrain/searchTrain";
-	}
-	
-	
 
 	@RequestMapping("/login")
 	public String showLoginPage() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-//		} 
 		return "login";
 	}
 
@@ -63,7 +52,7 @@ public class LoginController {
 								@RequestParam(name = "confirmPassword") String confirmPassword,
 								Model model) {
 		
-		UserAbstractFactory userAbstractFactory = new UserConcreteFactory();
+		UserAbstractFactory userAbstractFactory =  UserAbstractFactory.instance();
 		IUserDAO userDAO =  userAbstractFactory.createUserDAO();
 		IUser user = userAbstractFactory.createUser();
 		

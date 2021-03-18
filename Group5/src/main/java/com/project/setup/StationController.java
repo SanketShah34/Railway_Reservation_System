@@ -1,12 +1,10 @@
 package com.project.setup;
 
 import java.util.List;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,23 +36,49 @@ public class StationController {
 	@GetMapping(value = "/admin/station/add")
 	public String showAddStationPage(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IStation station = setupAbstractFactory.createStation();
+		IStation station = setupAbstractFactory.createNewStation();
 		model.addAttribute(station);
 		return "station/add_station";
 	}
 
 	@PostMapping(value = "/admin/station/save")
-	public String saveStation(@Valid @ModelAttribute("station") IStation station, BindingResult result) {
-
-		if (result.hasErrors()) {
+	public String saveStation(@Valid @ModelAttribute("station") IStation station, Model model) {
+		
+		boolean validOrNot = false;
+		
+		if(station.isStationNameValid()) {
+			model.addAttribute("ErrorStationName" ,true );
+			validOrNot = true;
+		}
+		 if(station.isStationCodeValid() ) {
+			model.addAttribute("ErrorStationCode", true);
+			validOrNot = true;
+		}
+		 if(station.isStationCityValid()) {
+			model.addAttribute("ErrorStationCity" , true);
+			validOrNot = true;
+		}
+		 if(station.isStationStateValid()) {
+			model.addAttribute("ErrorStationState" , true );
+			validOrNot = true;
+		}
+		 if(validOrNot) {
 			return "station/add_station";
-		} else {
+		}
+		else {
 			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 			IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 			stationDAO.save(station);
 			return "redirect:/admin/station/list";
 		}
 
+	}
+	
+	@ModelAttribute("station")
+	public IStation getIStationModelObject(HttpServletRequest request) {
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		IStation station = setupAbstractFactory.createNewStation();
+		return station;
 	}
 
 	@RequestMapping("/admin/station/edit/{sId}")
