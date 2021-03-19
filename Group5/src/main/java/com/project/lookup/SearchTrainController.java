@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.project.calculation.CalculationAbstractFactory;
 import com.project.calculation.IAvailableSeats;
 import com.project.calculation.IFindFare;
+import com.project.calculation.ISeatAvailibilityDAO;
 import com.project.reservation.IReservation;
 import com.project.reservation.ReservationAbstractFactory;
 import com.project.setup.IRouteDAO;
@@ -49,6 +50,7 @@ public class SearchTrainController {
 		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
+		ISeatAvailibilityDAO seatAvaillibilityDAO = calculationAbstractFactory.createNewSeatAvailibilityDAO();
 		
 		IReservation reservation = reservationAbstractFactory.createReservation();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
@@ -100,7 +102,7 @@ public class SearchTrainController {
 				List<ITrain> trainListWithFairCalculation = findFair.findFareofTrainJourney(trainList,searchTrain.getSourceStation() , searchTrain.getDestinationStation(), routeDAO);
 				
 				//for seat avalibility algorithm
-				availableSeats.findAvailableSeats(trainListWithFairCalculation , searchTrain , sourceStation.getStationName() , destinationStation.getStationName()); 
+				availableSeats.findAvailableSeats(trainListWithFairCalculation , searchTrain , sourceStation.getStationName() , destinationStation.getStationName() , seatAvaillibilityDAO); 
 				model.addAttribute("listOfTrain", trainListWithFairCalculation);
 				model.addAttribute("sourceStation",sourceStation);
 				model.addAttribute("destinationStation",destinationStation);
