@@ -124,7 +124,6 @@ public class Reservation implements IReservation {
 		
 		IFindFare findFare = calculationAbstractFacroty.createFindFair();
 		
-//		findFareImpl findFare = new findFareImpl();
 		try {
 			double fareBasedOnTrainType = findFare.calculateFareByTrainType(reservation.getDistance(), reservation.getTrainType());
 			double fareBasedOnDistance = findFare.calculateFareByDistance(reservation.getDistance(), fareBasedOnTrainType);

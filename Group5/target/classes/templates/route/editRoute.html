@@ -50,7 +50,7 @@
 												<td>Source:</td>
 												<td>
 													<select th:field="*{sourceId}">
-    													<option th:each="station : ${listOfStations}" th:value="${station.sId}" th:text="${station.stationName}" th:selected="(${station.sId} == *{source.sId})">
+    													<option th:each="station : ${listOfStations}" th:value="${station.stationId}" th:text="${station.stationName}" th:selected="(${station.sId} == *{source.sId})">
     													</option>
 													</select>
 												</td>
@@ -59,7 +59,7 @@
 												<td>Destination:</td>
 												<td>
 													<select th:field="*{destinationId}">
-    													<option th:each="station : ${listOfStations}" th:value="${station.sId}" th:text="${station.stationName}" th:selected="(${station.sId} == *{destination.sId})">
+    													<option th:each="station : ${listOfStations}" th:value="${station.stationId}" th:text="${station.stationName}" th:selected="(${station.sId} == *{destination.sId})">
     													</option>
 													</select>
 												</td>

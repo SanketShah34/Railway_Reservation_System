@@ -16,4 +16,6 @@ public abstract class SetupAbstractFactoryTest {
 
 	public abstract TrainMock createTrainMock();
 
+	public abstract RouteDAOMock createRouteDAOMock();
+
 }
