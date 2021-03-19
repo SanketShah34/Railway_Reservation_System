@@ -3,63 +3,29 @@ package com.project.setup;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
 public class Train implements ITrain {
 
 	public int trainId;
-	
-	@NotNull(message = "Train Code can not be null!!")
 	public int trainCode;
-	
-	@NotNull(message = "Train Name can not be null!!")
 	public String trainName;
-	
-	@NotNull(message = "Train Type can not be null!!")
 	public String trainType;
-	
-	@NotNull(message = "Days can not be null!!")
 	public String days;
-	
-	@NotNull(message = "Departure Time can not be null!!")
 	public String departureTime;
-	
 	public int totalCoaches;
-	@NotNull(message = "Start Station can not be null!!")
 	public String startStation;
-	
 	public String middleStations;
-	
-	@NotNull(message = "Start Station can not be null!!")
 	public String endStation;
-
 	public List<Integer> totalStation;
-	
 	public double fare;
-	
 	public String pickUPTime;
-	
 	public String dropTime;
-	
 	public int availableSeat;
-	
 	public int totalDistance;
 	
-	public Train() {
-		
-	}
+	public Train() {}
 	
-	public Train(int trainId,
-			@NotNull(message = "Train Code can not be null!!") int trainCode,
-			@NotNull(message = "Train Name can not be null!!") String trainName,
-			@NotNull(message = "Train Type can not be null!!") String trainType,
-			@NotNull(message = "Days can not be null!!") String days,
-			@NotNull(message = "Departure Time can not be null!!") String departureTime,
-			int totalCoaches,
-			@NotNull(message = "Start Station can not be null!!") String startStation,
-			@NotNull(message = "Middle Stations can not be null!!") String middleStations,
-			@NotNull(message = "Start Station can not be null!!") String endStation) {
-		super();
+	public Train(int trainId, int trainCode, String trainName, String trainType, String days, String departureTime,
+			int totalCoaches, String startStation, String middleStations, String endStation) {
 		this.trainId = trainId;
 		this.trainCode = trainCode;
 		this.trainName = trainName;
@@ -172,8 +138,6 @@ public class Train implements ITrain {
 		this.endStation = endStation;
 	}
 
-	
-
 	@Override
 	public List<Integer> getTotalStation() {
 		return totalStation;
@@ -183,8 +147,6 @@ public class Train implements ITrain {
 	public void setTotalStation(List<Integer> totalStation) {
 		this.totalStation = totalStation;
 	}
-
-	
 
 	@Override
 	public double getFare() {
@@ -235,8 +197,4 @@ public class Train implements ITrain {
 	public void setTotalDistance(int totalDistance) {
 		this.totalDistance = totalDistance;
 	}
-	
-	
-	
-	
 }
