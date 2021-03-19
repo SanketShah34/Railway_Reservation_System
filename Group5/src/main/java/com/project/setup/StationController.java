@@ -45,19 +45,19 @@ public class StationController {
 
 		boolean validOrNot = false;
 
-		if (station.isStationNameValid()) {
+		if (station.isStationNameInvalid()) {
 			model.addAttribute("ErrorStationName", true);
 			validOrNot = true;
 		}
-		if (station.isStationCodeValid()) {
+		if (station.isStationCodeInvalid()) {
 			model.addAttribute("ErrorStationCode", true);
 			validOrNot = true;
 		}
-		if (station.isStationCityValid()) {
+		if (station.isStationCityInvalid()) {
 			model.addAttribute("ErrorStationCity", true);
 			validOrNot = true;
 		}
-		if (station.isStationStateValid()) {
+		if (station.isStationStateInvalid()) {
 			model.addAttribute("ErrorStationState", true);
 			validOrNot = true;
 		}
@@ -84,19 +84,19 @@ public class StationController {
 		
 		boolean validOrNot = false;
 
-		if (station.isStationNameValid()) {
+		if (station.isStationNameInvalid()) {
 			model.addAttribute("ErrorStationName", true);
 			validOrNot = true;
 		}
-		if (station.isStationCodeValid()) {
+		if (station.isStationCodeInvalid()) {
 			model.addAttribute("ErrorStationCode", true);
 			validOrNot = true;
 		}
-		if (station.isStationCityValid()) {
+		if (station.isStationCityInvalid()) {
 			model.addAttribute("ErrorStationCity", true);
 			validOrNot = true;
 		}
-		if (station.isStationStateValid()) {
+		if (station.isStationStateInvalid()) {
 			model.addAttribute("ErrorStationState", true);
 			validOrNot = true;
 		}

@@ -13,6 +13,7 @@ import com.project.calculation.IAvailableSeats;
 import com.project.calculation.IFindFare;
 import com.project.reservation.IReservation;
 import com.project.reservation.ReservationAbstractFactory;
+import com.project.setup.IRouteDAO;
 import com.project.setup.IStation;
 import com.project.setup.IStationDAO;
 import com.project.setup.ITrain;
@@ -95,7 +96,8 @@ public class SearchTrainController {
 				
 				
 				//for fair calculation
-				List<ITrain> trainListWithFairCalculation = findFair.findFareofTrainJourney(trainList,searchTrain.getSourceStation() , searchTrain.getDestinationStation());
+				IRouteDAO routeDAO = setupAbstractFactory.createNewRouteDAO();
+				List<ITrain> trainListWithFairCalculation = findFair.findFareofTrainJourney(trainList,searchTrain.getSourceStation() , searchTrain.getDestinationStation(), routeDAO);
 				
 				//for seat avalibility algorithm
 				availableSeats.findAvailableSeats(trainListWithFairCalculation , searchTrain , sourceStation.getStationName() , destinationStation.getStationName()); 
