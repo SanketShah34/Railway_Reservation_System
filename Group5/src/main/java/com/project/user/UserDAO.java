@@ -12,7 +12,6 @@ import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
 import com.project.security.SecurityAbstractFactory;
 
-
 @Component
 @ComponentScan("com.project.service")
 @ComponentScan("com.code.database")
@@ -91,6 +90,43 @@ public class UserDAO implements IUserDAO {
 				databaseUtilities.closeConnection(connection);
 			}
 		}
+	}
+	
+	@Override
+	public boolean isUserExists(String username) 
+	{
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection connection = null;
+		CallableStatement statement = null;
+		ResultSet resultSet = null;
+		boolean hadResults = false;
+		try {
+     		connection = databaseUtilities.establishConnection();
+			statement = connection.prepareCall("{call findUserByUserName(? )}");
+			statement.setString(1, username);
+			hadResults = statement.execute();
+			if (hadResults) {
+				 resultSet = statement.getResultSet();
+				if (resultSet.next()) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+		}
+		catch (SQLException exception)
+		{	
+			exception.printStackTrace();
+		}
+		finally {
+			databaseUtilities.closeResultSet(resultSet);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
+		}
+		return true;
+		
 	}
 
 }

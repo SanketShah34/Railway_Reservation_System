@@ -6,4 +6,6 @@ public interface IUserDAO {
 
 	public void saveUser(IUser user);
 
+	boolean isUserExists(String username);
+
 }

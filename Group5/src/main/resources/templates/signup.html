@@ -20,8 +20,9 @@
 
 	<form action="#" th:action="@{/signup/save}"  method="post">  <!-- th:object="${user}" -->
 		<div class="border border-secondary p-3 rounded">
+		<p th:if="${fieldEmptyError}" class="error" >The field is empty</p> 
 		<p th:if="${dobError}" class="error" >Date is incorrect</p> 
-		<p th:if="${emailError}" class="error">Email pattern is wrong</p>
+		<p th:if="${emailError}" class="error">Email id is wrong</p>
 		<p th:if="${passwordError}" class="error">Password doesn't match</p>
 			<h1 style="text-align: center">Sign-up</h1>
 			<h3>Basic Information</h3>

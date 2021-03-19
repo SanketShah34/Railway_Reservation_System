@@ -1,16 +1,9 @@
 package com.project.security;
 
-import java.sql.Date;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.project.user.IUser;
-import com.project.user.IUserDAO;
-import com.project.user.UserAbstractFactory;
-import com.project.user.UserConcreteFactory;
 
 @Controller
 public class LoginController {
@@ -32,7 +25,7 @@ public class LoginController {
 		return "login";
 	}
 	
-	@RequestMapping("/signup")
+	/*@RequestMapping("/signup")
 	public String signUpPage(Model model) {
 		
 		UserAbstractFactory userAbstractFactory = new UserConcreteFactory();
@@ -59,20 +52,30 @@ public class LoginController {
 		
 		System.out.println("signup page");
 		
-		
-		if(user.dateValidation(dateOfBirth) == false) {
+		if(User.isFirstNameValid(firstName) == false || User.isLastNameValid(lastName) == false)
+		{
+			model.addAttribute("fieldEmptyError", true);
+			return "signup";
+		}
+		if(User.isDateValid(dateOfBirth) == false)
+		{
 			model.addAttribute("dobError", true);
 			return "signup";
 		}
-		if(user.emailValidation(userName) == false) {
+		else if(User.isEmailIdValid(userName) == false) 
+		{
 			model.addAttribute("emailError", true);
 			return "signup";
 		}
-		
-		
-		else if(user.passwordValidation(password, confirmPassword) == false) {
+		else if(User.isPasswordValid(password, confirmPassword) == false) {
 		  model.addAttribute("passwordError", true); 
 		  return "signup"; 
+		}
+		
+		if(userDAO.isUserExists(userName))
+		{
+			 model.addAttribute("userExist", true); 
+			 return "redirect:/login";
 		}
 		
 		user.setFirstName(firstName);
@@ -86,6 +89,6 @@ public class LoginController {
 		userDAO.saveUser(user);
 		return "redirect:/login";
 		
-	}
+	}*/
 
 }
