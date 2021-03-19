@@ -17,6 +17,17 @@ import com.project.setup.SetupAbstractFactory;
 @Component
 public class SearchTrainDAO implements ISearchTrainDAO {
 	
+	public final String trainIdColumnName = "trainId";
+	public final String trainCodeColumnName = "trainCode";
+	public final String trainNameColumnName = "trainName";
+	public final String trainTypeColumnName = "trainType";
+	public final String daysColumnName = "days";
+	public final String departureTimeColumnName = "departureTime";
+	public final String totalCoachesColumnName = "totalCoaches";
+	public final String startStationColumnName = "startStation";
+	public final String middleStationsColumnName = "middleStations";
+	public final String endStationColumnName = "endStation";
+	
 	@Override
 	public List<ITrain> searchTrains(ISearchTrain searchTrain) {
 		
@@ -52,16 +63,16 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 				while (resultSet.next()) {
 					List<Integer> allStations = new ArrayList<Integer>();
 					ITrain train = setupAbstractFactory.createNewTrain();
-					train.setTrainId(resultSet.getInt("trainId"));
-					train.setTrainCode(resultSet.getInt("trainCode"));
-					train.setTrainName(resultSet.getString("trainName"));
-					train.setTrainType(resultSet.getString("trainType"));
-					train.setDays(resultSet.getString("days"));
-					train.setDepartureTime(resultSet.getString("departureTime"));
-					train.setTotalCoaches(resultSet.getInt("totalCoaches"));
-					train.setStartStation(resultSet.getString("startStation"));
+					train.setTrainId(resultSet.getInt(trainIdColumnName));
+					train.setTrainCode(resultSet.getInt(trainCodeColumnName));
+					train.setTrainName(resultSet.getString(trainNameColumnName));
+					train.setTrainType(resultSet.getString(trainTypeColumnName));
+					train.setDays(resultSet.getString(daysColumnName));
+					train.setDepartureTime(resultSet.getString(departureTimeColumnName));
+					train.setTotalCoaches(resultSet.getInt(totalCoachesColumnName));
+					train.setStartStation(resultSet.getString(startStationColumnName));
 					allStations.add(Integer.parseInt(train.getStartStation()));
-					train.setMiddleStations(resultSet.getString("middleStations"));
+					train.setMiddleStations(resultSet.getString(middleStationsColumnName));
 					if(train.getMiddleStations() == null) {
 						
 					}
@@ -71,7 +82,7 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 							allStations.add(Integer.parseInt(mid));
 						}
 					}
-					train.setEndStation(resultSet.getString("endStation"));
+					train.setEndStation(resultSet.getString(endStationColumnName));
 					allStations.add(Integer.parseInt(train.getEndStation()));
 					train.setTotalStation(allStations);
 					trains.add(train);

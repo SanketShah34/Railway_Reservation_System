@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import com.project.setup.IRoute;
 import com.project.setup.IRouteDAO;
 import com.project.setup.ITrain;
-import com.project.setup.SetupAbstractFactory;
 
 @Component
 public class FindFare implements IFindFare{
