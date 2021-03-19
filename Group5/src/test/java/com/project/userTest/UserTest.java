@@ -140,20 +140,18 @@ public class UserTest {
         Assert.isTrue(user.getMobileNumber() == Integer.parseInt("1234567890"));
     }
 	
-	
-	@Test
+	/*@Test
     public void isFirstNameValidTest() {
         Assert.isTrue(User.isFirstNameValid("Dhara"));
         Assert.isTrue(!User.isFirstNameValid(null));
         Assert.isTrue(!User.isFirstNameValid(""));
     }
 
-    /*@Test
+    @Test
     public void isLastNameValidTest() {
         //Assert.isTrue(User.isLastNameValid("Gohil"));
         Assert.isTrue(!User.isLastNameValid(""));
         Assert.isTrue(!User.isLastNameValid(null));
-  
     }
 	
 	@Test
@@ -161,7 +159,6 @@ public class UserTest {
         //Assert.isTrue(User.isPasswordEmpty("Dhara"));
         Assert.isTrue(!User.isPasswordEmpty(""));
         Assert.isTrue(!User.isPasswordEmpty(null));
-  
     }
 	
 	@Test
