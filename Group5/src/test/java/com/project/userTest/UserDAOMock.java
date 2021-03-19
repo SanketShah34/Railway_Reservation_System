@@ -34,7 +34,7 @@ public class UserDAOMock implements IUserDAO {
 		}
 		
 		user.setEnabled(true);
-		user.setMobileNumber(Integer.parseInt("9960965448"));
+		user.setMobileNumber(Integer.parseInt("1234567890"));
 		user.setPassword("Dhara");
 		user.setRole("USER");
 		return user;
@@ -59,7 +59,7 @@ public class UserDAOMock implements IUserDAO {
 		}
 		
 		user.setEnabled(true);
-		user.setMobileNumber(Integer.parseInt("9960965448"));
+		user.setMobileNumber(Integer.parseInt("1234567890"));
 		user.setPassword("Dhara");
 		user.setRole("USER");
 		
@@ -84,7 +84,7 @@ public class UserDAOMock implements IUserDAO {
 		}
 		
 		user.setEnabled(true);
-		user.setMobileNumber(Integer.parseInt("9960965448"));
+		user.setMobileNumber(Integer.parseInt("1234567890"));
 		user.setPassword("Dhara");
 		user.setRole("USER");
 		

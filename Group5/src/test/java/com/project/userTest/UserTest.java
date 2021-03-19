@@ -130,25 +130,25 @@ public class UserTest {
 	
 	@Test
     public void getMobileNumberTest() {
-        user.setMobileNumber(Integer.parseInt("9960965448"));
-        Assert.isTrue(user.getMobileNumber() == Integer.parseInt("9960965448"));
+        user.setMobileNumber(Integer.parseInt("1234567890"));
+        Assert.isTrue(user.getMobileNumber() == Integer.parseInt("1234567890"));
     }
 	
 	@Test
     public void setMobileNumberTest() {
-        user.setMobileNumber(Integer.parseInt("9960965448"));
-        Assert.isTrue(user.getMobileNumber() == Integer.parseInt("9960965448"));
+        user.setMobileNumber(Integer.parseInt("1234567890"));
+        Assert.isTrue(user.getMobileNumber() == Integer.parseInt("1234567890"));
     }
 	
 	
-	/*@Test
+	@Test
     public void isFirstNameValidTest() {
-        //Assert.isTrue(User.isFirstNameValid("Dhara"));
+        Assert.isTrue(User.isFirstNameValid("Dhara"));
         Assert.isTrue(!User.isFirstNameValid(null));
         Assert.isTrue(!User.isFirstNameValid(""));
     }
 
-    @Test
+    /*@Test
     public void isLastNameValidTest() {
         //Assert.isTrue(User.isLastNameValid("Gohil"));
         Assert.isTrue(!User.isLastNameValid(""));
