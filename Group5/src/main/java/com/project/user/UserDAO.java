@@ -89,7 +89,7 @@ public class UserDAO implements IUserDAO {
 				stmt.setString(2, user.getLastName());
 				stmt.setString(3, user.getGender());
 				stmt.setDate(4, (Date)user.getDateOfBirth());
-				stmt.setInt(5, user.getMobileNumber());
+				stmt.setLong(5, user.getMobileNumber());
 				stmt.setString(6, user.getUserName());
 				stmt.setString(7, encodedpassword);
 
@@ -109,6 +109,40 @@ public class UserDAO implements IUserDAO {
 				databaseUtilities.closeConnection(connection);
 			}
 		}
+	}
+	
+	@Override
+	public boolean isUserExists(String username) 
+	{
+		System.out.println("Is user exists?");
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection connection = null;
+		CallableStatement stmt = null;
+		ResultSet resultSet = null;
+		boolean hadResults = false;
+		try {
+     		connection = databaseUtilities.establishConnection();
+			stmt = connection.prepareCall("{call findUserByUserName(? )}");
+			stmt.setString(1, username);
+			hadResults = stmt.execute();
+			//System.out.println(hadResults);
+			if (hadResults) {
+				 resultSet = stmt.getResultSet();
+				if (resultSet.next()) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+		}
+		catch (SQLException e)
+		{	
+			e.printStackTrace();
+		}
+		return true;
+		
 	}
 
 }

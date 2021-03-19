@@ -9,6 +9,8 @@ import javax.validation.constraints.Size;
 
 public class User implements IUser{
 	
+	private static final String EMAIL_REGEX = "^(.+)@(.+)$";
+	
 	public int id;
 	
 	@NotNull
@@ -131,55 +133,121 @@ public class User implements IUser{
 		this.mobileNumber = mobileNumber;
 	}
 	
-	public boolean passwordValidation(String password, String confirmPassword) {
-		if(password.equals(confirmPassword)) {
+	private static boolean passwordValidation(String password, String confirmPassword) {
+		if(password.equals(confirmPassword)) 
+		{
 			return true;  
 		}
-		else {
+		else 
+		{
 			return false; 
-		}
-		
+		}		
 	}
 	
-	public boolean emailValidation(String email) {
-		String regex = "^(.+)@(.+)$";  
-		Pattern pattern = Pattern.compile(regex);  
+	private static boolean emailValidation(String email) 
+	{
+		if (isStringNullOrEmpty(email)) {
+            return false;
+        }
+		//String regex = "^(.+)@(.+)$";  
+		Pattern pattern = Pattern.compile(EMAIL_REGEX);  
 		Matcher matcher = pattern.matcher(email);  
-		if(matcher.matches() == true) {
+		if(matcher.matches() == true)
+		{
 			return true;    
 		}
-		else {
+		else 
+		{
 			return false;
 		}
 		
 	}
 	
 		//source: https://stackoverflow.com/questions/14892536/to-check-if-the-date-is-after-the-specified-date
-		public boolean dateValidation(Date date) {
-			
-			long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
-			Date current = new Date();
-			String dateStr = date.toString();
-		    Date dateParse;
-			try {
-				dateParse = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
-			    Long dateTime = dateParse.getTime();
-			    Date nextDate = new Date(dateTime);
-			    long nextDateTime = dateTime + MILLIS_IN_A_DAY;
-			    Date nextDay = new Date(nextDateTime);
-			    if(nextDay.after(current) || current.equals(nextDate)){
-			    	return false;   
-			    } 
-			    else {
-			        return true;
-			    }
-			
+	private static boolean dateValidation(Date date)
+	{		
+		long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+		Date current = new Date();
+		String dateStr = date.toString();
+		
+		if (null == dateStr) {
+            return false;
+        }
+        
+		Date dateParse;
+		try 
+		{
+			dateParse = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+			Long dateTime = dateParse.getTime();
+			Date nextDate = new Date(dateTime);
+			long nextDateTime = dateTime + MILLIS_IN_A_DAY;
+			Date nextDay = new Date(nextDateTime);
+			if(nextDay.after(current) || current.equals(nextDate))
+			{
+			    return false;   
+			} 
+			else
+			{
+			    return true;
 			}
-			catch(Exception ex) {
-		        ex.printStackTrace();
-		    }
-			return true;
-			
 		}
+		catch(Exception ex) {
+		    ex.printStackTrace();
+		}
+		return true;		
+	}
+	
+	private static boolean isStringNullOrEmpty(String s)
+	{
+        if (null == s) {
+            return true;
+        }
+        return s.isEmpty();
+    }
+	
+	public static boolean isEmailIdValid(String emailId)
+	{
+        return emailValidation(emailId);
+    }
+	
+	public static boolean isFirstNameValid(String firstName)
+	{
+        return isStringNullOrEmpty(firstName);
+    }
+
+    public static boolean isLastNameValid(String lastName)
+    {
+        return isStringNullOrEmpty(lastName);
+    }
+    
+    public static boolean isPasswordEmpty(String password)
+	{
+        return isStringNullOrEmpty(password);
+    }
+    
+    public static boolean isConfirmPasswordEmpty(String confirmPassword)
+	{
+        return isStringNullOrEmpty(confirmPassword);
+    }
+    
+   /* public static boolean isDateEmpty(Date date)
+    {
+    	String dateStr = date.toString();	
+		if (null == dateStr) {
+            return true;
+        }
+		//return true;
+		return dateStr.isEmpty();
+    }*/
+    
+    public static boolean isDateValid(Date date)
+	{
+        return dateValidation(date);
+    }
+    
+    public static boolean isPasswordValid(String password, String confirmPassword)
+	{
+        return passwordValidation(password, confirmPassword);
+    }
 
 }
