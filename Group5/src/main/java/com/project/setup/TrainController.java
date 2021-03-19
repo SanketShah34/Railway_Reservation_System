@@ -47,7 +47,6 @@ public class TrainController {
 
 	@PostMapping(value = "/admin/train/save")
 	public String saveTrain(@Valid @ModelAttribute("train") ITrain train,BindingResult result) {
-
 		if (result.hasErrors()) {
 			return "train/add_train";
 		} else {
@@ -64,7 +63,6 @@ public class TrainController {
 
 	@RequestMapping("/admin/train/edit/{trainId}")
 	public String showEditTrainPage(@PathVariable(name = "trainId") Integer trainId, Model model) {
-
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		List<IStation> stations = stationDAO.getAllStation();
