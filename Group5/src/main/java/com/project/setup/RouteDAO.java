@@ -89,22 +89,22 @@ public class RouteDAO implements IRouteDAO {
 					IStation sourceStation = setupAbstractFactory.createNewStation();
 					IStation destinationStation = setupAbstractFactory.createNewStation();
 
-					route.setRouteId(resultSet.getInt("routeId"));
+					route.setRouteId(resultSet.getInt(routeIdColumnName));
 
-					sourceStation.setStationId(resultSet.getInt("sourceStationId"));
-					sourceStation.setStationName(resultSet.getString("sourceStationName"));
-					sourceStation.setStationCode(resultSet.getString("sourceStationCode"));
-					sourceStation.setStationCity(resultSet.getString("sourceStationCity"));
-					sourceStation.setStationState(resultSet.getString("sourceStationState"));
+					sourceStation.setStationId(resultSet.getInt(sourceStationIdColumnName));
+					sourceStation.setStationName(resultSet.getString(sourceStationNameColumnName));
+					sourceStation.setStationCode(resultSet.getString(sourceStationCodeColumnName));
+					sourceStation.setStationCity(resultSet.getString(sourceStationCityColumnName));
+					sourceStation.setStationState(resultSet.getString(sourceStationStateColumnName));
 
 					route.setSource(sourceStation);
 					route.setSourceId(sourceStation.getStationId());
 
-					destinationStation.setStationId(resultSet.getInt("destinationStationId"));
-					destinationStation.setStationName(resultSet.getString("destinationStationName"));
-					destinationStation.setStationCode(resultSet.getString("destinationStationCode"));
-					destinationStation.setStationCity(resultSet.getString("destinationStationCity"));
-					destinationStation.setStationState(resultSet.getString("destinationStationState"));
+					destinationStation.setStationId(resultSet.getInt(destinationStationIdColumnName));
+					destinationStation.setStationName(resultSet.getString(destinationStationNameColumnName));
+					destinationStation.setStationCode(resultSet.getString(destinationStationCodeColumnName));
+					destinationStation.setStationCity(resultSet.getString(destinationStationCityColumnName));
+					destinationStation.setStationState(resultSet.getString(destinationStationStateColumnName));
 
 					route.setDestination(destinationStation);
 					route.setDestinationId(destinationStation.getStationId());
@@ -146,22 +146,22 @@ public class RouteDAO implements IRouteDAO {
 				resultSet = statement.getResultSet();
 				if (resultSet.next()) {
 
-					route.setRouteId(resultSet.getInt("routeId"));
+					route.setRouteId(resultSet.getInt(routeIdColumnName));
 
-					sourceStation.setStationId(resultSet.getInt("sourceStationId"));
-					sourceStation.setStationName(resultSet.getString("sourceStationName"));
-					sourceStation.setStationCode(resultSet.getString("sourceStationCode"));
-					sourceStation.setStationCity(resultSet.getString("sourceStationCity"));
-					sourceStation.setStationState(resultSet.getString("sourceStationState"));
+					sourceStation.setStationId(resultSet.getInt(sourceStationIdColumnName));
+					sourceStation.setStationName(resultSet.getString(sourceStationNameColumnName));
+					sourceStation.setStationCode(resultSet.getString(sourceStationCodeColumnName));
+					sourceStation.setStationCity(resultSet.getString(sourceStationCityColumnName));
+					sourceStation.setStationState(resultSet.getString(sourceStationStateColumnName));
 
 					route.setSource(sourceStation);
 					route.setSourceId(sourceStation.getStationId());
 
-					destinationStation.setStationId(resultSet.getInt("destinationStationId"));
-					destinationStation.setStationName(resultSet.getString("destinationStationName"));
-					destinationStation.setStationCode(resultSet.getString("destinationStationCode"));
-					destinationStation.setStationCity(resultSet.getString("destinationStationCity"));
-					destinationStation.setStationState(resultSet.getString("destinationStationState"));
+					destinationStation.setStationId(resultSet.getInt(destinationStationIdColumnName));
+					destinationStation.setStationName(resultSet.getString(destinationStationNameColumnName));
+					destinationStation.setStationCode(resultSet.getString(destinationStationCodeColumnName));
+					destinationStation.setStationCity(resultSet.getString(destinationStationCityColumnName));
+					destinationStation.setStationState(resultSet.getString(destinationStationStateColumnName));
 
 					route.setDestination(destinationStation);
 					route.setDestinationId(destinationStation.getStationId());
@@ -217,9 +217,8 @@ public class RouteDAO implements IRouteDAO {
 			if (hasRoute) {
 				resultSet = statement.getResultSet();
 				if (resultSet.next()) {
-
-					route.setRouteId(resultSet.getInt("routeId"));
-					route.setDistance(resultSet.getDouble("distance"));
+					route.setRouteId(resultSet.getInt(routeIdColumnName));
+					route.setDistance(resultSet.getDouble(distanceColumnName));
 				}
 			}
 		} catch (SQLException exception) {

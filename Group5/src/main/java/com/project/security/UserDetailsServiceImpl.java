@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.project.user.IUser;
 import com.project.user.IUserDAO;
 import com.project.user.UserAbstractFactory;
-import com.project.user.UserConcreteFactory;
 
 public class UserDetailsServiceImpl  implements UserDetailsService {
 	

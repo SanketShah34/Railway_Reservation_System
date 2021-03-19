@@ -70,7 +70,8 @@ public class Station implements IStation {
 		this.stationCity = stationCity;
 	}
 
-	public boolean isStationNameValid() {
+	@Override
+	public boolean isStationNameInvalid() {
 		String StationNameWithoutSpace = this.stationName.trim();	
 		if(StationNameWithoutSpace.length() > 0 ){
 			return false;
@@ -78,7 +79,8 @@ public class Station implements IStation {
 		return true;
 	}
 
-	public boolean isStationCodeValid() {
+	@Override
+	public boolean isStationCodeInvalid() {
 		String StationCodeWithoutSpace = this.stationCode.trim();
 		if(StationCodeWithoutSpace.length() > 0 ){
 			return false;
@@ -86,7 +88,8 @@ public class Station implements IStation {
 		return true;
 	}
 
-	public boolean isStationStateValid() {
+	@Override
+	public boolean isStationStateInvalid() {
 		String StationStateWithoutSpace = this.stationState.trim();
 		if(StationStateWithoutSpace.length() > 0 ){
 			return false;
@@ -94,7 +97,8 @@ public class Station implements IStation {
 		return true;
 	}
 
-	public boolean isStationCityValid() {
+	@Override
+	public boolean isStationCityInvalid() {
 		String StationCityWithoutSpace = this.stationCity.trim();
 		if(StationCityWithoutSpace.length() > 0 ){
 			return false;

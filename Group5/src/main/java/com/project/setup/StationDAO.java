@@ -14,6 +14,12 @@ import com.project.database.IDatabaseUtilities;
 @Component
 @ComponentScan("com.code.service")
 public class StationDAO implements IStationDAO {
+	
+	public final String stationIdColumnName = "sId";
+	public final String stationNameColumnName = "stationName";
+	public final String stationCodeColumnName = "stationCode";
+	public final String stationCityColumnName = "stationCity";
+	public final String stationStateColumnName = "stationState";
  
 	List<IStation> listOfStation = new ArrayList<IStation>();
 
@@ -140,11 +146,11 @@ public class StationDAO implements IStationDAO {
 					
 					IStation station = setupAbstractFactory.createNewStation();
 					
-					station.setStationId(resultSet.getInt("sId"));
-					station.setStationName(resultSet.getString("stationName"));
-					station.setStationCode(resultSet.getString("stationCode"));
-					station.setStationCity(resultSet.getString("stationCity"));
-					station.setStationState(resultSet.getString("stationState"));
+					station.setStationId(resultSet.getInt(stationIdColumnName));
+					station.setStationName(resultSet.getString(stationNameColumnName));
+					station.setStationCode(resultSet.getString(stationCodeColumnName));
+					station.setStationCity(resultSet.getString(stationCityColumnName));
+					station.setStationState(resultSet.getString(stationStateColumnName));
 					listOfStation.add(station);
 				}
 			}
@@ -181,11 +187,11 @@ public class StationDAO implements IStationDAO {
 				resultSet = statment.getResultSet();
 				
 				if (resultSet.next()) {
-					station.setStationId(resultSet.getInt("sId"));
-					station.setStationName(resultSet.getString("stationName"));
-					station.setStationCode(resultSet.getString("stationCode"));
-					station.setStationCity(resultSet.getString("stationCity"));
-					station.setStationState(resultSet.getString("stationState"));
+					station.setStationId(resultSet.getInt(stationIdColumnName));
+					station.setStationName(resultSet.getString(stationNameColumnName));
+					station.setStationCode(resultSet.getString(stationCodeColumnName));
+					station.setStationCity(resultSet.getString(stationCityColumnName));
+					station.setStationState(resultSet.getString(stationStateColumnName));
 				}
 			}
 		} catch (SQLException e) {

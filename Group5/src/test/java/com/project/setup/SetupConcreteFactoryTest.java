@@ -11,4 +11,14 @@ public class SetupConcreteFactoryTest extends SetupAbstractFactoryTest{
 	public RouteMock createRouteMock() {
 		return new RouteMock();
 	}
+	
+	@Override
+	public RouteDAOMock createRouteDAOMock() {
+		return new RouteDAOMock();
+	}
+	
+	@Override
+	public TrainMock createTrainMock() {
+		return new TrainMock();
+	}
 }

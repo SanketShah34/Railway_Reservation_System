@@ -17,6 +17,7 @@
          style="max-width: 350px; margin: 0 auto;">
          <div class="border border-secondary p-3 rounded">
             <p th:if="${loginError}" class="error">Wrong userName or password</p>
+            <p th:if="${userExists}" class="error">You have already an account. Please sign-in.</p> 
             <h1>Login</h1>
             <div class="form-group">
                <label for="userName">UserName:</label>

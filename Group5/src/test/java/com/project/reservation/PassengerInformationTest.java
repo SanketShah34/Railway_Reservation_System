@@ -148,20 +148,6 @@ class PassengerInformationTest {
 		passengerInformation.setCoachNumber("A1");
 		assertEquals(passengerInformation.getCoachNumber(), "A1");
 	}
-	
-
-	@Test
-	void testIsBerthPreferenceNullOrEmpty() {
-		IPassengerInformation passengerInformation = reservationAbstractFactory.createNewPassengerInformation();
-		passengerInformation.setBerthPreference("Lower Berth");
-		assertFalse(passengerInformation.isBerthPreferenceNullOrEmpty());
-		
-		passengerInformation.setBerthPreference(null);
-		assertTrue(passengerInformation.isBerthPreferenceNullOrEmpty());
-		
-		passengerInformation.setBerthPreference("");
-		assertTrue(passengerInformation.isBerthPreferenceNullOrEmpty());
-	}
 
 	@Test
 	void testIsPassengerInformationValid() {
@@ -191,6 +177,7 @@ class PassengerInformationTest {
 		
 		passengerInformation = passengerMock.createPassengerMockLastNameEmpty(passengerInformation);
 		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.lastNameMissing);
+		
 		
 		passengerInformation = passengerMock.createPassengerMockGenderNull(passengerInformation);
 		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.genderMissing);

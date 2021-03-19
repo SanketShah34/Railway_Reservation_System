@@ -44,11 +44,11 @@ public interface IUser {
 	
 	public void setMobileNumber(int mobileNumber);
 	
-	public boolean passwordValidation(String password, String confirmPassword);
+	//private static boolean passwordValidation(String password, String confirmPassword);
 	
-	public boolean emailValidation(String email);
+	//public boolean emailValidation(String email);
 	
-	public boolean dateValidation(Date date);
+	//public boolean dateValidation(Date date);
 	
 
 }

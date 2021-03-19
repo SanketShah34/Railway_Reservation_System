@@ -1,8 +1,20 @@
 package com.project.setup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
+
 public class TrainMock {
 
 	public ITrain createTrainMock(ITrain train) {
+		
+		List<Integer> totalStation= new ArrayList<Integer>();
+		totalStation.add(1);
+		totalStation.add(2);
+		totalStation.add(3);
+		totalStation.add(4);
+		
 		train.setTrainId(1);
 		train.setTrainCode(1);
 		train.setTrainName("Halifax Express");
@@ -13,7 +25,7 @@ public class TrainMock {
 		train.setStartStation("A1");
 		train.setMiddleStations("A2, A3");
 		train.setEndStation("A4");
-		train.setTotalStation(null);
+		train.setTotalStation(totalStation);
 		train.setFare(11.0);
 		train.setPickUPTime("11:20");
 		train.setDropTime("05:10");

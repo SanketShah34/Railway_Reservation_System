@@ -1,11 +1,13 @@
 package com.project.calculation;
 
 import java.util.List;
+
+import com.project.setup.IRouteDAO;
 import com.project.setup.ITrain;
 
 public interface IFindFare {
 
-	public List<ITrain> findFareofTrainJourney(List<ITrain> trains , String sourceStation , String destinationStation);
+	public List<ITrain> findFareofTrainJourney(List<ITrain> trains, String sourceStation, String destinationStation, IRouteDAO routeDAO);
 	
 	public double calculateFareByDistance(int distance, double fare);
 	

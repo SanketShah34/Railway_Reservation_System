@@ -56,8 +56,6 @@ public class SearchTrain implements ISearchTrain{
 	}
 	
 	public boolean issourceStationAndDestinationStationSame(String sourceStation , String destinationStation) {
-		System.out.println("sourceStation"+sourceStation);
-		System.out.println("destinationStation"+destinationStation);
 		boolean valid = false;
 		if(sourceStation.equals(destinationStation)) {
 			valid = true;

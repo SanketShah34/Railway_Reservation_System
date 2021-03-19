@@ -43,7 +43,7 @@ public class PassengerMock {
 		passenger.setSeatNumber("62A");
 		return passenger;
 	}
-
+	
 	public IPassengerInformation createPassengerMockLastNameNull(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -86,6 +86,20 @@ public class PassengerMock {
 		return passenger;
 	}
 	
+	public IPassengerInformation createPassengerMockGenderEmpty(IPassengerInformation passenger) {
+		passenger.setAge(62);
+		passenger.setAmountPaid(100.0);
+		passenger.setBerthPreference("Lower Berth");
+		passenger.setCoachNumber("A1");
+		passenger.setFirstName("Halifax");
+		passenger.setLastName("University");
+		passenger.setGender("");
+		passenger.setPassengerInformationId(1);
+		passenger.setReservationId(1);
+		passenger.setSeatNumber("62A");
+		return passenger;
+	}
+	
 	public IPassengerInformation createPassengerMockBerthPreferenceNull(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -100,14 +114,28 @@ public class PassengerMock {
 		return passenger;
 	}
 	
-	public IPassengerInformation createPassengerMockGenderEmpty(IPassengerInformation passenger) {
+	public IPassengerInformation createPassengerMockBerthPreferenceEmpty(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
-		passenger.setBerthPreference("Lower Berth");
+		passenger.setBerthPreference("");
 		passenger.setCoachNumber("A1");
 		passenger.setFirstName("Halifax");
 		passenger.setLastName("University");
-		passenger.setGender("");
+		passenger.setGender("Female");
+		passenger.setPassengerInformationId(1);
+		passenger.setReservationId(1);
+		passenger.setSeatNumber("62A");
+		return passenger;
+	}
+	
+	public IPassengerInformation createPassengerMockBerthPreferenceSpace(IPassengerInformation passenger) {
+		passenger.setAge(62);
+		passenger.setAmountPaid(100.0);
+		passenger.setBerthPreference(" ");
+		passenger.setCoachNumber("A1");
+		passenger.setFirstName("Halifax");
+		passenger.setLastName("University");
+		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
 		passenger.setSeatNumber("62A");
@@ -146,20 +174,6 @@ public class PassengerMock {
 		passenger.setAge(150);
 		passenger.setAmountPaid(100.0);
 		passenger.setBerthPreference("Lower Berth");
-		passenger.setCoachNumber("A1");
-		passenger.setFirstName("Halifax");
-		passenger.setLastName("University");
-		passenger.setGender("Female");
-		passenger.setPassengerInformationId(1);
-		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
-		return passenger;
-	}
-	
-	public IPassengerInformation createPassengerMockBerthPreferenceEmpty(IPassengerInformation passenger) {
-		passenger.setAge(62);
-		passenger.setAmountPaid(100.0);
-		passenger.setBerthPreference("");
 		passenger.setCoachNumber("A1");
 		passenger.setFirstName("Halifax");
 		passenger.setLastName("University");

@@ -5,40 +5,43 @@ import org.springframework.stereotype.Component;
 import com.project.setup.IRoute;
 import com.project.setup.IRouteDAO;
 import com.project.setup.ITrain;
-import com.project.setup.SetupAbstractFactory;
 
 @Component
 public class FindFare implements IFindFare{
 	
-	int minutesTrainStopAtStation = 10;
+	public static final int minutesTrainStopAtStation = 10;
 
 	int timeInminutes;
 	
-	int minimumKiloMeterForDiscount = 100;
-	double discountForFair = 0.2;
+	public static final int minimumKiloMeterForDiscount = 100;
+	public static final double discountForFair = 0.2;
 	
-	String nonAcSleeperTrain = "Non AC Sleeper";
-	String acSleeper = "AC Sleeper";
-	String nonAcSeater = "Non AC Seater";
-	String acSeater = "AC Seater";
+	public static final String nonAcSleeperTrain = "Non AC Sleeper";
+	public static final String acSleeper = "AC Sleeper";
+	public static final String nonAcSeater = "Non AC Seater";
+	public static final String acSeater = "AC Seater";
 	
-	int fairForNonACSleeperTrainPerKiloMeter = 3;
-	int fairForAcSleeperPerKiloMeter = 4;
-	int fairFornonAcSeaterPerKiloMeter = 2;
-	int fairForAcSeaterPerKiloMeter = 3;
+	public static final int fairForNonACSleeperTrainPerKiloMeter = 3;
+	public static final int fairForAcSleeperPerKiloMeter = 4;
+	public static final int fairFornonAcSeaterPerKiloMeter = 2;
+	public static final int fairForAcSeaterPerKiloMeter = 3;
 
-	public List<ITrain> findFareofTrainJourney(List<ITrain> trains, String sourceStation, String destinationStation) {
+	public static final int minimumAgeForChildren = 0;
+	public static final int maximumAgeForChildren = 5;
+	public static final int minimumAgeForSeniorCitizen = 60;
+	
+	public static final double multiplierForChildren = 0.5;
+	public static final double multiplierForSeniorCitizen = 0.7;
+	
+	public List<ITrain> findFareofTrainJourney(List<ITrain> trains, String sourceStation, String destinationStation, IRouteDAO routeDAO) {
 		
-		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
-
 		int totalTrain = trains.size();
 		
 		for (int i = 0; i < totalTrain ; i++) {
 			
 			String time = trains.get(i).getDepartureTime();
 
-			timeInminutes = timeCounter(time);	
+			timeInminutes = timeCounter(time);
 			int timeRequiredByTrainToReachSourceStation = 0;
 			int timeRequiredByTrainForDestinationStation = 0;
 			int timerequiredByTrainToCoverOneKM = 1;
@@ -127,7 +130,9 @@ public class FindFare implements IFindFare{
 	
 	@Override
 	public double calculateFareByDistance(int distance, double fare) {
-		if (distance < minimumKiloMeterForDiscount) {
+		if (distance == 0) {
+			return 0.0;
+		}else if (distance < minimumKiloMeterForDiscount) {
 			return (double)fare;
 		} else {
 			return (fare - fare * discountForFair);
@@ -151,10 +156,12 @@ public class FindFare implements IFindFare{
 	
 	@Override
 	public double calculateFareByAge(double fare, int age) {
-		if (age > 0 && age < 5) {
-			return (fare * 0.5);
-		} else if (age >= 60) {
-			return (fare * 0.7);
+		if (age == minimumAgeForChildren) {
+			return 0.0;
+		}else if (age > minimumAgeForChildren && age < maximumAgeForChildren) {
+			return (fare * multiplierForChildren);
+		} else if (age >= minimumAgeForSeniorCitizen) {
+			return (fare * multiplierForSeniorCitizen);
 		} else {
 			return fare;
 		}
