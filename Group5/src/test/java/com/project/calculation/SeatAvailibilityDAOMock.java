@@ -6,7 +6,7 @@ public class SeatAvailibilityDAOMock implements ISeatAvailibilityDAO {
 
 	@Override
 	public int bookedTickets(String sourceStation, String destinationStation, int trainID, Date date) {
-		return 50;
+		return 10;
 	}
 
 	@Override

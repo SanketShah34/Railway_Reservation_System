@@ -15,15 +15,18 @@ public class AvailableSeats implements IAvailableSeats {
 	    boolean forSourceStation = true;
 	    boolean forDestinationStation = true;
 	    int totalNumberOfTrain = trains.size();
-	    
+	   
 	    for (int i = 0; i < totalNumberOfTrain ; i++) {
 	        List<Integer> middleStationBetweenSourceStationAndDestinationStation = new ArrayList<Integer>();
 	        List<Integer> totalStation = trains.get(i).getTotalStation();
 	        int totalStationTrain = totalStation.size();
 	        
 	        for (int j = 0; j < totalStationTrain ; j++) {
+	        	
 	            if (forSourceStation) {
+	            
 	                if (totalStation.get(j) == Integer.parseInt(searchTrain.getSourceStation())) {
+	     
 	                    forSourceStation = false;
 	                }
 	                continue;
@@ -52,8 +55,8 @@ public class AvailableSeats implements IAvailableSeats {
 	    int totalSeatsInTrain = totalCoachesInTrain * totalSeatsInOneCoach;
 	    
 	    for (int i = 0; i < totalStationBetweenSourceAndDestination; i++) {
-	        int bookedOne = seatAvaillibilityDAO.bookedTickets(searchTrain.getSourceStation().toString(), middleStationBetweenSourceAndDestination.get(i).toString(), train.getTrainId(), searchTrain.getDateofJourny());
-	        totalSeatsInTrain = totalSeatsInTrain - bookedOne;
+	        int totalNumberSeatAlreadyBooked = seatAvaillibilityDAO.bookedTickets(searchTrain.getSourceStation().toString(), middleStationBetweenSourceAndDestination.get(i).toString(), train.getTrainId(), searchTrain.getDateofJourny());
+	        totalSeatsInTrain = totalSeatsInTrain - totalNumberSeatAlreadyBooked;
 	    }
 	    train.setAvailableSeat(totalSeatsInTrain);
 	}
