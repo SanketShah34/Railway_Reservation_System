@@ -11,6 +11,7 @@ import com.project.setup.ITrain;
 import com.project.setup.RouteDAOMock;
 import com.project.setup.SetupAbstractFactory;
 import com.project.setup.SetupAbstractFactoryTest;
+import com.project.setup.TrainMock;
 
 class FindFareTest {
 
@@ -23,8 +24,8 @@ class FindFareTest {
 		
 		List<ITrain> trainList = new ArrayList<ITrain>();
 		ITrain train = setupAbstractFactory.createNewTrain();
-//		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
-//		train = trainMock.createTrainMock(train);
+		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
+		train = trainMock.createTrainMock(train);
 		trainList.add(train);
 		
 		RouteDAOMock routeDAOMock = setupAbstractFactoryTest.createRouteDAOMock();
