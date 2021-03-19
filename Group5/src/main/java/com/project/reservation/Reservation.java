@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.project.logic.findFare;
-import com.project.logic.findFareImpl;
+import com.project.calculation.IFindFare;
+import com.project.calculation.FindFare;
 
 public class Reservation implements IReservation {
 	
@@ -109,7 +109,7 @@ public class Reservation implements IReservation {
 
 	@Override
 	public void calculateReservationFarePerPassenger(Reservation reservation) {
-		findFareImpl findFare = new findFareImpl();
+		FindFare findFare = new FindFare();
 		try {
 			double fareBasedOnTrainType = findFare.calculateFareByTrainType(reservation.distance, reservation.trainType);
 			double fareBasedOnDistance = findFare.calculateFareByDistance(reservation.distance, fareBasedOnTrainType);

@@ -74,8 +74,8 @@
 											<td>
 												<form th:action="@{/user/bookNow}" th:object="${reservationInformation}" method="post">
 													<input type="hidden" name="trainId" th:value="${train.trainId}">
-													<input type="hidden" name="sourceStationId" th:value="${sourceStation.sId}">
-													<input type="hidden" name="destinationStationId" th:value="${destinationStation.sId}">
+													<input type="hidden" name="sourceStationId" th:value="${sourceStation.stationId}">
+													<input type="hidden" name="destinationStationId" th:value="${destinationStation.stationId}">
 													<input type="hidden" name="distance" th:value="${train.totalDistance}">
 													<input type="hidden" name="trainType" th:value="${train.trainType}">
 													<button type="submit">Book Now</button>

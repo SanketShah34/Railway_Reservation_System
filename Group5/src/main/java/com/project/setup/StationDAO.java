@@ -6,10 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import com.project.database.DButilities;
 import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
 
@@ -17,75 +15,132 @@ import com.project.database.IDatabaseUtilities;
 @ComponentScan("com.code.service")
 public class StationDAO implements IStationDAO {
 
-	List<Station> listOfStation = new ArrayList();
+	List<IStation> listOfStation = new ArrayList<IStation>();
 
 	@Override
-	public void save(IStation station) {
+	public boolean save(IStation station) {
 
-		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
-		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
-		CallableStatement stmt = null;
-		if (station.getSId() == 0) {
-			System.out.println("in add new ");
-			try {
-				stmt = conn.prepareCall("{call addStation( ? , ? , ? , ?)}");
-				stmt.setString(1, station.getStationName());
-				stmt.setString(2, station.getStationCode());
-				stmt.setString(3, station.getStationCity());
-				stmt.setString(4, station.getStationState());
-				stmt.execute();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				databaseUtilities.closeConnection(conn);
-			}
-		} else {
-			System.out.println("in edit");
-			try {
-				stmt = conn.prepareCall("{call editStation( ? , ? , ? , ? , ?)}");
-				stmt.setInt(1, station.getSId());
-				stmt.setString(2, station.getStationName());
-				stmt.setString(3, station.getStationCode());
-				stmt.setString(4, station.getStationCity());
-				stmt.setString(5, station.getStationState());
-				stmt.execute();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				databaseUtilities.closeConnection(conn);
-			}
+		if(isStationUnique(station.getStationName() ,station.getStationCode(), station.getStationId())) {
+			
+			return false;
+			
 		}
+		else {
+			DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+			
+			IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
+			
+			Connection connection = databaseUtilities.establishConnection();
+			CallableStatement statment = null;
+			
+			if (station.getStationId() == 0) {
+				try {
+					statment = connection.prepareCall("{call addStation( ? , ? , ? , ?)}");
+					statment.setString(1, station.getStationName());
+					statment.setString(2, station.getStationCode());
+					statment.setString(3, station.getStationCity());
+					statment.setString(4, station.getStationState());
+					statment.execute();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					databaseUtilities.closeStatement(statment);
+					databaseUtilities.closeConnection(connection);
+				}
+			} else {
+				try {
+					statment = connection.prepareCall("{call editStation( ? , ? , ? , ? , ?)}");
+					statment.setInt(1, station.getStationId());
+					statment.setString(2, station.getStationName());
+					statment.setString(3, station.getStationCode());
+					statment.setString(4, station.getStationCity());
+					statment.setString(5, station.getStationState());
+					statment.execute();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					databaseUtilities.closeStatement(statment);
+					databaseUtilities.closeConnection(connection);
+				}
+			}
+			
+			return true;
+		}
+		
+		
+		
 	}
+	
+	public boolean isStationUnique(String stationName,String stationCode , int SId) {
+		
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		
+		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
+		
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statment = null;
+		ResultSet resultSet = null;
+		
+		try {
+			statment = connection.prepareCall("{call checkStation(? ,? , ?)}");
+			statment.setString(1, stationName);
+			statment.setString(2, stationCode);
+			statment.setInt(3, SId);
+			
+			boolean hadResultsForList = statment.execute();
+			
+			if (hadResultsForList) {
+				
+				resultSet = statment.getResultSet();
+				
+				while(resultSet.next()) {
+					
+					int count = resultSet.getInt("count");
+					
+						if(count > 0) {
+							return true;
+						}
+						else {
+							return false;
+						}	
+				}
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			databaseUtilities.closeStatement(statment);
+			databaseUtilities.closeConnection(connection);
+		}
+		return false;
+	}
+	
+	
 
 	@Override
-	public List<Station> getAllStation() {
+	public List<IStation> getAllStation() {
 
 		listOfStation.removeAll(listOfStation);
+		
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
-		CallableStatement stmt = null;
+		
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statment = null;
 		ResultSet resultSet = null;
 
 		try {
-			stmt = conn.prepareCall("{call getAllStation()}");
-			boolean hadResultsForList = stmt.execute();
+			statment = connection.prepareCall("{call getAllStation()}");
+			boolean hadResultsForList = statment.execute();
 			if (hadResultsForList) {
-				resultSet = stmt.getResultSet();
+				resultSet = statment.getResultSet();
 				while (resultSet.next()) {
-					Station station = new Station();
-					station.setSId(resultSet.getInt("sId"));
+					
+					IStation station = setupAbstractFactory.createNewStation();
+					
+					station.setStationId(resultSet.getInt("sId"));
 					station.setStationName(resultSet.getString("stationName"));
 					station.setStationCode(resultSet.getString("stationCode"));
 					station.setStationCity(resultSet.getString("stationCity"));
@@ -96,14 +151,9 @@ public class StationDAO implements IStationDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				stmt.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeStatement(statment);
+			databaseUtilities.closeResultSet(resultSet);
+			databaseUtilities.closeConnection(connection);
 		}
 
 		return listOfStation;
@@ -111,23 +161,27 @@ public class StationDAO implements IStationDAO {
 
 	@Override
 	public IStation getStation(Integer sId) {
+		
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
-		CallableStatement stmt = null;
+		IStation station = setupAbstractFactory.createNewStation();
+		
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statment = null;
 		ResultSet resultSet = null;
 
-		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IStation station = setupAbstractFactory.createStation();
-
 		try {
-			stmt = conn.prepareCall("{call getStation(?)}");
-			stmt.setInt(1, sId);
-			boolean hadStation = stmt.execute();
+			statment = connection.prepareCall("{call getStation(?)}");
+			statment.setInt(1, sId);
+			boolean hadStation = statment.execute();
 			if (hadStation) {
-				resultSet = stmt.getResultSet();
+				
+				resultSet = statment.getResultSet();
+				
 				if (resultSet.next()) {
-					station.setSId(resultSet.getInt("sId"));
+					station.setStationId(resultSet.getInt("sId"));
 					station.setStationName(resultSet.getString("stationName"));
 					station.setStationCode(resultSet.getString("stationCode"));
 					station.setStationCity(resultSet.getString("stationCity"));
@@ -135,16 +189,11 @@ public class StationDAO implements IStationDAO {
 				}
 			}
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 		} finally {
-			try {
-				stmt.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeStatement(statment);
+			databaseUtilities.closeResultSet(resultSet);
+			databaseUtilities.closeConnection(connection);
 		}
 		return station;
 	}
@@ -152,23 +201,23 @@ public class StationDAO implements IStationDAO {
 	@Override
 	public void delete(Integer sId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
-		CallableStatement stmt = null;
+		
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statment = null;
+		
 		try {
-			stmt = conn.prepareCall("{call deleteStation( ? )}");
-			stmt.setInt(1, sId);
-			stmt.execute();
+			statment = connection.prepareCall("{call deleteStation( ? )}");
+			statment.setInt(1, sId);
+			statment.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeStatement(statment);
+			databaseUtilities.closeConnection(connection);
 		}
 	}
+
 
 }

@@ -2,9 +2,9 @@ package com.project.setup;
 
 public interface IStation {
 
-	int getSId();
+	int getStationId();
 
-	void setSId(int sId);
+	void setStationId(int stationId);
 
 	String getStationName();
 

@@ -3,43 +3,31 @@ package com.project.setup;
 import javax.validation.constraints.NotNull;
 
 public class Station implements IStation {
-
-	public int sId;
-
-	@NotNull(message = "stationName can not be null!!")
-
+	public int stationId;
 	public String stationName;
-	@NotNull(message = "Station Code can not be null!!")
-
 	public String stationCode;
-	@NotNull(message = "station City can not be null!!")
-
 	public String stationCity;
-	@NotNull(message = "Station State can not be null!!")
-
 	public String stationState;
 
 	public Station() {
 
 	}
 
-	public Station(int sId, String stationName, String stationCode, String stationCity, String stationState) {
+	public Station(int stationId, String stationName, String stationCode, String stationCity, String stationState) {
 		super();
-		this.sId = sId;
+		this.stationId = stationId;
 		this.stationName = stationName;
 		this.stationCode = stationCode;
 		this.stationCity = stationCity;
 		this.stationState = stationState;
 	}
 
-	@Override
-	public int getSId() {
-		return sId;
+	public int getStationId() {
+		return stationId;
 	}
 
-	@Override
-	public void setSId(int sId) {
-		this.sId = sId;
+	public void setStationId(int stationId) {
+		this.stationId = stationId;
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public class TrainController {
 	public String showAddTrainPage(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
-		List<Station> stations = stationDAO.getAllStation();
+		List<IStation> stations = stationDAO.getAllStation();
 		ITrain train = setupAbstractFactory.createTrain();
 		model.addAttribute("listOfStations", stations);
 		model.addAttribute(train);
@@ -67,7 +67,7 @@ public class TrainController {
 
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
-		List<Station> stations = stationDAO.getAllStation();
+		List<IStation> stations = stationDAO.getAllStation();
 		ITrainDAO trainDAO = setupAbstractFactory.createTrainDAO();
 		model.addAttribute("listOfStations", stations);
 		

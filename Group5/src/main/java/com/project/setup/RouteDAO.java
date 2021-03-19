@@ -72,25 +72,25 @@ public class RouteDAO implements IRouteDAO {
 					Station sourceStation = new Station();
 					Station destinationStation = new Station();
 
-					route.setRouteId(resultSet.getInt("rId"));
+					route.setRouteId(resultSet.getInt("routeId"));
 
-					sourceStation.setSId(resultSet.getInt("sourceStationId"));
+					sourceStation.setStationId(resultSet.getInt("sourceStationId"));
 					sourceStation.setStationName(resultSet.getString("sourceStationName"));
 					sourceStation.setStationCode(resultSet.getString("sourceStationCode"));
 					sourceStation.setStationCity(resultSet.getString("sourceStationCity"));
 					sourceStation.setStationState(resultSet.getString("sourceStationState"));
 
 					route.setSource(sourceStation);
-					route.setSourceId(sourceStation.sId);
+					route.setSourceId(sourceStation.stationId);
 
-					destinationStation.setSId(resultSet.getInt("destinationStationId"));
+					destinationStation.setStationId(resultSet.getInt("destinationStationId"));
 					destinationStation.setStationName(resultSet.getString("destinationStationName"));
 					destinationStation.setStationCode(resultSet.getString("destinationStationCode"));
 					destinationStation.setStationCity(resultSet.getString("destinationStationCity"));
 					destinationStation.setStationState(resultSet.getString("destinationStationState"));
 
 					route.setDestination(destinationStation);
-					route.setDestinationId(destinationStation.sId);
+					route.setDestinationId(destinationStation.stationId);
 
 					route.setDistance(resultSet.getDouble("distance"));
 
@@ -108,7 +108,7 @@ public class RouteDAO implements IRouteDAO {
 	}
 
 	@Override
-	public IRoute getRoute(Integer rId) {
+	public IRoute getRoute(Integer routeId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection conn = databaseUtilities.establishConnection();
@@ -118,32 +118,32 @@ public class RouteDAO implements IRouteDAO {
 		Station destinationStation = new Station();
 		try {
 			CallableStatement stmt = conn.prepareCall("{call getRoute(?)}");
-			stmt.setInt(1, rId);
+			stmt.setInt(1, routeId);
 
 			boolean hasRoute = stmt.execute();
 			if (hasRoute) {
 				ResultSet resultSet = stmt.getResultSet();
 				if (resultSet.next()) {
 
-					route.setRouteId(resultSet.getInt("rId"));
+					route.setRouteId(resultSet.getInt("routeId"));
 
-					sourceStation.setSId(resultSet.getInt("sourceStationId"));
+					sourceStation.setStationId(resultSet.getInt("sourceStationId"));
 					sourceStation.setStationName(resultSet.getString("sourceStationName"));
 					sourceStation.setStationCode(resultSet.getString("sourceStationCode"));
 					sourceStation.setStationCity(resultSet.getString("sourceStationCity"));
 					sourceStation.setStationState(resultSet.getString("sourceStationState"));
 
 					route.setSource(sourceStation);
-					route.setSourceId(sourceStation.sId);
+					route.setSourceId(sourceStation.stationId);
 
-					destinationStation.setSId(resultSet.getInt("destinationStationId"));
+					destinationStation.setStationId(resultSet.getInt("destinationStationId"));
 					destinationStation.setStationName(resultSet.getString("destinationStationName"));
 					destinationStation.setStationCode(resultSet.getString("destinationStationCode"));
 					destinationStation.setStationCity(resultSet.getString("destinationStationCity"));
 					destinationStation.setStationState(resultSet.getString("destinationStationState"));
 
 					route.setDestination(destinationStation);
-					route.setDestinationId(destinationStation.sId);
+					route.setDestinationId(destinationStation.stationId);
 
 					route.setDistance(resultSet.getDouble("distance"));
 
@@ -191,7 +191,7 @@ public class RouteDAO implements IRouteDAO {
 				ResultSet resultSet = stmt.getResultSet();
 				if (resultSet.next()) {
 
-					route.setRouteId(resultSet.getInt("rId"));
+					route.setRouteId(resultSet.getInt("routeId"));
 					route.setDistance(resultSet.getDouble("distance"));
 				}
 			}

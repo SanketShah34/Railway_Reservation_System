@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
 import com.project.security.SecurityAbstractFactory;
-import com.project.security.SecurityConcreteFactory;
+
 
 @Component
 @ComponentScan("com.project.service")
@@ -20,23 +20,20 @@ public class UserDAO implements IUserDAO {
 	
 	@Override
 	public IUser getUserByUsername(String username) {
-		System.out.println("in user dao imple ");
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 		IUser userfromDB = userAbstractFactory.createUser();
 		Connection connection = null;
-		CallableStatement stmt = null;
+		CallableStatement statement = null;
 		ResultSet resultSet = null;
-		
-		
 		try {
      		connection = databaseUtilities.establishConnection();
-			stmt = connection.prepareCall("{call findUserByUserName(? )}");
-			stmt.setString(1, username);
-			boolean hadResults = stmt.execute();
+     		statement = connection.prepareCall("{call findUserByUserName(? )}");
+     		statement.setString(1, username);
+			boolean hadResults = statement.execute();
 			if (hadResults) {
-				 resultSet = stmt.getResultSet();
+				 resultSet = statement.getResultSet();
 				if (resultSet.next()) {
 					int id = resultSet.getInt("id");
 					String userName = resultSet.getString("userName");
@@ -50,22 +47,14 @@ public class UserDAO implements IUserDAO {
 					userfromDB.setRole(role);
 				}
 			}
-			
 		}
 		catch (SQLException e) {
-			
 			e.printStackTrace();
 		} finally {
-			try {
-				stmt.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			}
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeResultSet(resultSet);
 			databaseUtilities.closeConnection(connection);
 		}
-		System.out.println(userfromDB);
 		return userfromDB;
 	}
 	
@@ -77,35 +66,28 @@ public class UserDAO implements IUserDAO {
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		Connection connection = databaseUtilities.establishConnection();
-		CallableStatement stmt = null;
+		CallableStatement statement = null;
 		
 		if(user.getId() == 0) {
-			System.out.println("add new user");
 			try {
 				BCryptPasswordEncoder encoder  = securityAbstractFactory.createPasswordEncoder();
 		        String encodedpassword = encoder.encode(user.getPassword());
-				stmt = connection.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ?)}");
-				stmt.setString(1, user.getFirstName());
-				stmt.setString(2, user.getLastName());
-				stmt.setString(3, user.getGender());
-				stmt.setDate(4, (Date)user.getDateOfBirth());
-				stmt.setInt(5, user.getMobileNumber());
-				stmt.setString(6, user.getUserName());
-				stmt.setString(7, encodedpassword);
+		        statement = connection.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ?)}");
+		        statement.setString(1, user.getFirstName());
+		        statement.setString(2, user.getLastName());
+		        statement.setString(3, user.getGender());
+		        statement.setDate(4, (Date)user.getDateOfBirth());
+		        statement.setInt(5, user.getMobileNumber());
+		        statement.setString(6, user.getUserName());
+		        statement.setString(7, encodedpassword);
 
-				stmt.execute();
-				System.out.println("Data entered");
+		        statement.execute();
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			finally {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					
-					e.printStackTrace();
-				}
+				databaseUtilities.closeStatement(statement);
 				databaseUtilities.closeConnection(connection);
 			}
 		}

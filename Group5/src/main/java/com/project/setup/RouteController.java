@@ -46,7 +46,7 @@ public class RouteController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRoute route = setupAbstractFactory.createRoute();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
-		List<Station> stations = stationDAO.getAllStation();
+		List<IStation> stations = stationDAO.getAllStation();
 		model.addAttribute(route);	
 		model.addAttribute("listOfStations", stations);
 		return "route/addRoute";
@@ -57,7 +57,7 @@ public class RouteController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
-		List<Station> stations = stationDAO.getAllStation();
+		List<IStation> stations = stationDAO.getAllStation();
 		IRoute route = routeDAO.getRoute(routeId);
 		model.addAttribute(route);
 		model.addAttribute("listOfStations", stations);

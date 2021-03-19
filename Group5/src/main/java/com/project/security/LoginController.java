@@ -19,6 +19,7 @@ public class LoginController {
 	public String viewHomePageForAdmin(Model model) {
 		return "home";
 	}
+	
 
 	@RequestMapping("/login")
 	public String showLoginPage() {
