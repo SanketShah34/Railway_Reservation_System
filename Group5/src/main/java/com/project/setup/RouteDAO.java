@@ -217,7 +217,6 @@ public class RouteDAO implements IRouteDAO {
 			if (hasRoute) {
 				resultSet = statement.getResultSet();
 				if (resultSet.next()) {
-
 					route.setRouteId(resultSet.getInt("routeIdColumnName"));
 					route.setDistance(resultSet.getDouble("distanceColumnName"));
 				}
