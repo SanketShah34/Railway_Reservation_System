@@ -18,7 +18,7 @@ public class RouteController {
 	@ModelAttribute("route")
     public IRoute getIRouteModelObject(HttpServletRequest request) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IRoute route = setupAbstractFactory.createRoute();
+		IRoute route = setupAbstractFactory.createNewRoute();
 		return route ;
 	}
 	
@@ -44,7 +44,7 @@ public class RouteController {
 	@GetMapping(value = "/admin/route/add")
 	public String displayAddRoute(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IRoute route = setupAbstractFactory.createRoute();
+		IRoute route = setupAbstractFactory.createNewRoute();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		List<IStation> stations = stationDAO.getAllStation();
 		model.addAttribute(route);	

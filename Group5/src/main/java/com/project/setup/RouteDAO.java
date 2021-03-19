@@ -16,6 +16,18 @@ import com.project.database.IDatabaseUtilities;
 
 @Component
 public class RouteDAO implements IRouteDAO {
+	public final String routeIdColumnName = "routeId";
+	public final String sourceStationIdColumnName = "sourceStationId";
+	public final String sourceStationNameColumnName = "sourceStationName";
+	public final String sourceStationCodeColumnName = "sourceStationCode";
+	public final String sourceStationCityColumnName = "sourceStationCity";
+	public final String sourceStationStateColumnName = "sourceStationState";
+	public final String destinationStationIdColumnName = "destinationStationId";
+	public final String destinationStationNameColumnName = "destinationStationName";
+	public final String destinationStationCodeColumnName = "destinationStationCode";
+	public final String destinationStationCityColumnName = "destinationStationCity";
+	public final String destinationStationStateColumnName = "destinationStationState";
+	public final String distanceColumnName = "distance";
 	
 	@Override
 	public void saveRoute(IRoute route){
@@ -32,9 +44,10 @@ public class RouteDAO implements IRouteDAO {
 
 				statement.execute();
 
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (SQLException exception) {
+				exception.printStackTrace();
 			} finally {
+				databaseUtilities.closeStatement(statement);
 				databaseUtilities.closeConnection(connection);
 			}
 		} else {
@@ -47,8 +60,8 @@ public class RouteDAO implements IRouteDAO {
 
 				statement.execute();
 
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (SQLException exception) {
+				exception.printStackTrace();
 			} finally {
 				databaseUtilities.closeStatement(statement);
 				databaseUtilities.closeConnection(connection);
@@ -60,17 +73,21 @@ public class RouteDAO implements IRouteDAO {
 	public List<IRoute> getAllRoute() {
 		List<IRoute> listOfRoutes = new ArrayList<>();
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statement = null;
+		ResultSet resultSet = null;
 		try {
-			CallableStatement stmt = conn.prepareCall("{call getAllRoute()}");
-			boolean hadResultsForList = stmt.execute();
-			if (hadResultsForList) {
-				ResultSet resultSet = stmt.getResultSet();
+			statement = connection.prepareCall("{call getAllRoute()}");
+			boolean hadResult = statement.execute();
+			if (hadResult) {
+				resultSet = statement.getResultSet();
+				
 				while (resultSet.next()) {
-					Route route = new Route();
-					Station sourceStation = new Station();
-					Station destinationStation = new Station();
+					IRoute route = setupAbstractFactory.createNewRoute();
+					IStation sourceStation = setupAbstractFactory.createNewStation();
+					IStation destinationStation = setupAbstractFactory.createNewStation();
 
 					route.setRouteId(resultSet.getInt("routeId"));
 
@@ -81,7 +98,7 @@ public class RouteDAO implements IRouteDAO {
 					sourceStation.setStationState(resultSet.getString("sourceStationState"));
 
 					route.setSource(sourceStation);
-					route.setSourceId(sourceStation.stationId);
+					route.setSourceId(sourceStation.getStationId());
 
 					destinationStation.setStationId(resultSet.getInt("destinationStationId"));
 					destinationStation.setStationName(resultSet.getString("destinationStationName"));
@@ -90,18 +107,20 @@ public class RouteDAO implements IRouteDAO {
 					destinationStation.setStationState(resultSet.getString("destinationStationState"));
 
 					route.setDestination(destinationStation);
-					route.setDestinationId(destinationStation.stationId);
+					route.setDestinationId(destinationStation.getStationId());
 
-					route.setDistance(resultSet.getDouble("distance"));
+					route.setDistance(resultSet.getDouble(distanceColumnName));
 
 					listOfRoutes.add(route);
 
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeResultSet(resultSet);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
 		}
 
 		return listOfRoutes;
@@ -110,19 +129,21 @@ public class RouteDAO implements IRouteDAO {
 	@Override
 	public IRoute getRoute(Integer routeId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		IRoute route = setupAbstractFactory.createNewRoute();
+		IStation sourceStation = setupAbstractFactory.createNewStation();
+		IStation destinationStation = setupAbstractFactory.createNewStation();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
-
-		IRoute route = new Route();
-		Station sourceStation = new Station();
-		Station destinationStation = new Station();
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statement = null;
+		ResultSet resultSet = null;
 		try {
-			CallableStatement stmt = conn.prepareCall("{call getRoute(?)}");
+			CallableStatement stmt = connection.prepareCall("{call getRoute(?)}");
 			stmt.setInt(1, routeId);
 
-			boolean hasRoute = stmt.execute();
+			boolean hasRoute = statement.execute();
 			if (hasRoute) {
-				ResultSet resultSet = stmt.getResultSet();
+				resultSet = statement.getResultSet();
 				if (resultSet.next()) {
 
 					route.setRouteId(resultSet.getInt("routeId"));
@@ -134,7 +155,7 @@ public class RouteDAO implements IRouteDAO {
 					sourceStation.setStationState(resultSet.getString("sourceStationState"));
 
 					route.setSource(sourceStation);
-					route.setSourceId(sourceStation.stationId);
+					route.setSourceId(sourceStation.getStationId());
 
 					destinationStation.setStationId(resultSet.getInt("destinationStationId"));
 					destinationStation.setStationName(resultSet.getString("destinationStationName"));
@@ -143,65 +164,71 @@ public class RouteDAO implements IRouteDAO {
 					destinationStation.setStationState(resultSet.getString("destinationStationState"));
 
 					route.setDestination(destinationStation);
-					route.setDestinationId(destinationStation.stationId);
+					route.setDestinationId(destinationStation.getStationId());
 
-					route.setDistance(resultSet.getDouble("distance"));
+					route.setDistance(resultSet.getDouble(distanceColumnName));
 
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeResultSet(resultSet);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
 		}
 		return route;
 	}
 
 	@Override
-	public void deleteRoute(Integer rId) {
+	public void deleteRoute(Integer routeId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statement = null;
 		try {
-			CallableStatement stmt = conn.prepareCall("{call deleteRoute( ? )}");
-			stmt.setInt(1, rId);
-			stmt.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			statement = connection.prepareCall("{call deleteRoute( ? )}");
+			statement.setInt(1, routeId);
+			statement.execute();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
 		}
 	}
 
 	@Override
-	public IRoute getRouteByStation(int station1, int station2) {
+	public IRoute getRouteByStation(int sourcePoint, int destinationPoint) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		Connection conn = databaseUtilities.establishConnection();
-
-		IRoute route = new Route();
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statement = null;
+		ResultSet resultSet = null;
+		IRoute route = setupAbstractFactory.createNewRoute();
 
 		try {
-			CallableStatement stmt = conn.prepareCall("{call getRoutebyStation(?, ?)}");
-			stmt.setInt(1, station1);
-			stmt.setInt(2, station2);
+			statement = connection.prepareCall("{call getRoutebyStation(?, ?)}");
+			statement.setInt(1, sourcePoint);
+			statement.setInt(2, destinationPoint);
 
-			boolean hasRoute = stmt.execute();
+			boolean hasRoute = statement.execute();
 			if (hasRoute) {
-				ResultSet resultSet = stmt.getResultSet();
+				resultSet = statement.getResultSet();
 				if (resultSet.next()) {
 
 					route.setRouteId(resultSet.getInt("routeId"));
 					route.setDistance(resultSet.getDouble("distance"));
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			databaseUtilities.closeConnection(conn);
+			databaseUtilities.closeResultSet(resultSet);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
 		}
-
-		// TODO Auto-generated method stub
 		return route;
 	}
 

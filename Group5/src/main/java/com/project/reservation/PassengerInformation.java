@@ -92,6 +92,80 @@ public class PassengerInformation implements IPassengerInformation {
 	public void setCoachNumber(String coachNumber) {
 		this.coachNumber = coachNumber;
 	}
+	
+	@Override
+	public boolean isFirstNameNullOrEmpty() {
+		String firstName = this.getFirstName();
+		if (null == firstName) {
+			return true;
+		}else if ("" == firstName) {
+			return true;
+		}
+		return false;
+	}
     
+	@Override
+	public boolean isLastNameNullOrEmpty() {
+		String lastName = this.getLastName();
+		if (null == lastName) {
+			return true;
+		}else if ("" == lastName) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isGenderNullOrEmpty() {
+		String gender = this.getGender();
+		if (null == gender) {
+			return true;
+		}else if ("" == gender ) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isAgeInvalid() {
+		int age = this.getAge();
+		if (age <= PassengerInformationConstants.ageLowerLimit) {
+			return true;
+		}else if (age >= PassengerInformationConstants.ageUpperLimit) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isBerthPreferenceNullOrEmpty() {
+		String berthPreference = this.getBerthPreference();
+		if (null == berthPreference) {
+			return true;
+		} else if ("" == berthPreference) {
+			return true;
+		}
+		return false;
+	}
     
+	@Override
+	public String isPassengerInformationValid() {
+		String errorMessages = "";
+		if (this.isFirstNameNullOrEmpty()) {
+			errorMessages += PassengerInformationErrorCodes.firstNameMissing;
+		}
+		if (this.isLastNameNullOrEmpty()) {
+			errorMessages += PassengerInformationErrorCodes.lastNameMissing;
+		}
+		if (this.isAgeInvalid()) {
+			errorMessages += PassengerInformationErrorCodes.ageInvalid;
+		}
+		if (this.isGenderNullOrEmpty()) {
+			errorMessages += PassengerInformationErrorCodes.genderMissing;
+		}
+		if (this.isBerthPreferenceNullOrEmpty()) {
+			errorMessages += PassengerInformationErrorCodes.berthPreferenceMissing;
+		}
+		return errorMessages;
+	}
 }
