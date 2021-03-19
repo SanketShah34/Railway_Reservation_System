@@ -6,33 +6,36 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import com.project.database.DButilities;
+
+import com.project.database.DatabaseAbstactFactory;
+import com.project.database.IDatabaseUtilities;
 
 @Component
 @ComponentScan("com.code.service")
 public class TrainDAO implements ITrainDAO {
 
-	@Autowired
-	DButilities dbUtilities;
-	
 	@Override
 	public List<Train> getAllTrain() {
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection connectionection = databaseUtilities.establishConnection();
 		
 		List<Train> listOfTrain = new ArrayList<Train>();
 		listOfTrain.removeAll(listOfTrain);
-		Connection conn = dbUtilities.estConnection();
-
+		CallableStatement statement = null;
+		
 		try {
-			CallableStatement stmt = conn.prepareCall("{call getAllTrain()}");
+			
+			statement = connectionection.prepareCall("{call getAllTrain()}");
 
-			boolean hasResultsForList = stmt.execute();
+			boolean hasResultsForList = statement.execute();
 
 			if (hasResultsForList) {
 
-				ResultSet resultSet = stmt.getResultSet();
+				ResultSet resultSet = statement.getResultSet();
 				while (resultSet.next()) {
 					Train train = new Train();
 					train.setTrainId(resultSet.getInt(1));
@@ -55,13 +58,13 @@ public class TrainDAO implements ITrainDAO {
 						String[] middleStations = resultSet.getString(9).split(",");
 						for (String midd : middleStations) {
 							int middle = Integer.parseInt(midd);
-							CallableStatement stmt1 = conn.prepareCall("{call getMiddleStation(?)}");
-							stmt1.setInt(1, middle);
-							boolean hasResultsForList1 = stmt1.execute();
+							CallableStatement statement1 = connectionection.prepareCall("{call getMiddleStation(?)}");
+							statement1.setInt(1, middle);
+							boolean hasResultsForList1 = statement1.execute();
 
 							if (hasResultsForList1) {
 
-								ResultSet resultSet1 = stmt1.getResultSet();
+								ResultSet resultSet1 = statement1.getResultSet();
 								while (resultSet1.next()) {
 									middleStationString += resultSet1.getString(1)+",";
 								}
@@ -72,63 +75,66 @@ public class TrainDAO implements ITrainDAO {
 					listOfTrain.add(train);
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		}  catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			dbUtilities.closeConnection(conn);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connectionection);
 		}
 		return listOfTrain;
 	}
 
 	@Override
 	public boolean saveTrain(ITrain train) {
-		System.out.println("456");
-		Connection conn = dbUtilities.estConnection();
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection connection = databaseUtilities.establishConnection();
 		
-		boolean validRoute = validateRoutes(conn, train);
+		boolean validRoute = validateRoutes(connection, train);
 		System.out.println("123");
 		if(validRoute) {
 			if(train.getTrainId() == 0) {
 				System.out.println("in add new ");
 				try {
-					CallableStatement stmt = conn.prepareCall("{call addTrain( ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
-					stmt.setInt(1, train.getTrainCode());
-					stmt.setString(2, train.getTrainName());
-					stmt.setString(3, train.getTrainType());
-					stmt.setString(4, train.getDays());
-					stmt.setString(5, train.getDepartureTime());
-					stmt.setInt(6, train.getTotalCoaches());
-					stmt.setInt(7, Integer.parseInt(train.getStartStation()));
-					stmt.setString(8, train.getMiddleStations());
-					stmt.setInt(9, Integer.parseInt(train.getEndStation()));
+					CallableStatement statement = connection.prepareCall("{call addTrain( ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+					statement.setInt(1, train.getTrainCode());
+					statement.setString(2, train.getTrainName());
+					statement.setString(3, train.getTrainType());
+					statement.setString(4, train.getDays());
+					statement.setString(5, train.getDepartureTime());
+					statement.setInt(6, train.getTotalCoaches());
+					statement.setInt(7, Integer.parseInt(train.getStartStation()));
+					statement.setString(8, train.getMiddleStations());
+					statement.setInt(9, Integer.parseInt(train.getEndStation()));
 	
-					stmt.execute();
+					statement.execute();
 	
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
 			else {
-				System.out.println("in edit");
+				CallableStatement statement = null;
 				try {
-					CallableStatement stmt = conn.prepareCall("{call editTrain( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
-					stmt.setInt(1, train.getTrainId());
-					stmt.setInt(2, train.getTrainCode());
-					stmt.setString(3, train.getTrainName());
-					stmt.setString(4, train.getTrainType());
-					stmt.setString(5, train.getDays());
-					stmt.setString(6, train.getDepartureTime());
-					stmt.setInt(7, train.getTotalCoaches());
-					stmt.setInt(8, Integer.parseInt(train.getStartStation()));
-					stmt.setString(9, train.getMiddleStations());
-					stmt.setInt(10, Integer.parseInt(train.getEndStation()));
+					statement = connection.prepareCall("{call editTrain( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+					statement.setInt(1, train.getTrainId());
+					statement.setInt(2, train.getTrainCode());
+					statement.setString(3, train.getTrainName());
+					statement.setString(4, train.getTrainType());
+					statement.setString(5, train.getDays());
+					statement.setString(6, train.getDepartureTime());
+					statement.setInt(7, train.getTotalCoaches());
+					statement.setInt(8, Integer.parseInt(train.getStartStation()));
+					statement.setString(9, train.getMiddleStations());
+					statement.setInt(10, Integer.parseInt(train.getEndStation()));
 	
-					stmt.execute();
+					statement.execute();
 	
-				} catch (SQLException e) {
-					e.printStackTrace();
+				} catch (SQLException exception) {
+					exception.printStackTrace();
 				} finally {
-					dbUtilities.closeConnection(conn);
+					databaseUtilities.closeStatement(statement);
+					databaseUtilities.closeConnection(connection);
 				}
 			}
 			
@@ -139,9 +145,8 @@ public class TrainDAO implements ITrainDAO {
 		}
 	}
 
-	private boolean validateRoutes(Connection conn, ITrain train) {
-		System.out.println("WWW");
-		List<Integer> allStations = new ArrayList();
+	private boolean validateRoutes(Connection connection, ITrain train) {
+		List<Integer> allStations = new ArrayList<>();
 		
 		allStations.add(Integer.parseInt(train.getStartStation()));
 	
@@ -163,17 +168,17 @@ public class TrainDAO implements ITrainDAO {
 		boolean routeFound = true;
 		
 		for(int i=0; i<allStations.size()-1; i++) {
-			CallableStatement stmt;
+			CallableStatement statement;
 			try {
-				stmt = conn.prepareCall("{call checkRoute( ?, ?)}");
-				stmt.setInt(1, allStations.get(i));
-				stmt.setInt(2, allStations.get(i+1));
+				statement = connection.prepareCall("{call checkRoute( ?, ?)}");
+				statement.setInt(1, allStations.get(i));
+				statement.setInt(2, allStations.get(i+1));
 				
-				boolean hasResultsForList1 = stmt.execute();
+				boolean hasResultsForList1 = statement.execute();
 
 				if (hasResultsForList1) {
 
-					ResultSet resultSet = stmt.getResultSet();
+					ResultSet resultSet = statement.getResultSet();
 					int routeId = -1 ;
 					while (resultSet.next()) {
 						routeId = resultSet.getInt(1);
@@ -181,7 +186,6 @@ public class TrainDAO implements ITrainDAO {
 					
 					if(routeId > 0) {
 						routeFound = true;
-						System.out.println("found for "+allStations.get(i)+" and "+allStations.get(i+1));
 					}
 					else {
 						routeFound = false;
@@ -190,7 +194,6 @@ public class TrainDAO implements ITrainDAO {
 				}
 				
 			} catch (SQLException e) {
-				// System.out.println(")))))))");
 				e.printStackTrace();
 			} 
 		}
@@ -200,17 +203,20 @@ public class TrainDAO implements ITrainDAO {
 
 	@Override
 	public ITrain getTrain(Integer trainId) {
-		Connection conn = dbUtilities.estConnection();
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection connection = databaseUtilities.establishConnection();
 		
+		CallableStatement statement = null;
 		ITrain train = new Train();
 		try {
-			CallableStatement stmt = conn.prepareCall("{call getTrain(?)}");
-			stmt.setInt(1, trainId);
+			statement = connection.prepareCall("{call getTrain(?)}");
+			statement.setInt(1, trainId);
 			
-			boolean hasResult = stmt.execute();
+			boolean hasResult = statement.execute();
 
 			if (hasResult) {
-				ResultSet resultSet = stmt.getResultSet();
+				ResultSet resultSet = statement.getResultSet();
 				while (resultSet.next()) {
 					train.setTrainId(resultSet.getInt(1));
 					train.setTrainCode(resultSet.getInt(2));
@@ -224,27 +230,31 @@ public class TrainDAO implements ITrainDAO {
 					train.setEndStation(String.valueOf(resultSet.getInt(10)));
 				}
 			}
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			dbUtilities.closeConnection(conn);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
 		}
 		return train;
 	}
 
 	@Override
 	public void deleteTrain(Integer trainId) {
-		Connection conn = dbUtilities.estConnection();
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection connection = databaseUtilities.establishConnection();
+		
+		CallableStatement statement = null;
 		try {
-			CallableStatement stmt = conn.prepareCall("{call deleteTrain( ? )}");
-			stmt.setInt(1, trainId);
-			stmt.execute();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			statement = connection.prepareCall("{call deleteTrain( ? )}");
+			statement.setInt(1, trainId);
+			statement.execute();
+		}  catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
-			dbUtilities.closeConnection(conn);
+			databaseUtilities.closeStatement(statement);
+			databaseUtilities.closeConnection(connection);
 		}
 	}
 
