@@ -54,10 +54,10 @@ public class RouteMock {
 	public IRoute createRouteMock(IRoute route) {
 		route.setRouteId(1);
 		route.setDestination(null);
-		route.setDestinationId(1);
+		route.setDestinationId(2);
 		route.setDistance(100);
 		route.setSource(null);
-		route.setSourceId(2);
+		route.setSourceId(1);
 		return route;
 	}
 }

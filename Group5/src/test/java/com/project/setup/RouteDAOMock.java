@@ -30,8 +30,12 @@ public class RouteDAOMock implements IRouteDAO{
 
 	@Override
 	public IRoute getRouteByStation(int sourcePoint, int destinationPoint) {
-		// TODO Auto-generated method stub
-		return null;
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance();
+		IRoute route = setupAbstractFactory.createNewRoute();
+		RouteMock routeMock = setupAbstractFactoryTest.createRouteMock();
+		route = routeMock.createRouteMock(route);
+		return route;
 	}
 
 }

@@ -30,8 +30,10 @@ class FindFareTest {
 		
 		RouteDAOMock routeDAOMock = setupAbstractFactoryTest.createRouteDAOMock();
 		IFindFare findFare = calculationAbstractFactory.createNewFindFair();
-		findFare.findFareofTrainJourney(trainList, "Halifax", "Toronto", routeDAOMock);
+		findFare.findFareofTrainJourney(trainList, "1", "4", routeDAOMock);
 		
+		assertEquals(trainList.get(0).getDropTime(), "18:00");
+		assertEquals(trainList.get(0).getTotalDistance(), 300);
 	}
 
 	@Test

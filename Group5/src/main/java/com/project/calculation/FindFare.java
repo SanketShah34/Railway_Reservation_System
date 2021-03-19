@@ -36,16 +36,13 @@ public class FindFare implements IFindFare{
 	
 	public List<ITrain> findFareofTrainJourney(List<ITrain> trains, String sourceStation, String destinationStation, IRouteDAO routeDAO) {
 		
-//		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-//		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
-
 		int totalTrain = trains.size();
 		
 		for (int i = 0; i < totalTrain ; i++) {
 			
-			String time = trains.get(i).getDepartureTime(); // 8:00
+			String time = trains.get(i).getDepartureTime();
 
-			timeInminutes = timeCounter(time);	// 480
+			timeInminutes = timeCounter(time);
 			int timeRequiredByTrainToReachSourceStation = 0;
 			int timeRequiredByTrainForDestinationStation = 0;
 			int timerequiredByTrainToCoverOneKM = 1;
