@@ -21,7 +21,6 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 	public List<ITrain> searchTrains(ISearchTrain searchTrain) {
 		
 		List<ITrain> trains = new ArrayList<ITrain>();
-//		Integer count = 0;
 		
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
@@ -76,7 +75,6 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 					allStations.add(Integer.parseInt(train.getEndStation()));
 					train.setTotalStation(allStations);
 					trains.add(train);
-//					count++;
 				}
 			}
 		} catch (SQLException e) {
