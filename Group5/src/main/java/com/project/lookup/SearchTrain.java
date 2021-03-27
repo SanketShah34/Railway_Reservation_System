@@ -1,16 +1,14 @@
 package com.project.lookup;
 
-import java.util.Date;
-import org.springframework.format.annotation.DateTimeFormat;
+import java.sql.Date;
 
-public class SearchTrain implements ISearchTrain{
-	
+public class SearchTrain implements ISearchTrain {
+
 	private String sourceStation;
 	private String destinationStation;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateofJourny;
 	public String trainType;
-	
+
 	public SearchTrain() {
 	}
 
@@ -37,7 +35,6 @@ public class SearchTrain implements ISearchTrain{
 	public void setDestinationStation(String destinationStation) {
 		this.destinationStation = destinationStation;
 	}
-	
 
 	public Date getDateofJourny() {
 		return dateofJourny;
@@ -54,14 +51,23 @@ public class SearchTrain implements ISearchTrain{
 	public void setTrainType(String trainType) {
 		this.trainType = trainType;
 	}
-	
-	public boolean issourceStationAndDestinationStationSame(String sourceStation , String destinationStation) {
+
+	public boolean issourceStationAndDestinationStationSame(String sourceStation, String destinationStation) {
 		boolean valid = false;
-		if(sourceStation.equals(destinationStation)) {
+		if (sourceStation.equals(destinationStation)) {
 			valid = true;
 		}
 		return valid;
 	}
-	
-	
+
+	public boolean isDatePreviousDate(Date date) {
+		Date a = new Date(System.currentTimeMillis());
+		Date b = (Date) date;
+		if (a.compareTo(b) == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

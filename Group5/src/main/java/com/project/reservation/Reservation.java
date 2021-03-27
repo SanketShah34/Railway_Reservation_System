@@ -2,12 +2,10 @@ package com.project.reservation;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.project.calculation.IFindFare;
+import com.project.calculation.ITrainFilterAndCalculation;
 import com.project.calculation.CalculationAbstractFactory;
-import com.project.calculation.FindFare;
+
 
 public class Reservation implements IReservation {
 	
@@ -122,7 +120,7 @@ public class Reservation implements IReservation {
 		
 		CalculationAbstractFactory calculationAbstractFacroty = CalculationAbstractFactory.instance();
 		
-		IFindFare findFare = calculationAbstractFacroty.createFindFair();
+		ITrainFilterAndCalculation findFare = calculationAbstractFacroty.createNewTrainFilterAndCalculateFair();
 		
 		try {
 			double fareBasedOnTrainType = findFare.calculateFareByTrainType(reservation.getDistance(), reservation.getTrainType());

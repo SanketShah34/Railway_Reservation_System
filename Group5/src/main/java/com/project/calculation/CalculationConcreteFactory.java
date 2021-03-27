@@ -1,46 +1,40 @@
 package com.project.calculation;
 
-public class CalculationConcreteFactory extends CalculationAbstractFactory{
-	
-	private IFindFare findFair;
+public class CalculationConcreteFactory extends CalculationAbstractFactory {
+
+	private ITrainFilterAndCalculation trainFilterAndCalculation;
 	private IAvailableSeats avialableSeats;
 	private ISeatAvailibilityDAO seatAvailibilityDAO;
-	
-	@Override
+
 	public ISeatAvailibilityDAO createSeatAvailibilityDAO() {
 		if (seatAvailibilityDAO == null) {
 			seatAvailibilityDAO = new SeatAvailibilityDAO();
-    	}
-    	return seatAvailibilityDAO;	
+		}
+		return seatAvailibilityDAO;
 	}
 
-	@Override
 	public ISeatAvailibilityDAO createNewSeatAvailibilityDAO() {
 		return new SeatAvailibilityDAO();
 	}
-	
-	@Override
-	public IFindFare createFindFair() {
-		if (findFair == null) {
-			findFair = new FindFare();
-    	}
-    	return findFair;	
-	}
-	
-	@Override
-	public IFindFare createNewFindFair() {
-		return new FindFare();
+
+	public ITrainFilterAndCalculation createTrainFilterAndCalculateFair() {
+		if (trainFilterAndCalculation == null) {
+			trainFilterAndCalculation = new TrainFilterAndFairCalculation();
+		}
+		return trainFilterAndCalculation;
 	}
 
-	@Override
+	public ITrainFilterAndCalculation createNewTrainFilterAndCalculateFair() {
+		return new TrainFilterAndFairCalculation();
+	}
+
 	public IAvailableSeats createAvaliableSeats() {
 		if (avialableSeats == null) {
 			avialableSeats = new AvailableSeats();
-    	}
-    	return avialableSeats;
+		}
+		return avialableSeats;
 	}
 
-	@Override
 	public IAvailableSeats createNewAvaliableSeats() {
 		return new AvailableSeats();
 	}

@@ -25,15 +25,15 @@ public interface IRoute {
 	int getDestinationId();
 
 	void setDestinationId(int destinationId);
-	
+
 	boolean isSourceStationIdNull();
-	
+
 	boolean isDestinationStationIdNull();
-	
+
 	boolean isDistanceInvalid();
-	
+
 	boolean isSourceAndDestinationSame();
-	
+
 	String isRouteEntryValid();
 
 }

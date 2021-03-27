@@ -1,8 +1,8 @@
 package com.project.setup;
 
 public abstract class SetupAbstractFactory {
+	
 	 private static SetupAbstractFactory instance = null;
-	 
 	 public abstract IRouteDAO createRouteDAO();
 	 public abstract IRouteDAO createNewRouteDAO();
 	 public abstract IRoute createRoute();

@@ -1,7 +1,7 @@
 package com.project.lookup;
-
 import static org.junit.Assert.assertEquals;
-import java.util.Date;
+import java.sql.Date;
+
 import org.junit.jupiter.api.Test;
 
 class SearchTrainTest {
@@ -41,15 +41,15 @@ class SearchTrainTest {
 	@Test
 	void testGetDateofJourny() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		searchTrain.setDateofJourny(new Date());
-		assertEquals(new Date(), searchTrain.getDateofJourny());
+		searchTrain.setDateofJourny(new Date(System.currentTimeMillis()));
+		assertEquals(new Date(System.currentTimeMillis()), searchTrain.getDateofJourny());
 	}
 
 	@Test
 	void testSetDateofJourny() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		searchTrain.setDateofJourny(new Date());
-		assertEquals(new Date(), searchTrain.getDateofJourny());
+		searchTrain.setDateofJourny(new Date(System.currentTimeMillis()));
+		assertEquals(new Date(System.currentTimeMillis()), searchTrain.getDateofJourny());
 	}
 
 	@Test

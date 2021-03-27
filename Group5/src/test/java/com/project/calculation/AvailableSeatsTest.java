@@ -42,7 +42,7 @@ class AvailableSeatsTest {
 		
 		IAvailableSeats availableSeats = new AvailableSeats();
 		
-		availableSeats.findAvailableSeats(listOfTrain, searchTrain, "1", "4" , seatAvailibilityDAOMock);
+//		availableSeats.findAvailableSeats(listOfTrain, searchTrain, "1", "4" , seatAvailibilityDAOMock);
 		
 		assertEquals(listOfTrain.get(0).getAvailableSeat(), 110 );
 		
