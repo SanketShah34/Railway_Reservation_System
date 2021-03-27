@@ -2,7 +2,6 @@ package com.project.setup;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
 import org.junit.jupiter.api.Test;
 
 public class TrainTest {
@@ -223,14 +222,14 @@ public class TrainTest {
 	@Test
 	public void testGetTotalDistance() {
 		ITrain train = setupAbstractFactory.createNewTrain();
-		train.setTotalDistance(12);
-		assertEquals(12, train.getTotalDistance());
+		train.setTotalDistance(12.0);
+		assertEquals(12.0, train.getTotalDistance() ,  0.2);
 	}
 
 	@Test
 	public void testSetTotalDistance() {
 		ITrain train = setupAbstractFactory.createNewTrain();
-		train.setTotalDistance(12);
-		assertEquals(12, train.getTotalDistance());
+		train.setTotalDistance(12.0);
+		assertEquals(12.00, train.getTotalDistance() , 0.2);
 	}
 }
