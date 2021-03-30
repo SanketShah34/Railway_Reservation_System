@@ -7,10 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import com.project.database.DButilities;
 import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
 
@@ -28,11 +25,11 @@ public class RouteDAO implements IRouteDAO {
 	public final String destinationStationCityColumnName = "destinationStationCity";
 	public final String destinationStationStateColumnName = "destinationStationState";
 	public final String distanceColumnName = "distance";
-	
+
 	@Override
-	public void saveRoute(IRoute route){
+	public void saveRoute(IRoute route) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		if (route.getRouteId() == 0) {
@@ -74,7 +71,7 @@ public class RouteDAO implements IRouteDAO {
 		List<IRoute> listOfRoutes = new ArrayList<>();
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
@@ -83,7 +80,7 @@ public class RouteDAO implements IRouteDAO {
 			boolean hadResult = statement.execute();
 			if (hadResult) {
 				resultSet = statement.getResultSet();
-				
+
 				while (resultSet.next()) {
 					IRoute route = setupAbstractFactory.createNewRoute();
 					IStation sourceStation = setupAbstractFactory.createNewStation();
@@ -133,13 +130,13 @@ public class RouteDAO implements IRouteDAO {
 		IRoute route = setupAbstractFactory.createNewRoute();
 		IStation sourceStation = setupAbstractFactory.createNewStation();
 		IStation destinationStation = setupAbstractFactory.createNewStation();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
 		try {
-			CallableStatement stmt = connection.prepareCall("{call getRoute(?)}");
-			stmt.setInt(1, routeId);
+			statement = connection.prepareCall("{call getRoute(?)}");
+			statement.setInt(1, routeId);
 
 			boolean hasRoute = statement.execute();
 			if (hasRoute) {
@@ -183,7 +180,7 @@ public class RouteDAO implements IRouteDAO {
 	@Override
 	public void deleteRoute(Integer routeId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		try {
@@ -202,7 +199,7 @@ public class RouteDAO implements IRouteDAO {
 	public IRoute getRouteByStation(int sourcePoint, int destinationPoint) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;

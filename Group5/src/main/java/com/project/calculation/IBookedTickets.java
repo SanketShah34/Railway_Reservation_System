@@ -8,13 +8,13 @@ public interface IBookedTickets {
 
 	void setReservationId(int reservationId);
 
-	String getTrainId();
+	int getTrainId();
 
-	void setTrainId(String trainId);
+	void setTrainId(int trainId);
 
-	Date getDate();
+	Date getReservationDate();
 
-	void setDate(Date date);
+	void setReservationDate(Date date);
 
 	int getSourceStationId();
 

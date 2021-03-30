@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 public interface ITrain {
-
+	
 	int getTrainId();
 
 	void setTrainId(int trainId);
@@ -77,8 +77,8 @@ public interface ITrain {
 
 	void setDropUpDate(Date dropUpDate);
 
-	public Date getStartDate();
+	Date getStartDate();
 
-	public void setStartDate(Date startDate);
+	void setStartDate(Date startDate);
 
 }

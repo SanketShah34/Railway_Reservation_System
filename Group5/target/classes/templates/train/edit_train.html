@@ -88,7 +88,7 @@
 											<td>Starting Station:</td>
 											<td>
 												<select name="startStation" th:field="*{startStation}" style="width: 70%">
-												<option th:each="station : ${listOfStations}" th:value="${station.sId}" th:text="${station.stationName}">
+												<option th:each="station : ${listOfStations}" th:value="${station.stationId}" th:text="${station.stationName}">
 												</option>
 												</select>
 											</td>
@@ -109,7 +109,7 @@
 											<td>Ending Station:</td>
 											<td>
 												<select name="endStation" th:field="*{endStation}" style="width: 70%">
-												<option th:each="station : ${listOfStations}" th:value="${station.sId}" th:text="${station.stationName}">
+												<option th:each="station : ${listOfStations}" th:value="${station.stationId}" th:text="${station.stationName}">
 												</option>
 												</select>
 											</td>
@@ -127,7 +127,7 @@
 								    	   var html = '<label>Middle Station:</label><select name="middleStations" th:field="*{middleStations}" style="width: 70%">';
 								    	  console.log(listOfStations);
 								    	  for (var i = 0; i < listOfStations.length; i++) { 
-								    		  html += '<option th:value="' + listOfStations[i].sId+'">'
+								    		  html += '<option th:value="' + listOfStations[i].stationId+'">'
 							                    + listOfStations[i].stationName + '</option>';
 								    	   }
 								    	   html+='</select><br>';
@@ -146,12 +146,12 @@
 									    	
 									    		for (var i = 0; i < listOfStations.length; i++) { 
 									    			
-									    			if(listOfStations[i].sId == listOfMiddleStations[j]){
-									    				html += '<option value="' + listOfStations[i].sId+'" selected>'
+									    			if(listOfStations[i].stationId == listOfMiddleStations[j]){
+									    				html += '<option value="' + listOfStations[i].stationId+'" selected>'
 									                    + listOfStations[i].stationName + '</option>';
 									    			}
 									    			else{
-									    				html += '<option value="' + listOfStations[i].sId+'">'
+									    				html += '<option value="' + listOfStations[i].stationId+'">'
 									                    + listOfStations[i].stationName + '</option>';
 									    			}
 										    	}

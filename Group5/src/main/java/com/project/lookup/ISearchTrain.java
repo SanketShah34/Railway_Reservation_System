@@ -4,24 +4,24 @@ import java.sql.Date;
 
 public interface ISearchTrain {
 
-	public String getSourceStation();
+	String getSourceStation();
 
-	public void setSourceStation(String sourceStation);
+	void setSourceStation(String sourceStation);
 
-	public String getDestinationStation();
+	String getDestinationStation();
 
-	public void setDestinationStation(String destinationStation);
+	void setDestinationStation(String destinationStation);
 
-	public Date getDateofJourny();
+	Date getDateofJourny();
 
-	public void setDateofJourny(Date dateofJourny);
+	void setDateofJourny(Date dateofJourny);
 
-	public String getTrainType();
+	String getTrainType();
 
-	public void setTrainType(String trainType);
+	void setTrainType(String trainType);
 
-	public boolean issourceStationAndDestinationStationSame(String sourceStation, String destinationStation);
+	boolean issourceStationAndDestinationStationSame(String sourceStation, String destinationStation);
 
-	public boolean isDatePreviousDate(Date dateofJourny);
+	boolean isDatePreviousDate(Date dateofJourny);
 
 }

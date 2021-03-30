@@ -3,7 +3,6 @@ package com.project.calculation;
 import java.util.ArrayList;
 
 public class DaysCalculation {
-
 	int currentIndex = 0;
 	String dayNameFromDayClass = null;
 	int newIndex = 0;
@@ -47,5 +46,4 @@ public class DaysCalculation {
 		dayAfterIncrement = dayList.get(newIndex).dayName;
 		return dayAfterIncrement;
 	}
-
 }

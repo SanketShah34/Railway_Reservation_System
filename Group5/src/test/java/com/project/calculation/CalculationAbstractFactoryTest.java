@@ -1,14 +1,17 @@
 package com.project.calculation;
 
 public abstract class CalculationAbstractFactoryTest {
-	public static CalculationAbstractFactoryTest instance = null;
 	
+	private static CalculationAbstractFactoryTest instance = null;
+
 	public static CalculationAbstractFactoryTest instance() {
-		if (instance == null) {
+		if (null == instance) {
 			instance = new CalculationConcreteFactoryTest();
 		}
 		return instance;
 	}
 	
 	public abstract SeatAvailibilityDAOMock createSeatAvailibilityDAOMock();
+	
+	public abstract BookedTicketsMock createBookedTicketsMock();
 }
