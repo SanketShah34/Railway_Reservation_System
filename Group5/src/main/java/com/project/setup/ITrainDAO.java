@@ -2,7 +2,6 @@ package com.project.setup;
 
 import java.util.List;
 
-
 public interface ITrainDAO {
 
 	public List<Train> getAllTrain();
@@ -12,5 +11,5 @@ public interface ITrainDAO {
 	public ITrain getTrain(Integer trainId);
 
 	public void deleteTrain(Integer trainId);
-	
+
 }

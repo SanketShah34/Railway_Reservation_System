@@ -1,8 +1,8 @@
 package com.project.setup;
 
 public abstract class SetupAbstractFactory {
+	
 	 private static SetupAbstractFactory instance = null;
-	 
 	 public abstract IRouteDAO createRouteDAO();
 	 public abstract IRouteDAO createNewRouteDAO();
 	 public abstract IRoute createRoute();
@@ -15,8 +15,10 @@ public abstract class SetupAbstractFactory {
 	 public abstract ITrainDAO createNewTrainDAO();
 	 public abstract ITrain createTrain();
 	 public abstract ITrain createNewTrain();
+	 public abstract ICancelTrain createNewCancelTrain();
+	 public abstract ICancelTrain createCancelTrain();
 	 
-	 public static SetupAbstractFactory instance() {
+	public static SetupAbstractFactory instance() {
         if (null == instance) {
             instance = new SetupConcreteFactory();
         }

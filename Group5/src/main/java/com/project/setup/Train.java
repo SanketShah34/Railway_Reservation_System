@@ -1,6 +1,5 @@
 package com.project.setup;
-
-
+import java.sql.Date;
 import java.util.List;
 
 public class Train implements ITrain {
@@ -18,9 +17,12 @@ public class Train implements ITrain {
 	public List<Integer> totalStation;
 	public double fare;
 	public String pickUPTime;
+	public Date pickUPDate;
 	public String dropTime;
+	public Date dropUpDate;
 	public int availableSeat;
-	public int totalDistance;
+	public double totalDistance;
+	public Date startDate;
 	
 	public Train() {}
 	
@@ -189,12 +191,36 @@ public class Train implements ITrain {
 	}
 
 	@Override
-	public int getTotalDistance() {
+	public double getTotalDistance() {
 		return totalDistance;
 	}
 
 	@Override
-	public void setTotalDistance(int totalDistance) {
+	public void setTotalDistance(double totalDistance) {
 		this.totalDistance = totalDistance;
 	}
+
+	public Date getPickUPDate() {
+		return pickUPDate;
+	}
+
+	public void setPickUPDate(Date pickUPDate) {
+		this.pickUPDate = pickUPDate;
+	}
+
+	public Date getDropUpDate() {
+		return dropUpDate;
+	}
+
+	public void setDropUpDate(Date dropUpDate) {
+		this.dropUpDate = dropUpDate;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}	
 }

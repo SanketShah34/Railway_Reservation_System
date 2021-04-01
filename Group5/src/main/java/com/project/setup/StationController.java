@@ -41,10 +41,8 @@ public class StationController {
 	}
 
 	@PostMapping(value = "/admin/station/addNew/save")
-	public String saveNewStation(@Valid @ModelAttribute("station") IStation station, Model model) {
-
+	public String saveNewStation(@ModelAttribute("station") IStation station, Model model) {
 		boolean validOrNot = false;
-
 		if (station.isStationNameInvalid()) {
 			model.addAttribute("ErrorStationName", true);
 			validOrNot = true;
@@ -66,24 +64,19 @@ public class StationController {
 		} else {
 			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 			IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
-			boolean isunique = stationDAO.save(station);
-			if (isunique) {
+			boolean isUnique = stationDAO.save(station);
+			if (isUnique) {
 				return "redirect:/admin/station/list";
 			} else {
 				model.addAttribute("ErrorUnique", true);
 				return "station/add_station";
 			}
-
 		}
-
 	}
 
 	@PostMapping(value = "/admin/station/edit/save")
 	public String saveUpdatedStation(@Valid @ModelAttribute("station") IStation station, Model model) {
-
-		
 		boolean validOrNot = false;
-
 		if (station.isStationNameInvalid()) {
 			model.addAttribute("ErrorStationName", true);
 			validOrNot = true;
@@ -100,22 +93,19 @@ public class StationController {
 			model.addAttribute("ErrorStationState", true);
 			validOrNot = true;
 		}
-
 		if (validOrNot) {
 			return "station/edit_station";
 		} else {
 			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 			IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
-			boolean isunique = stationDAO.save(station);
-			if (isunique) {
+			boolean isUnique = stationDAO.save(station);
+			if (isUnique) {
 				return "redirect:/admin/station/list";
 			} else {
 				model.addAttribute("ErrorUnique", true);
 				return "station/edit_station";
 			}
-
 		}
-
 	}
 
 	@ModelAttribute("station")
@@ -140,7 +130,6 @@ public class StationController {
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		stationDAO.delete(stationId);
 		return "redirect:/admin/station/list";
-
 	}
 
 }

@@ -1,7 +1,5 @@
 package com.project.setup;
 
-import javax.validation.constraints.NotNull;
-
 public class Station implements IStation {
 	public int stationId;
 	public String stationName;
@@ -30,77 +28,65 @@ public class Station implements IStation {
 		this.stationId = stationId;
 	}
 
-	@Override
 	public String getStationName() {
 		return stationName;
 	}
 
-	@Override
 	public void setStationName(String stationName) {
 		this.stationName = stationName;
 	}
 
-	@Override
 	public String getStationCode() {
 		return stationCode;
 	}
 
-	@Override
 	public void setStationCode(String stationCode) {
 		this.stationCode = stationCode;
 	}
 
-	@Override
 	public String getStationState() {
 		return stationState;
 	}
 
-	@Override
 	public void setStationState(String stationState) {
 		this.stationState = stationState;
 	}
 
-	@Override
 	public String getStationCity() {
 		return stationCity;
 	}
 
-	@Override
 	public void setStationCity(String stationCity) {
 		this.stationCity = stationCity;
 	}
 
-	@Override
 	public boolean isStationNameInvalid() {
-		String StationNameWithoutSpace = this.stationName.trim();	
-		if(StationNameWithoutSpace.length() > 0 ){
+		String StationNameWithoutSpace = this.stationName.trim();
+		if (StationNameWithoutSpace.length() > 0) {
 			return false;
 		}
 		return true;
 	}
 
-	@Override
 	public boolean isStationCodeInvalid() {
 		String StationCodeWithoutSpace = this.stationCode.trim();
-		if(StationCodeWithoutSpace.length() > 0 ){
+		if (StationCodeWithoutSpace.length() > 0) {
 			return false;
 		}
 		return true;
 	}
 
-	@Override
 	public boolean isStationStateInvalid() {
 		String StationStateWithoutSpace = this.stationState.trim();
-		if(StationStateWithoutSpace.length() > 0 ){
+		if (StationStateWithoutSpace.length() > 0) {
 			return false;
 		}
 		return true;
 	}
 
-	@Override
 	public boolean isStationCityInvalid() {
 		String StationCityWithoutSpace = this.stationCity.trim();
-		if(StationCityWithoutSpace.length() > 0 ){
+		if (StationCityWithoutSpace.length() > 0) {
 			return false;
 		}
 		return true;
