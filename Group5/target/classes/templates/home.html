@@ -34,13 +34,10 @@
 					<div  class="row col-md-12" style="margin-top : 50px">
 						<div class="col-md-6" >
 							<div class="border border-secondary p-3 rounded">
-							<form th:action="@{/admin/station/list}" method="get">
-							<input type="submit" value="Station Setup" />
-						</form>
-							
-							
+								<form th:action="@{/admin/station/list}" method="get">
+									<input type="submit" value="Station Setup" />
+								</form>
 							</div>
-						
 						</div>
 						
 						<div class="col-md-6">
@@ -59,9 +56,14 @@
 							<input type="submit" value="Train Setup" />
 							</form>
 							</div>
-						
 						</div>
-						
+						<div class="col-md-6">
+							<div class="border border-secondary p-3 rounded">
+								<form th:action="@{/admin/cancelTrain}" method="get">
+									<input type="submit" value="Cancel Train" />
+								</form>
+							</div>
+						</div>
 						
 					</div>
 					

@@ -29,4 +29,19 @@ public class ReservationController {
 		model.addAttribute("reservationInformation", reservationInformation);
 		return "reservation/confirmAndPay";
 	}
+	
+	@PostMapping(value = "/user/confirmBooking")
+	public String saveReservationInformation(@ModelAttribute("reservationInformation") IReservation reservationInformation, Model model) {
+		reservationInformation.removeEmptyPassengerRow(reservationInformation);
+		String errorCodes = reservationInformation.validateReservation(reservationInformation);
+		if (errorCodes.equals("")) {
+			ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
+			IReservationDAO reservationDAO = reservationAbstractFactory.createNewReservationDAO();
+			IReservation reservation = reservationDAO.saveReservationInformation(reservationInformation);
+			reservationDAO.savePassengerInformation(reservation);
+		} else {
+			model.addAttribute("errorCodes", errorCodes);
+		}
+		return "";
+	}
 }

@@ -168,4 +168,13 @@ public class PassengerInformation implements IPassengerInformation {
 		}
 		return errorMessages;
 	}
+	
+	@Override
+	public boolean isRowNonEmpty() {
+		if (this.isFirstNameNullOrEmpty() && this.isLastNameNullOrEmpty()) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

@@ -18,7 +18,7 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 	public final String maxSeatNoColumnName = "max_seatNo";
 	public final String reservationIdColumnName = "reservationId";
 	public final String trainIdColumnName = "trainId";
-	public final String dateColumnName = "date";
+	public final String dateColumnName = "reservationDate";
 	public final String sourceStationIdColumnName = "sourceStationId";
 	public final String destinationStationIdColumnName = "destinationStationId";
 	public final String amountPaidColumnName = "amountPaid";

@@ -7,6 +7,8 @@ public abstract class ReservationAbstractFactory {
 	public abstract IReservation createNewReservation();
 	public abstract IPassengerInformation createPassengerInformation();
 	public abstract IPassengerInformation createNewPassengerInformation();
+	public abstract IReservationDAO createNewReservationDAO();
+	public abstract IReservationDAO createReservationDAO();
 	
 	public static ReservationAbstractFactory instance() {
         if (instance == null) {
