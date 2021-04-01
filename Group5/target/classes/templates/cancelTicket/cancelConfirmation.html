@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+	
+<title>Cancel Conformation Tickets</title>
+
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+</head>
+<body>
+		<div align="center">
+			<div style="max-width: 1000px; margin: 0 auto;">
+				<div class="border border-secondary p-3 rounded">
+					<div class="col-md-12 row">
+						<div class="col-md-12 row">
+							<div style="text-align: start" class="col-md-4">
+								<input action="action" type="button" onclick="history.go(-1);" value="Back" />
+							</div>
+							<div style="text-align: start" class="col-md-4">
+								Welcome <b><span sec:authentication="name">Username</span></b>
+							</div>
+							<div style="text-align: end" class="col-md-4">
+								<form th:action="@{/logout}" method="post">
+									<input type="submit" value="Logout" />
+								</form>
+							</div>
+						</div>
+						<div class="col-md-12 row">
+							<div class="row col-md-12" style="margin-top: 50px">
+								<div class="col-md-12">
+									<div class="border border-secondary p-3 rounded">
+										<h3>The refunded amount will be : </h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 row">
+						<div  class="border border-secondary p-3 rounded" style="width:930px">
+							<div   class="row col-md-12" style="margin-top : 50px">
+								<form th:action="@{/ticket/delete/confirm}" method="post">
+									<table border="1" cellpadding="10" style="width: 100%">
+										<tbody>
+											<tr>
+												<td>The refunded amount will be : </td>
+												<td>
+													<input type="text" th:field="*{refundedAmount}" readonly="readonly" style="width: 70%"/>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<button type="submit">Confirm</button>
+								</form>
+								<form th:action="@{/ticket/delete/cancel}" method="post">
+									<table border="1" cellpadding="10" style="width: 100%">
+										<tr> </tr>
+									</table>
+									<button type="submit">Cancel</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
