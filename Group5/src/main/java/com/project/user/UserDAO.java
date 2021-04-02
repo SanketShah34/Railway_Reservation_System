@@ -47,8 +47,8 @@ public class UserDAO implements IUserDAO {
 				}
 			}
 		}
-		catch (SQLException e) {
-			e.printStackTrace();
+		catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statement);
 			databaseUtilities.closeResultSet(resultSet);
@@ -57,10 +57,8 @@ public class UserDAO implements IUserDAO {
 		return userfromDB;
 	}
 	
-	
 	@Override
 	public void saveUser(IUser user) {
-		
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
@@ -76,14 +74,12 @@ public class UserDAO implements IUserDAO {
 		        statement.setString(2, user.getLastName());
 		        statement.setString(3, user.getGender());
 		        statement.setDate(4, (Date)user.getDateOfBirth());
-		        statement.setInt(5, user.getMobileNumber());
+		        statement.setString(5, String.valueOf(user.getMobileNumber()));//  user.getMobileNumber().toString());
 		        statement.setString(6, user.getUserName());
 		        statement.setString(7, encodedpassword);
-
 		        statement.execute();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (SQLException exception) {
+				exception.printStackTrace();
 			}
 			finally {
 				databaseUtilities.closeStatement(statement);
@@ -93,8 +89,7 @@ public class UserDAO implements IUserDAO {
 	}
 	
 	@Override
-	public boolean isUserExists(String username) 
-	{
+	public boolean isUserExists(String username) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = null;
@@ -115,9 +110,7 @@ public class UserDAO implements IUserDAO {
 					return false;
 				}
 			}
-		}
-		catch (SQLException exception)
-		{	
+		} catch (SQLException exception) {	
 			exception.printStackTrace();
 		}
 		finally {
@@ -126,7 +119,6 @@ public class UserDAO implements IUserDAO {
 			databaseUtilities.closeConnection(connection);
 		}
 		return true;
-		
 	}
 
 }

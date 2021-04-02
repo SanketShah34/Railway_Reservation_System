@@ -1,9 +1,11 @@
 package com.project.userTest;
 
+//import static org.junit.Assert.assertEquals;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-//import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 import com.project.user.IUser;
@@ -44,6 +46,8 @@ public class UserTest {
 	public void getUserNameTest() {
 		user.setUserName("dhara@gmail.com");
         Assert.isTrue(user.getUserName().equals("dhara@gmail.com"));
+        //assertEquals(user.getUserName(), "dhara@gmail.com");
+
 	}
 	
 	@Test
@@ -130,46 +134,57 @@ public class UserTest {
 	
 	@Test
     public void getMobileNumberTest() {
-        user.setMobileNumber(Integer.parseInt("1234567890"));
-        Assert.isTrue(user.getMobileNumber() == Integer.parseInt("1234567890"));
+        user.setMobileNumber("9933562165");
+        Assert.isTrue(user.getMobileNumber().equals("9933562165"));
     }
 	
 	@Test
     public void setMobileNumberTest() {
-        user.setMobileNumber(Integer.parseInt("1234567890"));
-        Assert.isTrue(user.getMobileNumber() == Integer.parseInt("1234567890"));
+        user.setMobileNumber("9933562165");
+        Assert.isTrue(user.getMobileNumber().equals("9933562165"));
     }
 	
 	/*@Test
     public void isFirstNameValidTest() {
-        Assert.isTrue(User.isFirstNameValid("Dhara"));
-        Assert.isTrue(!User.isFirstNameValid(null));
-        Assert.isTrue(!User.isFirstNameValid(""));
+		assertEquals(User.isFirstNameValid("Dhara"), true);
+		assertEquals(User.isFirstNameValid(null), false);
+		assertEquals(User.isFirstNameValid(""), false);
+       // Assert.isTrue(User.isFirstNameValid("Dhara"));
+        //Assert.isTrue(!User.isFirstNameValid(null));
+        //Assert.isTrue(!User.isFirstNameValid(""));
     }
 
     @Test
     public void isLastNameValidTest() {
+    	assertEquals(User.isLastNameValid("Gohil"), true);
+    	assertEquals(User.isLastNameValid(null), false);
+    	assertEquals(User.isLastNameValid(""), false);
         //Assert.isTrue(User.isLastNameValid("Gohil"));
-        Assert.isTrue(!User.isLastNameValid(""));
-        Assert.isTrue(!User.isLastNameValid(null));
+       // Assert.isTrue(!User.isLastNameValid(""));
+       // Assert.isTrue(!User.isLastNameValid(null));
     }
 	
 	@Test
     public void isPasswordEmptyTest() {
+		assertEquals(User.isPasswordEmpty("Dhara"), true);
+		assertEquals(User.isPasswordEmpty(null), false);
+		assertEquals(User.isPasswordEmpty(""), false);
         //Assert.isTrue(User.isPasswordEmpty("Dhara"));
-        Assert.isTrue(!User.isPasswordEmpty(""));
-        Assert.isTrue(!User.isPasswordEmpty(null));
+       // Assert.isTrue(!User.isPasswordEmpty(""));
+        //Assert.isTrue(!User.isPasswordEmpty(null));
     }
 	
 	@Test
     public void isConfirmPasswordEmptyTest() {
+		assertEquals(User.isConfirmPasswordEmpty(""), true);
+		assertEquals(User.isConfirmPasswordEmpty(""), false);
+		assertEquals(User.isConfirmPasswordEmpty(null), false);
         //Assert.isTrue(User.isConfirmPasswordEmpty("Dhara"));
-        Assert.isTrue(!User.isConfirmPasswordEmpty(""));
-        Assert.isTrue(!User.isConfirmPasswordEmpty(null));
-  
+        //Assert.isTrue(!User.isConfirmPasswordEmpty(""));
+        //Assert.isTrue(!User.isConfirmPasswordEmpty(null));
     }*/
 
-    @Test
+   /* @Test
     public void isEmailValidTest() {
         Assert.isTrue(User.isEmailIdValid("dhara@gmail.com"));
         Assert.isTrue(!User.isEmailIdValid(null));
@@ -181,7 +196,8 @@ public class UserTest {
     public void isPasswordValidTest() {
     	Assert.isTrue(User.isPasswordValid("Dhara", "Dhara"));
     	Assert.isTrue(!User.isPasswordValid("Dhara", "Hello"));
-    }
+    	
+    }*/
     
    /* @Test
     public void isDateValidTest() {
@@ -191,8 +207,10 @@ public class UserTest {
 		{
 			Date trueDate = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(trueDateStr);
 			Date falseDate = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(falseDateStr);
-			Assert.isTrue(User.isDateValid(trueDate));
-			Assert.isTrue(!User.isDateValid(falseDate));
+			assertEquals(User.isDateValid(trueDate), true);
+			assertEquals(User.isDateValid(falseDate), false);
+			//Assert.isTrue(User.isDateValid(trueDate));
+			//Assert.isTrue(!User.isDateValid(falseDate));
 		} catch (ParseException e)
 		{
 			e.printStackTrace();

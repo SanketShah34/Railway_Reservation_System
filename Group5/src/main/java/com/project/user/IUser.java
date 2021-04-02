@@ -40,15 +40,38 @@ public interface IUser {
 	
 	public void setDateOfBirth(Date dateOfBirth);
 	
-	public int getMobileNumber();
+	public String getMobileNumber();
 	
-	public void setMobileNumber(int mobileNumber);
+	public void setMobileNumber(String mobileNumber);
 	
-	//private static boolean passwordValidation(String password, String confirmPassword);
+	public  boolean passwordValidation(String password, String confirmPassword);
 	
-	//public boolean emailValidation(String email);
+	public boolean emailValidation(String email);
 	
-	//public boolean dateValidation(Date date);
+	public boolean dateValidation(Date date);
+	
+	public  boolean isStringNullOrEmpty(String s);
+	
+	public boolean isEmailIdValid(String emailId);
+	
+	public  boolean isFirstNameValid(String firstName);
+	
+	public  boolean isLastNameValid(String lastName);
+	
+	public  boolean isPasswordEmpty(String password);
+	
+	public  boolean isConfirmPasswordEmpty(String confirmPassword);
+	
+	public  boolean isPasswordValid(String password, String confirmPassword);
+	
+	public  boolean isDateValid(Date date);
+	
+	public boolean isQuestionValid(String securityQuestionOne , String securityQuestionTwo);
+	
+	public boolean isPhoneNumberValid(String number);
+	
+
+	
 	
 
 }
