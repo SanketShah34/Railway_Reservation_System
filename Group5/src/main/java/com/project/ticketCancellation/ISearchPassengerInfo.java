@@ -3,10 +3,12 @@ package com.project.ticketCancellation;
 import java.util.List;
 
 import com.project.reservation.IPassengerInformation;
+import com.project.reservation.IReservation;
 
 public interface ISearchPassengerInfo {
-	public List<IPassengerInformation> SearchPassengerInfoByPNR(String userName, String pnrNumber);
-	public double getAmountPaidOnTicket(List<Integer> ids);
-	public String getPnrNumber(int id);
-	public double calculateRefundAmount(double amountPaid);
+	public List<IPassengerInformation> SearchPassengerInfoByPNR(String pnrNumber);
+	public IReservation GetAmountPaidOnTicket(List<Integer> ids);
+	public String GetPnrNumber(int id);
+	public double CalculateRefundAmount(IReservation reservation, List<Integer> ids);
+	public void DeleteTickets(List<Integer> ids, IReservation reservation, double refundedAmount);
 }

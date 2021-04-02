@@ -11,7 +11,7 @@
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 	crossorigin="anonymous">
 	
-<title>Cancel Conformation Tickets</title>
+<title>Train Reservation System</title>
 
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -38,7 +38,7 @@
 							<div class="row col-md-12" style="margin-top: 50px">
 								<div class="col-md-12">
 									<div class="border border-secondary p-3 rounded">
-										<h3>The refunded amount will be : </h3>
+										<h3>Cancel Conformation Tickets </h3>
 									</div>
 								</div>
 							</div>
@@ -47,24 +47,19 @@
 					<div class="col-md-12 row">
 						<div  class="border border-secondary p-3 rounded" style="width:930px">
 							<div   class="row col-md-12" style="margin-top : 50px">
-								<form th:action="@{/ticket/delete/confirm}" method="post">
+								<form th:action="@{/ticket/delete/done}" method="post">
 									<table border="1" cellpadding="10" style="width: 100%">
 										<tbody>
 											<tr>
 												<td>The refunded amount will be : </td>
-												<td>
-													<input type="text" th:field="*{refundedAmount}" readonly="readonly" style="width: 70%"/>
-												</td>
+												<td th:text="${refundedAmount}"></td>
+												<!-- <td>
+													<input type="text" th:field="*{refundedAmount}" th:value="*{refundedAmount}" readonly="readonly" style="width: 70%"/>
+												</td> -->
 											</tr>
 										</tbody>
 									</table>
-									<button type="submit">Confirm</button>
-								</form>
-								<form th:action="@{/ticket/delete/cancel}" method="post">
-									<table border="1" cellpadding="10" style="width: 100%">
-										<tr> </tr>
-									</table>
-									<button type="submit">Cancel</button>
+									<button type="submit">Done</button>
 								</form>
 							</div>
 						</div>

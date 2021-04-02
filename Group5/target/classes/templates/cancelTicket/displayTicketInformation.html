@@ -35,7 +35,7 @@
 						<div class="col-md-12 row">
 						<div  class="border border-secondary p-3 rounded" style="width:930px">
 							<div   class="row col-md-12" style="margin-top : 50px">
-								<form th:action="@{/ticket/delete}" method="post" >    <!--  th:object="${ticketInformation}" -->
+								<form th:action="@{/ticket/delete}" method="post" >   
 									<table border="1" cellpadding="10" style="width: 100%">
 										<thead>
 											<tr>
@@ -49,11 +49,6 @@
 										</thead>
 										<tbody>
 											<tr th:each="info, stat : ${passengerInformationList}">
-											<!-- <tr th:each="info : ${passengerInformationList}"> -->
-											<!-- <input type="checkbox"
-                th:name="|clientList[${stat.index}]|"
-                th:value="${currentClient.getClientID()}"
-                th:checked="${currentClient.selected}" /> -->
 												<td> <input type="checkbox" name="mycheckbox" th:checked="${flag}" data-target="requests-all"  
 														th:value="${info.passengerInformationId}" th:name="idChecked"/> </td>
 												<td th:text="${info.firstName}"></td>

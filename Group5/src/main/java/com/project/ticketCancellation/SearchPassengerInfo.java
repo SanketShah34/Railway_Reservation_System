@@ -1,15 +1,29 @@
 package com.project.ticketCancellation;
 
+import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+//import java.util.Date;
 import java.util.List;
 import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
 import com.project.reservation.IPassengerInformation;
+import com.project.reservation.IReservation;
 import com.project.reservation.ReservationAbstractFactory;
+import com.project.setup.ITrain;
+import com.project.setup.SetupAbstractFactory;
 
 public class SearchPassengerInfo implements ISearchPassengerInfo
 {
@@ -22,21 +36,28 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 	public final String PASSENGER_INFORMATION_ID = "passengerInformationId";
 	public final String PNR_NUMBER = "reservationId";
 	public final String AMOUNT_PAID = "amountPaid";
+	public final String TRAIN_TYPE = "trainType";
+	public final String START_DATE = "startDate"; 
+	public final String AMOUNT_INDIVIDUAL = "amount";
+	public final String DEPARTURE_TIME = "departureTime";
+	public final String TRAIN_ID = "trainId";
+	public final double TWENTY_PERCENT = 0.2;
+	public final double FIFTY_PERCENT = 0.5;
+	public final String ADD_SECONDS = ":00";
+	
 	List<IPassengerInformation> passengerInfoList =   new ArrayList<IPassengerInformation>(); ;
 
 	@Override
-	public List<IPassengerInformation> SearchPassengerInfoByPNR(String userName, String pnrNumber)
+	public List<IPassengerInformation> SearchPassengerInfoByPNR(String pnrNumber)
 	{
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
-		
 		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 		
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
 		passengerInfoList.removeAll(passengerInfoList);
-		
 		try {
 			statment = connection.prepareCall("{call getTicketInformation(?)}");
 			statment.setString(1, pnrNumber);
@@ -51,6 +72,7 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 					passengerInformation.setGender(resultSet.getString(GENDER));
 					passengerInformation.setAge(resultSet.getInt(AGE));
 					passengerInformation.setBerthPreference(resultSet.getString(BERTHPREFERENCE));
+					passengerInformation.setAmountPaid(resultSet.getDouble(AMOUNT_INDIVIDUAL));
 					passengerInfoList.add(passengerInformation);
 				}
 			}
@@ -61,21 +83,21 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 			databaseUtilities.closeResultSet(resultSet);
 			databaseUtilities.closeConnection(connection);
 		}
-		
 		return passengerInfoList;
 	}
 
 	@Override
-	public double getAmountPaidOnTicket(List<Integer> ids) {
+	public IReservation GetAmountPaidOnTicket(List<Integer> ids) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
+		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
-		double amountPaid = 0;
 		int id = ids.get(0);
-		String pnrNumber = getPnrNumber(id);
+		String pnrNumber = GetPnrNumber(id);
 		try {
 			statment = connection.prepareCall("{call getAmountPaid(?)}");
 			statment.setString(1, pnrNumber);
@@ -83,7 +105,11 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 			if(hadResult) {
 				resultSet = statment.getResultSet();
 				while(resultSet.next()) {
-					amountPaid = resultSet.getDouble(AMOUNT_PAID);
+					reservation.setReservationId(resultSet.getInt(PNR_NUMBER));
+					reservation.setTrainType(resultSet.getString(TRAIN_TYPE));
+					reservation.setStartDate(resultSet.getDate(START_DATE));
+					reservation.setAmountPaid(resultSet.getDouble(AMOUNT_PAID));
+					reservation.setTrainId(resultSet.getInt(TRAIN_ID));
 				}
 			}
 		} catch (SQLException exception) {
@@ -93,11 +119,11 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 			databaseUtilities.closeResultSet(resultSet);
 			databaseUtilities.closeConnection(connection);
 		}
-		return amountPaid;
+		return reservation;
 	}
 	
 	@Override
-	public String getPnrNumber(int id) {
+	public String GetPnrNumber(int id) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		
@@ -124,10 +150,123 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 		}
 		return pnrNumber;
 	}
+	
+	//@Override
+	public ITrain GetTrainDetails(int trainId) {
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		ITrain train = setupAbstractFactory.createNewTrain();
+		
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statment = null;
+		ResultSet resultSet = null;
+		try {
+			statment = connection.prepareCall("{call getTrainDetails(?)}");
+			statment.setInt(1, trainId);
+			boolean hadResult =  statment.execute();
+			if(hadResult) {
+				resultSet = statment.getResultSet();
+				while(resultSet.next()) {
+					train.setDepartureTime(resultSet.getString(DEPARTURE_TIME));
+					train.setTrainType(resultSet.getString(TRAIN_TYPE));
+				}
+			}
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+			databaseUtilities.closeStatement(statment);
+			databaseUtilities.closeResultSet(resultSet);
+			databaseUtilities.closeConnection(connection);
+		}
+		return train;
+	}
 
 	@Override
-	public double calculateRefundAmount(double amountPaid) {
+	public double CalculateRefundAmount(IReservation reservation, List<Integer> ids) {
+		int pnrNumber = reservation.getReservationId();
+		double amountPaid = reservation.getAmountPaid();
+		Date trainStartDate = reservation.getStartDate();
+		double refundedAmount = 0.0;
+		List<IPassengerInformation> passengerInformation = SearchPassengerInfoByPNR(String.valueOf(pnrNumber));
+		List<IPassengerInformation> selectedPassengerInformation = new ArrayList<>();
+		double amount = 0.0;
+		for(IPassengerInformation information : passengerInformation) {
+			for(Integer id : ids) {
+				if(id == information.getPassengerInformationId()) {
+					amount+= information.getAmountPaid();
+					selectedPassengerInformation.add(information);
+				}
+			}
+		}
+		refundedAmount = amountPaid - amount;
+		ITrain train = GetTrainDetails(reservation.getTrainId());
+		refundedAmount = CalculateDiscount( amountPaid,  refundedAmount, trainStartDate, train.getDepartureTime());
+		return refundedAmount;
+	}
+
+	private double CalculateDiscount(double amountPaid, double refundedAmount, Date trainStartDate, String departureTime) {
+		LocalDateTime localDateTime = LocalDateTime.now();
+		LocalDate localDate = localDateTime.toLocalDate();
+		LocalTime localTime = localDateTime.toLocalTime();
+
+		//https://www.baeldung.com/java-date-to-localdate-and-localdatetime
+		LocalDate TrainDate = Instant.ofEpochMilli(trainStartDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate localDateAfterAddingOneDay;
+		Double amount;
+		String dateStr = trainStartDate.toString();
+		String trainDateTime = dateStr + " " + departureTime + ADD_SECONDS;	
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern( "yyyy-MM-dd HH:mm:ss" );
+		LocalDateTime departureLocalDateTime = LocalDateTime.parse( trainDateTime , formatter);	
+		LocalTime trainTime = departureLocalDateTime.toLocalTime();
+		if(localDate.isEqual(TrainDate)) {
+			amount = refundedAmount * TWENTY_PERCENT;
+		}
+		else {
+			localDateAfterAddingOneDay = localDate.plusDays(1);
+			if(localDateAfterAddingOneDay.isEqual(TrainDate)) {
+				if(trainTime.isBefore(localTime)) {
+					amount = refundedAmount * FIFTY_PERCENT;
+				}
+				else {
+					amount = refundedAmount * TWENTY_PERCENT;
+				}
+			}
+			else {
+				amount = refundedAmount * FIFTY_PERCENT;
+			}
+		}
+		return amount;
+	}
+
+	@Override
+	public void DeleteTickets(List<Integer> ids, IReservation reservation, double refundedAmount) {
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		
-		return 0;
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statment = null;
+		CallableStatement statment1 = null;
+		String pnrNumber = null;
+		Double amountPaid = reservation.getAmountPaid();
+		Double finalAmount = amountPaid - refundedAmount;
+		try {
+			for(Integer id : ids) {
+				statment = connection.prepareCall("{call deleteTicketRecords(?)}");
+				statment.setInt(1, id);
+				statment.execute();
+				pnrNumber = GetPnrNumber(id);
+			}
+			statment1 = connection.prepareCall("{call updateReservationRecords(?, ?)}");
+			statment1.setString(1, pnrNumber); 
+			statment1.setDouble(2, finalAmount); 
+			statment1.execute();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+			databaseUtilities.closeStatement(statment);
+			databaseUtilities.closeStatement(statment1);
+			databaseUtilities.closeConnection(connection);
+		}
 	}
 }
