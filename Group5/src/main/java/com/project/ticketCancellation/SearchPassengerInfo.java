@@ -2,15 +2,8 @@ package com.project.ticketCancellation;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import com.project.database.DatabaseAbstactFactory;
@@ -37,9 +30,9 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 	public final String AMOUNT_INDIVIDUAL = "amount";
 	public final String DEPARTURE_TIME = "departureTime";
 	public final String TRAIN_ID = "trainId";
-	public final double TWENTY_PERCENT = 0.2;
-	public final double FIFTY_PERCENT = 0.5;
-	public final String ADD_SECONDS = ":00";
+	//public final double TWENTY_PERCENT = 0.2;
+	//public final double FIFTY_PERCENT = 0.5;
+	//public final String ADD_SECONDS = ":00";
 	
 	List<IPassengerInformation> passengerInfoList =   new ArrayList<IPassengerInformation>(); ;
 
@@ -147,7 +140,7 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 		return pnrNumber;
 	}
 	
-	//@Override
+	@Override
 	public ITrain GetTrainDetails(int trainId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
@@ -178,7 +171,7 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 		return train;
 	}
 
-	@Override
+	/*@Override
 	public double CalculateRefundAmount(IReservation reservation, List<Integer> ids) {
 		int pnrNumber = reservation.getReservationId();
 		double amountPaid = reservation.getAmountPaid();
@@ -233,7 +226,7 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 			}
 		}
 		return amount;
-	}
+	}*/
 
 	@Override
 	public void DeleteTickets(List<Integer> ids, IReservation reservation, double refundedAmount) {

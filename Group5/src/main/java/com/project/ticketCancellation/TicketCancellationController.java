@@ -38,12 +38,12 @@ public class TicketCancellationController {
 	}
 	
 	@PostMapping(value = "/ticket/delete")
-	public String SelectTicketsToDelete(@RequestParam(name = ID_CHECKED) List<Integer> ids, Model model)  {
-		System.out.println("Delete page");
+	public String SelectTicketsToDelete(@RequestParam(name = ID_CHECKED) List<Integer> ids, Model model) {
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
 		ISearchPassengerInfo searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
 		IReservation reservation = searchTicketInfo.GetAmountPaidOnTicket(ids);
-		double refundedAmount = searchTicketInfo.CalculateRefundAmount(reservation, ids);
+		double refundedAmount = calculateAmounts.CalculateRefundAmount(reservation, ids);
 		searchTicketInfo.DeleteTickets(ids, reservation, refundedAmount);
 		model.addAttribute("refundedAmount", refundedAmount);
 		return "cancelTicket/cancelConfirmation";

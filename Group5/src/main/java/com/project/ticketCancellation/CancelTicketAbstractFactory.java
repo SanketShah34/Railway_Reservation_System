@@ -7,6 +7,9 @@ public abstract class CancelTicketAbstractFactory
 	public abstract ISearchPassengerInfo createSearchPassengerInfo();
 	public abstract ISearchPassengerInfo createNewSearchPassengerInfo();
 	
+	public abstract ICalculateAmounts createCalculateAmounts();
+	public abstract ICalculateAmounts createNewCalculateAmounts();
+	
 	public static CancelTicketAbstractFactory instance() {
 		if (null == instance) {
 			instance = new CancelTicketConcreteFactory();
