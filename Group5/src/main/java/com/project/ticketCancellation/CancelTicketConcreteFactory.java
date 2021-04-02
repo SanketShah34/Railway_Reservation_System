@@ -1,8 +1,7 @@
 package com.project.ticketCancellation;
 
 
-public class CancelTicketConcreteFactory extends CancelTicketAbstractFactory
-{
+public class CancelTicketConcreteFactory extends CancelTicketAbstractFactory {
 	private ISearchPassengerInfo searchPassengerInfo;
 
 	@Override

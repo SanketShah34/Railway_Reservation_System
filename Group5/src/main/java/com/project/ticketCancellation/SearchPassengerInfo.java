@@ -1,13 +1,10 @@
 package com.project.ticketCancellation;
 
-import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,7 +12,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-//import java.util.Date;
 import java.util.List;
 import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
@@ -248,6 +244,8 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 		CallableStatement statment = null;
 		CallableStatement statment1 = null;
 		String pnrNumber = null;
+		int idForPnr = ids.get(0);
+		pnrNumber = GetPnrNumber(idForPnr);
 		Double amountPaid = reservation.getAmountPaid();
 		Double finalAmount = amountPaid - refundedAmount;
 		try {
@@ -255,7 +253,6 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 				statment = connection.prepareCall("{call deleteTicketRecords(?)}");
 				statment.setInt(1, id);
 				statment.execute();
-				pnrNumber = GetPnrNumber(id);
 			}
 			statment1 = connection.prepareCall("{call updateReservationRecords(?, ?)}");
 			statment1.setString(1, pnrNumber); 
