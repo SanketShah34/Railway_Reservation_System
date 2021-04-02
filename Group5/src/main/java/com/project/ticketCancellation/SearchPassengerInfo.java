@@ -30,6 +30,7 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 	public final String AMOUNT_INDIVIDUAL = "amount";
 	public final String DEPARTURE_TIME = "departureTime";
 	public final String TRAIN_ID = "trainId";
+	public final String TICKET_BOOKED = "ticketBooked";
 	//public final double TWENTY_PERCENT = 0.2;
 	//public final double FIFTY_PERCENT = 0.5;
 	//public final String ADD_SECONDS = ":00";
@@ -99,6 +100,7 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 					reservation.setStartDate(resultSet.getDate(START_DATE));
 					reservation.setAmountPaid(resultSet.getDouble(AMOUNT_PAID));
 					reservation.setTrainId(resultSet.getInt(TRAIN_ID));
+					reservation.setTicketBooked(resultSet.getInt(TICKET_BOOKED));
 				}
 			}
 		} catch (SQLException exception) {
@@ -240,6 +242,12 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 		int idForPnr = ids.get(0);
 		pnrNumber = GetPnrNumber(idForPnr);
 		Double amountPaid = reservation.getAmountPaid();
+		int totalTicketBooked = reservation.getTicketBooked();
+		int remainingTickets = totalTicketBooked - ids.size();
+		int deletedTicket = 0;
+		if(remainingTickets == 0) {
+			deletedTicket = 1;
+		}
 		Double finalAmount = amountPaid - refundedAmount;
 		try {
 			for(Integer id : ids) {
@@ -247,9 +255,11 @@ public class SearchPassengerInfo implements ISearchPassengerInfo
 				statment.setInt(1, id);
 				statment.execute();
 			}
-			statment1 = connection.prepareCall("{call updateReservationRecords(?, ?)}");
+			statment1 = connection.prepareCall("{call updateReservationRecords(?, ?, ?)}");
 			statment1.setString(1, pnrNumber); 
-			statment1.setDouble(2, finalAmount); 
+			statment1.setDouble(2, finalAmount);
+			statment1.setDouble(3, deletedTicket);
+			
 			statment1.execute();
 		} catch (SQLException exception) {
 			exception.printStackTrace();

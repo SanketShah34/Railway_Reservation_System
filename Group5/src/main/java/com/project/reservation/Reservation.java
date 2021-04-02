@@ -19,6 +19,8 @@ public class Reservation implements IReservation {
     public String trainType;
     public String trainCancelEvent;
     public Date startDate;
+    public int ticketBooked;
+    public int deletedTicket;
 
 	public List<IPassengerInformation> passengerInformation;
     
@@ -139,6 +141,26 @@ public class Reservation implements IReservation {
 	}
 	
 	@Override
+	public int getTicketBooked() {
+		return ticketBooked;
+	}
+
+	@Override
+	public void setTicketBooked(int ticketBooked) {
+		this.ticketBooked = ticketBooked;
+	}
+	
+	@Override
+	public void setDeletedTicket(int deletedTicket) {
+		this.deletedTicket = deletedTicket;
+	}
+
+	@Override
+	public int getDeletedTicket() {
+		return deletedTicket;
+	}
+
+	@Override
 	public void calculateReservationFarePerPassenger(IReservation reservation) {
 		
 		CalculationAbstractFactory calculationAbstractFacroty = CalculationAbstractFactory.instance();
@@ -151,6 +173,8 @@ public class Reservation implements IReservation {
 			int passengerInformationLength = reservation.getPassengerInformation().size();
 			for ( int index = 0; index < passengerInformationLength; index++) {
 				double amountPaid = findFare.calculateFareByAge(fareBasedOnDistance, reservation.getPassengerInformation().get(index).getAge());
+				reservation.getPassengerInformation().get(index).setPassengerInformationId(0);
+				reservation.getPassengerInformation().get(index).setReservationId(0);
 				reservation.getPassengerInformation().get(index).setAmountPaid(amountPaid);
 			}		
 		} catch(Exception exception) {
@@ -167,6 +191,7 @@ public class Reservation implements IReservation {
 			amountPaid = amountPaid + reservation.getPassengerInformation().get(index).getAmountPaid();
 		}
 		reservation.setAmountPaid(amountPaid); 
+		reservation.setReservationId(0);
 	}
  
 	@Override

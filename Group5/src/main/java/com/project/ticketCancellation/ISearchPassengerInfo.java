@@ -11,6 +11,5 @@ public interface ISearchPassengerInfo {
 	public IReservation GetAmountPaidOnTicket(List<Integer> ids);
 	public ITrain GetTrainDetails(int trainId);
 	public String GetPnrNumber(int id);
-	//public double CalculateRefundAmount(IReservation reservation, List<Integer> ids);
 	public void DeleteTickets(List<Integer> ids, IReservation reservation, double refundedAmount);
 }
