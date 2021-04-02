@@ -1,6 +1,6 @@
 package com.project.setup;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public interface ICancelTrain {
 
@@ -8,9 +8,9 @@ public interface ICancelTrain {
 
 	void setTrainCode(int trainCode);
 
-	LocalDate getCancellationDate();
+	Date getCancellationDate();
 
-	void setCancellationDate(LocalDate cancellationDate);
+	void setCancellationDate(Date cancellationDate);
 
 	String validateTrainDate();
 

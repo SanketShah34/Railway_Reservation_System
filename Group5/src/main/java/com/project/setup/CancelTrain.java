@@ -1,12 +1,12 @@
 package com.project.setup;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.time.format.DateTimeFormatter;
 
 public class CancelTrain implements ICancelTrain{
 
 	private int trainCode;
-	private LocalDate cancellationDate;
+	private Date cancellationDate;
 	
 	public CancelTrain() {}
 
@@ -21,20 +21,22 @@ public class CancelTrain implements ICancelTrain{
 	}
 
 	@Override
-	public LocalDate getCancellationDate() {
+	public Date getCancellationDate() {
 		return cancellationDate;
 	}
 
 	@Override
-	public void setCancellationDate(LocalDate cancellationDate) {
+	public void setCancellationDate(Date cancellationDate) {
 		this.cancellationDate = cancellationDate;
 	}
 	
 	@Override
 	public String localDateToString() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-		return cancellationDate.format(formatter);
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+//		return cancellationDate.f
+		return "";
 	}
+	
 	@Override
 	public String validateTrainDate() {
 		return "";
