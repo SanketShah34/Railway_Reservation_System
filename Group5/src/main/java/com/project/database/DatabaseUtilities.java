@@ -21,7 +21,10 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 	public Connection  establishConnection(){
 		try {
 			Class.forName(DRIVER);
-		    connection = DriverManager.getConnection(URL , USERNAME, PASSWORD);
+		    String url = System.getenv("URL");
+			String userName = System.getenv("USERNAME");
+			String password = System.getenv("PASSWORD");
+		    connection = DriverManager.getConnection(url , userName, password);
 			return connection;
 		} catch (Exception e) {
 			e.printStackTrace();
