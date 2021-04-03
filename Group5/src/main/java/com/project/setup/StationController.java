@@ -49,7 +49,7 @@ public class StationController {
 		}
 		if (station.isStationCodeInvalid()) {
 			model.addAttribute("ErrorStationCode", true);
-			validOrNot = true;
+			validOrNot = true;  
 		}
 		if (station.isStationCityInvalid()) {
 			model.addAttribute("ErrorStationCity", true);
