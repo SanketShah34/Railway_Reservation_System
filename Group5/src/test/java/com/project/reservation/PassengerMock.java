@@ -12,7 +12,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -26,7 +26,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -40,7 +40,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -54,7 +54,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -68,7 +68,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -82,7 +82,7 @@ public class PassengerMock {
 		passenger.setGender(null);
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -96,7 +96,7 @@ public class PassengerMock {
 		passenger.setGender("");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -110,7 +110,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -124,7 +124,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -138,7 +138,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -152,7 +152,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -166,7 +166,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 	
@@ -180,7 +180,7 @@ public class PassengerMock {
 		passenger.setGender("Female");
 		passenger.setPassengerInformationId(1);
 		passenger.setReservationId(1);
-		passenger.setSeatNumber("62A");
+		passenger.setSeatNumber(1);
 		return passenger;
 	}
 }

@@ -34,9 +34,9 @@ public interface IPassengerInformation {
 
 	void setBerthPreference(String berthPreference);
 
-	String getSeatNumber();
+	int getSeatNumber();
 
-	void setSeatNumber(String seatNumber);
+	void setSeatNumber(int seatNumber);
 
 	String getCoachNumber();
 
