@@ -69,7 +69,7 @@ public class UserDAO implements IUserDAO {
 			try {
 				BCryptPasswordEncoder encoder  = securityAbstractFactory.createPasswordEncoder();
 		        String encodedpassword = encoder.encode(user.getPassword());
-		        statement = connection.prepareCall("{call addUsertemp( ? , ? , ? , ?, ?, ?, ?)}");
+		        statement = connection.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ?)}");
 		        statement.setString(1, user.getFirstName());
 		        statement.setString(2, user.getLastName());
 		        statement.setString(3, user.getGender());
