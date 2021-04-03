@@ -22,6 +22,9 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 	public final String reservationIdColumnName = "reservationId";
 	public final String coachNumberColumnName = "coachNumber";
 	public final String seatNumberColumnName = "seatNumber";
+	public final String startStationColumnName = "startStation";
+	public final String middleStationsColumnName = "middleStations";
+	public final String endStationColumnName = "endStation";
 	public final String upperBerthPreference = "Upper Berth";
 	public final String lowerBerthPreference = "Lower Berth";
 	public final String noBerthPreference = "No Preference";
@@ -52,8 +55,9 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 		
 		if(0 < totalCoaches) {
 			//int totalSeats = totalCoaches * 20;
+			List<Integer> trainStations = getTrainStationsByTrainId(reservation);
 			
-			Map<String,Set<Integer>> trainCoachAndSeatsData = getReservedPassengerData(reservation);
+			Map<String,Set<Integer>> trainCoachAndSeatsData = getReservedPassengerData(reservation, trainStations);
 			
 			List<IPassengerInformation> passengerInformation = reservation.getPassengerInformation();
 			List<IPassengerInformation> newPassengerInformation = new ArrayList<>();
@@ -136,6 +140,9 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 							Set<Integer> seatNumberSet = new HashSet<>();
 							seatNumberSet.add(1);
 							trainCoachAndSeatsData.put(coachNumbers.get(m), seatNumberSet);
+							passengerInfo.setCoachNumber(coachNumbers.get(m));
+							passengerInfo.setSeatNumber(1);
+							newPassengerInformation.add(passengerInfo);
 							seatAllocated = true;
 						}
 						m++;
@@ -164,6 +171,9 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 							Set<Integer> seatNumberSet = new HashSet<>();
 							seatNumberSet.add(1);
 							trainCoachAndSeatsData.put(coachNumbers.get(m), seatNumberSet);
+							passengerInfo.setCoachNumber(coachNumbers.get(m));
+							passengerInfo.setSeatNumber(1);
+							newPassengerInformation.add(passengerInfo);
 							seatAllocated = true;
 						}
 						m++;
@@ -175,29 +185,91 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 		return reservation;
 	}
 
-	private Map<String,Set<Integer>> getReservedPassengerData(IReservation reservation) {
+	private List<Integer> getTrainStationsByTrainId(IReservation reservation) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
+		List<Integer> stationIds = new ArrayList<Integer>();
+		try {
+			statement = connection.prepareCall("{call getTrain(?)}");
+			statement.setInt(1, reservation.getTrainId());
+			resultSet = statement.executeQuery();
+			while(resultSet.next()) {
+				stationIds.add(resultSet.getInt(startStationColumnName));
+				String[] middleStationsList = resultSet.getString(middleStationsColumnName).split(",");
+				for(String middleStation : middleStationsList) {
+					stationIds.add(Integer.valueOf(middleStation));
+				}
+				stationIds.add(resultSet.getInt(endStationColumnName));
+			}
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+			if(null != resultSet) {
+				databaseUtilities.closeResultSet(resultSet);
+			}
+			if(null != statement) {
+				databaseUtilities.closeStatement(statement);
+			}
+			if(null != connection) {
+				databaseUtilities.closeConnection(connection);
+			}
+		}
+		return stationIds;
+	}
+
+	private Map<String,Set<Integer>> getReservedPassengerData(IReservation reservation, List<Integer> trainStations) {
+		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		Connection connection = databaseUtilities.establishConnection();
+		CallableStatement statement = null;
+		ResultSet resultSet = null;
+		CallableStatement anotherStatement = null;
+		ResultSet anotherResultSet = null;
+		CallableStatement statementForEndStations = null;
+		ResultSet resultSetForEndStations = null;
 		List<Integer> reservationIds = new ArrayList<Integer>();
 		Map<String,Set<Integer>> trainCoachesData = new HashMap<>();
 		try {
-			statement = connection.prepareCall("{call getReservationIdFromTrainIdAndStartDate( ?, ?)}");
-			statement.setInt(1, reservation.getTrainId());
-			statement.setDate(1, reservation.getStartDate());
-			resultSet = statement.executeQuery();
-			while(resultSet.next()) {
-				reservationIds.add(resultSet.getInt(reservationIdColumnName));
+			
+			List<Integer> newAllStationsListForReservation = new ArrayList<>();
+			int startStationIndex = trainStations.indexOf(reservation.getSourceStationId());
+			int destinationStationIndex = trainStations.indexOf(reservation.getDestinationStationId());
+			newAllStationsListForReservation.addAll(trainStations.subList(startStationIndex, destinationStationIndex+1));
+			System.out.println("Size : "+newAllStationsListForReservation.size());
+			if(2 < newAllStationsListForReservation.size()) {
+				for(int i=0; i<newAllStationsListForReservation.size()-1; i++) {
+					System.out.println("i:"+i);
+					statement = connection.prepareCall("{call getReservationIdFromTrainIdAndStartDateAndStations( ?, ?, ?, ?)}");
+					statement.setInt(1, reservation.getTrainId());
+					statement.setDate(2, reservation.getStartDate());
+					statement.setInt(3, newAllStationsListForReservation.get(i));
+					statement.setInt(4, newAllStationsListForReservation.get(i+1));
+					resultSet = statement.executeQuery();
+					while(resultSet.next()) {
+						reservationIds.add(resultSet.getInt(reservationIdColumnName));
+					}
+				}
+			}
+			statementForEndStations = connection.prepareCall("{call getReservationIdFromTrainIdAndStartDateAndStations( ?, ?, ?, ?)}");
+			statementForEndStations.setInt(1, reservation.getTrainId());
+			statementForEndStations.setDate(2, reservation.getStartDate());
+			statementForEndStations.setInt(3, newAllStationsListForReservation.get(0));
+			statementForEndStations.setInt(4, newAllStationsListForReservation.get(newAllStationsListForReservation.size()-1));
+			System.out.println(statementForEndStations);
+			resultSetForEndStations = statementForEndStations.executeQuery();
+			while(resultSetForEndStations.next()) {
+				reservationIds.add(resultSetForEndStations.getInt(reservationIdColumnName));
 			}
 			
-			CallableStatement anotherStatement = null;
-			ResultSet anotherResultSet = null;
 			for(int i=0; i<reservationIds.size(); i++) {
+				
 				anotherStatement = connection.prepareCall("{call getReservedPassengerData(?)}");
 				anotherStatement.setInt(1, reservationIds.get(i));
-				anotherResultSet = statement.executeQuery();
+				anotherResultSet = anotherStatement.executeQuery();
+
 				while(anotherResultSet.next()) {
 					if(trainCoachesData.containsKey(anotherResultSet.getString(coachNumberColumnName))){
 						Set<Integer> seatNumberSet = new HashSet<>();
@@ -215,9 +287,30 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		} finally {
-			databaseUtilities.closeResultSet(resultSet);
-			databaseUtilities.closeStatement(statement);
-			databaseUtilities.closeConnection(connection);
+			if(null != resultSet) {
+				databaseUtilities.closeResultSet(resultSet);
+			}
+			if(null != statement) {
+				databaseUtilities.closeStatement(statement);
+			}
+			if(null != anotherResultSet) {
+				databaseUtilities.closeResultSet(anotherResultSet);
+			}
+			if(null != anotherStatement) {
+				databaseUtilities.closeStatement(anotherStatement);
+			}
+			if(null != resultSetForEndStations) {
+				databaseUtilities.closeResultSet(resultSetForEndStations);
+			}
+			if(null != statementForEndStations) {
+				databaseUtilities.closeStatement(statementForEndStations);
+			}
+			if(null != anotherStatement) {
+				databaseUtilities.closeStatement(anotherStatement);
+			}
+			if(null != connection) {
+				databaseUtilities.closeConnection(connection);
+			}
 		}
 		
 		return trainCoachesData;

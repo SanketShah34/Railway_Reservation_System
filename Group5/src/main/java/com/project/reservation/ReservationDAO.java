@@ -67,8 +67,8 @@ public class ReservationDAO implements IReservationDAO {
 						statement.setString(4, passengerInformation.getGender());
 						statement.setInt(5, passengerInformation.getAge());
 						statement.setString(6, passengerInformation.getBerthPreference());
-						statement.setString(7, "A1");
-						statement.setString(8, "A1");
+						statement.setString(7, String.valueOf(passengerInformation.getSeatNumber()));
+						statement.setString(8, passengerInformation.getCoachNumber());
 						statement.execute();
 					}
 				}
