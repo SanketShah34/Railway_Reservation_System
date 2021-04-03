@@ -19,7 +19,6 @@ public class User implements IUser {
 
 	public int id;
 
-	
 	public String userName;
 	public String password;
 	public boolean enabled;
@@ -35,7 +34,6 @@ public class User implements IUser {
 	public String mobileNumber;
 
 	public User() {
-
 	}
 
 	public User(int id, String userName, String password, String role, boolean enabled, String firstName,
@@ -141,15 +139,13 @@ public class User implements IUser {
 			} else {
 				return false;
 			}
-		}
-		
+		}	
 	}
 
 	public boolean emailValidation(String email) {
 		if (isStringNullOrEmpty(email)) {
 			return false;
 		}
-		// String regex = "^(.+)@(.+)$";
 		Pattern pattern = Pattern.compile(EMAIL_REGEX);
 		Matcher matcher = pattern.matcher(email);
 		if (matcher.matches() == true) {
@@ -157,14 +153,12 @@ public class User implements IUser {
 		} else {
 			return false;
 		}
-
 	}
 
 	// source:
 	// https://stackoverflow.com/questions/14892536/to-check-if-the-date-is-after-the-specified-date
+	// https://stackoverflow.com/questions/11097256/how-to-convert-mon-jun-18-000000-ist-2012-to-18-06-2012
 	public boolean dateValidation(Date date) {
-
-		// https://stackoverflow.com/questions/11097256/how-to-convert-mon-jun-18-000000-ist-2012-to-18-06-2012
 		String dateStr = date.toString();
 		DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
 		Date dateParse;
@@ -175,13 +169,11 @@ public class User implements IUser {
 			cal.setTime(dateParse);
 			String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/"
 					+ cal.get(Calendar.YEAR);
-
 			String dateSplit[] = formatedDate.split("/");
 
 			// https://mkyong.com/java8/java-check-if-the-date-is-older-than-6-months/
 			LocalDate currentDate = LocalDate.now();
 			LocalDate currentDateMinus180Months = currentDate.minusMonths(180);
-
 			LocalDate date1 = LocalDate.of(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[1]),
 					Integer.parseInt(dateSplit[0]));
 
@@ -190,19 +182,17 @@ public class User implements IUser {
 			} else {
 				return false;
 			}
-		} catch (ParseException e) {
-			e.printStackTrace();
+		} catch (ParseException exception) {
+			exception.printStackTrace();
 		}
-
 		return true;
-
 	}
 
-	public boolean isStringNullOrEmpty(String s) {
-		if (null == s) {
+	public boolean isStringNullOrEmpty(String string) {
+		if (null == string) {
 			return true;
 		}
-		return s.isEmpty();
+		return string.isEmpty();
 	}
 
 	public boolean isEmailIdValid(String emailId) {
@@ -233,15 +223,7 @@ public class User implements IUser {
 		return passwordValidation(password, confirmPassword);
 	}
 
-	public boolean isQuestionValid(String questionOne, String questionTwo) {
-		if (questionOne.equals(questionTwo)) {
-			return false;
-		}
-		return true;
-	}
-
 	public boolean isPhoneNumberValid(String number) {
 		return isStringNullOrEmpty(number);
 	}
-
 }

@@ -1,6 +1,5 @@
 package com.project.security;
 
-//import java.sql.Date;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.project.user.IUser;
 import com.project.user.IUserDAO;
-import com.project.user.User;
 import com.project.user.UserAbstractFactory;
 import com.project.user.UserConcreteFactory;
 
@@ -27,8 +25,7 @@ public class SignupController {
     private final String MOBILE_NUMBER = "mobileNumber";
 	
 	@RequestMapping("/signup")
-	public String signUpPage(Model model) {
-		
+	public String signUpPage(Model model) {	
 		UserAbstractFactory userAbstractFactory = new UserConcreteFactory();
 		IUser user = userAbstractFactory.createUser();
 		System.out.println("signup");
@@ -47,50 +44,6 @@ public class SignupController {
 								@RequestParam(name = CONFIRM_PASSWORD) String confirmPassword,
 								Model model) {
 		
-		/*UserAbstractFactory userAbstractFactory =  UserAbstractFactory.instance();
-		IUserDAO userDAO =  userAbstractFactory.createUserDAO();
-		IUser user = userAbstractFactory.createUser();
-		
-		System.out.println("signup page");
-		
-		if(User.isEmailIdValid(userName) == false) {
-			model.addAttribute("emailError", true);
-			return "signup";
-		}
-		
-		if(userDAO.isUserExists(userName) == true) {
-			model.addAttribute("userExists", true); 
-			System.out.println("user exist");
-			return "redirect:/login"; 
-		}
-		
-		if(User.isFirstNameValid(firstName) == true || User.isLastNameValid(lastName) == true || User.isMobileNumberValid(mobileNumber) == true ||
-				User.isPasswordEmpty(password) || User.isConfirmPasswordEmpty(confirmPassword) ) {
-			model.addAttribute("fieldEmptyError", true);
-			return "signup";
-		}
-		
-		if(User.isDateValid(dateOfBirth) == false) {
-			model.addAttribute("dobError", true);
-			return "signup";
-		}
-		
-		else if(User.isPasswordValid(password, confirmPassword) == false) {
-		  model.addAttribute("passwordError", true); 
-		  return "signup"; 
-		}
-		
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setGender(gender);
-		user.setDateOfBirth(dateOfBirth);
-		user.setMobileNumber(Long.getLong(mobileNumber));
-		user.setUserName(userName);
-		user.setPassword(password);
-		userDAO.saveUser(user);
-		return "redirect:/login";
-		
-	}*/
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 		IUserDAO userDAO = userAbstractFactory.createUserDAO();
 		IUser user = userAbstractFactory.createUser();
@@ -107,7 +60,6 @@ public class SignupController {
 			model.addAttribute("dobError", true);
 			hasError = true;
 		}
-
 
 		if (user.isPhoneNumberValid(mobileNumber) == true) {
 			model.addAttribute("mobileError", true);
@@ -145,10 +97,7 @@ public class SignupController {
 			user.setUserName(userName);
 			user.setPassword(password);
 			userDAO.saveUser(user);
-			System.out.println("hello");
 			return "redirect:/login";
 		}
 	}
-
-
 }

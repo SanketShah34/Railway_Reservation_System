@@ -66,8 +66,6 @@ public interface IUser {
 	
 	public  boolean isDateValid(Date date);
 	
-	public boolean isQuestionValid(String securityQuestionOne , String securityQuestionTwo);
-	
 	public boolean isPhoneNumberValid(String number);
 	
 

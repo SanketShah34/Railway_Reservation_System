@@ -64,17 +64,17 @@ public class UserDAO implements IUserDAO {
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
-		
+		java.sql.Date date = new java.sql.Date(user.getDateOfBirth().getTime());
 		if(user.getId() == 0) {
 			try {
 				BCryptPasswordEncoder encoder  = securityAbstractFactory.createPasswordEncoder();
 		        String encodedpassword = encoder.encode(user.getPassword());
-		        statement = connection.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ?)}");
+		        statement = connection.prepareCall("{call addUsertemp( ? , ? , ? , ?, ?, ?, ?)}");
 		        statement.setString(1, user.getFirstName());
 		        statement.setString(2, user.getLastName());
 		        statement.setString(3, user.getGender());
-		        statement.setDate(4, (Date)user.getDateOfBirth());
-		        statement.setString(5, String.valueOf(user.getMobileNumber()));//  user.getMobileNumber().toString());
+		        statement.setDate(4, date);
+		        statement.setString(5, String.valueOf(user.getMobileNumber()));
 		        statement.setString(6, user.getUserName());
 		        statement.setString(7, encodedpassword);
 		        statement.execute();
@@ -120,5 +120,4 @@ public class UserDAO implements IUserDAO {
 		}
 		return true;
 	}
-
 }
