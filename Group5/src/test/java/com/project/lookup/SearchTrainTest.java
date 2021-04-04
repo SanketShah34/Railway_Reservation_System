@@ -81,5 +81,11 @@ class SearchTrainTest {
 	    assertEquals(true, searchTrain.isDatePreviousDate(new Date(System.currentTimeMillis() - 1000000000L)));
 	}
 	
+	@Test
+	void testIsDateInWithinOneMonthPeriod() {
+		ISearchTrain  searchTrain = lookupAbstractFactory.createNewSearchTrain();
+		assertEquals(true, searchTrain.isDateInWithinOneMonthPeriod(new java.util.Date(System.currentTimeMillis() + 1000000000L)));
+		assertEquals(false, searchTrain.isDateInWithinOneMonthPeriod(new java.util.Date(System.currentTimeMillis() + 9000000000L)));
+	}
 
 }

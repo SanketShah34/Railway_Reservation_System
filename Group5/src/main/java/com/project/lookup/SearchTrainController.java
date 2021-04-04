@@ -1,12 +1,17 @@
 package com.project.lookup;
 
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.project.calculation.CalculationAbstractFactory;
 import com.project.calculation.IAvailableSeats;
 import com.project.calculation.ISeatAvailibilityDAO;
@@ -21,6 +26,8 @@ import com.project.setup.SetupAbstractFactory;
 
 @Controller
 public class SearchTrainController {
+	
+	private final String DATE_OF_JOURNEY = "dateofJourny";
 
 	@GetMapping(value = "/user/home")
 	public String showSearchTrainModel(Model model) {
@@ -37,7 +44,8 @@ public class SearchTrainController {
 	}
 
 	@PostMapping(value = "/user/home")
-	public String SearchTrainModel(@ModelAttribute("searchTrain") ISearchTrain searchTrain, Model model) {
+	public String SearchTrainModel(@ModelAttribute("searchTrain") ISearchTrain searchTrain,
+			@RequestParam(name = DATE_OF_JOURNEY, defaultValue = "2019-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateofJourny,Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
@@ -58,10 +66,17 @@ public class SearchTrainController {
 			hasError = true;
 			model.addAttribute("stationError", "true");
 		}
-		if (searchTrain.isDatePreviousDate(searchTrain.getDateofJourny())) {
+		
+		if (searchTrain.isDatePreviousDate(dateofJourny) ) {
 			hasError = true;
 			model.addAttribute("dateError", "true");
 		}
+		
+		if (searchTrain.isDateInWithinOneMonthPeriod(dateofJourny) == false) {
+			hasError = true;
+			model.addAttribute("dateExceedOneMOnth", "true");
+		}
+		
 		if (hasError) {
 			List<IStation> sourceStations = stationDAO.getAllStation();
 			List<IStation> destinationStations = stationDAO.getAllStation();

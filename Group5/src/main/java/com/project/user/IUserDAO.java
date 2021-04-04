@@ -6,6 +6,10 @@ public interface IUserDAO {
 
 	public void saveUser(IUser user);
 
-	boolean isUserExists(String username);
+	public boolean isUserExists(String username);
+	
+	public boolean isUserPresentWithSameQuestionAndAnswer(IUser user);
+	
+	public boolean updatePassword(IUser user);
 
 }

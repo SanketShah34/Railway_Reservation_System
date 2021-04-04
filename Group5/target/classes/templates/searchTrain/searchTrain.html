@@ -77,6 +77,9 @@
 												
 													<p class="alert alert-danger" style="width: 70%"
 											th:if="${dateError}">Choose future Date</p>
+											
+											<p class="alert alert-danger" style="width: 70%"
+											th:if="${dateExceedOneMOnth}">Select date that is in range of one month from today</p>
 											</td>
 										</tr>
 										<tr>

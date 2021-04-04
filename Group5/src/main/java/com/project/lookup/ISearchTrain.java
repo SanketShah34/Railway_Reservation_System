@@ -1,6 +1,6 @@
 package com.project.lookup;
 
-import java.sql.Date;
+import java.util.Date;
 
 public interface ISearchTrain {
 
@@ -23,5 +23,7 @@ public interface ISearchTrain {
 	boolean issourceStationAndDestinationStationSame(String sourceStation, String destinationStation);
 
 	boolean isDatePreviousDate(Date dateofJourny);
+	
+	public boolean isDateInWithinOneMonthPeriod(Date date);
 
 }

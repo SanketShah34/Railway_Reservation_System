@@ -1,5 +1,7 @@
 package com.project.userTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -128,17 +130,17 @@ public class UserTest {
 		}
     }
 	
-	@Test
-    public void getMobileNumberTest() {
-        user.setMobileNumber(Integer.parseInt("1234567890"));
-        Assert.isTrue(user.getMobileNumber() == Integer.parseInt("1234567890"));
-    }
-	
-	@Test
-    public void setMobileNumberTest() {
-        user.setMobileNumber(Integer.parseInt("1234567890"));
-        Assert.isTrue(user.getMobileNumber() == Integer.parseInt("1234567890"));
-    }
+//	@Test
+//    public void getMobileNumberTest() {
+//        user.setMobileNumber(Integer.parseInt("1234567890"));
+//        Assert.isTrue(user.getMobileNumber() == Integer.parseInt("1234567890"));
+//    }
+//	
+//	@Test
+//    public void setMobileNumberTest() {
+//        user.setMobileNumber(Integer.parseInt("1234567890"));
+//        Assert.isTrue(user.getMobileNumber() == Integer.parseInt("1234567890"));
+//    }
 	
 	/*@Test
     public void isFirstNameValidTest() {
@@ -169,19 +171,19 @@ public class UserTest {
   
     }*/
 
-    @Test
-    public void isEmailValidTest() {
-        Assert.isTrue(User.isEmailIdValid("dhara@gmail.com"));
-        Assert.isTrue(!User.isEmailIdValid(null));
-        Assert.isTrue(!User.isEmailIdValid(""));
-        Assert.isTrue(!User.isEmailIdValid("@gmail.com"));
-    }
-    
-    @Test
-    public void isPasswordValidTest() {
-    	Assert.isTrue(User.isPasswordValid("Dhara", "Dhara"));
-    	Assert.isTrue(!User.isPasswordValid("Dhara", "Hello"));
-    }
+//    @Test
+//    public void isEmailValidTest() {
+//        Assert.isTrue(User.isEmailIdValid("dhara@gmail.com"));
+//        Assert.isTrue(!User.isEmailIdValid(null));
+//        Assert.isTrue(!User.isEmailIdValid(""));
+//        Assert.isTrue(!User.isEmailIdValid("@gmail.com"));
+//    }
+//    
+//    @Test
+//    public void isPasswordValidTest() {
+//    	Assert.isTrue(User.isPasswordValid("Dhara", "Dhara"));
+//    	Assert.isTrue(!User.isPasswordValid("Dhara", "Hello"));
+//    }
     
    /* @Test
     public void isDateValidTest() {
@@ -198,4 +200,73 @@ public class UserTest {
 			e.printStackTrace();
 		}
     }*/
+    
+    @Test
+    public void testIsQuestionValid() {
+    	assertEquals(user.isQuestionValid("favorite food?" , "favorite food?"), false);
+    	assertEquals(user.isQuestionValid("favorite food?" , "favorite sport?"), true);
+    }
+    
+    @Test
+    public void testIsAnswerValid() {
+    	assertEquals(user.isAnswerValid(""), true);
+    	assertEquals(user.isAnswerValid("Hello"), false);
+    }
+    
+    @Test
+    public void testSetQuestionOne() {
+    	user.setQuestionOne("favorite food?");
+        assertEquals(user.getQuestionOne() , "favorite food?");
+    }
+    
+    
+    @Test
+    public void testGetQuestionOne() {
+    	user.setQuestionOne("favorite food?");
+        assertEquals(user.getQuestionOne() , "favorite food?");
+    }
+    
+    
+    @Test
+    public void testGetAnswerOne() {
+    	user.setAnswerOne("khaman");
+        assertEquals(user.getAnswerOne() , "khaman");
+    }
+    
+    @Test
+    public void testSetAnswerOne() {
+    	user.setAnswerOne("khaman");
+        assertEquals(user.getAnswerOne() , "khaman");
+    }
+    
+    @Test
+    public void testGetQuestionTwo() {
+    	user.setQuestionOne("favorite sport?");
+        assertEquals(user.getQuestionOne() , "favorite sport?");
+    }
+    
+    @Test
+    public void testSetQuestionTwo() {
+    	user.setQuestionOne("favorite sport?");
+        assertEquals(user.getQuestionOne() , "favorite sport?");
+    }
+    
+    @Test
+    public void testGetAnswerTwo() {
+    	user.setAnswerTwo("cricket");
+        assertEquals(user.getAnswerTwo() , "cricket");
+    }
+    
+    @Test
+    public void testSetAnswerTwo() {
+    	user.setAnswerTwo("cricket");
+        assertEquals(user.getAnswerTwo() , "cricket");
+    }
+    
+    
+    
+    
+    
+    
+    
 }

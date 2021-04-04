@@ -22,7 +22,6 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 	public final String destinationStationIdColumnName = "destinationStationId";
 	public final String amountPaidColumnName = "amountPaid";
 	public final String ticketBookedColumnName = "ticketBooked";
-	public final String userIdColumnName = "userId";
 	public final String reservationIdStringColumnName = "reservationId";
 
 	@Override
@@ -51,7 +50,6 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 					ticket.setDestinationId(resultSet.getInt(destinationStationIdColumnName));
 					ticket.setAmountPaid(resultSet.getDouble(amountPaidColumnName));
 					ticket.setTicketBooked(resultSet.getInt(ticketBookedColumnName));
-					ticket.setUserId(resultSet.getInt(userIdColumnName));
 					bookedTickets.add(ticket);
 				}
 			}

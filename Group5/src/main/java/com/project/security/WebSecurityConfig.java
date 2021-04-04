@@ -56,14 +56,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception
 	{
 		http.authorizeRequests()
-		.antMatchers("/admin/train").permitAll()
-		.antMatchers("/user/home").permitAll()
 		
+		.antMatchers("/user/setNewPassword").permitAll()
 		.antMatchers("/signup").permitAll()
 		.antMatchers("/signup/save").permitAll()
+		.antMatchers("/user/forgotpassword").permitAll()
 		.antMatchers("/admin*").hasAnyAuthority("ADMIN")
-//		.antMatchers("/user*").hasAnyAuthority("USER")
-//		.antMatchers("/new").hasAnyAuthority("ADMIN", "CREATOR")
 		.anyRequest().authenticated()
 		.and()
 		.formLogin().loginPage("/login").usernameParameter("userName").passwordParameter("password").successHandler(successHandler)

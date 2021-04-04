@@ -130,7 +130,10 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndCalculation
 			if (trainTravelOnUserdayWhenUserWant) {
 				timeAtTrainReachSourceStationInHours = minuteToHoursConverter(timeAtTrainReachSourceStationInMinutes);
 				train.setPickUPTime(timeAtTrainReachSourceStationInHours);
-				train.setPickUPDate(searchTrain.getDateofJourny());
+				
+				java.sql.Date sqlDate = new java.sql.Date(searchTrain.getDateofJourny().getTime());
+				
+				train.setPickUPDate(sqlDate);
 			} else {
 				istrainAvailableOnThatDate = false;
 			}
@@ -146,7 +149,9 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndCalculation
 			if (trainTravelOnUserdayWhenUserWant) {
 				timeAtTrainReachSourceStationInHours = minuteToHoursConverter(timeAtTrainReachSourceStationInMinutes);
 				train.setPickUPTime(timeAtTrainReachSourceStationInHours);
-				train.setPickUPDate(searchTrain.getDateofJourny());
+				
+				java.sql.Date sqlDate = new java.sql.Date(searchTrain.getDateofJourny().getTime());
+				train.setPickUPDate(sqlDate);
 			} else {
 				istrainAvailableOnThatDate = false;
 				return istrainAvailableOnThatDate;
@@ -228,7 +233,12 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndCalculation
 		for (int i = 0; i < daysArray.length; i++) {
 			daysArray[i] = daysCalculation.getDay(daysArray[i], daytoIncrement);
 		}
-		dayUserWantTotravel = getDaysNameFromDate(searchTrain.getDateofJourny());
+		
+		java.sql.Date sqlDate = new java.sql.Date(searchTrain.getDateofJourny().getTime());
+		
+		
+		
+		dayUserWantTotravel = getDaysNameFromDate(sqlDate);
 		trainTravelThatDayOrNot = false;
 		for (int j = 0; j < daysArray.length; j++) {
 			if (daysArray[j].equals(dayUserWantTotravel)) {
@@ -254,7 +264,9 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndCalculation
 	// https://stackoverflow.com/questions/1005523/how-to-add-one-day-to-a-date
 	@Override
 	public void setStartDateForTrain(ITrain train, int dayToRemove, ISearchTrain searchTrain) {
-		Date date = Date.valueOf(searchTrain.getDateofJourny().toLocalDate().minusDays(dayToRemove));
+		java.sql.Date sqlDate = new java.sql.Date(searchTrain.getDateofJourny().getTime());
+		
+		Date date = Date.valueOf(sqlDate.toLocalDate().minusDays(dayToRemove));
 		train.setStartDate(date);
 	}
 
@@ -268,7 +280,8 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndCalculation
 
 	@Override
 	public void SetDateForPickUp(ITrain train, int dayTOIncrement, ISearchTrain searchTrain) {
-		Date date = Date.valueOf(searchTrain.getDateofJourny().toLocalDate().plusDays(dayTOIncrement));
+		java.sql.Date sqlDate = new java.sql.Date(searchTrain.getDateofJourny().getTime());
+		Date date = Date.valueOf(sqlDate.toLocalDate().plusDays(dayTOIncrement));
 		train.setPickUPDate(date);
 	}
 
