@@ -8,6 +8,7 @@ public class SetupConcreteFactory extends SetupAbstractFactory{
     private IRoute route;
     private IStation station;
     private ITrain train;
+    private ICancelTrain cancelTrain;
     
     public IRouteDAO createRouteDAO() {
     	if (routeDAO == null) {
@@ -73,5 +74,18 @@ public class SetupConcreteFactory extends SetupAbstractFactory{
     
     public ITrain createNewTrain() {
     	return new Train();
+    }
+    
+    @Override
+	public ICancelTrain createCancelTrain() {
+    	if (cancelTrain == null) {
+    		cancelTrain = new CancelTrain();
+    	}
+    	return cancelTrain;
+    }
+    
+    @Override
+	public ICancelTrain createNewCancelTrain() {
+    	return new CancelTrain();
     }
 }

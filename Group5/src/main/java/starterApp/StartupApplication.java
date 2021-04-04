@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 
 @ComponentScan(basePackages = { "com.project.controller", "com.project.security", "com.project.reservation",
 		"com.project.database", "com.project.user", "com.project.setup", "com.project.lookup" })
+
+@ComponentScan(basePackages={"com.project.security", "com.project.reservation" , "com.project.database", "com.project.user", "com.project.setup" , "com.project.lookup", "com.project.cancelTrain", "com.project.ticketCancellation"})
 @SpringBootApplication
 public class StartupApplication {
 

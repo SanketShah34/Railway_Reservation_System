@@ -34,17 +34,29 @@
 						<div class="col-md-12 row">
 							<div class="row col-md-12" style="margin-top: 50px">
 								<div class="col-md-12">
-									<div class="border border-secondary p-3 rounded">
+									<div class="border border-secondary p-3 rounded" style="width:930px">
 										<h3>Enter Passenger Information</h3>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12 row">
-						<div  class="border border-secondary p-3 rounded" style="width:930px">
-							<div   class="row col-md-12" style="margin-top : 50px">
-								<form th:action="@{/user/payNow}" th:object="${reservationInformation}" method="post">
+					<form th:action="@{/user/payNow}" th:object="${reservationInformation}" method="post">
+						<div class="col-md-12 row">
+							<div class="col-md-12 row border border-secondary p-3 rounded" style="width:930px">
+								  <h6>In case train cancels:</h6>
+							</div>
+							<div class="col-md-12 row border border-secondary p-3 rounded" style="width:930px">
+								<select th:field="*{trainCancelEvent}">
+									<option value="Cancel Ticket" selected>Cancel Ticket</option>
+									<option value="Reschedule on week-days">Reschedule on week-days</option>
+									<option value="Reschedule on week-ends">Reschedule on week-ends</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12 row">
+							<div  class="border border-secondary p-3 rounded" style="width:930px">
+								<div   class="row col-md-12" style="margin-top : 50px">
 									<input type="hidden" name="trainId" th:value="${reservationInformation.trainId}">
 									<input type="hidden" name="sourceStationId" th:value="${reservationInformation.sourceStationId}">
 									<input type="hidden" name="destinationStationId" th:value="${reservationInformation.destinationStationId}">
@@ -89,10 +101,10 @@
 										</tbody>
 									</table>
 									<button type="submit">Book Tickets</button>
-								</form>
+								</div>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>

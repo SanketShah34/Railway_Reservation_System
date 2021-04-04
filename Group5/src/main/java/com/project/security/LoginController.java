@@ -13,31 +13,22 @@ import com.project.user.UserAbstractFactory;
 
 @Controller
 public class LoginController {
-
+	
 	private final String SECURITY_QUESTION_ONE = "securityQuestionOne";
 	private final String SECURITY_QUESTION_TWO = "securityQuestionTwo";
 	private final String ANSWER_ONE = "answerone";
 	private final String ANSWER_TWO = "answertwo";
-	private final String USERNAME = "emailAddress";
+	private final String USERNAME = "userName";
 	private final String PASSWORD = "password";
 	private final String CONFIRM_PASSWORD = "confirmPassword";
-
+	
 	@GetMapping("/admin/home")
 	public String viewHomePageForAdmin(Model model) {
 		return "home";
 	}
-
 	@RequestMapping("/login")
 	public String showLoginPage() {
 		return "login";
-	}
-
-	@GetMapping("/user/forgotpassword")
-	public String showForgotPassword(Model model) {
-		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
-		SecurityQuestion securityQuestions = securityAbstractFactory.createSecurityQuestion();
-		model.addAttribute("securityQuestions", securityQuestions.getSecurituQuestions());
-		return "forgotPassword";
 	}
 
 	@PostMapping("/user/forgotpassword")

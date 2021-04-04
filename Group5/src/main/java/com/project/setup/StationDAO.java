@@ -12,6 +12,7 @@ import com.project.database.IDatabaseUtilities;
 
 @Component
 public class StationDAO implements IStationDAO {
+
 	public final String stationIdColumnName = "stationId";
 	public final String stationNameColumnName = "stationName";
 	public final String stationCodeColumnName = "stationCode";

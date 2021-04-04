@@ -1,5 +1,6 @@
 package com.project.reservation;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface IReservation {
@@ -32,9 +33,9 @@ public interface IReservation {
 
 	void setPassengerInformation(List<IPassengerInformation> passengerInformation);
 
-	void setDistance(int distance);
+	void setDistance(double distance);
 
-	int getDistance();
+	double getDistance();
 
 	String getTrainType();
 
@@ -44,6 +45,28 @@ public interface IReservation {
 
 	void calculateTotalReservationFare(IReservation reservation);
 
-	void addInPassengerInformationList(List<IPassengerInformation>passengerInformationList, IPassengerInformation passengerInformation);
+	void addInPassengerInformationList(List<IPassengerInformation> passengerInformationList, IPassengerInformation passengerInformation);
+
+	void removeEmptyPassengerRow(IReservation reservation);
+
+	String validateReservation(IReservation reservation);
+
+	boolean isPassengerListEmpty(IReservation reservation);
+
+	void setTrainCancelEvent(String trainCancelEvent);
+
+	String getTrainCancelEvent();
+
+	void setStartDate(Date startDate);
+
+	Date getStartDate();
+
+	void setTicketBooked(int ticketBooked);
+
+	int getTicketBooked();
+	
+	void setDeletedTicket(int deletedTicket);
+	
+	int getDeletedTicket();
 
 }

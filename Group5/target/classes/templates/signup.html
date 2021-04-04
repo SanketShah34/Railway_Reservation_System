@@ -19,8 +19,12 @@
 
 <body>
 
+
 	<form action="#" th:action="@{/signup/save}" method="post">
 		<!-- th:object="${user}" -->
+
+	<form action="#" th:action="@{/signup/save}"  method="post">
+
 		<div class="border border-secondary p-3 rounded">
 			 <p class="alert alert-danger" style="width: 70%" th:if="${userExists}"  >User Is Already present. try with onther Email </p>
 			<h1 style="text-align: center">Sign-up</h1>

@@ -54,4 +54,6 @@ public interface IPassengerInformation {
 
 	boolean isFirstNameNullOrEmpty();
 
+	boolean isRowNonEmpty();
+
 }

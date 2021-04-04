@@ -12,7 +12,6 @@ public class UserMock {
 		user.setUserName("dhara@gmail.com");
 		user.setFirstName("Dhara");
 		user.setLastName("Gohil");
-		user.setDateOfBirth(null);
 		user.setGender("Female");
 		
 		String dateStr = "2000-04-06";
