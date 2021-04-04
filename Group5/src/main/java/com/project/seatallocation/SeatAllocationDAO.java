@@ -238,10 +238,8 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 			int startStationIndex = trainStations.indexOf(reservation.getSourceStationId());
 			int destinationStationIndex = trainStations.indexOf(reservation.getDestinationStationId());
 			newAllStationsListForReservation.addAll(trainStations.subList(startStationIndex, destinationStationIndex+1));
-			System.out.println("Size : "+newAllStationsListForReservation.size());
 			if(2 < newAllStationsListForReservation.size()) {
 				for(int i=0; i<newAllStationsListForReservation.size()-1; i++) {
-					System.out.println("i:"+i);
 					statement = connection.prepareCall("{call getReservationIdFromTrainIdAndStartDateAndStations( ?, ?, ?, ?)}");
 					statement.setInt(1, reservation.getTrainId());
 					statement.setDate(2, reservation.getStartDate());
@@ -258,7 +256,6 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 			statementForEndStations.setDate(2, reservation.getStartDate());
 			statementForEndStations.setInt(3, newAllStationsListForReservation.get(0));
 			statementForEndStations.setInt(4, newAllStationsListForReservation.get(newAllStationsListForReservation.size()-1));
-			System.out.println(statementForEndStations);
 			resultSetForEndStations = statementForEndStations.executeQuery();
 			while(resultSetForEndStations.next()) {
 				reservationIds.add(resultSetForEndStations.getInt(reservationIdColumnName));

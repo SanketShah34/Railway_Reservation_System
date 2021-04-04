@@ -45,9 +45,10 @@ public class ReservationController {
 			IReservation reservation = reservationDAO.saveReservationInformation(reservationInformation);
 			reservation = seatAllocationDAO.allocateSeat(reservation);
 			reservationDAO.savePassengerInformation(reservation);
+			model.addAttribute("reservationId", reservation.getReservationId());
 		} else {
 			model.addAttribute("errorCodes", errorCodes);
 		}
-		return "";
+		return "ticketprint/ticketprint";
 	}
 }
