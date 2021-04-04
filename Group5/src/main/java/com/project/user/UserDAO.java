@@ -43,8 +43,8 @@ public class UserDAO implements IUserDAO {
 				}
 			}
 		}
-		catch (SQLException e) {
-			e.printStackTrace();
+		catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statement);
 			databaseUtilities.closeResultSet(resultSet);
@@ -62,7 +62,7 @@ public class UserDAO implements IUserDAO {
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
-		
+		java.sql.Date date = new java.sql.Date(user.getDateOfBirth().getTime());
 		if(user.getId() == 0) {
 			try {
 				BCryptPasswordEncoder encoder  = securityAbstractFactory.createPasswordEncoder();
@@ -74,6 +74,8 @@ public class UserDAO implements IUserDAO {
 		        java.sql.Date sqlDate = new java.sql.Date(user.getDateOfBirth().getTime());
 		        statement.setDate(4, sqlDate);
 		        statement.setString(5, user.getMobileNumber());
+		        statement.setDate(4, date);
+		        statement.setString(5, String.valueOf(user.getMobileNumber()));
 		        statement.setString(6, user.getUserName());
 		        statement.setString(7, encodedpassword);
 		        statement.setString(8, user.getQuestionOne());
@@ -81,9 +83,8 @@ public class UserDAO implements IUserDAO {
 		        statement.setString(10, user.getQuestionTwo());
 		        statement.setString(11, user.getAnswerTwo());
 		        statement.execute();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (SQLException exception) {
+				exception.printStackTrace();
 			}
 			finally {
 				databaseUtilities.closeStatement(statement);
@@ -115,9 +116,7 @@ public class UserDAO implements IUserDAO {
 					return false;
 				}
 			}
-		}
-		catch (SQLException exception)
-		{	
+		} catch (SQLException exception) {	
 			exception.printStackTrace();
 		}
 		finally {

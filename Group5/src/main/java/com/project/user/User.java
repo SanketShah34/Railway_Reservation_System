@@ -8,8 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -20,37 +18,20 @@ public class User implements IUser {
 	private static final String EMAIL_REGEX = "^(.+)@(.+)$";
 
 	public int id;
-
-	@NotNull
-	@Size(min = 2, max = 30, message = "should be more than 2")
 	public String userName;
-
 	public String password;
 	public boolean enabled;
 	public String role;
-
-	@NotNull(message = "First Name may not be null")
 	public String firstName;
-
-	@NotNull(message = "Last Name may not be null")
 	public String lastName;
-
 	public String gender;
-
-	@NotNull(message = "Date of birth may not be null")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	public Date dateOfBirth;
-
-	@NotNull(message = "Mobile Number may not be null")
 	public String mobileNumber;
-	
 	public String questionOne;
-	
 	public String answerOne;
-	
 	public String questionTwo;
-	
 	public String answerTwo;
 
 	public User() {
@@ -160,15 +141,15 @@ public class User implements IUser {
 			} else {
 				return false;
 			}
-		}
-		
+		}	
+
 	}
 
 	public boolean emailValidation(String email) {
 		if (isStringNullOrEmpty(email)) {
 			return false;
 		}
-		// String regex = "^(.+)@(.+)$";
+
 		Pattern pattern = Pattern.compile(EMAIL_REGEX);
 		Matcher matcher = pattern.matcher(email);
 		if (matcher.matches() == true) {
@@ -180,42 +161,42 @@ public class User implements IUser {
 	}
 
 	// source:
-	// https://stackoverflow.com/questions/14892536/to-check-if-the-date-is-after-the-specified-date
-	public boolean dateValidation(Date date) {
+		// https://stackoverflow.com/questions/14892536/to-check-if-the-date-is-after-the-specified-date
+		public boolean dateValidation(Date date) {
 
-		// https://stackoverflow.com/questions/11097256/how-to-convert-mon-jun-18-000000-ist-2012-to-18-06-2012
-		String dateStr = date.toString();
-		DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
-		Date dateParse;
-		try {
-			dateParse = (Date) formatter.parse(dateStr);
+			// https://stackoverflow.com/questions/11097256/how-to-convert-mon-jun-18-000000-ist-2012-to-18-06-2012
+			String dateStr = date.toString();
+			DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+			Date dateParse;
+			try {
+				dateParse = (Date) formatter.parse(dateStr);
 
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(dateParse);
-			String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/"
-					+ cal.get(Calendar.YEAR);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(dateParse);
+				String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/"
+						+ cal.get(Calendar.YEAR);
 
-			String dateSplit[] = formatedDate.split("/");
+				String dateSplit[] = formatedDate.split("/");
 
-			// https://mkyong.com/java8/java-check-if-the-date-is-older-than-6-months/
-			LocalDate currentDate = LocalDate.now();
-			LocalDate currentDateMinus180Months = currentDate.minusMonths(180);
+				// https://mkyong.com/java8/java-check-if-the-date-is-older-than-6-months/
+				LocalDate currentDate = LocalDate.now();
+				LocalDate currentDateMinus180Months = currentDate.minusMonths(180);
 
-			LocalDate date1 = LocalDate.of(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[1]),
-					Integer.parseInt(dateSplit[0]));
+				LocalDate date1 = LocalDate.of(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[1]),
+						Integer.parseInt(dateSplit[0]));
 
-			if (date1.isBefore(currentDateMinus180Months)) {
-				return true;
-			} else {
-				return false;
+				if (date1.isBefore(currentDateMinus180Months)) {
+					return true;
+				} else {
+					return false;
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
-		} catch (ParseException e) {
-			e.printStackTrace();
+
+			return true;
+
 		}
-
-		return true;
-
-	}
 
 	public boolean isStringNullOrEmpty(String s) {
 		if (null == s) {
@@ -224,37 +205,7 @@ public class User implements IUser {
 		return s.isEmpty();
 	}
 
-	public boolean isEmailIdValid(String emailId) {
-		return emailValidation(emailId);
-	}
-
-	public boolean isFirstNameValid(String firstName) {
-		return isStringNullOrEmpty(firstName);
-	}
-
-	public boolean isLastNameValid(String lastName) {
-		return isStringNullOrEmpty(lastName);
-	}
-
-	public boolean isPasswordEmpty(String password) {
-		return isStringNullOrEmpty(password);
-	}
-
-	public boolean isConfirmPasswordEmpty(String confirmPassword) {
-		return isStringNullOrEmpty(confirmPassword);
-	}
-
-	public boolean isDateValid(Date date) {
-		return dateValidation(date);
-	}
 	
-	public boolean isPhoneNumberValid(String number) {
-		return isStringNullOrEmpty(number);
-	}
-
-	public boolean isPasswordValid(String password, String confirmPassword) {
-		return passwordValidation(password, confirmPassword);
-	}
 
 	public boolean isQuestionValid(String questionOne, String questionTwo) {
 		if (questionOne.equals(questionTwo)) {
@@ -307,4 +258,35 @@ public class User implements IUser {
 	}
 
 
+	public boolean isEmailIdValid(String emailId) {
+		return emailValidation(emailId);
+	}
+
+	public boolean isFirstNameValid(String firstName) {
+		return isStringNullOrEmpty(firstName);
+	}
+
+	public boolean isLastNameValid(String lastName) {
+		return isStringNullOrEmpty(lastName);
+	}
+
+	public boolean isPasswordEmpty(String password) {
+		return isStringNullOrEmpty(password);
+	}
+
+	public boolean isConfirmPasswordEmpty(String confirmPassword) {
+		return isStringNullOrEmpty(confirmPassword);
+	}
+
+	public boolean isDateValid(Date date) {
+		return dateValidation(date);
+	}
+
+	public boolean isPasswordValid(String password, String confirmPassword) {
+		return passwordValidation(password, confirmPassword);
+	}
+
+	public boolean isPhoneNumberValid(String number) {
+		return isStringNullOrEmpty(number);
+	}
 }

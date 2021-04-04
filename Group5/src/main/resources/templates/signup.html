@@ -22,11 +22,9 @@
 
 	<form action="#" th:action="@{/signup/save}" method="post">
 		<!-- th:object="${user}" -->
-
-	<form action="#" th:action="@{/signup/save}"  method="post">
-
 		<div class="border border-secondary p-3 rounded">
-			 <p class="alert alert-danger" style="width: 70%" th:if="${userExists}"  >User Is Already present. try with onther Email </p>
+			 <p class="alert alert-danger" style="width: 70%" th:if="${userExists}"  >User Is Already present. try with another Email </p>
+
 			<h1 style="text-align: center">Sign-up</h1>
 			<h3>Basic Information</h3>
 			<div class="form-group">
@@ -114,6 +112,7 @@
 					<div class="col-md-9">
 						<input type="text" name="answerone" class="form-control "
 							placeholder="Enter answer for Security Question one">
+							<p class="alert alert-danger" style="width: 70%" th:if="${answerErrorOne}"  >Enter Answer</p>
 					</div>
 				</div>
 			</div>
@@ -130,6 +129,8 @@
                             th:utext="${question.value}"/>
                   </select>
 					</div>
+					
+					<p class="alert alert-danger" style="width: 70%" th:if="${securityQuestionError}"  >Both option cannot be same</p>
 				</div>
 			</div>
 			<div class="form-group">
@@ -140,9 +141,11 @@
 					<div class="col-md-9">
 						<input type="tel" name="answertwo" class="form-control "
 							placeholder="Enter answer for Security Question Two">
+							<p class="alert alert-danger" style="width: 70%" th:if="${answerErrorTwo}"  >Enter Answer</p>
 					</div>
 				</div>
 			</div>
+			
 			<h3>Login Information</h3>
 			<div class="form-group">
 				<div class="row col-md-12">

@@ -29,7 +29,7 @@ public class SignupController {
 	private final String ANSWER_TWO = "answertwo";
 
 	@RequestMapping("/signup")
-	public String signUpPage(Model model) {
+	public String signUpPage(Model model) {	
 		UserAbstractFactory userAbstractFactory = new UserConcreteFactory();
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		IUser user = userAbstractFactory.createUser();
@@ -126,9 +126,8 @@ public class SignupController {
 			user.setAnswerOne(answerOne);
 			user.setAnswerTwo(answerTwo);
 			userDAO.saveUser(user);
-			return "redirect:/login";
+			return "redirect:/login";	
+
 		}
-
 	}
-
 }

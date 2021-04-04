@@ -31,6 +31,14 @@ public class LoginController {
 		return "login";
 	}
 
+	@GetMapping("/user/forgotpassword")
+	public String ShowForgotPasswordForm(Model model) {
+		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
+		SecurityQuestion securityQuestions = securityAbstractFactory.createSecurityQuestion();
+		model.addAttribute("securityQuestions", securityQuestions.getSecurituQuestions());
+		return "forgotPassword";
+	}
+
 	@PostMapping("/user/forgotpassword")
 	public String ForgotPassword(@RequestParam(name = SECURITY_QUESTION_ONE) String securityQuestionTwo,
 			@RequestParam(name = SECURITY_QUESTION_TWO) String securityQuestionOne,
@@ -38,7 +46,6 @@ public class LoginController {
 			@RequestParam(name = ANSWER_TWO) String answerTwo,
 			@RequestParam(name = USERNAME) String userName,
 			Model model) {
-
 		
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 		IUserDAO userDAO = userAbstractFactory.createUserDAO();
@@ -132,6 +139,7 @@ public class LoginController {
 		}
 		
 	}
+
 
 	@RequestMapping("/login-error")
 	public String loginError(Model model) {
