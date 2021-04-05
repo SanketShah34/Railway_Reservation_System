@@ -26,9 +26,6 @@
 					<div style="text-align: center;" class="col-md-4">
 						Welcome <b><span sec:authentication="name">Username</span></b>
 						&nbsp;
-						<!-- 
-							<i><span sec:authentication="principal.authorities">Roles</span></i>
-						 -->
 					</div>
 					<div style="text-align: end" class="col-md-4">
 						<form th:action="@{/logout}" method="post">
@@ -47,8 +44,8 @@
 											<th >Train Type</th>
 											<th>Source Station</th>
 											<th>Destination Station</th>
-											<th>Pick UP Time</th>
-											<th>Drop Time</th>
+											<th>Pick UP Date And Time</th>
+											<th>Drop Date And Time</th>
 											<th>Fare</th>
 											<th>Available Seats</th>
 											<th>Option</th>
@@ -66,8 +63,8 @@
 											<td th:text="${destinationStation.stationName}">Destination Station</td>
 											
 											
-											<td th:text="${train.pickUPTime}">PickUp Time</td>
-											<td  th:text="${train.dropTime}">Drop Time</td>
+											<td ><p th:text="${#dates.format(train.pickUPDate, 'dd-MM-yyyy')}"> PickUp Date </p><p th:text="${train.pickUPTime}">PickUp Time  </p></td>
+											<td  > <p th:text="${#dates.format(train.dropUpDate, 'dd-MM-yyyy')}" > DropUp Date </p> <p th:text="${train.dropTime}" >Drop Time </p></td>
 											<td th:text="${train.fare}">Fair</td>
 											
 											<td th:text="${train.availableSeat}">Available Seats</td>
@@ -78,6 +75,7 @@
 													<input type="hidden" name="destinationStationId" th:value="${destinationStation.stationId}">
 													<input type="hidden" name="distance" th:value="${train.totalDistance}">
 													<input type="hidden" name="trainType" th:value="${train.trainType}">
+													<input type="hidden" name="startDate" th:value="${train.startDate}">
 													<button type="submit">Book Now</button>
 												</form>
 											</td>	

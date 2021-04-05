@@ -1,7 +1,7 @@
 package com.project.lookup;
-
 import static org.junit.Assert.assertEquals;
-import java.util.Date;
+import java.sql.Date;
+
 import org.junit.jupiter.api.Test;
 
 class SearchTrainTest {
@@ -28,7 +28,6 @@ class SearchTrainTest {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 		searchTrain.setDestinationStation("Ahembdabad");
 		assertEquals("Ahembdabad", searchTrain.getDestinationStation());
-
 	}
 
 	@Test
@@ -41,15 +40,15 @@ class SearchTrainTest {
 	@Test
 	void testGetDateofJourny() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		searchTrain.setDateofJourny(new Date());
-		assertEquals(new Date(), searchTrain.getDateofJourny());
+		searchTrain.setDateofJourny(new Date(System.currentTimeMillis()));
+		assertEquals(new Date(System.currentTimeMillis()), searchTrain.getDateofJourny());
 	}
 
 	@Test
 	void testSetDateofJourny() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		searchTrain.setDateofJourny(new Date());
-		assertEquals(new Date(), searchTrain.getDateofJourny());
+		searchTrain.setDateofJourny(new Date(System.currentTimeMillis()));
+		assertEquals(new Date(System.currentTimeMillis()), searchTrain.getDateofJourny());
 	}
 
 	@Test
@@ -70,8 +69,23 @@ class SearchTrainTest {
 	void testIssourceStationAndDestinationStationSame() {
 		ISearchTrain  searchTrain = lookupAbstractFactory.createNewSearchTrain();
 	    assertEquals(true, searchTrain.issourceStationAndDestinationStationSame("1","1"));
-	    assertEquals(false, searchTrain.issourceStationAndDestinationStationSame("1","3"));
-		
+	    assertEquals(false, searchTrain.issourceStationAndDestinationStationSame("1","3"));	
+	}
+	
+	
+	@Test
+	void testIsDatePreviousDate() {
+		ISearchTrain  searchTrain = lookupAbstractFactory.createNewSearchTrain();
+	    assertEquals(false, searchTrain.isDatePreviousDate(new Date(System.currentTimeMillis())));
+	    assertEquals(false, searchTrain.isDatePreviousDate(new Date(System.currentTimeMillis() + 1000000000L)));
+	    assertEquals(true, searchTrain.isDatePreviousDate(new Date(System.currentTimeMillis() - 1000000000L)));
+	}
+	
+	@Test
+	void testIsDateInWithinOneMonthPeriod() {
+		ISearchTrain  searchTrain = lookupAbstractFactory.createNewSearchTrain();
+		assertEquals(true, searchTrain.isDateInWithinOneMonthPeriod(new java.util.Date(System.currentTimeMillis() + 1000000000L)));
+		assertEquals(false, searchTrain.isDateInWithinOneMonthPeriod(new java.util.Date(System.currentTimeMillis() + 9000000000L)));
 	}
 
 }

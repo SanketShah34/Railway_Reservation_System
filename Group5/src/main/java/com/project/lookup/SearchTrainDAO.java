@@ -4,9 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import com.project.database.DatabaseAbstactFactory;
@@ -16,7 +14,6 @@ import com.project.setup.SetupAbstractFactory;
 
 @Component
 public class SearchTrainDAO implements ISearchTrainDAO {
-	
 	public final String trainIdColumnName = "trainId";
 	public final String trainCodeColumnName = "trainCode";
 	public final String trainNameColumnName = "trainName";
@@ -27,37 +24,26 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 	public final String startStationColumnName = "startStation";
 	public final String middleStationsColumnName = "middleStations";
 	public final String endStationColumnName = "endStation";
-	
+
 	@Override
 	public List<ITrain> searchTrains(ISearchTrain searchTrain) {
-		
-		List<ITrain> trains = new ArrayList<ITrain>();
-		
+		List<ITrain> trains = new ArrayList<ITrain>(0);
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
-		
-		Connection connection = databaseUtilities.establishConnection();	
+		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
+		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
-		
 		try {
-			statement = connection.prepareCall("{call searchTrain(? ,? , ? , ? , ?, ?)}");
+			statement = connection.prepareCall("{call searchTrain(? ,? , ? , ? , ?)}");
 			statement.setInt(1, Integer.parseInt(searchTrain.getSourceStation()));
 			statement.setInt(2, Integer.parseInt(searchTrain.getDestinationStation()));
-			
-			String dayName = getDaysNameFromDate(searchTrain.getDateofJourny());
-			String searchStringForSourceStation = '%'+searchTrain.getSourceStation()+'%';
-			String searchStringForDestinationStation = '%'+searchTrain.getDestinationStation()+'%';
-			String daysToBeSearch = '%'+dayName+'%';
-			
+			String searchStringForSourceStation = '%' + searchTrain.getSourceStation() + '%';
+			String searchStringForDestinationStation = '%' + searchTrain.getDestinationStation() + '%';
 			statement.setString(3, searchStringForSourceStation);
 			statement.setString(4, searchStringForDestinationStation);
 			statement.setString(5, searchTrain.getTrainType());
-			statement.setString(6, daysToBeSearch);
-			
 			boolean hadResultsForList = statement.execute();
-
 			if (hadResultsForList) {
 				resultSet = statement.getResultSet();
 				while (resultSet.next()) {
@@ -73,13 +59,12 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 					train.setStartStation(resultSet.getString(startStationColumnName));
 					allStations.add(Integer.parseInt(train.getStartStation()));
 					train.setMiddleStations(resultSet.getString(middleStationsColumnName));
-					if(train.getMiddleStations() == null) {
-						
-					}
-					else {
+					if (train.getMiddleStations() == null) {
+
+					} else {
 						String[] middleStationsList = train.getMiddleStations().split(",");
-						for(String mid : middleStationsList) {
-							allStations.add(Integer.parseInt(mid));
+						for (String middleStation : middleStationsList) {
+							allStations.add(Integer.parseInt(middleStation));
 						}
 					}
 					train.setEndStation(resultSet.getString(endStationColumnName));
@@ -96,12 +81,6 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 			databaseUtilities.closeConnection(connection);
 		}
 		return trains;
-	}
-	
-	public String getDaysNameFromDate(Date dateToBeformate) {
-		final Date currentTime = dateToBeformate;
-		SimpleDateFormat  simpleDateformat = new SimpleDateFormat("EEEE");
-		return simpleDateformat.format(currentTime);
 	}
 
 }

@@ -12,20 +12,18 @@ public class UserMock {
 		user.setUserName("dhara@gmail.com");
 		user.setFirstName("Dhara");
 		user.setLastName("Gohil");
-		user.setDateOfBirth(null);
 		user.setGender("Female");
 		
 		String dateStr = "2000-04-06";
 		try {
 			Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
 			user.setDateOfBirth(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParseException exception) {
+			exception.printStackTrace();
 		}
 		
 		user.setEnabled(true);
-		user.setMobileNumber(Integer.parseInt("1234567890"));
+		user.setMobileNumber("9933562165");
 		user.setPassword("Dhara");
 		user.setRole("USER");
 		

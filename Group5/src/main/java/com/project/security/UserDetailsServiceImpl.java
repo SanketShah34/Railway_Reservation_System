@@ -18,7 +18,7 @@ public class UserDetailsServiceImpl  implements UserDetailsService {
 		IUserDAO userDAO = userAbstractFactory.createUserDAO();
 		IUser user = userAbstractFactory.createUser();
 		user = userDAO.getUserByUsername(username);
-		if(user==null) {
+		if(user == null) {
 			throw new UsernameNotFoundException("Could not find User");
 		}
 		return new MyUserDetails(user);

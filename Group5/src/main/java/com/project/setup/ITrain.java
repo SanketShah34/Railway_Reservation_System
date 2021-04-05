@@ -1,9 +1,10 @@
 package com.project.setup;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface ITrain {
-
+	
 	int getTrainId();
 
 	void setTrainId(int trainId);
@@ -64,8 +65,20 @@ public interface ITrain {
 
 	void setAvailableSeat(int availableSeat);
 
-	int getTotalDistance();
+	double getTotalDistance();
 
-	void setTotalDistance(int totalDistance);
+	void setTotalDistance(double totalDistance);
+
+	Date getPickUPDate();
+
+	void setPickUPDate(Date pickUPDate);
+
+	Date getDropUpDate();
+
+	void setDropUpDate(Date dropUpDate);
+
+	Date getStartDate();
+
+	void setStartDate(Date startDate);
 
 }
