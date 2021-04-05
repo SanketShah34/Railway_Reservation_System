@@ -15,7 +15,7 @@ import com.project.setup.ITrain;
 @Component
 public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 
-	public final String maxSeatNoColumnName = "max_seatNo";
+	public final String maxSeatNoColumnName = "maxSeatNo";
 	public final String reservationIdColumnName = "reservationId";
 	public final String trainIdColumnName = "trainId";
 	public final String dateColumnName = "reservationDate";
@@ -51,7 +51,7 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 					ticket.setDestinationId(resultSet.getInt(destinationStationIdColumnName));
 					ticket.setAmountPaid(resultSet.getDouble(amountPaidColumnName));
 					ticket.setTicketBooked(resultSet.getInt(ticketBookedColumnName));
-					ticket.setUserId(resultSet.getInt(userIdColumnName));
+					//ticket.setUserId(resultSet.getInt(userIdColumnName));
 					bookedTickets.add(ticket);
 				}
 			}

@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.project.seatallocation.ISeatAllocationDAO;
+import com.project.seatallocation.SeatAllocationAbstractFactory;
+
 @Controller
 public class ReservationController {
 	
@@ -36,12 +39,16 @@ public class ReservationController {
 		String errorCodes = reservationInformation.validateReservation(reservationInformation);
 		if (errorCodes.equals("")) {
 			ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
+			SeatAllocationAbstractFactory seatAllocationAbstractFactory = SeatAllocationAbstractFactory.instance();
+			ISeatAllocationDAO seatAllocationDAO = seatAllocationAbstractFactory.createNewSeatAllocationDAO();
 			IReservationDAO reservationDAO = reservationAbstractFactory.createNewReservationDAO();
 			IReservation reservation = reservationDAO.saveReservationInformation(reservationInformation);
+			reservation = seatAllocationDAO.allocateSeat(reservation);
 			reservationDAO.savePassengerInformation(reservation);
+			model.addAttribute("reservationId", reservation.getReservationId());
 		} else {
 			model.addAttribute("errorCodes", errorCodes);
 		}
-		return "";
+		return "ticketprint/ticketprint";
 	}
 }

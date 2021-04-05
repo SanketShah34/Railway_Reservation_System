@@ -8,7 +8,7 @@ public class PassengerInformation implements IPassengerInformation {
     public String gender;
     public int age;
     public String berthPreference;
-    public String seatNumber;
+    public int seatNumber;
     public String coachNumber;
     public double amountPaid;
     
@@ -77,11 +77,11 @@ public class PassengerInformation implements IPassengerInformation {
 		this.berthPreference = berthPreference;
 	}
 	@Override
-	public String getSeatNumber() {
+	public int getSeatNumber() {
 		return seatNumber;
 	}
 	@Override
-	public void setSeatNumber(String seatNumber) {
+	public void setSeatNumber(int seatNumber) {
 		this.seatNumber = seatNumber;
 	}
 	@Override
