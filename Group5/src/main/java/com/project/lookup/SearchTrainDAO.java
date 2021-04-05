@@ -29,7 +29,7 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 	public final String endStationColumnName = "endStation";
 
 	public List<ITrain> searchTrains(ISearchTrain searchTrain) {
-		List<ITrain> trains = new ArrayList<ITrain>();
+		List<ITrain> trains = new ArrayList<ITrain>(0);
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();

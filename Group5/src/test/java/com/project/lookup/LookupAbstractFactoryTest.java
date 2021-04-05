@@ -11,7 +11,9 @@ public abstract class LookupAbstractFactoryTest {
 		return instance;
 	}
 
-	public abstract SearchTrainMock createSearchTrainMock(); 
+	public abstract SearchTrainMock createSearchTrainMock();
+
+	public abstract SearchTrainDAOMock createSearchTrainDAOMock(); 
 
 	
 

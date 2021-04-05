@@ -13,17 +13,17 @@ public class Reservation implements IReservation {
 	public int trainId;
     public int sourceStationId;
     public int destinationStationId;
-    public String pnrNumber;
     public double amountPaid;
     public double distance;
     public String trainType;
     public String trainCancelEvent;
     public Date startDate;
     public int ticketBooked;
+    public int deletedTicket;
 
 	public List<IPassengerInformation> passengerInformation;
     
-    public static final int numberOfPassengersPerReservation = 6;
+    public static final int NUMBER_OF_PASSENGER_PER_RESERVATION = 6;
     
     public Reservation() {
     	this.initializePassengerList();
@@ -31,8 +31,8 @@ public class Reservation implements IReservation {
     
     private void initializePassengerList() {
     	ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
-    	List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(numberOfPassengersPerReservation);
-    	for (int index = 0; index < numberOfPassengersPerReservation; index++) {
+    	List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(NUMBER_OF_PASSENGER_PER_RESERVATION);
+    	for (int index = 0; index < NUMBER_OF_PASSENGER_PER_RESERVATION; index++) {
     		this.addInPassengerInformationList(passengerInformationList, reservationAbstractFactory.createNewPassengerInformation());	
     	}
     	this.setPassengerInformation(passengerInformationList);
@@ -69,14 +69,6 @@ public class Reservation implements IReservation {
 	@Override
 	public void setDestinationStationId(int destinationStationId) {
 		this.destinationStationId = destinationStationId;
-	}
-	@Override
-	public String getPnrNumber() {
-		return pnrNumber;
-	}
-	@Override
-	public void setPnrNumber(String pnrNumber) {
-		this.pnrNumber = pnrNumber;
 	}
 	@Override
 	public double getAmountPaid() {
@@ -147,6 +139,16 @@ public class Reservation implements IReservation {
 	@Override
 	public void setTicketBooked(int ticketBooked) {
 		this.ticketBooked = ticketBooked;
+	}
+	
+	@Override
+	public void setDeletedTicket(int deletedTicket) {
+		this.deletedTicket = deletedTicket;
+	}
+
+	@Override
+	public int getDeletedTicket() {
+		return deletedTicket;
 	}
 
 	@Override

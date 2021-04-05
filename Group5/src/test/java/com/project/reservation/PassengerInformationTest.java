@@ -192,4 +192,25 @@ class PassengerInformationTest {
 		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.berthPreferenceMissing);
 	}
 
+	@Test
+	void testIsRowNonEmpty() {
+		IPassengerInformation passengerInformation = reservationAbstractFactory.createNewPassengerInformation();
+		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
+		
+		passengerInformation = passengerMock.createPassengerMock(passengerInformation);
+		assertTrue(passengerInformation.isRowNonEmpty());
+		
+		passengerInformation = passengerMock.createPassengerMockFirstNameNull(passengerInformation);
+		assertFalse(passengerInformation.isRowNonEmpty());
+		
+		passengerInformation = passengerMock.createPassengerMockFirstNameEmpty(passengerInformation);
+		assertFalse(passengerInformation.isRowNonEmpty());
+		
+		passengerInformation = passengerMock.createPassengerMockLastNameNull(passengerInformation);
+		assertFalse(passengerInformation.isRowNonEmpty());
+		
+		passengerInformation = passengerMock.createPassengerMockLastNameEmpty(passengerInformation);
+		assertFalse(passengerInformation.isRowNonEmpty());
+		
+	}
 }

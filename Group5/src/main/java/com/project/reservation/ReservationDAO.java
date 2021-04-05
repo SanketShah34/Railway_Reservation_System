@@ -9,13 +9,13 @@ import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
 
 public class ReservationDAO implements IReservationDAO {
-	public final String reservationIdColumnName = "reservationId";
-	public final String trainIdColumnName = "trainId"; 
-	public final String reservationDateColumnName = "reservationDate"; 
-	public final String sourceStationIdColumnName = "sourceStationId";
-	public final String destinationStationIdColumnName = "destinationStationId"; 
-	public final String amountPaidColumnName = "amountPaid";
-	public final String trainTypeColumnName = "trainType";
+	public final String RESERVATION_ID = "reservationId";
+	public final String TRAIN_ID = "trainId"; 
+	public final String RESERVATION_DATE = "reservationDate"; 
+	public final String SOURCE_STATION_ID = "sourceStationId";
+	public final String DESTINATION_STATION_ID = "destinationStationId"; 
+	public final String AMOUNT_PAID = "amountPaid";
+	public final String TRAIN_TYPE = "trainType";
 	
 	@Override
 	public IReservation saveReservationInformation(IReservation reservation){
@@ -36,7 +36,7 @@ public class ReservationDAO implements IReservationDAO {
 			statement.setDate(8, reservation.getStartDate());
 			resultSet = statement.executeQuery();
 			while(resultSet.next()) {
-				 int reservationId = resultSet.getInt(reservationIdColumnName);
+				 int reservationId = resultSet.getInt(RESERVATION_ID);
 				 reservation.setReservationId(reservationId);
 			}
 		} catch (SQLException exception) {
@@ -57,7 +57,7 @@ public class ReservationDAO implements IReservationDAO {
 			Connection connection = databaseUtilities.establishConnection();
 			CallableStatement statement = null;
 			try {
-				statement = connection.prepareCall("{call addPassengerInformation( ? , ? , ?, ?, ?, ?, ?, ?, ?)}");
+				statement = connection.prepareCall("{call addPassengerInformation( ? , ? , ?, ?, ?, ?, ?, ?)}");
 				if (reservation.getPassengerInformation().size() > 0) {
 					for(int index = 0; index < reservation.getPassengerInformation().size(); index++) {
 						IPassengerInformation passengerInformation = reservation.getPassengerInformation().get(index);
@@ -69,7 +69,7 @@ public class ReservationDAO implements IReservationDAO {
 						statement.setString(6, passengerInformation.getBerthPreference());
 						statement.setString(7, "A1");
 						statement.setString(8, "A1");
-						statement.setDouble(9, passengerInformation.getAmountPaid());
+//						statement.setDouble(9, passengerInformation.getAmountPaid());
 						statement.execute();
 					}
 				}

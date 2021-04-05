@@ -8,5 +8,9 @@ public class LookupConcreteFactoryTest extends LookupAbstractFactoryTest {
 		return new SearchTrainMock();
 	}
 
+	@Override
+	public SearchTrainDAOMock createSearchTrainDAOMock() {
+		return new SearchTrainDAOMock();
+	}
 }
 

@@ -2,6 +2,7 @@ package com.project.cancelTrain;
 
 public class CancelTrainConcreteFactory extends CancelTrainAbstractFactory{
 	private ITrainCancellationDAO trainCancellationDAO;
+	private ITrainCancellation trainCancellation;
 	
 	@Override
 	public ITrainCancellationDAO createTrainCancellationDAO() {
@@ -16,4 +17,16 @@ public class CancelTrainConcreteFactory extends CancelTrainAbstractFactory{
 		return new TrainCancellationDAO();
 	}
 	
+	@Override
+	public ITrainCancellation createNewTrainCancellation() {
+		if (trainCancellation == null) {
+			trainCancellation = new TrainCancellation();
+		}
+		return trainCancellation;
+	}
+	
+	@Override
+	public ITrainCancellation createTrainCancellation() {
+		return new TrainCancellation();
+	}
 }

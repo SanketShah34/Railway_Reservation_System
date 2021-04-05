@@ -3,6 +3,7 @@ package com.project.reservation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,20 +71,6 @@ class ReservationTest {
 	}
 
 	@Test
-	void testGetPnrNumber() {
-		IReservation reservation = reservationAbstractFactory.createNewReservation();
-		reservation.setPnrNumber("100AB");
-		assertEquals(reservation.getPnrNumber(), "100AB");
-	}
-
-	@Test
-	void testSetPnrNumber() {
-		IReservation reservation = reservationAbstractFactory.createNewReservation();
-		reservation.setPnrNumber("100AB");
-		assertEquals(reservation.getPnrNumber(), "100AB");
-	}
-
-	@Test
 	void testGetAmountPaid() {
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		reservation.setAmountPaid(100.0);
@@ -121,14 +108,14 @@ class ReservationTest {
 	void testSetDistance() {
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		reservation.setDistance(100);
-		assertEquals(reservation.getDistance(), 100);
+		assertEquals(reservation.getDistance(), 100, 0.2);
 	}
 
 	@Test
 	void testGetDistance() {
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		reservation.setDistance(100);
-		assertEquals(reservation.getDistance(), 100);
+		assertEquals(reservation.getDistance(), 100, 0.2);
 	}
 
 	@Test
@@ -146,6 +133,64 @@ class ReservationTest {
 	}
 
 	@Test
+	void testGetTrainCancelEvent() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		reservation.setTrainCancelEvent("Cancel Train");
+		assertEquals(reservation.getTrainCancelEvent(), "Cancel Train");
+	}
+
+	@Test
+	void testSetTrainCancelEvent() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		reservation.setTrainCancelEvent("Cancel Train");
+		assertEquals(reservation.getTrainCancelEvent(), "Cancel Train");
+	}
+	
+	@Test
+	void testGetStartDate() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		Date date = Date.valueOf("2021-04-08");
+		reservation.setStartDate(date);
+		assertEquals(reservation.getStartDate(), date);
+	}
+
+	@Test
+	void testSetStartDate() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		Date date = Date.valueOf("2021-04-08");
+		reservation.setStartDate(date);
+		assertEquals(reservation.getStartDate(), date);
+	}
+	
+	@Test
+	void testGetTicketBooked() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		reservation.setTicketBooked(1);
+		assertEquals(reservation.getTicketBooked(), 1);
+	}
+
+	@Test
+	void testSetTicketBooked() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		reservation.setTicketBooked(1);
+		assertEquals(reservation.getTicketBooked(), 1);
+	}
+	
+	@Test
+	void testGetDeletedTicket() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		reservation.setDeletedTicket(1);
+		assertEquals(reservation.getDeletedTicket(), 1);
+	}
+
+	@Test
+	void testSetDeletedTicket() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		reservation.setDeletedTicket(1);
+		assertEquals(reservation.getDeletedTicket(), 1);
+	}
+	
+	@Test
 	void testCalculateTotalReservationFare() {
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		ReservationMock reservationMock = reservationAbstractFactoryTest.createReservationMock();
@@ -162,5 +207,112 @@ class ReservationTest {
 		
 		assertEquals(reservation.getAmountPaid(), 168.0, 0.2);
 	}
+	
+	@Test
+	void testRemoveEmptyPassengerRow() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		ReservationMock reservationMock = reservationAbstractFactoryTest.createReservationMock();
+		reservation = reservationMock.creteReservationMock(reservation);
+		
+		IPassengerInformation passenger = reservationAbstractFactory.createNewPassengerInformation();
+		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
+		passenger = passengerMock.createPassengerMock(passenger);
+		
+		List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(6);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		reservation.removeEmptyPassengerRow(reservation);
+		
+		assertEquals(reservation.getPassengerInformation().size(), 1);
+	}
 
+	@Test
+	void testIsPassengerListEmpty() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		ReservationMock reservationMock = reservationAbstractFactoryTest.createReservationMock();
+		reservation = reservationMock.creteReservationMock(reservation);
+		
+		IPassengerInformation passenger = reservationAbstractFactory.createNewPassengerInformation();
+		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
+		passenger = passengerMock.createPassengerMock(passenger);
+		
+		List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(0);
+		reservation.setPassengerInformation(passengerInformationList);
+		assertTrue(reservation.isPassengerListEmpty(reservation));
+		
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		assertFalse(reservation.isPassengerListEmpty(reservation));
+	}
+	
+	@Test
+	void testValidateReservation() {
+		IReservation reservation = reservationAbstractFactory.createNewReservation();
+		ReservationMock reservationMock = reservationAbstractFactoryTest.createReservationMock();
+		reservation = reservationMock.creteReservationMock(reservation);
+		
+		List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(0);
+		reservation.setPassengerInformation(passengerInformationList);
+		assertEquals(reservation.validateReservation(reservation), ReservationInformationErrorCodes.emptyPassengerList);
+		
+		IPassengerInformation passenger = reservationAbstractFactory.createNewPassengerInformation();
+		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
+		
+		passenger = passengerMock.createPassengerMockAgeNegative(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		passenger = passengerMock.createPassengerMockAgeZero(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		passenger = passengerMock.createPassengerMockAgeHuge(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		passenger = passengerMock.createPassengerMockFirstNameNull(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		passenger = passengerMock.createPassengerMockFirstNameEmpty(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		passenger = passengerMock.createPassengerMockLastNameNull(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		passenger = passengerMock.createPassengerMockLastNameEmpty(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		passenger = passengerMock.createPassengerMockGenderNull(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		passenger = passengerMock.createPassengerMockGenderEmpty(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		passenger = passengerMock.createPassengerMockBerthPreferenceNull(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		passenger = passengerMock.createPassengerMockBerthPreferenceEmpty(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		
+		String errorString = PassengerInformationErrorCodes.ageInvalid + 
+				PassengerInformationErrorCodes.ageInvalid + 
+				PassengerInformationErrorCodes.ageInvalid + 
+				PassengerInformationErrorCodes.firstNameMissing + 
+				PassengerInformationErrorCodes.firstNameMissing + 
+				PassengerInformationErrorCodes.lastNameMissing +
+				PassengerInformationErrorCodes.lastNameMissing +
+				PassengerInformationErrorCodes.genderMissing +
+				PassengerInformationErrorCodes.genderMissing + 
+				PassengerInformationErrorCodes.berthPreferenceMissing +
+				PassengerInformationErrorCodes.berthPreferenceMissing;
+		assertEquals(reservation.validateReservation(reservation), errorString);
+	}
 }

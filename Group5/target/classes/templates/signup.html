@@ -18,7 +18,7 @@
 
 <body>
 
-	<form action="#" th:action="@{/signup/save}"  method="post">  <!-- th:object="${user}" -->
+	<form action="#" th:action="@{/signup/save}"  method="post">
 		<div class="border border-secondary p-3 rounded">
 		<p th:if="${fieldEmptyError}" class="error" >The field is empty</p> 
 		<p th:if="${dobError}" class="error" >Date is incorrect</p> 

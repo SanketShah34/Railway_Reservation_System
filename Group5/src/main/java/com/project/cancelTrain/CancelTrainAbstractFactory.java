@@ -13,4 +13,8 @@ public abstract class CancelTrainAbstractFactory {
 	public abstract ITrainCancellationDAO createNewTrainCancellationDAO();
 
 	public abstract ITrainCancellationDAO createTrainCancellationDAO();
+
+	public abstract ITrainCancellation createTrainCancellation();
+
+	public abstract ITrainCancellation createNewTrainCancellation();
 }

@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableAutoConfiguration
 
-@ComponentScan(basePackages={"com.project.security", "com.project.reservation" , "com.project.database", "com.project.user", "com.project.setup" , "com.project.lookup", "com.project.cancelTrain"})
+
+@ComponentScan(basePackages={"com.project.security", "com.project.reservation" , "com.project.database", "com.project.user", "com.project.setup" , "com.project.lookup", "com.project.cancelTrain", "com.project.ticketCancellation"})
 @SpringBootApplication
 public class StartupApplication {
 

@@ -96,9 +96,10 @@ public class PassengerInformation implements IPassengerInformation {
 	@Override
 	public boolean isFirstNameNullOrEmpty() {
 		String firstName = this.getFirstName();
-		if (null == firstName) {
+		System.out.println(firstName);
+		if (firstName.equals(null)) {
 			return true;
-		}else if ("" == firstName) {
+		} else if (firstName.equals("")) {
 			return true;
 		}
 		return false;
@@ -107,9 +108,9 @@ public class PassengerInformation implements IPassengerInformation {
 	@Override
 	public boolean isLastNameNullOrEmpty() {
 		String lastName = this.getLastName();
-		if (null == lastName) {
+		if (lastName.equals(null)) {
 			return true;
-		}else if ("" == lastName) {
+		} else if (lastName.equals("")) {
 			return true;
 		}
 		return false;
@@ -118,9 +119,9 @@ public class PassengerInformation implements IPassengerInformation {
 	@Override
 	public boolean isGenderNullOrEmpty() {
 		String gender = this.getGender();
-		if (null == gender) {
+		if (gender.equals(null)) {
 			return true;
-		}else if ("" == gender ) {
+		}else if (gender.equals("") ) {
 			return true;
 		}
 		return false;
@@ -140,9 +141,9 @@ public class PassengerInformation implements IPassengerInformation {
 	@Override
 	public boolean isBerthPreferenceNullOrEmpty() {
 		String berthPreference = this.getBerthPreference();
-		if (null == berthPreference) {
+		if (berthPreference.equals(null)) {
 			return true;
-		} else if ("" == berthPreference) {
+		} else if (berthPreference.equals("")) {
 			return true;
 		}
 		return false;
