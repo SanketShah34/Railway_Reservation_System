@@ -1,20 +1,16 @@
 package com.project.calculation;
 
 public abstract class CalculationAbstractFactory {
-
+	
 	private static CalculationAbstractFactory instance = null;
-
 	public abstract ISeatAvailibilityDAO createSeatAvailibilityDAO();
-
 	public abstract ISeatAvailibilityDAO createNewSeatAvailibilityDAO();
-
 	public abstract ITrainFilterAndCalculation createTrainFilterAndCalculateFair();
-
 	public abstract ITrainFilterAndCalculation createNewTrainFilterAndCalculateFair();
-
 	public abstract IAvailableSeats createAvaliableSeats();
-
 	public abstract IAvailableSeats createNewAvaliableSeats();
+	public abstract IBookedTickets createBookedTickets();
+	public abstract IBookedTickets createNewBookedTickets();
 
 	public static CalculationAbstractFactory instance() {
 		if (null == instance) {
@@ -22,5 +18,4 @@ public abstract class CalculationAbstractFactory {
 		}
 		return instance;
 	}
-
 }

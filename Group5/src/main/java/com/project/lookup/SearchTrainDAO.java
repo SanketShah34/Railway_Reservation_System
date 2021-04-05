@@ -2,10 +2,8 @@ package com.project.lookup;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -16,7 +14,6 @@ import com.project.setup.SetupAbstractFactory;
 
 @Component
 public class SearchTrainDAO implements ISearchTrainDAO {
-
 	public final String trainIdColumnName = "trainId";
 	public final String trainCodeColumnName = "trainCode";
 	public final String trainNameColumnName = "trainName";
@@ -28,6 +25,7 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 	public final String middleStationsColumnName = "middleStations";
 	public final String endStationColumnName = "endStation";
 
+	@Override
 	public List<ITrain> searchTrains(ISearchTrain searchTrain) {
 		List<ITrain> trains = new ArrayList<ITrain>();
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
@@ -65,8 +63,8 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 
 					} else {
 						String[] middleStationsList = train.getMiddleStations().split(",");
-						for (String mid : middleStationsList) {
-							allStations.add(Integer.parseInt(mid));
+						for (String middleStation : middleStationsList) {
+							allStations.add(Integer.parseInt(middleStation));
 						}
 					}
 					train.setEndStation(resultSet.getString(endStationColumnName));
@@ -83,12 +81,6 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 			databaseUtilities.closeConnection(connection);
 		}
 		return trains;
-	}
-
-	public String getDaysNameFromDate(Date dateToBeformate) {
-		final Date currentTime = dateToBeformate;
-		SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE");
-		return simpleDateformat.format(currentTime);
 	}
 
 }

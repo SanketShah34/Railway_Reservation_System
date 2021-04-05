@@ -20,6 +20,7 @@ public class StationDAO implements IStationDAO {
 	public final String stationStateColumnName = "stationState";
 	List<IStation> listOfStation = new ArrayList<IStation>();
 
+	@Override
 	public boolean save(IStation station) {
 		if (isStationUnique(station.getStationName(), station.getStationCode(), station.getStationId())) {
 			return false;
@@ -62,6 +63,7 @@ public class StationDAO implements IStationDAO {
 		}
 	}
 
+	@Override
 	public boolean isStationUnique(String stationName, String stationCode, int SId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
@@ -94,6 +96,7 @@ public class StationDAO implements IStationDAO {
 		return false;
 	}
 
+	@Override
 	public List<IStation> getAllStation() {
 		listOfStation.removeAll(listOfStation);
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
@@ -127,7 +130,8 @@ public class StationDAO implements IStationDAO {
 		return listOfStation;
 	}
 
-	public IStation getStation(Integer sId) {
+	@Override
+	public IStation getStation(Integer stationId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
@@ -137,7 +141,7 @@ public class StationDAO implements IStationDAO {
 		ResultSet resultSet = null;
 		try {
 			statment = connection.prepareCall("{call getStation(?)}");
-			statment.setInt(1, sId);
+			statment.setInt(1, stationId);
 			boolean hadStation = statment.execute();
 			if (hadStation) {
 				resultSet = statment.getResultSet();
@@ -159,14 +163,15 @@ public class StationDAO implements IStationDAO {
 		return station;
 	}
 
-	public void delete(Integer sId) {
+	@Override
+	public void delete(Integer stationId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		try {
 			statment = connection.prepareCall("{call deleteStation( ? )}");
-			statment.setInt(1, sId);
+			statment.setInt(1, stationId);
 			statment.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

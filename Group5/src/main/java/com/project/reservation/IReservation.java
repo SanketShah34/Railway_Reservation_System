@@ -64,5 +64,9 @@ public interface IReservation {
 	void setTicketBooked(int ticketBooked);
 
 	int getTicketBooked();
+	
+	void setDeletedTicket(int deletedTicket);
+	
+	int getDeletedTicket();
 
 }

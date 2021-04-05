@@ -20,6 +20,7 @@ public class Reservation implements IReservation {
     public String trainCancelEvent;
     public Date startDate;
     public int ticketBooked;
+    public int deletedTicket;
 
 	public List<IPassengerInformation> passengerInformation;
     
@@ -147,6 +148,16 @@ public class Reservation implements IReservation {
 	@Override
 	public void setTicketBooked(int ticketBooked) {
 		this.ticketBooked = ticketBooked;
+	}
+	
+	@Override
+	public void setDeletedTicket(int deletedTicket) {
+		this.deletedTicket = deletedTicket;
+	}
+
+	@Override
+	public int getDeletedTicket() {
+		return deletedTicket;
 	}
 
 	@Override

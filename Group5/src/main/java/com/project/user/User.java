@@ -18,7 +18,6 @@ public class User implements IUser {
 	private static final String EMAIL_REGEX = "^(.+)@(.+)$";
 
 	public int id;
-
 	public String userName;
 	public String password;
 	public boolean enabled;
@@ -26,14 +25,17 @@ public class User implements IUser {
 	public String firstName;
 	public String lastName;
 	public String gender;
-
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	public Date dateOfBirth;
-	
 	public String mobileNumber;
+	public String questionOne;
+	public String answerOne;
+	public String questionTwo;
+	public String answerTwo;
 
 	public User() {
+
 	}
 
 	public User(int id, String userName, String password, String role, boolean enabled, String firstName,
@@ -140,12 +142,14 @@ public class User implements IUser {
 				return false;
 			}
 		}	
+
 	}
 
 	public boolean emailValidation(String email) {
 		if (isStringNullOrEmpty(email)) {
 			return false;
 		}
+
 		Pattern pattern = Pattern.compile(EMAIL_REGEX);
 		Matcher matcher = pattern.matcher(email);
 		if (matcher.matches() == true) {
@@ -153,47 +157,106 @@ public class User implements IUser {
 		} else {
 			return false;
 		}
+
 	}
 
 	// source:
-	// https://stackoverflow.com/questions/14892536/to-check-if-the-date-is-after-the-specified-date
-	// https://stackoverflow.com/questions/11097256/how-to-convert-mon-jun-18-000000-ist-2012-to-18-06-2012
-	public boolean dateValidation(Date date) {
-		String dateStr = date.toString();
-		DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
-		Date dateParse;
-		try {
-			dateParse = (Date) formatter.parse(dateStr);
+		// https://stackoverflow.com/questions/14892536/to-check-if-the-date-is-after-the-specified-date
+		public boolean dateValidation(Date date) {
 
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(dateParse);
-			String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/"
-					+ cal.get(Calendar.YEAR);
-			String dateSplit[] = formatedDate.split("/");
+			// https://stackoverflow.com/questions/11097256/how-to-convert-mon-jun-18-000000-ist-2012-to-18-06-2012
+			String dateStr = date.toString();
+			DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+			Date dateParse;
+			try {
+				dateParse = (Date) formatter.parse(dateStr);
 
-			// https://mkyong.com/java8/java-check-if-the-date-is-older-than-6-months/
-			LocalDate currentDate = LocalDate.now();
-			LocalDate currentDateMinus180Months = currentDate.minusMonths(180);
-			LocalDate date1 = LocalDate.of(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[1]),
-					Integer.parseInt(dateSplit[0]));
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(dateParse);
+				String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/"
+						+ cal.get(Calendar.YEAR);
 
-			if (date1.isBefore(currentDateMinus180Months)) {
-				return true;
-			} else {
-				return false;
+				String dateSplit[] = formatedDate.split("/");
+
+				// https://mkyong.com/java8/java-check-if-the-date-is-older-than-6-months/
+				LocalDate currentDate = LocalDate.now();
+				LocalDate currentDateMinus180Months = currentDate.minusMonths(180);
+
+				LocalDate date1 = LocalDate.of(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[1]),
+						Integer.parseInt(dateSplit[0]));
+
+				if (date1.isBefore(currentDateMinus180Months)) {
+					return true;
+				} else {
+					return false;
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
-		} catch (ParseException exception) {
-			exception.printStackTrace();
+
+			return true;
+
+		}
+
+	public boolean isStringNullOrEmpty(String s) {
+		if (null == s) {
+			return true;
+		}
+		return s.isEmpty();
+	}
+
+	
+
+	public boolean isQuestionValid(String questionOne, String questionTwo) {
+		if (questionOne.equals(questionTwo)) {
+			return false;
 		}
 		return true;
 	}
 
-	public boolean isStringNullOrEmpty(String string) {
-		if (null == string) {
-			return true;
-		}
-		return string.isEmpty();
+	
+
+	@Override
+	public boolean isAnswerValid(String answer) {
+		return isStringNullOrEmpty(answer);
 	}
+
+	public String getQuestionOne() {
+		return questionOne;
+	}
+
+	public void setQuestionOne(String questionOne) {
+		this.questionOne = questionOne;
+	}
+
+	public String getAnswerOne() {
+		return answerOne;
+	}
+
+	public void setAnswerOne(String answerOne) {
+		this.answerOne = answerOne;
+	}
+
+	public String getQuestionTwo() {
+		return questionTwo;
+	}
+
+	public void setQuestionTwo(String questionTwo) {
+		this.questionTwo = questionTwo;
+	}
+
+	public String getAnswerTwo() {
+		return answerTwo;
+	}
+
+	public void setAnswerTwo(String answerTwo) {
+		this.answerTwo = answerTwo;
+	}
+
+	public static String getEmailRegex() {
+		return EMAIL_REGEX;
+	}
+
 
 	public boolean isEmailIdValid(String emailId) {
 		return emailValidation(emailId);

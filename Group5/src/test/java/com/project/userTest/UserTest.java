@@ -143,14 +143,14 @@ public class UserTest {
 	
 	@Test
     public void passwordValidationTest() {
-		Assert.isTrue(user.passwordValidation("Dhara", "Dhara"));
+		assertTrue(user.passwordValidation("Dhara", "Dhara"));
 		assertFalse(user.passwordValidation("Dhara", "Hello"));
 		assertFalse(user.passwordValidation("Dhara", null));	
     }
 	
 	@Test
 	public void emailValidationTest() {
-		 Assert.isTrue(user.emailValidation("dhara@gmail.com"));
+		 assertTrue(user.emailValidation("dhara@gmail.com"));
 		 assertFalse(user.emailValidation(null));
 		 assertFalse(user.emailValidation(""));	
 		 assertFalse(user.emailValidation("@gmail.com"));	
@@ -241,4 +241,75 @@ public class UserTest {
 		assertEquals(user.isPhoneNumberValid(""), true);	
 		assertEquals(user.isPhoneNumberValid(null), true);	
 	}
+
+	
+	
+    @Test
+    public void testIsQuestionValid() {
+    	assertEquals(user.isQuestionValid("favorite food?" , "favorite food?"), false);
+    	assertEquals(user.isQuestionValid("favorite food?" , "favorite sport?"), true);
+    }
+    
+    @Test
+    public void testIsAnswerValid() {
+    	assertEquals(user.isAnswerValid(""), true);
+    	assertEquals(user.isAnswerValid("Hello"), false);
+    }
+    
+    @Test
+    public void testSetQuestionOne() {
+    	user.setQuestionOne("favorite food?");
+        assertEquals(user.getQuestionOne() , "favorite food?");
+    }
+    
+    
+    @Test
+    public void testGetQuestionOne() {
+    	user.setQuestionOne("favorite food?");
+        assertEquals(user.getQuestionOne() , "favorite food?");
+    }
+    
+    
+    @Test
+    public void testGetAnswerOne() {
+    	user.setAnswerOne("khaman");
+        assertEquals(user.getAnswerOne() , "khaman");
+    }
+    
+    @Test
+    public void testSetAnswerOne() {
+    	user.setAnswerOne("khaman");
+        assertEquals(user.getAnswerOne() , "khaman");
+    }
+    
+    @Test
+    public void testGetQuestionTwo() {
+    	user.setQuestionOne("favorite sport?");
+        assertEquals(user.getQuestionOne() , "favorite sport?");
+    }
+    
+    @Test
+    public void testSetQuestionTwo() {
+    	user.setQuestionOne("favorite sport?");
+        assertEquals(user.getQuestionOne() , "favorite sport?");
+    }
+    
+    @Test
+    public void testGetAnswerTwo() {
+    	user.setAnswerTwo("cricket");
+        assertEquals(user.getAnswerTwo() , "cricket");
+    }
+    
+    @Test
+    public void testSetAnswerTwo() {
+    	user.setAnswerTwo("cricket");
+        assertEquals(user.getAnswerTwo() , "cricket");
+    }
+    
+    
+    
+    
+    
+    
+    
 }

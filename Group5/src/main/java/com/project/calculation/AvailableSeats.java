@@ -9,26 +9,10 @@ import com.project.lookup.ISearchTrain;
 
 @Component
 public class AvailableSeats implements IAvailableSeats {
-
-	int totalNumberOfTrain = 0;
-	int sourceStationIndex = 0;
-	int destinationStationIndex = 0;
-	int seatAvailableFromBookedSeat = 0;
-	boolean isSeatAvailable = true;
-	int maximumSeatNoFromDatabase = 0;
-	int firstIndexOfstationFromTripCode = 0;
-	int lastIndexOfStationFromTripCode = 0;
-	int totalSeatInOneTrain = 0;
-	int seatThatIsAvailableForBooking = 0;
-	int maximumSeatNumberOfThatReservationId = 0;
-	int sourceStationIndexOfBookedTicket = 0;
-	int destinationStationIndexOfBookedTicket = 0;
-	int firstIndexOfMiddleStation = 0;
-	int lastIndexOfMiddleStation = 0;
-	int maximumSeatNumber = 0;
-
+	@Override
 	public List<ITrain> findAvailableSeats(List<ITrain> trains, ISearchTrain searchTrain,
 			ISeatAvailibilityDAO seatAvalibilityDAO) {
+		int totalNumberOfTrain = 0;
 		totalNumberOfTrain = trains.size();
 		for (int i = 0; i < totalNumberOfTrain; i++) {
 			findAvailableSeatCountInSingleTrain(trains.get(i), searchTrain, seatAvalibilityDAO);
@@ -36,7 +20,10 @@ public class AvailableSeats implements IAvailableSeats {
 		return trains;
 	}
 
+	@Override
 	public List<Integer> listOfMiddleStation(ITrain train, ISearchTrain searchTrain) {
+		int sourceStationIndex = 0;
+		int destinationStationIndex = 0;
 		List<Integer> totalStation = train.getTotalStation();
 		List<Integer> middleStationList = new ArrayList<Integer>();
 		sourceStationIndex = Integer.parseInt(searchTrain.getSourceStation());
@@ -47,9 +34,20 @@ public class AvailableSeats implements IAvailableSeats {
 		return middleStationList;
 	}
 
+	@Override
 	public void findAvailableSeatCountInSingleTrain(ITrain train, ISearchTrain searchTrain,
 			ISeatAvailibilityDAO seatAvaillibilityDAO) {
-		seatAvailableFromBookedSeat = 0;
+		int seatAvailableFromBookedSeat = 0;
+		int firstIndexOfMiddleStation = 0;
+		int lastIndexOfMiddleStation = 0;
+		int sourceStationIndexOfBookedTicket = 0;
+		int destinationStationIndexOfBookedTicket = 0;
+		int seatThatIsAvailableForBooking = 0;
+		int firstIndexOfstationFromTripCode = 0;
+		int lastIndexOfStationFromTripCode = 0;
+		int totalSeatInOneTrain = 0;
+		boolean isSeatAvailable = true;
+		int maximumSeatNoFromDatabase = 0;
 		maximumSeatNoFromDatabase = findMaximumSeatInSingleTrain(train, train.getStartDate(), seatAvaillibilityDAO);
 		if (maximumSeatNoFromDatabase == 0) {
 
@@ -112,8 +110,10 @@ public class AvailableSeats implements IAvailableSeats {
 		train.setAvailableSeat(seatThatIsAvailableForBooking);
 	}
 
+	@Override
 	public int findMaximumSeatInSingleTrain(ITrain train, Date date, ISeatAvailibilityDAO seatAvaillibilityDAO) {
-		maximumSeatNumber = 0;
+		int maximumSeatNumber = 0;
+		int maximumSeatNumberOfThatReservationId = 0;
 		List<Integer> reservationIds = seatAvaillibilityDAO.getReservationId(train, date);
 		for (int i = 0; i < reservationIds.size(); i++) {
 			maximumSeatNumberOfThatReservationId = seatAvaillibilityDAO
@@ -124,5 +124,4 @@ public class AvailableSeats implements IAvailableSeats {
 		}
 		return maximumSeatNumber;
 	}
-
 }

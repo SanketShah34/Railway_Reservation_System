@@ -3,78 +3,92 @@ package com.project.calculation;
 import java.sql.Date;
 
 public class BookedTickets implements IBookedTickets {
-
 	private int reservationId;
-	private String trainId;
-	private Date date;
+	private int trainId;
+	private Date reservationDate;
 	private int sourceStationId;
 	private int destinationId;
 	private double amountPaid;
 	private int ticketBooked;
 	private int userId;
 
+	@Override
 	public int getReservationId() {
 		return reservationId;
 	}
-
+	
+	@Override
 	public void setReservationId(int reservationId) {
 		this.reservationId = reservationId;
 	}
 
-	public String getTrainId() {
+	@Override
+	public int getTrainId() {
 		return trainId;
 	}
 
-	public void setTrainId(String trainId) {
+	@Override
+	public void setTrainId(int trainId) {
 		this.trainId = trainId;
 	}
 
-	public Date getDate() {
-		return date;
+	@Override
+	public Date getReservationDate() {
+		return reservationDate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	@Override
+	public void setReservationDate(Date date) {
+		this.reservationDate = date;
 	}
 
+	@Override
 	public int getSourceStationId() {
 		return sourceStationId;
 	}
 
+	@Override
 	public void setSourceStationId(int sourceStationId) {
 		this.sourceStationId = sourceStationId;
 	}
 
+	@Override
 	public int getDestinationId() {
 		return destinationId;
 	}
 
+	@Override
 	public void setDestinationId(int destinationId) {
 		this.destinationId = destinationId;
 	}
 
+	@Override
 	public double getAmountPaid() {
 		return amountPaid;
 	}
 
+	@Override
 	public void setAmountPaid(double amountPaid) {
 		this.amountPaid = amountPaid;
 	}
 
+	@Override
 	public int getTicketBooked() {
 		return ticketBooked;
 	}
 
+	@Override
 	public void setTicketBooked(int ticketBooked) {
 		this.ticketBooked = ticketBooked;
 	}
 
+	@Override
 	public int getUserId() {
 		return userId;
 	}
 
+	@Override
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-
 }

@@ -3,6 +3,8 @@ package com.project.setup;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,6 +62,8 @@ public class TrainController {
 			}
 		}
 	}
+	
+	
 
 	@RequestMapping("/admin/train/edit/{trainId}")
 	public String showEditTrainPage(@PathVariable(name = "trainId") Integer trainId, Model model) {
@@ -71,18 +75,23 @@ public class TrainController {
 		
 		ITrain train = trainDAO.getTrain(trainId);
 		model.addAttribute(train);
-		
 		String[] daysList = train.getDays().split(",");
 		Map<String, String> allDays = new HashMap<>();
 		for(String day: daysList) {
 			allDays.put(day, "true");
 		}
-		
 		String[] middleStationsList = train.getMiddleStations().split(",");
 		model.addAttribute("listOfMiddleStations", middleStationsList);
-		
 		model.addAttribute("listOfDays",allDays);
 		return "train/edit_train";
+
+	}
+	
+	@ModelAttribute("train")
+	public ITrain getITrainModelObject(HttpServletRequest request) {
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		ITrain train = setupAbstractFactory.createNewTrain();
+		return train;
 	}
 
 	@RequestMapping("/admin/train/delete/{trainId}")

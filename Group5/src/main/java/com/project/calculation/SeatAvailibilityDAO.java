@@ -23,13 +23,13 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 	public final String destinationStationIdColumnName = "destinationStationId";
 	public final String amountPaidColumnName = "amountPaid";
 	public final String ticketBookedColumnName = "ticketBooked";
-	public final String userIdColumnName = "userId";
 	public final String reservationIdStringColumnName = "reservationId";
-	int reservationId = 0;
 
+	@Override
 	public List<IBookedTickets> getListOfTicketsFromSeatNo(ITrain train, Date date, int seatNo) {
 		List<IBookedTickets> bookedTickets = new ArrayList<IBookedTickets>();
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
+		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
@@ -43,15 +43,14 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 			if (hadResult) {
 				resultSet = statment.getResultSet();
 				while (resultSet.next()) {
-					IBookedTickets ticket = new BookedTickets();
+					IBookedTickets ticket = calculationAbstractFactory.createNewBookedTickets();
 					ticket.setReservationId(resultSet.getInt(reservationIdColumnName));
-					ticket.setTrainId(resultSet.getString(trainIdColumnName));
-					ticket.setDate(resultSet.getDate(dateColumnName));
+					ticket.setTrainId(resultSet.getInt(trainIdColumnName));
+					ticket.setReservationDate(resultSet.getDate(dateColumnName));
 					ticket.setSourceStationId(resultSet.getInt(sourceStationIdColumnName));
 					ticket.setDestinationId(resultSet.getInt(destinationStationIdColumnName));
 					ticket.setAmountPaid(resultSet.getDouble(amountPaidColumnName));
 					ticket.setTicketBooked(resultSet.getInt(ticketBookedColumnName));
-					//ticket.setUserId(resultSet.getInt(userIdColumnName));
 					bookedTickets.add(ticket);
 				}
 			}
@@ -65,7 +64,9 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 		return bookedTickets;
 	}
 
+	@Override
 	public List<Integer> getReservationId(ITrain train, Date date) {
+		int reservationId = 0;
 		List<Integer> reservationIds = new ArrayList<Integer>();
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
@@ -94,6 +95,7 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 		return reservationIds;
 	}
 
+	@Override
 	public int maximumSeatNumberOfReservationId(int reservationId) {
 		int maximumNumber = 0;
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();

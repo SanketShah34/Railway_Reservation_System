@@ -20,6 +20,8 @@ public abstract class SecurityAbstractFactory   {
 	
 	public abstract AuthenticationSuccessHandler createCustomeSuccessHandler();
 	
+	public abstract SecurityQuestion createSecurityQuestion();
+	
 	public abstract UserDetails createMyUserDetail(IUser user);
 	
 	public static SecurityAbstractFactory instance() {

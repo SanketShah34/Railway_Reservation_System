@@ -66,10 +66,26 @@ public interface IUser {
 	
 	public  boolean isDateValid(Date date);
 	
+	public boolean isQuestionValid(String securityQuestionOne , String securityQuestionTwo);
+	
 	public boolean isPhoneNumberValid(String number);
 	
-
+	public boolean isAnswerValid(String answer);
 	
+	public String getQuestionOne();
 	
+	public void setQuestionOne(String questionOne);
+	
+	public String getAnswerOne();
+	
+	public void setAnswerOne(String answerOne);
+	
+	public String getQuestionTwo();
+	
+	public void setQuestionTwo(String questionTwo);
+	
+	public String getAnswerTwo();
+	
+	public void setAnswerTwo(String answerTwo);
 
 }

@@ -1,10 +1,10 @@
 package com.project.calculation;
 
 public class CalculationConcreteFactory extends CalculationAbstractFactory {
-
 	private ITrainFilterAndCalculation trainFilterAndCalculation;
 	private IAvailableSeats avialableSeats;
 	private ISeatAvailibilityDAO seatAvailibilityDAO;
+	private IBookedTickets bookedTickets;
 
 	public ISeatAvailibilityDAO createSeatAvailibilityDAO() {
 		if (seatAvailibilityDAO == null) {
@@ -39,4 +39,14 @@ public class CalculationConcreteFactory extends CalculationAbstractFactory {
 		return new AvailableSeats();
 	}
 
+	public IBookedTickets createBookedTickets() {
+		if (bookedTickets == null) {
+			bookedTickets = new BookedTickets();
+		}
+		return bookedTickets;
+	}
+
+	public IBookedTickets createNewBookedTickets() {
+		return new BookedTickets();
+	}
 }
