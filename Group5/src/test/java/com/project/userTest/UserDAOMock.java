@@ -4,8 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.springframework.util.Assert;
-
 import com.project.user.IUser;
 import com.project.user.IUserDAO;
 import com.project.user.UserAbstractFactory;
@@ -28,13 +26,12 @@ public class UserDAOMock implements IUserDAO {
 		try {
 			Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
 			user.setDateOfBirth(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParseException exception) {
+			exception.printStackTrace();
 		}
 		
 		user.setEnabled(true);
-		user.setMobileNumber(Integer.parseInt("1234567890"));
+		user.setMobileNumber("9933562165");
 		user.setPassword("Dhara");
 		user.setRole("USER");
 		return user;
@@ -53,13 +50,12 @@ public class UserDAOMock implements IUserDAO {
 		try {
 			Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
 			user.setDateOfBirth(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParseException exception) {
+			exception.printStackTrace();
 		}
 		
 		user.setEnabled(true);
-		user.setMobileNumber(Integer.parseInt("1234567890"));
+		user.setMobileNumber("9933562165");
 		user.setPassword("Dhara");
 		user.setRole("USER");
 		
@@ -78,17 +74,33 @@ public class UserDAOMock implements IUserDAO {
 		try {
 			Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
 			user.setDateOfBirth(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParseException exception) {
+			exception.printStackTrace();
 		}
 		
 		user.setEnabled(true);
-		user.setMobileNumber(Integer.parseInt("1234567890"));
+		user.setMobileNumber("9933562165");
 		user.setPassword("Dhara");
 		user.setRole("USER");
 		
 		//Assert.isTrue(user.isEnabled() == true);
+		return true;
+	}
+
+	@Override
+	public boolean isUserPresentWithSameQuestionAndAnswer(IUser user) {
+		user.setUserName("nikbhimani@gmail.com");
+		user.setQuestionOne("Favourite actor?");
+		user.setAnswerOne("Aamir khan");
+		user.setQuestionTwo("Favorite cricketer?");
+		user.setAnswerTwo("MS Dhoni");
+		return true;
+	}
+
+	@Override
+	public boolean updatePassword(IUser user) {
+		user.setUserName("nikbhimani@gmail.com");
+		user.setPassword("nikunj@1234");
 		return true;
 	}
 

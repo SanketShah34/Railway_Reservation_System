@@ -6,21 +6,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.calculation.CalculationAbstractFactory;
-import com.project.calculation.IAvailableSeats;
-import com.project.calculation.ISeatAvailibilityDAO;
-import com.project.calculation.ITrainFilterAndCalculation;
+import com.project.lookup.IAvailableSeats;
 import com.project.lookup.ISearchTrain;
 import com.project.lookup.ISearchTrainDAO;
+import com.project.lookup.ISeatAvailibilityDAO;
+import com.project.lookup.ITrainFilterAndFairCalculation;
 import com.project.lookup.LookupAbstractFactory;
 import com.project.reservation.IPassengerInformation;
 import com.project.reservation.IReservation;
 import com.project.reservation.IReservationDAO;
 import com.project.reservation.ReservationAbstractFactory;
-import com.project.setup.ICancelTrain;
 import com.project.setup.IRouteDAO;
 import com.project.setup.ITrain;
-import com.project.setup.SetupAbstractFactory;
 import com.project.ticketCancellation.CancelTicketAbstractFactory;
 import com.project.ticketCancellation.ICalculateAmounts;
 import com.project.ticketCancellation.ISearchPassengerInfo;
@@ -47,12 +44,10 @@ public class TrainCancellation implements ITrainCancellation {
 	
 	@Override
 	public void rescheduleOnWeekDays(IReservation reservation, ISearchTrainDAO searchTrainDAO, IRouteDAO routeDAO, ISeatAvailibilityDAO seatAvailibilityDAO) {
-		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
-		
+		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();		
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		ITrainFilterAndCalculation trainFilterAndCalculateFair = calculationAbstractFactory.createNewTrainFilterAndCalculateFair();
-		IAvailableSeats availableSeats = calculationAbstractFactory.createAvaliableSeats();
+		ITrainFilterAndFairCalculation trainFilterAndCalculateFair = lookupAbstractFactory.createNewTrainFilterAndCalculateFair();
+		IAvailableSeats availableSeats = lookupAbstractFactory.createAvaliableSeats();
 		
 		searchTrain.setTrainType(reservation.getTrainType());
 		searchTrain.setDestinationStation(Integer.toString(reservation.getDestinationStationId()));
@@ -104,11 +99,10 @@ public class TrainCancellation implements ITrainCancellation {
 	@Override
 	public void rescheduleOnWeekEnds(IReservation reservation, ISearchTrainDAO searchTrainDAO, IRouteDAO routeDAO, ISeatAvailibilityDAO seatAvailibilityDAO) {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		ITrainFilterAndCalculation trainFilterAndCalculateFair = calculationAbstractFactory.createNewTrainFilterAndCalculateFair();
-		IAvailableSeats availableSeats = calculationAbstractFactory.createAvaliableSeats();
+		ITrainFilterAndFairCalculation trainFilterAndCalculateFair = lookupAbstractFactory.createNewTrainFilterAndCalculateFair();
+		IAvailableSeats availableSeats = lookupAbstractFactory.createAvaliableSeats();
 		
 		searchTrain.setTrainType(reservation.getTrainType());
 		searchTrain.setDestinationStation(Integer.toString(reservation.getDestinationStationId()));

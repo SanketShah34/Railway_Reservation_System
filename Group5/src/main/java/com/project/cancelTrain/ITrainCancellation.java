@@ -4,8 +4,8 @@ import java.sql.Date;
 import java.time.DayOfWeek;
 import java.util.List;
 
-import com.project.calculation.ISeatAvailibilityDAO;
 import com.project.lookup.ISearchTrainDAO;
+import com.project.lookup.ISeatAvailibilityDAO;
 import com.project.reservation.IReservation;
 import com.project.setup.IRouteDAO;
 

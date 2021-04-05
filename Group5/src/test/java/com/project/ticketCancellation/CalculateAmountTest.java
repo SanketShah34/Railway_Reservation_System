@@ -1,6 +1,6 @@
 package com.project.ticketCancellation;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.project.reservation.IReservation;
 import com.project.reservation.ReservationAbstractFactory;
@@ -35,13 +35,8 @@ public class CalculateAmountTest {
 		reservation.setTrainId(1);
 		reservation.setTrainType("Non AC Sleeper");
 		
-		String dateStr = "2021-04-05";
-		try {
-			Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
-			reservation.setStartDate(date);
-		} catch (ParseException exception) {
-			exception.printStackTrace();
-		}
+		Date date = Date.valueOf("2021-04-04");
+		reservation.setStartDate(date);
 		
 		List<Integer> ids =new ArrayList<>();
 		ids.add(1);
@@ -54,17 +49,9 @@ public class CalculateAmountTest {
 	@Test
 	void CalculateDiscountTest() {
 		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
-		
-		String dateStr = "2021-03-05";
-		try {
-			Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
-			//reservation.setStartDate(date);
-			double amount = calculateAmounts.CalculateDiscount(1000.0, 500.0, date, "09:00");
-			assertEquals(amount, 350.0);
-			
-		} catch (ParseException exception) {
-			exception.printStackTrace();
-		}
+		Date date = Date.valueOf("2021-04-04");
+		double amount = calculateAmounts.CalculateDiscount(1000.0, 500.0, date, "09:00");
+		assertEquals(amount, 350.0);
 	}
 
 }

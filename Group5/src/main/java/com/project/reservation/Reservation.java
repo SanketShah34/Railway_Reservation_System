@@ -3,8 +3,9 @@ package com.project.reservation;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import com.project.calculation.ITrainFilterAndCalculation;
-import com.project.calculation.CalculationAbstractFactory;
+
+import com.project.lookup.ITrainFilterAndFairCalculation;
+import com.project.lookup.LookupAbstractFactory;
 
 
 public class Reservation implements IReservation {
@@ -154,9 +155,9 @@ public class Reservation implements IReservation {
 	@Override
 	public void calculateReservationFarePerPassenger(IReservation reservation) {
 		
-		CalculationAbstractFactory calculationAbstractFacroty = CalculationAbstractFactory.instance();
+		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 		
-		ITrainFilterAndCalculation findFare = calculationAbstractFacroty.createNewTrainFilterAndCalculateFair();
+		ITrainFilterAndFairCalculation findFare = lookupAbstractFactory.createNewTrainFilterAndCalculateFair();
 		
 		try {
 			double fareBasedOnTrainType = findFare.calculateFareByTrainType(reservation.getDistance(), reservation.getTrainType());

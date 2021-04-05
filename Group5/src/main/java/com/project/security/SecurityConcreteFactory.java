@@ -13,6 +13,7 @@ public class SecurityConcreteFactory extends SecurityAbstractFactory {
 	private BCryptPasswordEncoder passwordEncoder;
 	private DaoAuthenticationProvider authenticationProvider;
 	private AuthenticationSuccessHandler successHandler;
+	private SecurityQuestion securityQuestion;
 	private UserDetails userDetail;
 	
 	
@@ -82,6 +83,14 @@ public class SecurityConcreteFactory extends SecurityAbstractFactory {
 	public UserDetails createNewMyUserDetail(IUser user)
 	{
 		return new MyUserDetails(user);
+	}
+
+	@Override
+	public SecurityQuestion createSecurityQuestion() {
+		if (securityQuestion == null) {
+			securityQuestion = new SecurityQuestion();
+    	}
+    	return securityQuestion;
 	}
 
 }
