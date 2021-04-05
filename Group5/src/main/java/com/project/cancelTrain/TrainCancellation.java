@@ -20,7 +20,7 @@ import com.project.setup.IRouteDAO;
 import com.project.setup.ITrain;
 import com.project.ticketCancellation.CancelTicketAbstractFactory;
 import com.project.ticketCancellation.ICalculateAmounts;
-import com.project.ticketCancellation.ISearchPassengerInfo;
+import com.project.ticketCancellation.ISearchPassengerInformationDAO;
 
 public class TrainCancellation implements ITrainCancellation {
 
@@ -77,6 +77,7 @@ public class TrainCancellation implements ITrainCancellation {
 						this.cancelTicket(reservation);
 						reservation.setTrainId(train.getTrainId());
 						reservation.setDistance(train.getTotalDistance());
+						System.out.println(train.getStartDate());
 						reservation.setStartDate(train.getStartDate());
 						this.bookTicket(reservation);
 						
@@ -169,7 +170,7 @@ public class TrainCancellation implements ITrainCancellation {
 			}
 		}
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInfo searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		ISearchPassengerInformationDAO searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
 		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
 		IReservation reservationInformation = searchTicketInfo.GetAmountPaidOnTicket(ticketsToBeCancelled);
 		double refundedAmount = calculateAmounts.CalculateRefundAmount(reservationInformation, ticketsToBeCancelled);

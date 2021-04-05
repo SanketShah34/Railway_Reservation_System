@@ -6,7 +6,7 @@ import com.project.reservation.IPassengerInformation;
 import com.project.reservation.IReservation;
 import com.project.setup.ITrain;
 
-public interface ISearchPassengerInfo {
+public interface ISearchPassengerInformationDAO {
 	public List<IPassengerInformation> SearchPassengerInfoByPNR(String pnrNumber);
 	public IReservation GetAmountPaidOnTicket(List<Integer> ids);
 	public ITrain GetTrainDetails(int trainId);

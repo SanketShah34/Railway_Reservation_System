@@ -8,9 +8,9 @@ public abstract class CancelTicketAbstractFactoryTest {
 		}
 		return instance;
 	}
-	public abstract SearchPassengerInfoTest createSearchPassengerInfoTest();
+	public abstract SearchPassengerInformationDAOTest createSearchPassengerInfoTest();
 	
-	public abstract SearchPassengerInfoTest createNewSearchPassengerInfoTest();
+	public abstract SearchPassengerInformationDAOTest createNewSearchPassengerInfoTest();
 	
 	public abstract CalculateAmountTest createCalculateAmountTest();
 	

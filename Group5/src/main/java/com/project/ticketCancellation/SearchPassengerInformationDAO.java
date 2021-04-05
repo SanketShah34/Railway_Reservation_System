@@ -14,7 +14,7 @@ import com.project.reservation.ReservationAbstractFactory;
 import com.project.setup.ITrain;
 import com.project.setup.SetupAbstractFactory;
 
-public class SearchPassengerInfo implements ISearchPassengerInfo
+public class SearchPassengerInformationDAO implements ISearchPassengerInformationDAO
 {
 	
 	public final String FIRSTNAME = "firstName";

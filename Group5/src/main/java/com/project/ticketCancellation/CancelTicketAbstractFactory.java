@@ -4,8 +4,8 @@ public abstract class CancelTicketAbstractFactory
 {
 	private static  CancelTicketAbstractFactory instance = null;
 	
-	public abstract ISearchPassengerInfo createSearchPassengerInfo();
-	public abstract ISearchPassengerInfo createNewSearchPassengerInfo();
+	public abstract ISearchPassengerInformationDAO createSearchPassengerInfo();
+	public abstract ISearchPassengerInformationDAO createNewSearchPassengerInfo();
 	
 	public abstract ICalculateAmounts createCalculateAmounts();
 	public abstract ICalculateAmounts createNewCalculateAmounts();
