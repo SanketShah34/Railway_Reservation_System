@@ -124,15 +124,15 @@ class PassengerInformationTest {
 	@Test
 	void testGetSeatNumber() {
 		IPassengerInformation passengerInformation = reservationAbstractFactory.createNewPassengerInformation();
-		passengerInformation.setSeatNumber("62A");
-		assertEquals(passengerInformation.getSeatNumber(), "62A");
+		passengerInformation.setSeatNumber(1);
+		assertEquals(passengerInformation.getSeatNumber(), 1);
 	}
 
 	@Test
 	void testSetSeatNumber() {
 		IPassengerInformation passengerInformation = reservationAbstractFactory.createNewPassengerInformation();
-		passengerInformation.setSeatNumber("62A");
-		assertEquals(passengerInformation.getSeatNumber(), "62A");
+		passengerInformation.setSeatNumber(1);
+		assertEquals(passengerInformation.getSeatNumber(), 1);
 	}
 
 	@Test

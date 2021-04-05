@@ -1,13 +1,11 @@
 package com.project.reservation;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.project.calculation.IFindFare;
+import com.project.calculation.ITrainFilterAndCalculation;
 import com.project.calculation.CalculationAbstractFactory;
-import com.project.calculation.FindFare;
+
 
 public class Reservation implements IReservation {
 	
@@ -17,9 +15,13 @@ public class Reservation implements IReservation {
     public int destinationStationId;
     public String pnrNumber;
     public double amountPaid;
-    public int distance;
+    public double distance;
     public String trainType;
-    public List<IPassengerInformation> passengerInformation;
+    public String trainCancelEvent;
+    public Date startDate;
+    public int ticketBooked;
+
+	public List<IPassengerInformation> passengerInformation;
     
     public static final int numberOfPassengersPerReservation = 6;
     
@@ -99,11 +101,11 @@ public class Reservation implements IReservation {
 		this.passengerInformation = passengerInformation;
 	}
 	@Override
-	public void setDistance(int distance) {
+	public void setDistance(double distance) {
 		this.distance = distance;
 	}
 	@Override
-	public int getDistance() {
+	public double getDistance() {
 		return this.distance;
 	}
 
@@ -117,12 +119,42 @@ public class Reservation implements IReservation {
 		this.trainType = trainType;
 	}
 	
+	 @Override
+	public String getTrainCancelEvent() {
+		return trainCancelEvent;
+	}
+
+	@Override
+	public void setTrainCancelEvent(String trainCancelEvent) {
+		this.trainCancelEvent = trainCancelEvent;
+	}
+		
+	@Override
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	@Override
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	
+	@Override
+	public int getTicketBooked() {
+		return ticketBooked;
+	}
+
+	@Override
+	public void setTicketBooked(int ticketBooked) {
+		this.ticketBooked = ticketBooked;
+	}
+
 	@Override
 	public void calculateReservationFarePerPassenger(IReservation reservation) {
 		
 		CalculationAbstractFactory calculationAbstractFacroty = CalculationAbstractFactory.instance();
 		
-		IFindFare findFare = calculationAbstractFacroty.createFindFair();
+		ITrainFilterAndCalculation findFare = calculationAbstractFacroty.createNewTrainFilterAndCalculateFair();
 		
 		try {
 			double fareBasedOnTrainType = findFare.calculateFareByTrainType(reservation.getDistance(), reservation.getTrainType());
@@ -130,6 +162,8 @@ public class Reservation implements IReservation {
 			int passengerInformationLength = reservation.getPassengerInformation().size();
 			for ( int index = 0; index < passengerInformationLength; index++) {
 				double amountPaid = findFare.calculateFareByAge(fareBasedOnDistance, reservation.getPassengerInformation().get(index).getAge());
+				reservation.getPassengerInformation().get(index).setPassengerInformationId(0);
+				reservation.getPassengerInformation().get(index).setReservationId(0);
 				reservation.getPassengerInformation().get(index).setAmountPaid(amountPaid);
 			}		
 		} catch(Exception exception) {
@@ -146,6 +180,42 @@ public class Reservation implements IReservation {
 			amountPaid = amountPaid + reservation.getPassengerInformation().get(index).getAmountPaid();
 		}
 		reservation.setAmountPaid(amountPaid); 
+		reservation.setReservationId(0);
 	}
-    
+ 
+	@Override
+	public void removeEmptyPassengerRow(IReservation reservation) {
+		List<IPassengerInformation> passengerInformation = reservation.getPassengerInformation();
+		List<IPassengerInformation> nonEmptyPassengerInformation = new ArrayList<IPassengerInformation>(0);
+		
+		for (int index = 0; index < passengerInformation.size(); index++) {
+			boolean rowNonEmpty = passengerInformation.get(index).isRowNonEmpty();
+			if (rowNonEmpty) {
+				nonEmptyPassengerInformation.add(passengerInformation.get(index));
+			}
+		}
+		reservation.setPassengerInformation(nonEmptyPassengerInformation);
+	}
+	
+	@Override
+	public boolean isPassengerListEmpty(IReservation reservation) {
+		if (reservation.getPassengerInformation().size() <= 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public String validateReservation(IReservation reservation) {
+		String errorMessages = "";
+		if (this.isPassengerListEmpty(reservation)) {
+			errorMessages += ReservationInformationErrorCodes.emptyPassengerList;
+			return errorMessages;
+		} else {
+			for(int index = 0; index < reservation.getPassengerInformation().size(); index++) {
+				errorMessages +=  reservation.getPassengerInformation().get(index).isPassengerInformationValid();
+			} 
+		}
+		return errorMessages;
+	}
 }
