@@ -15,5 +15,6 @@ public abstract class CancelTicketAbstractFactoryTest {
 	public abstract CalculateAmountTest createCalculateAmountTest();
 	
 	public abstract CalculateAmountTest createNewCalculateAmountTest();
+	public abstract SearchPassengerInformationDAOMock createSearchPassengerInformationDAOMock();
 }
 

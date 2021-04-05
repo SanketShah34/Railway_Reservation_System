@@ -29,10 +29,6 @@ public class CalculateAmounts implements ICalculateAmounts {
 		LocalTime localTime = localDateTime.toLocalTime();
 
 		//https://www.baeldung.com/java-date-to-localdate-and-localdatetime
-		System.out.println("Hello");
-		System.out.println(trainStartDate);
-		System.out.println(trainStartDate.getTime());
-		
 		LocalDate TrainDate = Instant.ofEpochMilli(trainStartDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate localDateAfterAddingOneDay;
 		Double amount;
@@ -62,10 +58,7 @@ public class CalculateAmounts implements ICalculateAmounts {
 	}
 
 	@Override
-	public double CalculateRefundAmount(IReservation reservation, List<Integer> ids) {
-		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInformationDAO searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
-		
+	public double CalculateRefundAmount(IReservation reservation, List<Integer> ids, ISearchPassengerInformationDAO searchTicketInfo) {
 		int pnrNumber = reservation.getReservationId();
 		double amountPaid = reservation.getAmountPaid();
 		Date trainStartDate = reservation.getStartDate();

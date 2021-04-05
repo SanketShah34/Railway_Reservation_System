@@ -166,27 +166,14 @@ class PassengerInformationTest {
 		passengerInformation = passengerMock.createPassengerMockAgeHuge(passengerInformation);
 		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.ageInvalid);
 		
-		passengerInformation = passengerMock.createPassengerMockFirstNameNull(passengerInformation);
-		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.firstNameMissing);
-		
 		passengerInformation = passengerMock.createPassengerMockFirstNameEmpty(passengerInformation);
 		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.firstNameMissing);
-		
-		passengerInformation = passengerMock.createPassengerMockLastNameNull(passengerInformation);
-		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.lastNameMissing);
 		
 		passengerInformation = passengerMock.createPassengerMockLastNameEmpty(passengerInformation);
 		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.lastNameMissing);
 		
-		
-		passengerInformation = passengerMock.createPassengerMockGenderNull(passengerInformation);
-		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.genderMissing);
-		
 		passengerInformation = passengerMock.createPassengerMockGenderEmpty(passengerInformation);
 		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.genderMissing);
-		
-		passengerInformation = passengerMock.createPassengerMockBerthPreferenceNull(passengerInformation);
-		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.berthPreferenceMissing);
 		
 		passengerInformation = passengerMock.createPassengerMockBerthPreferenceEmpty(passengerInformation);
 		assertEquals(passengerInformation.isPassengerInformationValid(), PassengerInformationErrorCodes.berthPreferenceMissing);
@@ -198,19 +185,15 @@ class PassengerInformationTest {
 		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
 		
 		passengerInformation = passengerMock.createPassengerMock(passengerInformation);
+		passengerInformation.setFirstName("");
+		passengerInformation.setLastName("");
+		assertFalse(passengerInformation.isRowNonEmpty());
+	
+		passengerInformation = passengerMock.createPassengerMockFirstNameEmpty(passengerInformation);
 		assertTrue(passengerInformation.isRowNonEmpty());
 		
-		passengerInformation = passengerMock.createPassengerMockFirstNameNull(passengerInformation);
-		assertFalse(passengerInformation.isRowNonEmpty());
-		
-		passengerInformation = passengerMock.createPassengerMockFirstNameEmpty(passengerInformation);
-		assertFalse(passengerInformation.isRowNonEmpty());
-		
-		passengerInformation = passengerMock.createPassengerMockLastNameNull(passengerInformation);
-		assertFalse(passengerInformation.isRowNonEmpty());
-		
 		passengerInformation = passengerMock.createPassengerMockLastNameEmpty(passengerInformation);
-		assertFalse(passengerInformation.isRowNonEmpty());
+		assertTrue(passengerInformation.isRowNonEmpty());
 		
 	}
 }

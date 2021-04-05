@@ -42,7 +42,7 @@ public class TicketCancellationController {
 		ISearchPassengerInformationDAO searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
 		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
 		IReservation reservation = searchTicketInfo.GetAmountPaidOnTicket(ids);
-		double refundedAmount = calculateAmounts.CalculateRefundAmount(reservation, ids);
+		double refundedAmount = calculateAmounts.CalculateRefundAmount(reservation, ids, searchTicketInfo);
 		searchTicketInfo.DeleteTickets(ids, reservation, refundedAmount);
 		model.addAttribute("refundedAmount", refundedAmount);
 		return "cancelTicket/cancelConfirmation";

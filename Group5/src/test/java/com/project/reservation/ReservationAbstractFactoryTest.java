@@ -13,4 +13,6 @@ public abstract class ReservationAbstractFactoryTest {
 	public abstract PassengerMock createPassengerMock();
 
 	public abstract ReservationMock createReservationMock();
+
+	public abstract ReservationDAOMock createReservationDAOMock();
 }

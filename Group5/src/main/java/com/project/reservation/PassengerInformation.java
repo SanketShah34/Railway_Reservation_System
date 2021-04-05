@@ -94,19 +94,16 @@ public class PassengerInformation implements IPassengerInformation {
 	}
 	
 	@Override
-	public boolean isFirstNameNullOrEmpty() {
+	public boolean isFirstNameEmpty() {
 		String firstName = this.getFirstName();
-		System.out.println(firstName);
-		if (firstName.equals(null)) {
+		if (firstName.equals("")) {
 			return true;
-		} else if (firstName.equals("")) {
-			return true;
-		}
+		} 
 		return false;
 	}
     
 	@Override
-	public boolean isLastNameNullOrEmpty() {
+	public boolean isLastNameEmpty() {
 		String lastName = this.getLastName();
 		if (lastName.equals(null)) {
 			return true;
@@ -117,7 +114,7 @@ public class PassengerInformation implements IPassengerInformation {
 	}
 	
 	@Override
-	public boolean isGenderNullOrEmpty() {
+	public boolean isGenderEmpty() {
 		String gender = this.getGender();
 		if (gender.equals(null)) {
 			return true;
@@ -139,7 +136,7 @@ public class PassengerInformation implements IPassengerInformation {
 	}
 	
 	@Override
-	public boolean isBerthPreferenceNullOrEmpty() {
+	public boolean isBerthPreferenceEmpty() {
 		String berthPreference = this.getBerthPreference();
 		if (berthPreference.equals(null)) {
 			return true;
@@ -152,19 +149,19 @@ public class PassengerInformation implements IPassengerInformation {
 	@Override
 	public String isPassengerInformationValid() {
 		String errorMessages = "";
-		if (this.isFirstNameNullOrEmpty()) {
+		if (this.isFirstNameEmpty()) {
 			errorMessages += PassengerInformationErrorCodes.firstNameMissing;
 		}
-		if (this.isLastNameNullOrEmpty()) {
+		if (this.isLastNameEmpty()) {
 			errorMessages += PassengerInformationErrorCodes.lastNameMissing;
 		}
 		if (this.isAgeInvalid()) {
 			errorMessages += PassengerInformationErrorCodes.ageInvalid;
 		}
-		if (this.isGenderNullOrEmpty()) {
+		if (this.isGenderEmpty()) {
 			errorMessages += PassengerInformationErrorCodes.genderMissing;
 		}
-		if (this.isBerthPreferenceNullOrEmpty()) {
+		if (this.isBerthPreferenceEmpty()) {
 			errorMessages += PassengerInformationErrorCodes.berthPreferenceMissing;
 		}
 		return errorMessages;
@@ -172,7 +169,7 @@ public class PassengerInformation implements IPassengerInformation {
 	
 	@Override
 	public boolean isRowNonEmpty() {
-		if (this.isFirstNameNullOrEmpty() && this.isLastNameNullOrEmpty()) {
+		if (this.isFirstNameEmpty() && this.isLastNameEmpty()) {
 			return false;
 		} else {
 			return true;

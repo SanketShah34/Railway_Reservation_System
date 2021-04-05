@@ -25,6 +25,7 @@ public class CalculateAmountTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	void CalculateRefundAmountTest() {
+		SearchPassengerInformationDAOMock searchPassengerInformationDAOMock  =  cancelTicketAbstractFactoryTest.createSearchPassengerInformationDAOMock();
 		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		reservation.setAmountPaid(100.0);
@@ -42,7 +43,7 @@ public class CalculateAmountTest {
 		ids.add(1);
 		ids.add(2);
 		
-		double amount = calculateAmounts.CalculateRefundAmount(reservation, ids);
+		double amount = calculateAmounts.CalculateRefundAmount(reservation, ids, searchPassengerInformationDAOMock);
 		assertEquals(amount, 350.0);
 	}
 	

@@ -30,5 +30,10 @@ public class CancelTicketConcreteFactoryTest extends CancelTicketAbstractFactory
 	public CalculateAmountTest createNewCalculateAmountTest() {
 		return new CalculateAmountTest();
 	}
+	
+	@Override
+	public SearchPassengerInformationDAOMock createSearchPassengerInformationDAOMock() {
+		return new SearchPassengerInformationDAOMock();
+	}
 
 }
