@@ -2,9 +2,11 @@ package com.project.findMyTrain;
 
 import java.util.Date;
 
+import com.project.setup.ITrain;
+
 public interface IFindMyTrainDAO {
-	public void getLiveTrainStatus(int trainCode, Date startDate);
+	public ITrain getLiveTrainStatus(int trainCode, Date startDate);
 	
-	public double getRouteInfo(Integer startStation, Integer endStation);
+	public double getRouteInformation(Integer startStation, Integer endStation);
 
 }

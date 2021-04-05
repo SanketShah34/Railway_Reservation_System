@@ -57,6 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	{
 		http.authorizeRequests()
 		.antMatchers("/user/home").permitAll()
+		.antMatchers("/findMyTrain").permitAll()
+		.antMatchers("/findMyTrain/location").permitAll()
 		.antMatchers("/signup").permitAll()
 		.antMatchers("/signup/save").permitAll()
 		.antMatchers("/admin*").hasAnyAuthority("ADMIN")

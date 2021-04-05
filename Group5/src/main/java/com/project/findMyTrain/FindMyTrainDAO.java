@@ -12,7 +12,7 @@ import com.project.setup.SetupAbstractFactory;
 
 public class FindMyTrainDAO implements IFindMyTrainDAO {
 	
-	 public void getLiveTrainStatus(int trainCode, Date startDate) {
+	 public ITrain getLiveTrainStatus(int trainCode, Date startDate) {
 	        SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 	        ITrain train = setupAbstractFactory.createNewTrain();
 	        DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
@@ -38,7 +38,7 @@ public class FindMyTrainDAO implements IFindMyTrainDAO {
 	            databaseUtilities.closeStatement(statement);
 	            databaseUtilities.closeConnection(connection);
 	        }
-	       
+	       return train;
 	        /*List<Integer> stationIds = new ArrayList<Integer>();
 	        stationIds.add(Integer.valueOf(train.getStartStation()));
 	        String[] middleStationsList = train.getMiddleStations().split(",");
@@ -101,7 +101,7 @@ public class FindMyTrainDAO implements IFindMyTrainDAO {
 	        }*/
 	    }
 	   
-	    public double getRouteInfo(Integer startStation, Integer endStation) {
+	    public double getRouteInformation(Integer startStation, Integer endStation) {
 	        DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 	        IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 	        Connection connection = databaseUtilities.establishConnection();
