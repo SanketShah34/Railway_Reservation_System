@@ -38,4 +38,19 @@ public class DistanceData implements IDistanceData {
 	    public void setDistance(double distance) {
 	        this.distance = distance;
 	    }
+	    
+	    public boolean isStringNullOrEmpty(String s) {
+			if (null == s) {
+				return true;
+			}
+			return s.isEmpty();
+		}
+	    
+	    public boolean isTrainCodeValid(String trainCode) {
+			return isStringNullOrEmpty(trainCode);
+		}
+
+		public boolean isDateValid(String date) {
+			return isStringNullOrEmpty(date);
+		}
 }

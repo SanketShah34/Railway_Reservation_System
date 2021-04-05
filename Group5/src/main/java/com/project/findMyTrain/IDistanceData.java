@@ -12,4 +12,8 @@ public interface IDistanceData {
 	 public double getDistance();
 	 
 	 public void setDistance(double distance);
+
+	public boolean isDateValid(String string);
+
+	public boolean isTrainCodeValid(String trainCode);
 }

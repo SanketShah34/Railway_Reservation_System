@@ -39,15 +39,7 @@
 						<div  class="border border-secondary p-3 rounded" style="width:930px">
 							<div   class="row col-md-12" style="margin-top : 50px">
 								<form th:action="@{/findMyTrain/location/done}" method="post">
-									<table border="1" cellpadding="10" style="width: 100%">
-										<tbody>
-											<tr>
-												<td>
-													<input type="text" th:field="*{trainLocation}" readonly="readonly" style="width: 100%"/>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+										<input th:text="${trainLocation}"/>
 									<button type="submit">Done</button>
 								</form>
 							</div>

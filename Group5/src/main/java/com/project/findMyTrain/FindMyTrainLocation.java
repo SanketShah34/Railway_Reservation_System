@@ -13,9 +13,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 import com.project.setup.ITrain;
 
 public class FindMyTrainLocation implements IFindMyTrainLocation{
+	
+	public final Double onePointFive = 1.5;
+	public final int five = 5;
 
 	@Override
 	public String findMyTrainCalculation(ITrain train, Date startDate) {
@@ -24,64 +29,63 @@ public class FindMyTrainLocation implements IFindMyTrainLocation{
 		String trainLocation = null;
 		List<Integer> stationIds = new ArrayList<Integer>();
         stationIds.add(Integer.valueOf(train.getStartStation()));
-        String[] middleStationList = train.getMiddleStations().split(",");
-        for(String middleStation : middleStationList) {
-            stationIds.add(Integer.valueOf(middleStation));
+        if(train.getMiddleStations() == null) {
+        	
+        }
+        else {
+	        String[] middleStationList = train.getMiddleStations().split(",");
+	        for(String middleStation : middleStationList) {
+	            stationIds.add(Integer.valueOf(middleStation));
+	        }
         }
         stationIds.add(Integer.valueOf(train.getEndStation()));
        
         double totalDistance =0;    
         List<DistanceData> distanceDataList = new ArrayList<>();
-        for(int i=0; i<stationIds.size()-1; i++) {
+        for(int i = 0; i<stationIds.size() - 1; i++) {
             double distance = findMyTrainDAO.getRouteInformation(stationIds.get(i), stationIds.get(i+1));
             totalDistance += distance;
             IDistanceData distanceData = findMyTrainAbstractFactory.createNewDistanceData();
-            //DistanceData tempDistanceData = new DistanceData();
             distanceData.setStartStation(stationIds.get(i));
-            distanceData.setEndStation(stationIds.get(i+1));
+            distanceData.setEndStation(stationIds.get(i + 1));
             distanceData.setDistance(distance);
             distanceDataList.add((DistanceData) distanceData);
         }   
+        Map<Integer, String> stationInformationMap = findMyTrainDAO.getStationInformation();
         Instant instant = startDate.toInstant();
-        ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
-        LocalDate date = zdt.toLocalDate();  
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+        LocalDate date = zonedDateTime.toLocalDate();  
         DayOfWeek day = date.getDayOfWeek();
-        System.out.println(day);
         if(train.getDays().contains(day.getDisplayName(TextStyle.FULL, new Locale("EN")))) {
             LocalDateTime currentDateTime = LocalDateTime.now();    
             String departureTimeOfTrain = train.getDepartureTime();
             LocalTime departureTime = LocalTime.parse(departureTimeOfTrain); 
             LocalDateTime trainDepartureDateTime = LocalDateTime.of(date, departureTime);
-            long minutes = ChronoUnit.MINUTES.between(currentDateTime, trainDepartureDateTime);
-            long totalMinutesFromTotalDistance = Long.valueOf(String.valueOf(totalDistance * 1.5)) + ((distanceDataList.size()-1) * 5);  
+            long minutes = ChronoUnit.MINUTES.between(trainDepartureDateTime, currentDateTime);
+            Double distance = (totalDistance * onePointFive);
+            long totalMinutesFromTotalDistance = Long.valueOf(distance.intValue()) + ((distanceDataList.size()  - 1) * five);  
             if(totalMinutesFromTotalDistance <= minutes) {
-                System.out.println("Train already reached at destination.");
                 trainLocation = "Train already reached at destination.";
-                //return trainLocation;
             }
             else if(0 >= minutes) {
-                System.out.println("Train has not departed from source.");
                 trainLocation = "Train has not departed from source.";
-                //return trainLocation;
             }
             else {
                 long totalMinutes = 0;
+                boolean found = true;
                 for(int i = 0; i < distanceDataList.size(); i++) {
-                	totalMinutes +=  Long.valueOf(String.valueOf(distanceDataList.get(i).getDistance() * 1.5)) + 5;
-                    if(totalMinutes > minutes) {
-                        System.out.println("Train is between station : "+distanceDataList.get(i).getStartStation()
-                                +" and station : "+distanceDataList.get(i).getEndStation());
-                        trainLocation = "Train is between station : "+distanceDataList.get(i).getStartStation()
-                                +" and station : "+distanceDataList.get(i).getEndStation();
+                	Double distanceCount = distanceDataList.get(i).getDistance() * onePointFive;
+                	totalMinutes += Long.valueOf(distanceCount.intValue()) + five;
+                    if(totalMinutes > minutes && found) {
+                        trainLocation = "Train is between station : "+stationInformationMap.get(distanceDataList.get(i).getStartStation())
+                                +" and station : "+stationInformationMap.get(distanceDataList.get(i).getEndStation());
+                        found = false;
                     }
                 }
-            }
-            
+            }      
         }
         else {
-            System.out.println("No train running on that day.");
             trainLocation = "No train running on that day.";
-            //return trainLocation;
         }
 		return trainLocation;	
 	}
