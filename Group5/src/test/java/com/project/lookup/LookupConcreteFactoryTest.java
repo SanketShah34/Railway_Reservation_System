@@ -7,6 +7,17 @@ public class LookupConcreteFactoryTest extends LookupAbstractFactoryTest {
 	public SearchTrainMock createSearchTrainMock() {
 		return new SearchTrainMock();
 	}
+	
+	@Override
+	public SeatAvailibilityDAOMock createSeatAvailibilityDAOMock() {
+		return new SeatAvailibilityDAOMock();
+	}
+
+	@Override
+	public BookedTicketsMock createBookedTicketsMock() {
+		return new BookedTicketsMock();
+	}
+
 
 }
 

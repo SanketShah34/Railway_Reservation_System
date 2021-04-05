@@ -5,12 +5,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.project.calculation.CalculationAbstractFactory;
-import com.project.calculation.IAvailableSeats;
-import com.project.calculation.ISeatAvailibilityDAO;
-import com.project.calculation.ITrainFilterAndCalculation;
+import com.project.lookup.IAvailableSeats;
 import com.project.lookup.ISearchTrain;
 import com.project.lookup.ISearchTrainDAO;
+import com.project.lookup.ISeatAvailibilityDAO;
+import com.project.lookup.ITrainFilterAndFairCalculation;
 import com.project.lookup.LookupAbstractFactory;
 import com.project.reservation.IReservation;
 import com.project.reservation.IReservationDAO;
@@ -43,15 +42,15 @@ public class TrainCancellation {
 	
 	public void rescheduleOnWeekDays(IReservation reservation) {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
+		
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		
 		ISearchTrainDAO searchTrainDAO = lookupAbstractFactory.createSearchTrainDAO();
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		ITrainFilterAndCalculation trainFilterAndCalculateFair = calculationAbstractFactory.createNewTrainFilterAndCalculateFair();
+		ITrainFilterAndFairCalculation trainFilterAndCalculateFair = lookupAbstractFactory.createNewTrainFilterAndCalculateFair();
 		IRouteDAO routeDAO = setupAbstractFactory.createNewRouteDAO();
-		IAvailableSeats availableSeats = calculationAbstractFactory.createAvaliableSeats();
-		ISeatAvailibilityDAO seatAvaillibilityDAO = calculationAbstractFactory.createNewSeatAvailibilityDAO();
+		IAvailableSeats availableSeats = lookupAbstractFactory.createAvaliableSeats();
+		ISeatAvailibilityDAO seatAvaillibilityDAO = lookupAbstractFactory.createNewSeatAvailibilityDAO();
 		
 		searchTrain.setTrainType(reservation.getTrainType());
 		searchTrain.setDestinationStation(Integer.toString(reservation.getDestinationStationId()));
@@ -90,15 +89,15 @@ public class TrainCancellation {
 	
 	public void rescheduleOnWeekEnds(IReservation reservation) {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
+//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		
 		ISearchTrainDAO searchTrainDAO = lookupAbstractFactory.createSearchTrainDAO();
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		ITrainFilterAndCalculation trainFilterAndCalculateFair = calculationAbstractFactory.createNewTrainFilterAndCalculateFair();
+		ITrainFilterAndFairCalculation trainFilterAndCalculateFair = lookupAbstractFactory.createNewTrainFilterAndCalculateFair();
 		IRouteDAO routeDAO = setupAbstractFactory.createNewRouteDAO();
-		IAvailableSeats availableSeats = calculationAbstractFactory.createAvaliableSeats();
-		ISeatAvailibilityDAO seatAvaillibilityDAO = calculationAbstractFactory.createNewSeatAvailibilityDAO();
+		IAvailableSeats availableSeats = lookupAbstractFactory.createAvaliableSeats();
+		ISeatAvailibilityDAO seatAvaillibilityDAO = lookupAbstractFactory.createNewSeatAvailibilityDAO();
 		
 		searchTrain.setTrainType(reservation.getTrainType());
 		searchTrain.setDestinationStation(Integer.toString(reservation.getDestinationStationId()));
