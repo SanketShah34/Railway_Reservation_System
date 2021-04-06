@@ -1,6 +1,5 @@
 package com.project.ticketCancellation;
 
-
 import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -31,7 +30,7 @@ public class TicketCancellationController {
 	@PostMapping(value = "/ticket/cancellation")
 	public String SearchDetailsByPnr(@RequestParam(name = PNR_NUMBER) String pnrNumber, Model model) {
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInfo searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		ISearchPassengerInformationDAO searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
 		List<IPassengerInformation> passengerInfo = searchTicketInfo.SearchPassengerInfoByPNR(pnrNumber);
 		model.addAttribute("passengerInformationList", passengerInfo);
 		return "cancelTicket/displayTicketInformation";
@@ -40,10 +39,10 @@ public class TicketCancellationController {
 	@PostMapping(value = "/ticket/delete")
 	public String SelectTicketsToDelete(@RequestParam(name = ID_CHECKED) List<Integer> ids, Model model) {
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInfo searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		ISearchPassengerInformationDAO searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
 		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
 		IReservation reservation = searchTicketInfo.GetAmountPaidOnTicket(ids);
-		double refundedAmount = calculateAmounts.CalculateRefundAmount(reservation, ids);
+		double refundedAmount = calculateAmounts.CalculateRefundAmount(reservation, ids, searchTicketInfo);
 		searchTicketInfo.DeleteTickets(ids, reservation, refundedAmount);
 		model.addAttribute("refundedAmount", refundedAmount);
 		return "cancelTicket/cancelConfirmation";
@@ -53,7 +52,7 @@ public class TicketCancellationController {
 	@PostMapping(value = "/ticket/delete/done")
 	public String CancelTickets(Model model) {
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInfo searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		ISearchPassengerInformationDAO searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
 		return "searchTrain/searchTrain";	
 	}
 }

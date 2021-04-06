@@ -2,20 +2,20 @@ package com.project.ticketCancellation;
 
 public class CancelTicketConcreteFactoryTest extends CancelTicketAbstractFactoryTest {
 	
-	private SearchPassengerInfoTest searchPassengerInfoTest;
+	private SearchPassengerInformationDAOTest searchPassengerInfoTest;
 	private CalculateAmountTest calculateAmountTest;
 
 	@Override
-	public SearchPassengerInfoTest createSearchPassengerInfoTest() {
+	public SearchPassengerInformationDAOTest createSearchPassengerInfoTest() {
 		if (searchPassengerInfoTest == null) {
-			searchPassengerInfoTest = new SearchPassengerInfoTest();
+			searchPassengerInfoTest = new SearchPassengerInformationDAOTest();
     	}
-		return new SearchPassengerInfoTest();
+		return new SearchPassengerInformationDAOTest();
 	}
 
 	@Override
-	public SearchPassengerInfoTest createNewSearchPassengerInfoTest() {
-		return new SearchPassengerInfoTest();
+	public SearchPassengerInformationDAOTest createNewSearchPassengerInfoTest() {
+		return new SearchPassengerInformationDAOTest();
 	}
 
 	@Override
@@ -29,6 +29,11 @@ public class CancelTicketConcreteFactoryTest extends CancelTicketAbstractFactory
 	@Override
 	public CalculateAmountTest createNewCalculateAmountTest() {
 		return new CalculateAmountTest();
+	}
+	
+	@Override
+	public SearchPassengerInformationDAOMock createSearchPassengerInformationDAOMock() {
+		return new SearchPassengerInformationDAOMock();
 	}
 
 }

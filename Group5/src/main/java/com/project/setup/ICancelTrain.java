@@ -12,8 +12,4 @@ public interface ICancelTrain {
 
 	void setCancellationDate(Date cancellationDate);
 
-	String validateTrainDate();
-
-	String localDateToString();
-
 }

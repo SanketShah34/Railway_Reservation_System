@@ -2,20 +2,20 @@ package com.project.ticketCancellation;
 
 
 public class CancelTicketConcreteFactory extends CancelTicketAbstractFactory {
-	private ISearchPassengerInfo searchPassengerInfo;
+	private ISearchPassengerInformationDAO searchPassengerInfo;
 	private ICalculateAmounts calculateAmounts;
 
 	@Override
-	public ISearchPassengerInfo createSearchPassengerInfo() {
+	public ISearchPassengerInformationDAO createSearchPassengerInfo() {
 		if (searchPassengerInfo == null) {
-			searchPassengerInfo = new SearchPassengerInfo();
+			searchPassengerInfo = new SearchPassengerInformationDAO();
     	}
     	return searchPassengerInfo;	
 	}
 
 	@Override
-	public ISearchPassengerInfo createNewSearchPassengerInfo() {
-		return new SearchPassengerInfo();
+	public ISearchPassengerInformationDAO createNewSearchPassengerInfo() {
+		return new SearchPassengerInformationDAO();
 	}
 
 	@Override

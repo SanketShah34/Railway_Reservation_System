@@ -13,23 +13,23 @@ import com.project.database.IDatabaseUtilities;
 
 @Component
 public class RouteDAO implements IRouteDAO {
-	public final String routeIdColumnName = "routeId";
-	public final String sourceStationIdColumnName = "sourceStationId";
-	public final String sourceStationNameColumnName = "sourceStationName";
-	public final String sourceStationCodeColumnName = "sourceStationCode";
-	public final String sourceStationCityColumnName = "sourceStationCity";
-	public final String sourceStationStateColumnName = "sourceStationState";
-	public final String destinationStationIdColumnName = "destinationStationId";
-	public final String destinationStationNameColumnName = "destinationStationName";
-	public final String destinationStationCodeColumnName = "destinationStationCode";
-	public final String destinationStationCityColumnName = "destinationStationCity";
-	public final String destinationStationStateColumnName = "destinationStationState";
-	public final String distanceColumnName = "distance";
-
+	public final String ROUTE_ID = "routeId";
+	public final String SOURCE_STATION_ID = "sourceStationId";
+	public final String SOURCE_STATION_NAME = "sourceStationName";
+	public final String SOURCE_STATION_CODE = "sourceStationCode";
+	public final String SOURCE_STATION_CITY = "sourceStationCity";
+	public final String SOURCE_STATION_STATE = "sourceStationState";
+	public final String DESTINATION_STATION_ID = "destinationStationId";
+	public final String DESTINATION_STATION_NAME = "destinationStationName";
+	public final String DESTINATION_STATION_CODE = "destinationStationCode";
+	public final String DESTINATION_STATION_CITY = "destinationStationCity";
+	public final String DESTINATION_STATION_STATE = "destinationStationState";
+	public final String DISTANCE = "distance";
+	
 	@Override
-	public void saveRoute(IRoute route) {
+	public void saveRoute(IRoute route){
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
-		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		if (route.getRouteId() == 0) {
@@ -71,7 +71,7 @@ public class RouteDAO implements IRouteDAO {
 		List<IRoute> listOfRoutes = new ArrayList<>();
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
@@ -80,33 +80,33 @@ public class RouteDAO implements IRouteDAO {
 			boolean hadResult = statement.execute();
 			if (hadResult) {
 				resultSet = statement.getResultSet();
-
+				
 				while (resultSet.next()) {
 					IRoute route = setupAbstractFactory.createNewRoute();
 					IStation sourceStation = setupAbstractFactory.createNewStation();
 					IStation destinationStation = setupAbstractFactory.createNewStation();
 
-					route.setRouteId(resultSet.getInt(routeIdColumnName));
+					route.setRouteId(resultSet.getInt(ROUTE_ID));
 
-					sourceStation.setStationId(resultSet.getInt(sourceStationIdColumnName));
-					sourceStation.setStationName(resultSet.getString(sourceStationNameColumnName));
-					sourceStation.setStationCode(resultSet.getString(sourceStationCodeColumnName));
-					sourceStation.setStationCity(resultSet.getString(sourceStationCityColumnName));
-					sourceStation.setStationState(resultSet.getString(sourceStationStateColumnName));
+					sourceStation.setStationId(resultSet.getInt(SOURCE_STATION_ID));
+					sourceStation.setStationName(resultSet.getString(SOURCE_STATION_NAME));
+					sourceStation.setStationCode(resultSet.getString(SOURCE_STATION_CODE));
+					sourceStation.setStationCity(resultSet.getString(SOURCE_STATION_CITY));
+					sourceStation.setStationState(resultSet.getString(SOURCE_STATION_STATE));
 
 					route.setSource(sourceStation);
 					route.setSourceId(sourceStation.getStationId());
 
-					destinationStation.setStationId(resultSet.getInt(destinationStationIdColumnName));
-					destinationStation.setStationName(resultSet.getString(destinationStationNameColumnName));
-					destinationStation.setStationCode(resultSet.getString(destinationStationCodeColumnName));
-					destinationStation.setStationCity(resultSet.getString(destinationStationCityColumnName));
-					destinationStation.setStationState(resultSet.getString(destinationStationStateColumnName));
+					destinationStation.setStationId(resultSet.getInt(DESTINATION_STATION_ID));
+					destinationStation.setStationName(resultSet.getString(DESTINATION_STATION_NAME));
+					destinationStation.setStationCode(resultSet.getString(DESTINATION_STATION_CODE));
+					destinationStation.setStationCity(resultSet.getString(DESTINATION_STATION_CITY));
+					destinationStation.setStationState(resultSet.getString(DESTINATION_STATION_STATE));
 
 					route.setDestination(destinationStation);
 					route.setDestinationId(destinationStation.getStationId());
 
-					route.setDistance(resultSet.getDouble(distanceColumnName));
+					route.setDistance(resultSet.getDouble(DISTANCE));
 
 					listOfRoutes.add(route);
 
@@ -130,40 +130,40 @@ public class RouteDAO implements IRouteDAO {
 		IRoute route = setupAbstractFactory.createNewRoute();
 		IStation sourceStation = setupAbstractFactory.createNewStation();
 		IStation destinationStation = setupAbstractFactory.createNewStation();
-		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
 		try {
-			statement = connection.prepareCall("{call getRoute(?)}");
-			statement.setInt(1, routeId);
+			CallableStatement stmt = connection.prepareCall("{call getRoute(?)}");
+			stmt.setInt(1, routeId);
 
 			boolean hasRoute = statement.execute();
 			if (hasRoute) {
 				resultSet = statement.getResultSet();
 				if (resultSet.next()) {
 
-					route.setRouteId(resultSet.getInt(routeIdColumnName));
+					route.setRouteId(resultSet.getInt(ROUTE_ID));
 
-					sourceStation.setStationId(resultSet.getInt(sourceStationIdColumnName));
-					sourceStation.setStationName(resultSet.getString(sourceStationNameColumnName));
-					sourceStation.setStationCode(resultSet.getString(sourceStationCodeColumnName));
-					sourceStation.setStationCity(resultSet.getString(sourceStationCityColumnName));
-					sourceStation.setStationState(resultSet.getString(sourceStationStateColumnName));
+					sourceStation.setStationId(resultSet.getInt(SOURCE_STATION_ID));
+					sourceStation.setStationName(resultSet.getString(SOURCE_STATION_NAME));
+					sourceStation.setStationCode(resultSet.getString(SOURCE_STATION_CODE));
+					sourceStation.setStationCity(resultSet.getString(SOURCE_STATION_CITY));
+					sourceStation.setStationState(resultSet.getString(SOURCE_STATION_STATE));
 
 					route.setSource(sourceStation);
 					route.setSourceId(sourceStation.getStationId());
 
-					destinationStation.setStationId(resultSet.getInt(destinationStationIdColumnName));
-					destinationStation.setStationName(resultSet.getString(destinationStationNameColumnName));
-					destinationStation.setStationCode(resultSet.getString(destinationStationCodeColumnName));
-					destinationStation.setStationCity(resultSet.getString(destinationStationCityColumnName));
-					destinationStation.setStationState(resultSet.getString(destinationStationStateColumnName));
+					destinationStation.setStationId(resultSet.getInt(DESTINATION_STATION_ID));
+					destinationStation.setStationName(resultSet.getString(DESTINATION_STATION_NAME));
+					destinationStation.setStationCode(resultSet.getString(DESTINATION_STATION_CODE));
+					destinationStation.setStationCity(resultSet.getString(DESTINATION_STATION_CITY));
+					destinationStation.setStationState(resultSet.getString(DESTINATION_STATION_STATE));
 
 					route.setDestination(destinationStation);
 					route.setDestinationId(destinationStation.getStationId());
 
-					route.setDistance(resultSet.getDouble(distanceColumnName));
+					route.setDistance(resultSet.getDouble(DISTANCE));
 
 				}
 			}
@@ -180,7 +180,7 @@ public class RouteDAO implements IRouteDAO {
 	@Override
 	public void deleteRoute(Integer routeId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
-		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		try {
@@ -199,7 +199,7 @@ public class RouteDAO implements IRouteDAO {
 	public IRoute getRouteByStation(int sourcePoint, int destinationPoint) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
@@ -214,8 +214,8 @@ public class RouteDAO implements IRouteDAO {
 			if (hasRoute) {
 				resultSet = statement.getResultSet();
 				if (resultSet.next()) {
-					route.setRouteId(resultSet.getInt(routeIdColumnName));
-					route.setDistance(resultSet.getDouble(distanceColumnName));
+					route.setRouteId(resultSet.getInt(ROUTE_ID));
+					route.setDistance(resultSet.getDouble(DISTANCE));
 				}
 			}
 		} catch (SQLException exception) {

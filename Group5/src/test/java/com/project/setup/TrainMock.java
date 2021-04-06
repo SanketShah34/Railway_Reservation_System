@@ -21,7 +21,7 @@ public class TrainMock {
 		train.setTrainName("Halifax Express");
 		train.setTrainType("AC Seater");
 		train.setDays("Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday");
-		train.setDepartureTime("9:00");
+		train.setDepartureTime("09:00");
 		train.setTotalCoaches(7);
 		train.setStartStation("A1");
 		train.setMiddleStations("A2, A3");

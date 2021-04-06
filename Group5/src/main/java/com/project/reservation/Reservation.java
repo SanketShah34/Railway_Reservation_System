@@ -3,8 +3,9 @@ package com.project.reservation;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import com.project.calculation.ITrainFilterAndCalculation;
-import com.project.calculation.CalculationAbstractFactory;
+
+import com.project.lookup.ITrainFilterAndFairCalculation;
+import com.project.lookup.LookupAbstractFactory;
 
 
 public class Reservation implements IReservation {
@@ -13,7 +14,6 @@ public class Reservation implements IReservation {
 	public int trainId;
     public int sourceStationId;
     public int destinationStationId;
-    public String pnrNumber;
     public double amountPaid;
     public double distance;
     public String trainType;
@@ -24,7 +24,7 @@ public class Reservation implements IReservation {
 
 	public List<IPassengerInformation> passengerInformation;
     
-    public static final int numberOfPassengersPerReservation = 6;
+    public static final int NUMBER_OF_PASSENGER_PER_RESERVATION = 6;
     
     public Reservation() {
     	this.initializePassengerList();
@@ -32,8 +32,8 @@ public class Reservation implements IReservation {
     
     private void initializePassengerList() {
     	ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
-    	List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(numberOfPassengersPerReservation);
-    	for (int index = 0; index < numberOfPassengersPerReservation; index++) {
+    	List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(NUMBER_OF_PASSENGER_PER_RESERVATION);
+    	for (int index = 0; index < NUMBER_OF_PASSENGER_PER_RESERVATION; index++) {
     		this.addInPassengerInformationList(passengerInformationList, reservationAbstractFactory.createNewPassengerInformation());	
     	}
     	this.setPassengerInformation(passengerInformationList);
@@ -70,14 +70,6 @@ public class Reservation implements IReservation {
 	@Override
 	public void setDestinationStationId(int destinationStationId) {
 		this.destinationStationId = destinationStationId;
-	}
-	@Override
-	public String getPnrNumber() {
-		return pnrNumber;
-	}
-	@Override
-	public void setPnrNumber(String pnrNumber) {
-		this.pnrNumber = pnrNumber;
 	}
 	@Override
 	public double getAmountPaid() {
@@ -163,9 +155,9 @@ public class Reservation implements IReservation {
 	@Override
 	public void calculateReservationFarePerPassenger(IReservation reservation) {
 		
-		CalculationAbstractFactory calculationAbstractFacroty = CalculationAbstractFactory.instance();
+		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 		
-		ITrainFilterAndCalculation findFare = calculationAbstractFacroty.createNewTrainFilterAndCalculateFair();
+		ITrainFilterAndFairCalculation findFare = lookupAbstractFactory.createNewTrainFilterAndCalculateFair();
 		
 		try {
 			double fareBasedOnTrainType = findFare.calculateFareByTrainType(reservation.getDistance(), reservation.getTrainType());

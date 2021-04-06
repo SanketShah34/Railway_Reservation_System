@@ -58,10 +58,7 @@ public class CalculateAmounts implements ICalculateAmounts {
 	}
 
 	@Override
-	public double CalculateRefundAmount(IReservation reservation, List<Integer> ids) {
-		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInfo searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
-		
+	public double CalculateRefundAmount(IReservation reservation, List<Integer> ids, ISearchPassengerInformationDAO searchTicketInfo) {
 		int pnrNumber = reservation.getReservationId();
 		double amountPaid = reservation.getAmountPaid();
 		Date trainStartDate = reservation.getStartDate();
