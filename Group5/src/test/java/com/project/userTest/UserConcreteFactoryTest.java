@@ -27,5 +27,4 @@ public class UserConcreteFactoryTest extends UserAbstractFactoryTest
 		}
 		return userDAO;
 	}
-
 }

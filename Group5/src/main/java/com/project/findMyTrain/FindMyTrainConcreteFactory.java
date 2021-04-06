@@ -2,7 +2,6 @@ package com.project.findMyTrain;
 
 
 public class FindMyTrainConcreteFactory extends FindMyTrainAbstractFactory {
-	
 	private IDistanceData distanceData;
 	private IFindMyTrainDAO findMyTrainDAO;
 	private IFindMyTrainLocation findMyTrainLocation;

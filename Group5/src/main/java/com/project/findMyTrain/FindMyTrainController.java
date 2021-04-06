@@ -21,18 +21,19 @@ public class FindMyTrainController {
 	@RequestMapping("/findMyTrain")
 	public String findMyTrain(Model model) {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-		ISearchTrain searchTrain =lookupAbstractFactory.createNewSearchTrain();
-		System.out.println("findMyTrain");
+		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 		model.addAttribute(searchTrain);
 		return "findMyTrain/findMyTrain";
 	}
 	
 	@RequestMapping(value = "/findMyTrain/location", method = RequestMethod.POST)
-	public String findLocation(@RequestParam(name = TRAIN_CODE) String trainCodeString,
+	public String findLocationOfTrain(@RequestParam(name = TRAIN_CODE) String trainCodeString,
 								@RequestParam(name = START_DATE, defaultValue = "2021-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
 								Model model) {	
-		System.out.println("findMyTrainLocation");
+		
 		FindMyTrainAbstractFactory findMyTrainAbstractFactory = FindMyTrainAbstractFactory.instance();
+		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
+		
 		IFindMyTrainDAO findMyTrainDAO = findMyTrainAbstractFactory.createFindMyTrainDAO();
 		IFindMyTrainLocation findMyTrainLocation = findMyTrainAbstractFactory.createFindMyTrainLocation();
 		IDistanceData distanceData = findMyTrainAbstractFactory.createDistanceData();
@@ -42,7 +43,6 @@ public class FindMyTrainController {
 			hasError = true;
 		}	
 		if (hasError) {
-			LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 			ISearchTrain searchTrain =lookupAbstractFactory.createNewSearchTrain();
 			model.addAttribute(searchTrain);
 			return "findMyTrain/findMyTrain";
@@ -61,8 +61,6 @@ public class FindMyTrainController {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 		ISearchTrain searchTrain =lookupAbstractFactory.createNewSearchTrain();
 		model.addAttribute(searchTrain);
-		System.out.println("findMyTrainLocationDone");
 		return "searchTrain/searchTrain";
 	}
-
 }

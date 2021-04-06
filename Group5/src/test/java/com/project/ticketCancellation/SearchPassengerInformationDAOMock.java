@@ -2,7 +2,6 @@ package com.project.ticketCancellation;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.project.reservation.IPassengerInformation;
 import com.project.reservation.IReservation;
 import com.project.reservation.PassengerMock;
@@ -17,10 +16,9 @@ import com.project.setup.TrainMock;
 public class SearchPassengerInformationDAOMock implements ISearchPassengerInformationDAO {
 
 	@Override
-	public List<IPassengerInformation> SearchPassengerInfoByPNR(String pnrNumber) {
+	public List<IPassengerInformation> searchPassengerInfoByPNR(String pnrNumber) {
 		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 		ReservationAbstractFactoryTest reservationAbstractFactoryTest = ReservationAbstractFactoryTest.instance();
-		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		IPassengerInformation passenger = reservationAbstractFactory.createNewPassengerInformation();
 		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
 		passenger = passengerMock.createPassengerMock(passenger);
@@ -29,7 +27,7 @@ public class SearchPassengerInformationDAOMock implements ISearchPassengerInform
 	}
 
 	@Override
-	public IReservation GetAmountPaidOnTicket(List<Integer> ids) {
+	public IReservation getAmountPaidOnTicket(List<Integer> idList) {
 		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 		ReservationAbstractFactoryTest reservationAbstractFactoryTest = ReservationAbstractFactoryTest.instance();
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
@@ -39,7 +37,7 @@ public class SearchPassengerInformationDAOMock implements ISearchPassengerInform
 	}
 
 	@Override
-	public ITrain GetTrainDetails(int trainId) {
+	public ITrain getTrainDetails(int trainId) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance();
 		ITrain train = setupAbstractFactory.createNewTrain();
@@ -49,17 +47,16 @@ public class SearchPassengerInformationDAOMock implements ISearchPassengerInform
 	}
 
 	@Override
-	public String GetPnrNumber(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getPnrNumber(int id) {
+		return String.valueOf(id);
 	}
 
 	@Override
-	public void DeleteTickets(List<Integer> ids, IReservation reservation, double refundedAmount) {
+	public void deleteTickets(List<Integer> idList, IReservation reservation, double refundedAmount) {
 		Double amountPaid = reservation.getAmountPaid();
 		Double finalAmount = amountPaid - refundedAmount;
 		int totalTicketBooked = reservation.getTicketBooked();
-		int remainingTickets = totalTicketBooked - ids.size();
+		int remainingTickets = totalTicketBooked - idList.size();
 		int deletedTicket = 0;
 		if(remainingTickets == 0) {
 			deletedTicket = 1;
@@ -67,5 +64,4 @@ public class SearchPassengerInformationDAOMock implements ISearchPassengerInform
 		reservation.setAmountPaid(finalAmount);
 		reservation.setDeletedTicket(deletedTicket);
 	}
-
 }

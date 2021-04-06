@@ -1,11 +1,10 @@
-package com.project.securityTest;
+package com.project.security;
 
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
 import com.project.security.SecurityAbstractFactory;
 import com.project.security.SecurityConcreteFactory;
 import com.project.user.IUser;
@@ -30,5 +29,4 @@ private static SecurityAbstractFactory instance = null;
 		}
 		return instance;
 	}
-
 }

@@ -1,11 +1,11 @@
 package com.project.findMyTrain;
 
 public class DistanceData implements IDistanceData {
-	 private int startStation;
-	    private int endStation;
-	    private double distance;
+		private int startStation;
+		private int endStation;
+		private double distance;
 	    
-	    public DistanceData() {
+	 	public DistanceData() {
 	    }
 	    
 	    public DistanceData(int startStation, int endStation, double distance) {
@@ -39,11 +39,11 @@ public class DistanceData implements IDistanceData {
 	        this.distance = distance;
 	    }
 	    
-	    public boolean isStringNullOrEmpty(String s) {
-			if (null == s) {
+	    public boolean isStringNullOrEmpty(String string) {
+			if (null == string) {
 				return true;
 			}
-			return s.isEmpty();
+			return string.isEmpty();
 		}
 	    
 	    public boolean isTrainCodeValid(String trainCode) {

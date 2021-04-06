@@ -1,10 +1,8 @@
-package com.project.securityTest;
+package com.project.security;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import com.project.security.MyUserDetails;
 import com.project.user.IUser;
 import com.project.user.IUserDAO;
 import com.project.user.UserAbstractFactory;
@@ -19,5 +17,4 @@ public class UserDetailsServiceImplTest implements UserDetailsService {
 		user = userDAO.getUserByUsername("dhara@gmail.com");
 		return new MyUserDetails(user);
 	}
-
 }

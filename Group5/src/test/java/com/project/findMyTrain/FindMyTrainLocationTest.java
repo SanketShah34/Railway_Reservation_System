@@ -32,5 +32,4 @@ public class FindMyTrainLocationTest {
 			exception.printStackTrace();
 		}  
 	}
-
 }

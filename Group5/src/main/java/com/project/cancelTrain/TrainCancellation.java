@@ -19,7 +19,7 @@ import com.project.reservation.ReservationAbstractFactory;
 import com.project.setup.IRouteDAO;
 import com.project.setup.ITrain;
 import com.project.ticketCancellation.CancelTicketAbstractFactory;
-import com.project.ticketCancellation.ICalculateAmounts;
+import com.project.ticketCancellation.ICalculateAmount;
 import com.project.ticketCancellation.ISearchPassengerInformationDAO;
 
 public class TrainCancellation implements ITrainCancellation {
@@ -181,10 +181,10 @@ public class TrainCancellation implements ITrainCancellation {
 			}
 		}
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
-		IReservation reservationInformation = searchPassengerInformationDAO.GetAmountPaidOnTicket(ticketsToBeCancelled);
-		double refundedAmount = calculateAmounts.CalculateRefundAmount(reservationInformation, ticketsToBeCancelled, searchPassengerInformationDAO);
-		searchPassengerInformationDAO.DeleteTickets(ticketsToBeCancelled, reservationInformation, refundedAmount);
+		ICalculateAmount calculateAmount = cancelTicketAbstractFactory.createNewCalculateAmounts();
+		IReservation reservationInformation = searchPassengerInformationDAO.getAmountPaidOnTicket(ticketsToBeCancelled);
+		double refundedAmount = calculateAmount.calculateRefundAmount(reservationInformation, ticketsToBeCancelled, searchPassengerInformationDAO);
+		searchPassengerInformationDAO.deleteTickets(ticketsToBeCancelled, reservationInformation, refundedAmount);
 	}
 
 	private DayOfWeek findDay(Date date) {

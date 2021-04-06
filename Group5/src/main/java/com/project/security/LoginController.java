@@ -32,7 +32,7 @@ public class LoginController {
 	}
 
 	@GetMapping("/user/forgotpassword")
-	public String ShowForgotPasswordForm(Model model) {
+	public String showForgotPasswordForm(Model model) {
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		SecurityQuestion securityQuestions = securityAbstractFactory.createSecurityQuestion();
 		model.addAttribute("securityQuestions", securityQuestions.getSecurituQuestions());
@@ -40,7 +40,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/user/forgotpassword")
-	public String ForgotPassword(@RequestParam(name = SECURITY_QUESTION_ONE) String securityQuestionTwo,
+	public String forgotPassword(@RequestParam(name = SECURITY_QUESTION_ONE) String securityQuestionTwo,
 			@RequestParam(name = SECURITY_QUESTION_TWO) String securityQuestionOne,
 			@RequestParam(name = ANSWER_ONE) String answerOne, 
 			@RequestParam(name = ANSWER_TWO) String answerTwo,
@@ -48,38 +48,30 @@ public class LoginController {
 			Model model) {
 		
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
+		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		IUserDAO userDAO = userAbstractFactory.createUserDAO();
 		IUser user = userAbstractFactory.createUser();
-		
-		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		SecurityQuestion securityQuestions = securityAbstractFactory.createSecurityQuestion();
 
 		boolean hasError = false;
-
 		if (user.isEmailIdValid(userName) == false) {
 			model.addAttribute("emailError", true);
 			hasError = true;
 		}
-
 		if (user.isQuestionValid(securityQuestionOne, securityQuestionTwo) == false) {
 			model.addAttribute("securityQuestionError", true);
 			hasError = true;
 		}
-
 		if (user.isAnswerValid(answerOne) == true) {
 			model.addAttribute("answerErrorOne", true);
 			hasError = true;
 		}
-
 		if (user.isAnswerValid(answerTwo) == true) {
 			model.addAttribute("answerErrorTwo", true);
 			hasError = true;
 		}
 		
-		
-		
-		if(hasError) {
-			
+		if(hasError) {	
 			model.addAttribute("securityQuestions", securityQuestions.getSecurituQuestions());
 			return "forgotPassword";
 		}
@@ -104,10 +96,8 @@ public class LoginController {
 					model.addAttribute("securityQuestions", securityQuestions.getSecurituQuestions());
 					return "forgotPassword";
 				}
-			}
-			
-		}
-		
+			}	
+		}	
 	}
 	
 	@PostMapping("/user/setNewPassword")
@@ -116,14 +106,12 @@ public class LoginController {
 	@RequestParam(name = CONFIRM_PASSWORD) String confirmPassword,
 	@RequestParam(name = USERNAME) String userName,
 			Model model) {
-		
-		
+			
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 		IUserDAO userDAO = userAbstractFactory.createUserDAO();
 		IUser user = userAbstractFactory.createUser();
 	
-		boolean hasError = false;
-		
+		boolean hasError = false;	
 		if (user.isPasswordValid(password, confirmPassword) == false) {
 			model.addAttribute("passwordError", true);
 			hasError = true;
@@ -136,8 +124,7 @@ public class LoginController {
 			user.setPassword(password);
 			userDAO.updatePassword(user);
 			return "login";
-		}
-		
+		}	
 	}
 
 
@@ -146,5 +133,4 @@ public class LoginController {
 		model.addAttribute("loginError", true);
 		return "login";
 	}
-
 }

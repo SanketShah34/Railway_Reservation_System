@@ -8,12 +8,8 @@ public abstract class CancelTicketAbstractFactoryTest {
 		}
 		return instance;
 	}
-	public abstract SearchPassengerInformationDAOTest createSearchPassengerInfoTest();
-	
-	public abstract SearchPassengerInformationDAOTest createNewSearchPassengerInfoTest();
 	
 	public abstract CalculateAmountTest createCalculateAmountTest();
-	
 	public abstract CalculateAmountTest createNewCalculateAmountTest();
 	public abstract SearchPassengerInformationDAOMock createSearchPassengerInformationDAOMock();
 }

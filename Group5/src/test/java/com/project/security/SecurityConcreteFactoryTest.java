@@ -1,11 +1,10 @@
-package com.project.securityTest;
+package com.project.security;
 
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
 import com.project.security.CustomSuccessHandler;
 import com.project.security.MyUserDetails;
 import com.project.security.UserDetailsServiceImpl;
@@ -64,5 +63,4 @@ public class SecurityConcreteFactoryTest extends SecurityAbstractFactoryTest{
 	    	return userDetail; 
 		}
 	}
-
 }

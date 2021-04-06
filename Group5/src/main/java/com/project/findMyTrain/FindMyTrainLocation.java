@@ -19,35 +19,35 @@ import com.project.setup.ITrain;
 
 public class FindMyTrainLocation implements IFindMyTrainLocation{
 	
-	public final Double onePointFive = 1.5;
-	public final int five = 5;
+	public final Double ONE_POINT_FIVE = 1.5;
+	public final int FIVE = 5;
 
 	@Override
 	public String findMyTrainCalculation(ITrain train, Date startDate) {
 		FindMyTrainAbstractFactory findMyTrainAbstractFactory = FindMyTrainAbstractFactory.instance();
 		IFindMyTrainDAO findMyTrainDAO = findMyTrainAbstractFactory.createFindMyTrainDAO();
 		String trainLocation = null;
-		List<Integer> stationIds = new ArrayList<Integer>();
-        stationIds.add(Integer.valueOf(train.getStartStation()));
+		List<Integer> stationIdList = new ArrayList<Integer>();
+		stationIdList.add(Integer.valueOf(train.getStartStation()));
+		
         if(train.getMiddleStations() == null) {
-        	
         }
         else {
 	        String[] middleStationList = train.getMiddleStations().split(",");
 	        for(String middleStation : middleStationList) {
-	            stationIds.add(Integer.valueOf(middleStation));
+	        	stationIdList.add(Integer.valueOf(middleStation));
 	        }
         }
-        stationIds.add(Integer.valueOf(train.getEndStation()));
+        stationIdList.add(Integer.valueOf(train.getEndStation()));
        
-        double totalDistance =0;    
+        double totalDistance = 0;    
         List<DistanceData> distanceDataList = new ArrayList<>();
-        for(int i = 0; i<stationIds.size() - 1; i++) {
-            double distance = findMyTrainDAO.getRouteInformation(stationIds.get(i), stationIds.get(i+1));
+        for(int i = 0; i < stationIdList.size() - 1; i++) {
+            double distance = findMyTrainDAO.getRouteInformation(stationIdList.get(i), stationIdList.get(i+1));
             totalDistance += distance;
             IDistanceData distanceData = findMyTrainAbstractFactory.createNewDistanceData();
-            distanceData.setStartStation(stationIds.get(i));
-            distanceData.setEndStation(stationIds.get(i + 1));
+            distanceData.setStartStation(stationIdList.get(i));
+            distanceData.setEndStation(stationIdList.get(i + 1));
             distanceData.setDistance(distance);
             distanceDataList.add((DistanceData) distanceData);
         }   
@@ -62,8 +62,8 @@ public class FindMyTrainLocation implements IFindMyTrainLocation{
             LocalTime departureTime = LocalTime.parse(departureTimeOfTrain); 
             LocalDateTime trainDepartureDateTime = LocalDateTime.of(date, departureTime);
             long minutes = ChronoUnit.MINUTES.between(trainDepartureDateTime, currentDateTime);
-            Double distance = (totalDistance * onePointFive);
-            long totalMinutesFromTotalDistance = Long.valueOf(distance.intValue()) + ((distanceDataList.size()  - 1) * five);  
+            Double distance = (totalDistance * ONE_POINT_FIVE);
+            long totalMinutesFromTotalDistance = Long.valueOf(distance.intValue()) + ((distanceDataList.size() - 1) * FIVE);  
             if(totalMinutesFromTotalDistance <= minutes) {
                 trainLocation = "Train already reached at destination.";
             }
@@ -74,8 +74,8 @@ public class FindMyTrainLocation implements IFindMyTrainLocation{
                 long totalMinutes = 0;
                 boolean found = true;
                 for(int i = 0; i < distanceDataList.size(); i++) {
-                	Double distanceCount = distanceDataList.get(i).getDistance() * onePointFive;
-                	totalMinutes += Long.valueOf(distanceCount.intValue()) + five;
+                	Double distanceCount = distanceDataList.get(i).getDistance() * ONE_POINT_FIVE;
+                	totalMinutes += Long.valueOf(distanceCount.intValue()) + FIVE;
                     if(totalMinutes > minutes && found) {
                         trainLocation = "Train is between station : "+stationInformationMap.get(distanceDataList.get(i).getStartStation())
                                 +" and station : "+stationInformationMap.get(distanceDataList.get(i).getEndStation());
