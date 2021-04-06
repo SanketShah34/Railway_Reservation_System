@@ -14,6 +14,7 @@ import com.project.setup.ITrain;
 
 @Component
 public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
+	
 	public final String maxSeatNoColumnName = "maxSeatNo";
 	public final String reservationIdColumnName = "reservationId";
 	public final String trainIdColumnName = "trainId";

@@ -1,23 +1,23 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
+<!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+<!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 	crossorigin="anonymous">
-	
-<title>Train Reservation System</title>
-
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
-
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<title>Display Train Location</title>
 </head>
+
 <body>
-		<div align="center">
+	<div align="center">
 			<div style="max-width: 1000px; margin: 0 auto;">
 				<div class="border border-secondary p-3 rounded">
 					<div class="col-md-12 row">
@@ -34,28 +34,12 @@
 								</form>
 							</div>
 						</div>
-						<div class="col-md-12 row">
-							<div class="row col-md-12" style="margin-top: 50px">
-								<div class="col-md-12">
-									<div class="border border-secondary p-3 rounded">
-										<h3>Cancel Conformation Tickets </h3>
-									</div>
-								</div>
-							</div>
 						</div>
-					</div>
 					<div class="col-md-12 row">
 						<div  class="border border-secondary p-3 rounded" style="width:930px">
 							<div   class="row col-md-12" style="margin-top : 50px">
-								<form th:action="@{/ticket/delete/done}" method="post">
-									<table border="1" cellpadding="10" style="width: 100%">
-										<tbody>
-											<tr>
-												<td>The refunded amount will be : </td>
-												<td th:text="${refundedAmount}"></td>
-											</tr>
-										</tbody>
-									</table>
+								<form th:action="@{/findMyTrain/location/done}" method="post">
+										<input th:text="${trainLocation}"/>
 									<button type="submit">Done</button>
 								</form>
 							</div>
@@ -66,3 +50,4 @@
 		</div>
 	</body>
 </html>
+					
