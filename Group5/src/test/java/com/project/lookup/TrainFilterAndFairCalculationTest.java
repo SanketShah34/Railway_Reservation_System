@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import com.project.lookup.ISearchTrain;
-import com.project.lookup.ITrainFilterAndFairCalculation;
-import com.project.lookup.LookupAbstractFactory;
 import com.project.setup.IRouteDAO;
 import com.project.setup.ITrain;
 import com.project.setup.SetupAbstractFactory;
@@ -20,25 +17,26 @@ class TrainFilterAndFairCalculationTest {
 
 	@Test
 	void testFilterTrain() {
-
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance();
 		LookupAbstractFactoryTest lookupAbstractFactoryTest = LookupAbstractFactoryTest.instance();
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrain train = setupAbstractFactory.createNewTrain();
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
-		train = trainMock.createTrainMock(train);
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 		SearchTrainMock searchTrainMock = lookupAbstractFactoryTest.createSearchTrainMock();
-		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
 		IRouteDAO routeDAOMock = setupAbstractFactoryTest.createRouteDAOMock();
+		IDayCalculation dayCalculationTest = lookupAbstractFactory.createDayCalculation();
 		List<ITrain> listOfTrain = new ArrayList<ITrain>();
-		listOfTrain.add(train);
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
-		trainFilterAndCalculation.filterTrain(listOfTrain, searchTrain, routeDAOMock);
-		assertEquals(listOfTrain.size(), 1);
+		
+		train = trainMock.createTrainMock(train);
+		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
+		listOfTrain.add(train);
+		trainFilterAndCalculation.filterTrain(listOfTrain, searchTrain, routeDAOMock, dayCalculationTest);
+		
+		assertEquals(1, listOfTrain.size());
 	}
 
 	@Test
@@ -47,45 +45,48 @@ class TrainFilterAndFairCalculationTest {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance();
 		LookupAbstractFactoryTest lookupAbstractFactoryTest = LookupAbstractFactoryTest.instance();
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrain train = setupAbstractFactory.createNewTrain();
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
-		train = trainMock.createTrainMock(train);
+		IDayCalculation dayCalculationTest = lookupAbstractFactory.createDayCalculation();
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 		SearchTrainMock searchTrainMock = lookupAbstractFactoryTest.createSearchTrainMock();
-		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
 		double timeAtTrainStartItsJourneyInMinutes = 540;
 		double timeRequiredByTrainToReachSourceStationInMinutes = 0;
 		double timeRequiredByTrainForDestinationStationInMinutes = 440;
+		
+		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
+		train = trainMock.createTrainMock(train);
 		trainFilterAndCalculation.countPickUpAndDropUpTimeAndTrainIsAvailbleOnThatDayOrNot(
 				timeAtTrainStartItsJourneyInMinutes, timeRequiredByTrainToReachSourceStationInMinutes,
-				timeRequiredByTrainForDestinationStationInMinutes, train, searchTrain);
+				timeRequiredByTrainForDestinationStationInMinutes, train, searchTrain, dayCalculationTest);
+		
 		assertEquals(true,
 				trainFilterAndCalculation.countPickUpAndDropUpTimeAndTrainIsAvailbleOnThatDayOrNot(
 						timeAtTrainStartItsJourneyInMinutes, timeRequiredByTrainToReachSourceStationInMinutes,
-						timeRequiredByTrainForDestinationStationInMinutes, train, searchTrain));
+						timeRequiredByTrainForDestinationStationInMinutes, train, searchTrain, dayCalculationTest));
+
 	}
 
 	@Test
 	void testMinuteToHoursConverter() {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
 		double minutes = 540;
+		
 		assertEquals("9:00", trainFilterAndCalculation.minuteToHoursConverter(minutes));
 	}
 
 	@Test
 	void testMinuteFormater() {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
 		double minutesToBeFormate1 = 5;
 		double minutesToBeFormate2 = 50;
+		
 		assertEquals("05", trainFilterAndCalculation.minuteFormater(minutesToBeFormate1));
 		assertEquals("50", trainFilterAndCalculation.minuteFormater(minutesToBeFormate2));
 	}
@@ -96,26 +97,28 @@ class TrainFilterAndFairCalculationTest {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance();
 		LookupAbstractFactoryTest lookupAbstractFactoryTest = LookupAbstractFactoryTest.instance();
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrain train = setupAbstractFactory.createNewTrain();
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
 		train = trainMock.createTrainMock(train);
+		IDayCalculation dayCalculationTest = lookupAbstractFactory.createDayCalculation();
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 		SearchTrainMock searchTrainMock = lookupAbstractFactoryTest.createSearchTrainMock();
 		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
 		int dayToIncrement = 0;
-		assertEquals(true,trainFilterAndCalculation.checkWhetherTrainIsAvailableOrNotOnThatDay(train,dayToIncrement , searchTrain));
+		
+		assertEquals(true, trainFilterAndCalculation.checkWhetherTrainIsAvailableOrNotOnThatDay(train, dayToIncrement,
+				searchTrain, dayCalculationTest));
 	}
 
 	@Test
 	void testHoursToMinuteConverter() {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
 		String hours = "9:00";
+		
 		assertEquals(540, trainFilterAndCalculation.hoursToMinuteConverter(hours));
 	}
 
@@ -127,15 +130,16 @@ class TrainFilterAndFairCalculationTest {
 		LookupAbstractFactoryTest lookupAbstractFactoryTest = LookupAbstractFactoryTest.instance();
 		ITrain train = setupAbstractFactory.createNewTrain();
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
-		train = trainMock.createTrainMock(train);
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 		SearchTrainMock searchTrainMock = lookupAbstractFactoryTest.createSearchTrainMock();
-		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
 		int dayToRemove = 0;
-		trainFilterAndCalculation.setStartDateForTrain(train,dayToRemove , searchTrain);
+		
+		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
+		train = trainMock.createTrainMock(train);
+		trainFilterAndCalculation.setStartDateForTrain(train, dayToRemove, searchTrain);
+		
 		assertEquals(new Date(System.currentTimeMillis()).toString(), train.getStartDate().toString());
 	}
 
@@ -147,15 +151,16 @@ class TrainFilterAndFairCalculationTest {
 		LookupAbstractFactoryTest lookupAbstractFactoryTest = LookupAbstractFactoryTest.instance();
 		ITrain train = setupAbstractFactory.createNewTrain();
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
-		train = trainMock.createTrainMock(train);
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 		SearchTrainMock searchTrainMock = lookupAbstractFactoryTest.createSearchTrainMock();
-		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
 		int dayToIncrement = 0;
+		
+		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
+		train = trainMock.createTrainMock(train);
 		trainFilterAndCalculation.SetDateForDropUp(train, dayToIncrement, searchTrain);
+		
 		assertEquals(new Date(System.currentTimeMillis()).toString(), train.getStartDate().toString());
 	}
 
@@ -167,56 +172,57 @@ class TrainFilterAndFairCalculationTest {
 		LookupAbstractFactoryTest lookupAbstractFactoryTest = LookupAbstractFactoryTest.instance();
 		ITrain train = setupAbstractFactory.createNewTrain();
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
-		train = trainMock.createTrainMock(train);
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 		SearchTrainMock searchTrainMock = lookupAbstractFactoryTest.createSearchTrainMock();
-		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
 		int dayToIncrement = 0;
+		
+		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
+		train = trainMock.createTrainMock(train);
 		trainFilterAndCalculation.SetDateForPickUp(train, dayToIncrement, searchTrain);
+		
 		assertEquals(new Date(System.currentTimeMillis()).toString(), train.getStartDate().toString());
 	}
 
 	@Test
 	void testGetDaysNameFromDate() {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
-		assertEquals("Sunday", trainFilterAndCalculation.getDaysNameFromDate(new Date(1616916605772L)));
 		
+		assertEquals("Sunday", trainFilterAndCalculation.getDaysNameFromDate(new Date(1616916605772L)));
+
 	}
 
 	@Test
 	void testCalculateFareByDistance() {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
 		double distancezero = 0.0;
 		double distanceGreaterThan100Km = 600.0;
 		double distanceLessThan100Km = 98.0;
 		double fair = 225.0;
-		assertEquals( 0.0, trainFilterAndCalculation.calculateFareByDistance(distancezero ,fair ));
-		assertEquals( 180, trainFilterAndCalculation.calculateFareByDistance(distanceGreaterThan100Km ,fair ));
-		assertEquals( 225, trainFilterAndCalculation.calculateFareByDistance(distanceLessThan100Km ,fair ));
+		
+		assertEquals(0.0, trainFilterAndCalculation.calculateFareByDistance(distancezero, fair));
+		assertEquals(180, trainFilterAndCalculation.calculateFareByDistance(distanceGreaterThan100Km, fair));
+		assertEquals(225, trainFilterAndCalculation.calculateFareByDistance(distanceLessThan100Km, fair));
 	}
 
 	@Test
 	void testCalculateFareByTrainType() {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
+		
 		try {
-			assertEquals(trainFilterAndCalculation.calculateFareByTrainType(100, "Non AC Sleeper"), 300.0);	
+			assertEquals(trainFilterAndCalculation.calculateFareByTrainType(100, "Non AC Sleeper"), 300.0);
 			assertEquals(trainFilterAndCalculation.calculateFareByTrainType(100, "AC Sleeper"), 400.0);
 			assertEquals(trainFilterAndCalculation.calculateFareByTrainType(100, "Non AC Seater"), 200.0);
 			assertEquals(trainFilterAndCalculation.calculateFareByTrainType(100, "AC Seater"), 300.0);
 			assertEquals(trainFilterAndCalculation.calculateFareByTrainType(100, "Invaid"), 300.0);
-		} catch(Exception exception) {
+		} catch (Exception exception) {
 			assertEquals(exception.getMessage(), "Invalid Train Type");
 		}
 	}
@@ -224,9 +230,9 @@ class TrainFilterAndFairCalculationTest {
 	@Test
 	void testCalculateFareByAge() {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-//		CalculationAbstractFactory calculationAbstractFactory = CalculationAbstractFactory.instance();
 		ITrainFilterAndFairCalculation trainFilterAndCalculation = lookupAbstractFactory
 				.createNewTrainFilterAndCalculateFair();
+		
 		assertEquals(trainFilterAndCalculation.calculateFareByAge(100.0, 0), 0.0);
 		assertEquals(trainFilterAndCalculation.calculateFareByAge(100.0, 4), 50.0);
 		assertEquals(trainFilterAndCalculation.calculateFareByAge(100.0, 5), 100.0);

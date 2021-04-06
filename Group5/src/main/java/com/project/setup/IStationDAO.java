@@ -8,9 +8,10 @@ public interface IStationDAO {
 
 	public List<IStation> getAllStation();
 
-	public IStation getStation(Integer sId);
+	public IStation getStation(Integer stationId);
 
-	public void delete(Integer sId);
+	public void delete(Integer stationId);
 
-	public boolean isStationUnique(String stationName, String stationCode, int SId);
+	public boolean isStationUnique(String stationName, String stationCode, int stationId);
+	
 }

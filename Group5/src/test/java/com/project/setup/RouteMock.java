@@ -1,6 +1,7 @@
 package com.project.setup;
 
 public class RouteMock {
+	
 	public IRoute createRouteMockWithSourceIdMissing(IRoute route) {
 		route.setRouteId(1);
 		route.setDestination(null);
@@ -60,4 +61,5 @@ public class RouteMock {
 		route.setSourceId(1);
 		return route;
 	}
+	
 }

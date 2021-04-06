@@ -2,8 +2,6 @@ package com.project.lookup;
 
 import java.sql.Date;
 
-import com.project.lookup.IBookedTickets;
-
 public class BookedTicketsMock {
 	
 	public IBookedTickets createBookedTicketsMockForSeatNumberOne(IBookedTickets bookedTicket) {

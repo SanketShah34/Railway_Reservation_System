@@ -18,10 +18,10 @@ public class LookupConcreteFactoryTest extends LookupAbstractFactoryTest {
 		return new BookedTicketsMock();
 	}
 
-
 	@Override
 	public SearchTrainDAOMock createSearchTrainDAOMock() {
 		return new SearchTrainDAOMock();
 	}
+	
 }
 

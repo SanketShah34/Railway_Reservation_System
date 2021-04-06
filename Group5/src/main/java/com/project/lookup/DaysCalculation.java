@@ -2,8 +2,16 @@ package com.project.lookup;
 
 import java.util.ArrayList;
 
-public class DaysCalculation implements IDayCalculation  {
-	
+public class DaysCalculation implements IDayCalculation {
+	private final String MONDAY = "Monday";
+	private final String TUESDAY = "Tuesday";
+	private final String WEDNESDAY = "Wednesday";
+	private final String THURSDAY = "Thursday";
+	private final String FRIDAY = "Friday";
+	private final String SATURDAY = "Saturday";
+	private final String SUNDAY = "Sunday";
+	private final int TOTAL_DAYS_IN_WEEK = 7;
+	private final int CHANGE_INDEX_DAYS = 6;
 	int currentIndex = 0;
 	String dayNameFromDayClass = null;
 	int newIndex = 0;
@@ -22,13 +30,13 @@ public class DaysCalculation implements IDayCalculation  {
 	ArrayList<Day> dayList = new ArrayList<Day>();
 
 	public DaysCalculation() {
-		dayList.add(new Day(0, "Sunday"));
-		dayList.add(new Day(1, "Monday"));
-		dayList.add(new Day(2, "Tuesday"));
-		dayList.add(new Day(3, "Wednesday"));
-		dayList.add(new Day(4, "Thursday"));
-		dayList.add(new Day(5, "Friday"));
-		dayList.add(new Day(6, "Saturday"));
+		dayList.add(new Day(0, SUNDAY));
+		dayList.add(new Day(1, MONDAY));
+		dayList.add(new Day(2, TUESDAY));
+		dayList.add(new Day(3, WEDNESDAY));
+		dayList.add(new Day(4, THURSDAY));
+		dayList.add(new Day(5, FRIDAY));
+		dayList.add(new Day(6, SATURDAY));
 	}
 
 	public String getDay(String trainStartDay, int increment) {
@@ -41,10 +49,11 @@ public class DaysCalculation implements IDayCalculation  {
 			}
 		}
 		newIndex = currentIndex + increment;
-		if (newIndex > 6) {
-			newIndex = newIndex - 7;
+		if (newIndex > CHANGE_INDEX_DAYS) {
+			newIndex = newIndex - TOTAL_DAYS_IN_WEEK;
 		}
 		dayAfterIncrement = dayList.get(newIndex).dayName;
 		return dayAfterIncrement;
 	}
+	
 }

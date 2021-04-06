@@ -1,6 +1,7 @@
 package com.project.reservation;
 
 public abstract class PassengerInformationErrorCodes {
+	
 	public static final String firstNameMissing = "First Name is mandatory. ";
 	public static final String lastNameMissing = "Last Name is mandatory. ";
 	public static final String ageInvalid = "Age should be between " + PassengerInformationConstants.ageLowerLimit + " and " + PassengerInformationConstants.ageUpperLimit;

@@ -9,7 +9,6 @@ import com.project.lookup.LookupAbstractFactory;
 
 
 public class Reservation implements IReservation {
-	
 	public int reservationId;
 	public int trainId;
     public int sourceStationId;
@@ -21,9 +20,7 @@ public class Reservation implements IReservation {
     public Date startDate;
     public int ticketBooked;
     public int deletedTicket;
-
 	public List<IPassengerInformation> passengerInformation;
-    
     public static final int NUMBER_OF_PASSENGER_PER_RESERVATION = 6;
     
     public Reservation() {
@@ -33,6 +30,7 @@ public class Reservation implements IReservation {
     private void initializePassengerList() {
     	ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
     	List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(NUMBER_OF_PASSENGER_PER_RESERVATION);
+    	
     	for (int index = 0; index < NUMBER_OF_PASSENGER_PER_RESERVATION; index++) {
     		this.addInPassengerInformationList(passengerInformationList, reservationAbstractFactory.createNewPassengerInformation());	
     	}
@@ -43,42 +41,52 @@ public class Reservation implements IReservation {
 	public int getReservationId() {
 		return reservationId;
 	}
+	
 	@Override
 	public void setReservationId(int reservationId) {
 		this.reservationId = reservationId;
 	}
+	
 	@Override
 	public int getTrainId() {
 		return trainId;
 	}
+	
 	@Override
 	public void setTrainId(int trainId) {
 		this.trainId = trainId;
 	}
+	
 	@Override
 	public int getSourceStationId() {
 		return sourceStationId;
 	}
+	
 	@Override
 	public void setSourceStationId(int sourceStationId) {
 		this.sourceStationId = sourceStationId;
 	}
+	
 	@Override
 	public int getDestinationStationId() {
 		return destinationStationId;
 	}
+	
 	@Override
 	public void setDestinationStationId(int destinationStationId) {
 		this.destinationStationId = destinationStationId;
 	}
+	
 	@Override
 	public double getAmountPaid() {
 		return amountPaid;
 	}
+	
 	@Override
 	public void setAmountPaid(double amountPaid) {
 		this.amountPaid = amountPaid;
 	}
+	
 	@Override
 	public List<IPassengerInformation> getPassengerInformation() {
 		return passengerInformation;
@@ -93,10 +101,12 @@ public class Reservation implements IReservation {
 	public void setPassengerInformation(List<IPassengerInformation> passengerInformation) {
 		this.passengerInformation = passengerInformation;
 	}
+	
 	@Override
 	public void setDistance(double distance) {
 		this.distance = distance;
 	}
+	
 	@Override
 	public double getDistance() {
 		return this.distance;
@@ -154,17 +164,17 @@ public class Reservation implements IReservation {
 
 	@Override
 	public void calculateReservationFarePerPassenger(IReservation reservation) {
-		
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-		
 		ITrainFilterAndFairCalculation findFare = lookupAbstractFactory.createNewTrainFilterAndCalculateFair();
 		
 		try {
 			double fareBasedOnTrainType = findFare.calculateFareByTrainType(reservation.getDistance(), reservation.getTrainType());
 			double fareBasedOnDistance = findFare.calculateFareByDistance(reservation.getDistance(), fareBasedOnTrainType);
 			int passengerInformationLength = reservation.getPassengerInformation().size();
+			
 			for ( int index = 0; index < passengerInformationLength; index++) {
 				double amountPaid = findFare.calculateFareByAge(fareBasedOnDistance, reservation.getPassengerInformation().get(index).getAge());
+				
 				reservation.getPassengerInformation().get(index).setPassengerInformationId(0);
 				reservation.getPassengerInformation().get(index).setReservationId(0);
 				reservation.getPassengerInformation().get(index).setAmountPaid(amountPaid);
@@ -179,6 +189,7 @@ public class Reservation implements IReservation {
 		this.calculateReservationFarePerPassenger(reservation);
 		int passengerInformationLength = reservation.getPassengerInformation().size();
 		double amountPaid = 0.0;
+		
 		for ( int index = 0; index < passengerInformationLength; index++) {
 			amountPaid = amountPaid + reservation.getPassengerInformation().get(index).getAmountPaid();
 		}
@@ -193,6 +204,7 @@ public class Reservation implements IReservation {
 		
 		for (int index = 0; index < passengerInformation.size(); index++) {
 			boolean rowNonEmpty = passengerInformation.get(index).isRowNonEmpty();
+			
 			if (rowNonEmpty) {
 				nonEmptyPassengerInformation.add(passengerInformation.get(index));
 			}
@@ -211,6 +223,7 @@ public class Reservation implements IReservation {
 	@Override
 	public String validateReservation(IReservation reservation) {
 		String errorMessages = "";
+		
 		if (this.isPassengerListEmpty(reservation)) {
 			errorMessages += ReservationInformationErrorCodes.emptyPassengerList;
 			return errorMessages;
@@ -221,4 +234,5 @@ public class Reservation implements IReservation {
 		}
 		return errorMessages;
 	}
+	
 }

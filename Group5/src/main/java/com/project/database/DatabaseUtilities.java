@@ -19,13 +19,14 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 	public Connection  establishConnection(){
 		try {
 			Class.forName(DRIVER);
-		    String url = System.getenv("URL");
-			String userName = System.getenv("USERNAME");
-			String password = System.getenv("PASSWORD");
+		    String url = URL;
+			String userName = USERNAME;
+			String password = PASSWORD;
+			
 		    connection = DriverManager.getConnection(url , userName, password);
 			return connection;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 			return null;
 		}
 	}
@@ -34,8 +35,8 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 	public void closeConnection(Connection conn) {
 		try {
 			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 	
@@ -43,8 +44,8 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 	public void closeStatement(CallableStatement statement) {
 		try {
 			statement.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 
@@ -52,8 +53,9 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 	public void closeResultSet(ResultSet resultSet) {
 		try {
 			resultSet.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
+	
 }

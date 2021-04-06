@@ -6,7 +6,7 @@ public class SearchTrainMock {
 	public ISearchTrain createSearchTrainMock(ISearchTrain searchTrain) {
 		searchTrain.setSourceStation("1");
 		searchTrain.setDestinationStation("4");
-		searchTrain.setDateofJourny(new Date(System.currentTimeMillis()));
+		searchTrain.setDateOfJourny(new Date(System.currentTimeMillis()));
 		searchTrain.setTrainType("AC SLEEPER");
 		return searchTrain;
 	}
@@ -14,7 +14,7 @@ public class SearchTrainMock {
 	public ISearchTrain createSearchTrainMockWithEqualSourceAndDestinationStation(ISearchTrain searchTrain) {
 		searchTrain.setSourceStation("1");
 		searchTrain.setDestinationStation("1");
-		searchTrain.setDateofJourny(new Date(System.currentTimeMillis()));
+		searchTrain.setDateOfJourny(new Date(System.currentTimeMillis()));
 		searchTrain.setTrainType("AC SLEEPER");
 		return searchTrain;
 	}

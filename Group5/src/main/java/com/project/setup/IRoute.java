@@ -34,6 +34,4 @@ public interface IRoute {
 
 	boolean isSourceAndDestinationSame();
 
-	String isRouteEntryValid();
-
 }

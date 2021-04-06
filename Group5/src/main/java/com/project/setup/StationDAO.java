@@ -12,12 +12,11 @@ import com.project.database.IDatabaseUtilities;
 
 @Component
 public class StationDAO implements IStationDAO {
-
-	public final String stationIdColumnName = "stationId";
-	public final String stationNameColumnName = "stationName";
-	public final String stationCodeColumnName = "stationCode";
-	public final String stationCityColumnName = "stationCity";
-	public final String stationStateColumnName = "stationState";
+	public final String STATION_ID = "stationId";
+	public final String STATION_NAME = "stationName";
+	public final String STATION_CODE = "stationCode";
+	public final String STATION_CITY = "stationCity";
+	public final String STATION_STATE = "stationState";
 	List<IStation> listOfStation = new ArrayList<IStation>();
 
 	@Override
@@ -29,6 +28,7 @@ public class StationDAO implements IStationDAO {
 			IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 			Connection connection = databaseUtilities.establishConnection();
 			CallableStatement statment = null;
+
 			if (station.getStationId() == 0) {
 				try {
 					statment = connection.prepareCall("{call addStation( ? , ? , ? , ?)}");
@@ -37,8 +37,8 @@ public class StationDAO implements IStationDAO {
 					statment.setString(3, station.getStationCity());
 					statment.setString(4, station.getStationState());
 					statment.execute();
-				} catch (SQLException e) {
-					e.printStackTrace();
+				} catch (SQLException exception) {
+					exception.printStackTrace();
 				} finally {
 					databaseUtilities.closeStatement(statment);
 					databaseUtilities.closeConnection(connection);
@@ -52,8 +52,8 @@ public class StationDAO implements IStationDAO {
 					statment.setString(4, station.getStationCity());
 					statment.setString(5, station.getStationState());
 					statment.execute();
-				} catch (SQLException e) {
-					e.printStackTrace();
+				} catch (SQLException exception) {
+					exception.printStackTrace();
 				} finally {
 					databaseUtilities.closeStatement(statment);
 					databaseUtilities.closeConnection(connection);
@@ -64,18 +64,20 @@ public class StationDAO implements IStationDAO {
 	}
 
 	@Override
-	public boolean isStationUnique(String stationName, String stationCode, int SId) {
+	public boolean isStationUnique(String stationName, String stationCode, int stationId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
+
 		try {
 			statment = connection.prepareCall("{call checkStation(? ,? , ?)}");
 			statment.setString(1, stationName);
 			statment.setString(2, stationCode);
-			statment.setInt(3, SId);
+			statment.setInt(3, stationId);
 			boolean hadResultsForList = statment.execute();
+
 			if (hadResultsForList) {
 				resultSet = statment.getResultSet();
 				while (resultSet.next()) {
@@ -87,8 +89,8 @@ public class StationDAO implements IStationDAO {
 					}
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statment);
 			databaseUtilities.closeConnection(connection);
@@ -105,23 +107,25 @@ public class StationDAO implements IStationDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
+
 		try {
 			statment = connection.prepareCall("{call getAllStation()}");
 			boolean hadResultsForList = statment.execute();
+
 			if (hadResultsForList) {
 				resultSet = statment.getResultSet();
 				while (resultSet.next()) {
 					IStation station = setupAbstractFactory.createNewStation();
-					station.setStationId(resultSet.getInt(stationIdColumnName));
-					station.setStationName(resultSet.getString(stationNameColumnName));
-					station.setStationCode(resultSet.getString(stationCodeColumnName));
-					station.setStationCity(resultSet.getString(stationCityColumnName));
-					station.setStationState(resultSet.getString(stationStateColumnName));
+					station.setStationId(resultSet.getInt(STATION_ID));
+					station.setStationName(resultSet.getString(STATION_NAME));
+					station.setStationCode(resultSet.getString(STATION_CODE));
+					station.setStationCity(resultSet.getString(STATION_CITY));
+					station.setStationState(resultSet.getString(STATION_STATE));
 					listOfStation.add(station);
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statment);
 			databaseUtilities.closeResultSet(resultSet);
@@ -139,22 +143,24 @@ public class StationDAO implements IStationDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
+
 		try {
 			statment = connection.prepareCall("{call getStation(?)}");
 			statment.setInt(1, stationId);
 			boolean hadStation = statment.execute();
+
 			if (hadStation) {
 				resultSet = statment.getResultSet();
 				if (resultSet.next()) {
-					station.setStationId(resultSet.getInt(stationIdColumnName));
-					station.setStationName(resultSet.getString(stationNameColumnName));
-					station.setStationCode(resultSet.getString(stationCodeColumnName));
-					station.setStationCity(resultSet.getString(stationCityColumnName));
-					station.setStationState(resultSet.getString(stationStateColumnName));
+					station.setStationId(resultSet.getInt(STATION_ID));
+					station.setStationName(resultSet.getString(STATION_NAME));
+					station.setStationCode(resultSet.getString(STATION_CODE));
+					station.setStationCity(resultSet.getString(STATION_CITY));
+					station.setStationState(resultSet.getString(STATION_STATE));
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statment);
 			databaseUtilities.closeResultSet(resultSet);
@@ -169,12 +175,13 @@ public class StationDAO implements IStationDAO {
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
+
 		try {
 			statment = connection.prepareCall("{call deleteStation( ? )}");
 			statment.setInt(1, stationId);
 			statment.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statment);
 			databaseUtilities.closeConnection(connection);

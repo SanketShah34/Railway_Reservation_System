@@ -3,8 +3,6 @@ package com.project.lookup;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-
 import com.project.setup.ITrain;
 import com.project.setup.SetupAbstractFactory;
 import com.project.setup.SetupAbstractFactoryTest;
@@ -18,11 +16,11 @@ public class SearchTrainDAOMock implements ISearchTrainDAO {
 		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance();
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
 		ITrain train = setupAbstractFactory.createNewTrain();
-		train = trainMock.createTrainMock(train);
-		
 		List<ITrain> trainList = new ArrayList<ITrain>(0);
+		
+		train = trainMock.createTrainMock(train);
 		trainList.add(train);
-		return trainList;	
+		return trainList;
 	}
 
 }

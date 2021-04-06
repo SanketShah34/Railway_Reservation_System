@@ -11,4 +11,5 @@ public class ReservationConcreteFactoryTest extends ReservationAbstractFactoryTe
 	public PassengerMock createPassengerMock() {
 		return new PassengerMock();
 	}
+	
 }

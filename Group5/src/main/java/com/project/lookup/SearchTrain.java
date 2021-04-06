@@ -17,7 +17,7 @@ public class SearchTrain implements ISearchTrain {
 	private String destinationStation;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-	private Date dateofJourny;
+	private Date dateOfJourny;
 	public String trainType;
 
 	public SearchTrain() {
@@ -27,7 +27,7 @@ public class SearchTrain implements ISearchTrain {
 		super();
 		this.sourceStation = sourceStation;
 		this.destinationStation = destinationStation;
-		this.dateofJourny = dateofJourny;
+		this.dateOfJourny = dateofJourny;
 		this.trainType = trainType;
 	}
 
@@ -52,15 +52,13 @@ public class SearchTrain implements ISearchTrain {
 	}
 
 	@Override
-	public Date getDateofJourny() {
-	
-		return dateofJourny;
+	public Date getDateOfJourny() {
+		return dateOfJourny;
 	}
 
 	@Override
-	public void setDateofJourny(Date dateofJourny) {
-		this.dateofJourny = dateofJourny;
-		
+	public void setDateOfJourny(Date dateofJourny) {
+		this.dateOfJourny = dateofJourny;
 	}
 
 	@Override
@@ -74,63 +72,58 @@ public class SearchTrain implements ISearchTrain {
 	}
 
 	@Override
-	public boolean issourceStationAndDestinationStationSame(String sourceStation, String destinationStation) {
-		boolean valid = false;
+	public boolean isSourceStationAndDestinationStationSame(String sourceStation, String destinationStation) {
 		if (sourceStation.equals(destinationStation)) {
-			valid = true;
+			return true;
 		}
-		return valid;
+		return false;
 	}
 
 	@Override
 	public boolean isDatePreviousDate(Date date) {
 		Date a = new Date(System.currentTimeMillis());
 		Date b = (Date) date;
+		
 		if (a.compareTo(b) == 1) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-		// source:
-		// https://stackoverflow.com/questions/14892536/to-check-if-the-date-is-after-the-specified-date
-		public boolean isDateInWithinOneMonthPeriod(Date date) {
 
-			// https://stackoverflow.com/questions/11097256/how-to-convert-mon-jun-18-000000-ist-2012-to-18-06-2012
-			String dateStr = date.toString();
-			DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
-			Date dateParse;
-			try {
-				dateParse = (Date) formatter.parse(dateStr);
+	// source:
+	// https://stackoverflow.com/questions/14892536/to-check-if-the-date-is-after-the-specified-date
+	public boolean isDateInWithinOneMonthPeriod(Date date) {
+		// https://stackoverflow.com/questions/11097256/how-to-convert-mon-jun-18-000000-ist-2012-to-18-06-2012
+		String dateStr = date.toString();
+		DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+		Date dateParse;
 
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(dateParse);
-				String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/"
-						+ cal.get(Calendar.YEAR);
+		try {
+			dateParse = (Date) formatter.parse(dateStr);
+			Calendar cal = Calendar.getInstance();
+			
+			cal.setTime(dateParse);
+			String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/"
+					+ cal.get(Calendar.YEAR);
+			
+			String dateSplit[] = formatedDate.split("/");
+			
+			// https://mkyong.com/java8/java-check-if-the-date-is-older-than-6-months/
+			LocalDate currentDate = LocalDate.now();
+			LocalDate currentDatePlusMonths = currentDate.plusMonths(1);
+			LocalDate date1 = LocalDate.of(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[1]),
+					Integer.parseInt(dateSplit[0]));
 
-				String dateSplit[] = formatedDate.split("/");
-
-				// https://mkyong.com/java8/java-check-if-the-date-is-older-than-6-months/
-				LocalDate currentDate = LocalDate.now();
-				LocalDate currentDatePlusMonths = currentDate.plusMonths(1);
-
-				LocalDate date1 = LocalDate.of(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[1]),
-						Integer.parseInt(dateSplit[0]));
-
-				if (date1.isBefore(currentDatePlusMonths)) {
-					return true;
-				} else {
-					return false;
-				}
-			} catch (ParseException e) {
-				e.printStackTrace();
+			if (date1.isBefore(currentDatePlusMonths)) {
+				return true;
+			} else {
+				return false;
 			}
-
-			return true;
-
+		} catch (ParseException exception) {
+			exception.printStackTrace();
 		}
-
-	
+		return true;
+	}
 
 }

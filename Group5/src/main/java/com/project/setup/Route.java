@@ -115,22 +115,4 @@ public class Route implements IRoute {
 		}
 	}
 	
-	@Override
-	public String isRouteEntryValid() {
-		String errorMessage = "";
-		if (this.isSourceStationIdNull()) {
-			errorMessage += RouteErrorCodes.sourceStationMissing;
-		}
-		if (this.isDestinationStationIdNull()) {
-			errorMessage += RouteErrorCodes.destinationStationMissing;
-		}
-		if (this.isSourceAndDestinationSame()) {
-			errorMessage += RouteErrorCodes.sourceAndDestinationStationSame;
-		}
-		if (this.isDistanceInvalid()) {
-			errorMessage += RouteErrorCodes.distanceNegativeOrZero;
-		}
-		return errorMessage;
-	}
-	
 }

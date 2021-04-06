@@ -14,16 +14,16 @@ import com.project.setup.SetupAbstractFactory;
 
 @Component
 public class SearchTrainDAO implements ISearchTrainDAO {
-	public final String trainIdColumnName = "trainId";
-	public final String trainCodeColumnName = "trainCode";
-	public final String trainNameColumnName = "trainName";
-	public final String trainTypeColumnName = "trainType";
-	public final String daysColumnName = "days";
-	public final String departureTimeColumnName = "departureTime";
-	public final String totalCoachesColumnName = "totalCoaches";
-	public final String startStationColumnName = "startStation";
-	public final String middleStationsColumnName = "middleStations";
-	public final String endStationColumnName = "endStation";
+	public final String TRAIN_ID = "trainId";
+	public final String TRAIN_CODE = "trainCode";
+	public final String TRAIN_NAME = "trainName";
+	public final String TRAIN_TYPE = "trainType";
+	public final String DAYS_NAME = "days";
+	public final String DEPARTURE_TIME = "departureTime";
+	public final String TOTAL_COACHES = "totalCoaches";
+	public final String START_STATION = "startStation";
+	public final String MIDDLE_STATION = "middleStations";
+	public final String END_STATION = "endStation";
 
 	@Override
 	public List<ITrain> searchTrains(ISearchTrain searchTrain) {
@@ -34,6 +34,7 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
+
 		try {
 			statement = connection.prepareCall("{call searchTrain(? ,? , ? , ? , ?)}");
 			statement.setInt(1, Integer.parseInt(searchTrain.getSourceStation()));
@@ -44,37 +45,39 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 			statement.setString(4, searchStringForDestinationStation);
 			statement.setString(5, searchTrain.getTrainType());
 			boolean hadResultsForList = statement.execute();
+			
 			if (hadResultsForList) {
 				resultSet = statement.getResultSet();
 				while (resultSet.next()) {
 					List<Integer> allStations = new ArrayList<Integer>();
 					ITrain train = setupAbstractFactory.createNewTrain();
-					train.setTrainId(resultSet.getInt(trainIdColumnName));
-					train.setTrainCode(resultSet.getInt(trainCodeColumnName));
-					train.setTrainName(resultSet.getString(trainNameColumnName));
-					train.setTrainType(resultSet.getString(trainTypeColumnName));
-					train.setDays(resultSet.getString(daysColumnName));
-					train.setDepartureTime(resultSet.getString(departureTimeColumnName));
-					train.setTotalCoaches(resultSet.getInt(totalCoachesColumnName));
-					train.setStartStation(resultSet.getString(startStationColumnName));
-					allStations.add(Integer.parseInt(train.getStartStation()));
-					train.setMiddleStations(resultSet.getString(middleStationsColumnName));
-					if (train.getMiddleStations() == null) {
 
+					train.setTrainId(resultSet.getInt(TRAIN_ID));
+					train.setTrainCode(resultSet.getInt(TRAIN_CODE));
+					train.setTrainName(resultSet.getString(TRAIN_NAME));
+					train.setTrainType(resultSet.getString(TRAIN_TYPE));
+					train.setDays(resultSet.getString(DAYS_NAME));
+					train.setDepartureTime(resultSet.getString(DEPARTURE_TIME));
+					train.setTotalCoaches(resultSet.getInt(TOTAL_COACHES));
+					train.setStartStation(resultSet.getString(START_STATION));
+					allStations.add(Integer.parseInt(train.getStartStation()));
+					train.setMiddleStations(resultSet.getString(MIDDLE_STATION));
+
+					if (train.getMiddleStations() == null) {
 					} else {
 						String[] middleStationsList = train.getMiddleStations().split(",");
 						for (String middleStation : middleStationsList) {
 							allStations.add(Integer.parseInt(middleStation));
 						}
 					}
-					train.setEndStation(resultSet.getString(endStationColumnName));
+					train.setEndStation(resultSet.getString(END_STATION));
 					allStations.add(Integer.parseInt(train.getEndStation()));
 					train.setTotalStation(allStations);
 					trains.add(train);
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statement);
 			databaseUtilities.closeResultSet(resultSet);
