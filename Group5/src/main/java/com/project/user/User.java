@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class User implements IUser {
@@ -142,7 +141,6 @@ public class User implements IUser {
 				return false;
 			}
 		}	
-
 	}
 
 	public boolean emailValidation(String email) {
@@ -157,55 +155,49 @@ public class User implements IUser {
 		} else {
 			return false;
 		}
-
 	}
 
 	// source:
 		// https://stackoverflow.com/questions/14892536/to-check-if-the-date-is-after-the-specified-date
 		public boolean dateValidation(Date date) {
 
-			// https://stackoverflow.com/questions/11097256/how-to-convert-mon-jun-18-000000-ist-2012-to-18-06-2012
-			String dateStr = date.toString();
+			//source:  https://stackoverflow.com/questions/11097256/how-to-convert-mon-jun-18-000000-ist-2012-to-18-06-2012
+			String dateString = date.toString();
 			DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
 			Date dateParse;
 			try {
-				dateParse = (Date) formatter.parse(dateStr);
+				dateParse = (Date) formatter.parse(dateString);
 
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(dateParse);
-				String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/"
-						+ cal.get(Calendar.YEAR);
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(dateParse);
+				String formatedDate = calendar.get(Calendar.DATE) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/"
+										+ calendar.get(Calendar.YEAR);
 
 				String dateSplit[] = formatedDate.split("/");
 
-				// https://mkyong.com/java8/java-check-if-the-date-is-older-than-6-months/
+				// source : https://mkyong.com/java8/java-check-if-the-date-is-older-than-6-months/
 				LocalDate currentDate = LocalDate.now();
 				LocalDate currentDateMinus180Months = currentDate.minusMonths(180);
+				LocalDate localDate = LocalDate.of(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[1]),
+										Integer.parseInt(dateSplit[0]));
 
-				LocalDate date1 = LocalDate.of(Integer.parseInt(dateSplit[2]), Integer.parseInt(dateSplit[1]),
-						Integer.parseInt(dateSplit[0]));
-
-				if (date1.isBefore(currentDateMinus180Months)) {
+				if (localDate.isBefore(currentDateMinus180Months)) {
 					return true;
 				} else {
 					return false;
 				}
-			} catch (ParseException e) {
-				e.printStackTrace();
+			} catch (ParseException exception) {
+				exception.printStackTrace();
 			}
-
-			return true;
-
-		}
-
-	public boolean isStringNullOrEmpty(String s) {
-		if (null == s) {
 			return true;
 		}
-		return s.isEmpty();
+
+	public boolean isStringNullOrEmpty(String string) {
+		if (null == string) {
+			return true;
+		}
+		return string.isEmpty();
 	}
-
-	
 
 	public boolean isQuestionValid(String questionOne, String questionTwo) {
 		if (questionOne.equals(questionTwo)) {
@@ -213,8 +205,6 @@ public class User implements IUser {
 		}
 		return true;
 	}
-
-	
 
 	@Override
 	public boolean isAnswerValid(String answer) {
@@ -256,7 +246,6 @@ public class User implements IUser {
 	public static String getEmailRegex() {
 		return EMAIL_REGEX;
 	}
-
 
 	public boolean isEmailIdValid(String emailId) {
 		return emailValidation(emailId);

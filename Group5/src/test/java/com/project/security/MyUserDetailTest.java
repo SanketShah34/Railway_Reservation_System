@@ -1,11 +1,9 @@
-package com.project.securityTest;
+package com.project.security;
 
 import java.util.Collection;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
-
 import com.project.user.IUser;
 import com.project.user.UserAbstractFactory;
 
@@ -17,7 +15,6 @@ public class MyUserDetailTest implements UserDetails
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -56,6 +53,4 @@ public class MyUserDetailTest implements UserDetails
         Assert.isTrue(user.isEnabled() == true);
 		return true;
 	}
-	
-
 }

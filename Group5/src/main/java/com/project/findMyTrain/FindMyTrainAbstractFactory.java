@@ -1,6 +1,5 @@
 package com.project.findMyTrain;
 
-
 public abstract class FindMyTrainAbstractFactory {
 	private static FindMyTrainAbstractFactory instance = null;
 	
@@ -11,12 +10,10 @@ public abstract class FindMyTrainAbstractFactory {
 	public abstract IFindMyTrainLocation createFindMyTrainLocation();
 	public abstract IFindMyTrainLocation createNewFindMyTrainLocation();
 	
-	
 	public static FindMyTrainAbstractFactory instance() {
 		if (null == instance) {
 			instance = new FindMyTrainConcreteFactory();
 		}
 		return instance;
 	}
-
 }

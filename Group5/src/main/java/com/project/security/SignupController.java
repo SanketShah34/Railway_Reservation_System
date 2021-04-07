@@ -30,7 +30,7 @@ public class SignupController {
 
 	@RequestMapping("/signup")
 	public String signUpPage(Model model) {	
-		UserAbstractFactory userAbstractFactory = new UserConcreteFactory();
+		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		IUser user = userAbstractFactory.createUser();
 		SecurityQuestion securityQuestions = securityAbstractFactory.createSecurityQuestion();
@@ -52,65 +52,55 @@ public class SignupController {
 			Model model) {
 
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
+		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		IUserDAO userDAO = userAbstractFactory.createUserDAO();
 		IUser user = userAbstractFactory.createUser();
 
 		boolean hasError = false;
-
+		
 		if (user.isFirstNameValid(firstName) == true || user.isLastNameValid(lastName) == true
 				|| user.isPasswordEmpty(password) || user.isConfirmPasswordEmpty(confirmPassword)) {
 			model.addAttribute("nameError", true);
 			hasError = true;
 		}
-
 		if (user.isDateValid(dateOfBirth) == false) {
 			model.addAttribute("dobError", true);
 			hasError = true;
 		}
-
 		if (user.isPhoneNumberValid(mobileNubmer) == true) {
 			model.addAttribute("mobileError", true);
 			hasError = true;
 		}
-
 		if (user.isQuestionValid(securityQuestionOne, securityQuestionTwo) == false) {
 			model.addAttribute("securityQuestionError", true);
 			hasError = true;
 		}
-
 		if (user.isAnswerValid(answerOne) == true) {
 			model.addAttribute("answerErrorOne", true);
 			hasError = true;
 		}
-
 		if (user.isAnswerValid(answerTwo) == true) {
 			model.addAttribute("answerErrorTwo", true);
 			hasError = true;
 		}
-
 		if (user.isEmailIdValid(userName) == false) {
 			model.addAttribute("emailError", true);
 			hasError = true;
 		}
-
 		if (user.isPasswordValid(password, confirmPassword) == false) {
 			model.addAttribute("passwordError", true);
 			hasError = true;
 		}
-
 		if (userDAO.isUserExists(userName) == true) {
 			model.addAttribute("userExists", true);
 			hasError = true;
 		}
 
 		if (hasError) {
-
 			UserAbstractFactory userAbstractFactory1 = new UserConcreteFactory();
-			SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
-			IUser user1 = userAbstractFactory1.createUser();
+			IUser newUser = userAbstractFactory1.createUser();
 			SecurityQuestion securityQuestions = securityAbstractFactory.createSecurityQuestion();
-
-			model.addAttribute(user1);
+			model.addAttribute(newUser);
 			model.addAttribute("securityQuestions", securityQuestions.getSecurituQuestions());
 			return "signup";
 		} else {
@@ -127,7 +117,6 @@ public class SignupController {
 			user.setAnswerTwo(answerTwo);
 			userDAO.saveUser(user);
 			return "redirect:/login";	
-
 		}
 	}
 }

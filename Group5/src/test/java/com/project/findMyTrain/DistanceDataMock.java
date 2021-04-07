@@ -9,5 +9,4 @@ public class DistanceDataMock {
 		distanceData.setDistance(2000);
 		return distanceData;
 	}
-
 }

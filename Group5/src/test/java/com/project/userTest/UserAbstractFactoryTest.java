@@ -5,16 +5,14 @@ import com.project.user.IUserDAO;
 import com.project.user.UserAbstractFactory;
 import com.project.user.UserConcreteFactory;
 
-public abstract class UserAbstractFactoryTest 
-{
+public abstract class UserAbstractFactoryTest {
 private static UserAbstractFactory instance = null;
 	
 	public abstract IUser createUser();
-	
 	public abstract IUserDAO createUserDAO();
 	
 	public static UserAbstractFactory instance() {
-		if (null == instance) {
+		if(null == instance) {
 			instance = new UserConcreteFactory();
 		}
 		return instance;
