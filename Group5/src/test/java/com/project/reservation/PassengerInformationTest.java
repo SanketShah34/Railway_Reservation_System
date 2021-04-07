@@ -226,9 +226,6 @@ class PassengerInformationTest {
 		passengerInformation = passengerMock.createPassengerMock(passengerInformation);
 		assertTrue(passengerInformation.isRowNonEmpty());
 		
-		passengerInformation = passengerMock.createPassengerMockFirstNameNull(passengerInformation);
-		assertFalse(passengerInformation.isRowNonEmpty());
-		
 		passengerInformation = passengerMock.createPassengerMockFirstNameEmpty(passengerInformation);
 		assertFalse(passengerInformation.isRowNonEmpty());
 		
@@ -237,6 +234,5 @@ class PassengerInformationTest {
 		
 		passengerInformation = passengerMock.createPassengerMockLastNameEmpty(passengerInformation);
 		assertFalse(passengerInformation.isRowNonEmpty());
-		
 	}
 }
