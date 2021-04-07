@@ -21,9 +21,8 @@ public class FindMyTrainLocationTest {
 		train.setEndStation("4");
 		train.setDays("Monday, Friday");
 		IFindMyTrainLocation findMyTrainLocation = findMyTrainAbstractFactory.createFindMyTrainLocation();
-		String dateString = "2021-04-05";
 		try {
-			Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
+			Date date = new SimpleDateFormat("dd-MM-yyyy").parse("2021-04-05");
 		} catch (ParseException exception) {
 			exception.printStackTrace();
 		}  
