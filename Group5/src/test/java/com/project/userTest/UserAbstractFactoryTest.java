@@ -12,7 +12,7 @@ private static UserAbstractFactory instance = null;
 	public abstract IUserDAO createUserDAO();
 	
 	public static UserAbstractFactory instance() {
-		if (null == instance) {
+		if(null == instance) {
 			instance = new UserConcreteFactory();
 		}
 		return instance;

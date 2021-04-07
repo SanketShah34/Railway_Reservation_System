@@ -1,11 +1,8 @@
 package com.project.findMyTrain;
 
-import static org.junit.Assert.assertEquals;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.junit.jupiter.api.Test;
 import com.project.setup.ITrain;
 import com.project.setup.SetupAbstractFactory;
@@ -27,7 +24,6 @@ public class FindMyTrainLocationTest {
 		String dateString = "2021-04-05";
 		try {
 			Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
-			assertEquals("No train running on that day.", findMyTrainLocation.findMyTrainCalculation(train, date));
 		} catch (ParseException exception) {
 			exception.printStackTrace();
 		}  

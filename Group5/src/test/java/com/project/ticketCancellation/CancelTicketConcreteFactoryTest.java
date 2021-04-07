@@ -6,7 +6,7 @@ public class CancelTicketConcreteFactoryTest extends CancelTicketAbstractFactory
 
 	@Override
 	public CalculateAmountTest createCalculateAmountTest() {
-		if (calculateAmountTest == null) {
+		if(calculateAmountTest == null) {
 			calculateAmountTest = new CalculateAmountTest();
     	}
 		return new CalculateAmountTest();

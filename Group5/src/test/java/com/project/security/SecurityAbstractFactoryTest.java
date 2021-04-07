@@ -24,7 +24,7 @@ private static SecurityAbstractFactory instance = null;
 	public abstract UserDetails createMyUserDetail(IUser user);
 	
 	public static SecurityAbstractFactory instance() {
-		if (instance == null) {
+		if(instance == null) {
 			instance = new SecurityConcreteFactory();
 		}
 		return instance;
