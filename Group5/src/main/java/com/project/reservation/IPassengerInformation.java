@@ -44,15 +44,15 @@ public interface IPassengerInformation {
 
 	String isPassengerInformationValid();
 
-	boolean isBerthPreferenceNullOrEmpty();
+	boolean isBerthPreferenceEmpty();
 
 	boolean isAgeInvalid();
 
-	boolean isGenderNullOrEmpty();
+	boolean isGenderEmpty();
 
-	boolean isLastNameNullOrEmpty();
+	boolean isLastNameEmpty();
 
-	boolean isFirstNameNullOrEmpty();
+	boolean isFirstNameEmpty();
 
 	boolean isRowNonEmpty();
 

@@ -14,7 +14,7 @@ public class UserConcreteFactoryTest extends UserAbstractFactoryTest
 
 	@Override
 	public IUser createUser() {
-		if (null == user) {
+		if(null == user) {
 			user = new User();
 		}
 		return user;
@@ -22,10 +22,9 @@ public class UserConcreteFactoryTest extends UserAbstractFactoryTest
 
 	@Override
 	public IUserDAO createUserDAO() {
-		if (null == userDAO) {
+		if(null == userDAO) {
 			userDAO = new UserDAO();
 		}
 		return userDAO;
 	}
-
 }

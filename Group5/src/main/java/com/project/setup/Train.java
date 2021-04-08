@@ -3,7 +3,6 @@ import java.sql.Date;
 import java.util.List;
 
 public class Train implements ITrain {
-
 	public int trainId;
 	public int trainCode;
 	public String trainName;
@@ -200,26 +199,32 @@ public class Train implements ITrain {
 		this.totalDistance = totalDistance;
 	}
 
+	@Override
 	public Date getPickUPDate() {
 		return pickUPDate;
 	}
 
+	@Override
 	public void setPickUPDate(Date pickUPDate) {
 		this.pickUPDate = pickUPDate;
 	}
 
+	@Override
 	public Date getDropUpDate() {
 		return dropUpDate;
 	}
 
+	@Override
 	public void setDropUpDate(Date dropUpDate) {
 		this.dropUpDate = dropUpDate;
 	}
 
+	@Override
 	public Date getStartDate() {
 		return startDate;
 	}
 
+	@Override
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}	

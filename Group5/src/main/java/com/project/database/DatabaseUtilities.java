@@ -9,19 +9,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DatabaseUtilities implements IDatabaseUtilities {
-	
     private String DRIVER = "com.mysql.cj.jdbc.Driver";
 	private String URL = "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_5_DEVINT?useSSL=false&serverTimezone=UTC";
 	private String USERNAME = "CSCI5308_5_DEVINT_USER";
 	private String PASSWORD = "CBfHk3FuJet8gKvT";
 	public Connection connection;
-
 	
 	@Override
 	public Connection  establishConnection(){
 		try {
 			Class.forName(DRIVER);
-		    connection = DriverManager.getConnection(URL , USERNAME, PASSWORD);
+		    String url = System.getenv("URL");
+			String userName = System.getenv("USERNAME");
+			String password = System.getenv("PASSWORD");
+		    connection = DriverManager.getConnection(url , userName, password);
 			return connection;
 		} catch (Exception e) {
 			e.printStackTrace();

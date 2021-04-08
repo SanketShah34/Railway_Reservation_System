@@ -21,10 +21,6 @@ public interface IReservation {
 
 	void setDestinationStationId(int destinationStationId);
 
-	String getPnrNumber();
-
-	void setPnrNumber(String pnrNumber);
-
 	double getAmountPaid();
 
 	void setAmountPaid(double amountPaid);
@@ -64,5 +60,9 @@ public interface IReservation {
 	void setTicketBooked(int ticketBooked);
 
 	int getTicketBooked();
+	
+	void setDeletedTicket(int deletedTicket);
+	
+	int getDeletedTicket();
 
 }

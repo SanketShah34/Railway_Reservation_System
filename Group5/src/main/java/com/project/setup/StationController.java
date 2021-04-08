@@ -37,7 +37,7 @@ public class StationController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStation station = setupAbstractFactory.createNewStation();
 		model.addAttribute(station);
-		return "station/add_station";
+		return "station/addStation";
 	}
 
 	@PostMapping(value = "/admin/station/addNew/save")
@@ -49,7 +49,7 @@ public class StationController {
 		}
 		if (station.isStationCodeInvalid()) {
 			model.addAttribute("ErrorStationCode", true);
-			validOrNot = true;
+			validOrNot = true;  
 		}
 		if (station.isStationCityInvalid()) {
 			model.addAttribute("ErrorStationCity", true);
@@ -60,7 +60,7 @@ public class StationController {
 			validOrNot = true;
 		}
 		if (validOrNot) {
-			return "station/add_station";
+			return "station/addStation";
 		} else {
 			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 			IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
@@ -69,7 +69,7 @@ public class StationController {
 				return "redirect:/admin/station/list";
 			} else {
 				model.addAttribute("ErrorUnique", true);
-				return "station/add_station";
+				return "station/addStation";
 			}
 		}
 	}
@@ -94,7 +94,7 @@ public class StationController {
 			validOrNot = true;
 		}
 		if (validOrNot) {
-			return "station/edit_station";
+			return "station/editStation";
 		} else {
 			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 			IStationDAO stationDAO = setupAbstractFactory.createStationDAO();

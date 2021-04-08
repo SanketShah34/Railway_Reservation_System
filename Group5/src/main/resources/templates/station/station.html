@@ -19,8 +19,9 @@
             <div class="border border-secondary p-3 rounded">
                <div sec:authorize="isAuthenticated()" class="col-md-12 row">
                   <div style="text-align: start" class="col-md-4">
-                     <input action="action" type="button" onclick="history.go(-1);"
-                        value="Back" />
+                  <form th:action="@{/admin/home}" method="get">
+                        <input type="submit" value="Back" />
+                     </form>
                   </div>
                   <div style="text-align: center;" class="col-md-4">
                      Welcome <b><span sec:authentication="name">Username</span></b>

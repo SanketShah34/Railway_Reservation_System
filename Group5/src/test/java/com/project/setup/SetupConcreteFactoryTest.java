@@ -21,4 +21,5 @@ public class SetupConcreteFactoryTest extends SetupAbstractFactoryTest{
 	public TrainMock createTrainMock() {
 		return new TrainMock();
 	}
+	
 }

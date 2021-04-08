@@ -1,5 +1,6 @@
 package com.project.setup;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,8 @@ public class TrainMock {
 		train.setTrainCode(1);
 		train.setTrainName("Halifax Express");
 		train.setTrainType("AC Seater");
-		train.setDays("Mon");
-		train.setDepartureTime("12:30");
+		train.setDays("Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday");
+		train.setDepartureTime("09:00");
 		train.setTotalCoaches(7);
 		train.setStartStation("A1");
 		train.setMiddleStations("A2, A3");
@@ -31,6 +32,7 @@ public class TrainMock {
 		train.setDropTime("05:10");
 		train.setAvailableSeat(50);
 		train.setTotalDistance(25);
+		train.setStartDate(new Date(System.currentTimeMillis()));
 		return train;
 	}
 }

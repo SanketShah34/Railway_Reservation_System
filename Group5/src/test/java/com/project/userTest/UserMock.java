@@ -3,7 +3,6 @@ package com.project.userTest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import com.project.user.IUser;
 
 public class UserMock {
@@ -12,24 +11,21 @@ public class UserMock {
 		user.setUserName("dhara@gmail.com");
 		user.setFirstName("Dhara");
 		user.setLastName("Gohil");
-		user.setDateOfBirth(null);
 		user.setGender("Female");
 		
-		String dateStr = "2000-04-06";
+		String dateString = "2000-04-06";
 		try {
-			Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+			Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
 			user.setDateOfBirth(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParseException exception) {
+			exception.printStackTrace();
 		}
 		
 		user.setEnabled(true);
-		user.setMobileNumber(Integer.parseInt("1234567890"));
+		user.setMobileNumber("9933562165");
 		user.setPassword("Dhara");
 		user.setRole("USER");
 		
 		return user;
 	}
-
 }

@@ -26,9 +26,6 @@
 					<div style="text-align: center;" class="col-md-4">
 						Welcome <b><span sec:authentication="name">Username</span></b>
 						&nbsp;
-						<!-- 
-							<i><span sec:authentication="principal.authorities">Roles</span></i>
-						 -->
 					</div>
 					<div style="text-align: end" class="col-md-4">
 						<form th:action="@{/logout}" method="post">
