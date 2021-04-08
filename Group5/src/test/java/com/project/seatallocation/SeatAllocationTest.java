@@ -10,11 +10,13 @@ import com.project.reservation.ReservationAbstractFactory;
 public class SeatAllocationTest {
 
 	ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
+	SeatAllocationAbstractFactoryTest seatAllocationAbstractFactoryTest = SeatAllocationAbstractFactoryTest.instance();
+	SeatAllocationAbstractFactory seatAllocationAbstractFactory = SeatAllocationAbstractFactory.instance();
 	
 	@Test
 	void testAllocateSeat() {
-		ISeatAllocationDAO seatAllocationDAO = new SeatAllocationDAO();
+		SeatAllocationDAOMock seatAllocationDAOMock = seatAllocationAbstractFactoryTest.createSeatAllocationDAOMock();
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
-		assertNotNull(seatAllocationDAO.allocateSeat(reservation));
+		assertNotNull(seatAllocationDAOMock.allocateSeat(reservation));
 	}
 }

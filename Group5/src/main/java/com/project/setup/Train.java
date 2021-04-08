@@ -23,7 +23,8 @@ public class Train implements ITrain {
 	public double totalDistance;
 	public Date startDate;
 	
-	public Train() {}
+	public Train() {
+	}
 	
 	public Train(int trainId, int trainCode, String trainName, String trainType, String days, String departureTime,
 			int totalCoaches, String startStation, String middleStations, String endStation) {

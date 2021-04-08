@@ -62,8 +62,6 @@ public class TrainController {
 			}
 		}
 	}
-	
-	
 
 	@RequestMapping("/admin/train/edit/{trainId}")
 	public String showEditTrainPage(@PathVariable(name = "trainId") Integer trainId, Model model) {
