@@ -41,10 +41,10 @@ public class DaysCalculation implements IDayCalculation {
 
 	public String getDay(String trainStartDay, int increment) {
 		currentIndex = 0;
-		for (int i = 0; i < dayList.size(); i++) {
-			dayNameFromDayClass = dayList.get(i).dayName.toLowerCase();
+		for (int index = 0; index < dayList.size(); index++) {
+			dayNameFromDayClass = dayList.get(index).dayName.toLowerCase();
 			if (trainStartDay.toLowerCase().equals(dayNameFromDayClass)) {
-				currentIndex = i;
+				currentIndex = index;
 				break;
 			}
 		}

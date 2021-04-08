@@ -48,54 +48,54 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 		int totalTrainFromDB = trains.size();
 		List<Integer> trainToBeRemoved = new ArrayList<Integer>();
 
-		for (int i = 0; i < totalTrainFromDB; i++) {
-			timeTrainLeavesStartStationInHour = trains.get(i).getDepartureTime();
+		for (int index = 0; index < totalTrainFromDB; index++) {
+			timeTrainLeavesStartStationInHour = trains.get(index).getDepartureTime();
 			timeTrainLeavesStartStationInMinutes = hoursToMinuteConverter(timeTrainLeavesStartStationInHour);
-			List<Integer> allStationTrainVisit = trains.get(i).getTotalStation();
+			List<Integer> allStationTrainVisit = trains.get(index).getTotalStation();
 
 			sourceStaion = searchTrain.getSourceStation();
 			destinationStation = searchTrain.getDestinationStation();
 			sourceStationIndex = allStationTrainVisit.indexOf(Integer.parseInt(sourceStaion));
 			destinationStationIndex = allStationTrainVisit.indexOf(Integer.parseInt(destinationStation));
-			for (int k = 0; k < sourceStationIndex; k++) {
-				IRoute route = routeDAO.getRouteByStation(allStationTrainVisit.get(k), allStationTrainVisit.get(k + 1));
+			for (int sourceStationIterator = 0; sourceStationIterator < sourceStationIndex; sourceStationIterator++) {
+				IRoute route = routeDAO.getRouteByStation(allStationTrainVisit.get(sourceStationIterator), allStationTrainVisit.get(sourceStationIterator + 1));
 
 				distanceRequiredToReachSourceStationInKm += route.getDistance();
 				timeRequiredByTrainToReachSourceStationInMinutes += MINUTES_TRAIN_STOPS_AT_EACH_STATION;
 			}
 			timeRequiredByTrainToReachSourceStationInMinutes = timeRequiredByTrainToReachSourceStationInMinutes
 					+ (distanceRequiredToReachSourceStationInKm * TIME_REQUIRED_BY_TRAIN_TO_COVER_ONE_KILOMETER);
-			for (int j = 0; j < destinationStationIndex; j++) {
-				IRoute route = routeDAO.getRouteByStation(allStationTrainVisit.get(j), allStationTrainVisit.get(j + 1));
+			for (int destinationStationIterator = 0; destinationStationIterator < destinationStationIndex; destinationStationIterator++) {
+				IRoute route = routeDAO.getRouteByStation(allStationTrainVisit.get(destinationStationIterator), allStationTrainVisit.get(destinationStationIterator + 1));
 
 				distanceRequiredForDestinationStationInKm += route.getDistance();
 				timeRequiredByTrainToDestinationStationInMinutes += MINUTES_TRAIN_STOPS_AT_EACH_STATION;
 			}
 			timeRequiredByTrainToDestinationStationInMinutes = timeRequiredByTrainToDestinationStationInMinutes
 					+ (distanceRequiredForDestinationStationInKm * TIME_REQUIRED_BY_TRAIN_TO_COVER_ONE_KILOMETER);
-			calculateStartDateOfTrain(trains.get(i), searchTrain, timeRequiredByTrainToReachSourceStationInMinutes,
+			calculateStartDateOfTrain(trains.get(index), searchTrain, timeRequiredByTrainToReachSourceStationInMinutes,
 					timeTrainLeavesStartStationInMinutes);
 			trainIsavailableOrNot = countPickUpAndDropUpTimeAndTrainIsAvailbleOnThatDayOrNot(
 					timeTrainLeavesStartStationInMinutes, timeRequiredByTrainToReachSourceStationInMinutes,
-					timeRequiredByTrainToDestinationStationInMinutes, trains.get(i), searchTrain, dayCalculation);
+					timeRequiredByTrainToDestinationStationInMinutes, trains.get(index), searchTrain, dayCalculation);
 			if (trainIsavailableOrNot) {
 				distanceCoveredDuringJourneyInKm = distanceRequiredForDestinationStationInKm
 						- distanceRequiredToReachSourceStationInKm;
-				trains.get(i).setTotalDistance(distanceCoveredDuringJourneyInKm);
+				trains.get(index).setTotalDistance(distanceCoveredDuringJourneyInKm);
 				try {
 					fare = this.calculateFareByTrainType(distanceCoveredDuringJourneyInKm,
-							trains.get(i).getTrainType());
-					trains.get(i).setFare(fare);
+							trains.get(index).getTrainType());
+					trains.get(index).setFare(fare);
 				} catch (Exception exception) {
 					System.err.print(exception);
 				}
 				continue;
 			} else {
-				trainToBeRemoved.add(i);
+				trainToBeRemoved.add(index);
 			}
 		}
-		for (int t = trainToBeRemoved.size() - 1; t >= 0; t--) {
-			trains.remove(trains.get(trainToBeRemoved.get(t)));
+		for (int trainIterator = trainToBeRemoved.size() - 1; trainIterator >= 0; trainIterator--) {
+			trains.remove(trains.get(trainToBeRemoved.get(trainIterator)));
 		}
 		return trains;
 	}
@@ -243,15 +243,15 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 
 		days = train.getDays();
 		daysArray = days.split(",");
-		for (int i = 0; i < daysArray.length; i++) {
-			daysArray[i] = dayCalculation.getDay(daysArray[i], daytoIncrement);
+		for (int index = 0; index < daysArray.length; index++) {
+			daysArray[index] = dayCalculation.getDay(daysArray[index], daytoIncrement);
 		}
 		java.sql.Date sqlDate = new java.sql.Date(searchTrain.getDateOfJourny().getTime());
 
 		dayUserWantTotravel = getDaysNameFromDate(sqlDate);
 		trainTravelThatDayOrNot = false;
-		for (int j = 0; j < daysArray.length; j++) {
-			if (daysArray[j].equals(dayUserWantTotravel)) {
+		for (int daysIterator = 0; daysIterator < daysArray.length; daysIterator++) {
+			if (daysArray[daysIterator].equals(dayUserWantTotravel)) {
 				trainTravelThatDayOrNot = true;
 				break;
 			}
