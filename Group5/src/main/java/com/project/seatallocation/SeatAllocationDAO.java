@@ -54,7 +54,6 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 		}
 		
 		if(0 < totalCoaches) {
-			//int totalSeats = totalCoaches * 20;
 			List<Integer> trainStations = getTrainStationsByTrainId(reservation);
 			
 			Map<String,Set<Integer>> trainCoachAndSeatsData = getReservedPassengerData(reservation, trainStations);
