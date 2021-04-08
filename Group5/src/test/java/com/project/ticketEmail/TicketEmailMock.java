@@ -1,7 +1,5 @@
 package com.project.ticketEmail;
 
-import com.project.ticketEmail.ITicketEmail;
-
 public class TicketEmailMock {
 
 	public ITicketEmail createTicketPrintrMock(ITicketEmail ticketPrint) {

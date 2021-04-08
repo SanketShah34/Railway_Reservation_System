@@ -10,24 +10,24 @@ public class SeatAllocation implements ISeatAllocation {
 	public final String UPPER_BERTH_PREFERENCE = "Upper Berth";
 	public final String LOWER_BERTH_PREFERENCE = "Lower Berth";
 	public final String NO_BERTH_PREFERENCE = "No Preference";
-	
-	
+
 	@Override
-	public IReservation allocateSeat(IReservation reservation, ISeatAllocationDAO seatAllocationDAO) {		
+	public IReservation allocateSeat(IReservation reservation, ISeatAllocationDAO seatAllocationDAO) {
 		int totalCoaches = 0;
 
 		totalCoaches = seatAllocationDAO.getTotalCoaches(reservation);
 		if (0 < totalCoaches) {
 			List<Integer> trainStations = seatAllocationDAO.getTrainStationsByTrainId(reservation);
-			Map<String, Set<Integer>> trainCoachAndSeatsData = seatAllocationDAO.getReservedPassengerData(reservation, trainStations);
+			Map<String, Set<Integer>> trainCoachAndSeatsData = seatAllocationDAO.getReservedPassengerData(reservation,
+					trainStations);
 			List<IPassengerInformation> passengerInformation = reservation.getPassengerInformation();
 			List<IPassengerInformation> newPassengerInformation = new ArrayList<>();
 
 			for (int i = 0; i < passengerInformation.size(); i++) {
 				IPassengerInformation passengerInfo = passengerInformation.get(i);
-				String berthPreference = passengerInfo.getBerthPreference();		
+				String berthPreference = passengerInfo.getBerthPreference();
 				boolean seatAllocated = false;
-				int middleCoach = totalCoaches/2;
+				int middleCoach = totalCoaches / 2;
 				List<String> coachNumbers = new ArrayList<>();
 
 				if (0 < totalCoaches % 2) {

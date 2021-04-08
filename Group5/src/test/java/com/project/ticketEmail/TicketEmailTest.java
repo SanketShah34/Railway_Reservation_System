@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import com.project.reservation.IPassengerInformation;
 import com.project.reservation.PassengerInformation;
-import com.project.ticketEmail.ITicketEmail;
-import com.project.ticketEmail.TicketEmailAbstractFactory;
 
 public class TicketEmailTest {
 	
