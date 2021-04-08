@@ -3,7 +3,6 @@ package com.project.user;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import com.project.user.IUser;
 
 public class UserMock {
 

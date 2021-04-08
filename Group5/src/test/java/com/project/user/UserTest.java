@@ -1,13 +1,15 @@
 package com.project.user;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import static org.junit.Assert.*;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
-import com.project.user.IUser;
-import com.project.user.UserAbstractFactory;
 
 @SuppressWarnings("deprecation")
 public class UserTest {
