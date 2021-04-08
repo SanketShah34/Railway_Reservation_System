@@ -2,7 +2,6 @@ package com.project.cancelTrain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import com.project.lookup.SearchTrainDAOMock;
 import com.project.lookup.SeatAvailibilityDAOMock;
 import com.project.reservation.IPassengerInformation;
 import com.project.reservation.IReservation;
-import com.project.reservation.IReservationDAO;
 import com.project.reservation.PassengerMock;
 import com.project.reservation.ReservationAbstractFactory;
 import com.project.reservation.ReservationAbstractFactoryTest;
@@ -24,35 +22,36 @@ import com.project.ticketCancellation.CancelTicketAbstractFactoryTest;
 import com.project.ticketCancellation.SearchPassengerInformationDAOMock;
 
 class TrainCancellationTest {
-	
 	CancelTrainAbstractFactory cancelTrainAbstractFactory = CancelTrainAbstractFactory.instance();
+
 	@Test
 	void testRescheduleOnWeekDays() {
-		
 		LookupAbstractFactoryTest lookupConcreteFactoryTest = LookupAbstractFactoryTest.instance();
 		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 		ReservationAbstractFactoryTest reservationAbstractFactoryTest = ReservationAbstractFactoryTest.instance();
-		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance(); 
+		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance();
 		CancelTicketAbstractFactoryTest cancelTicketAbstractFactoryTest = CancelTicketAbstractFactoryTest.instance();
-		
 		ITrainCancellation trainCancellation = cancelTrainAbstractFactory.createNewTrainCancellation();
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		ReservationMock reservationMock = reservationAbstractFactoryTest.createReservationMock();
-		reservation = reservationMock.creteReservationMock(reservation);
 		IPassengerInformation passenger = reservationAbstractFactory.createNewPassengerInformation();
 		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
-		passenger = passengerMock.createPassengerMock(passenger);
 		List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(0);
-		reservation.addInPassengerInformationList(passengerInformationList, passenger);
-		reservation.setPassengerInformation(passengerInformationList);
 		SearchTrainDAOMock searchTrainDAOMock = lookupConcreteFactoryTest.createSearchTrainDAOMock();
 		RouteDAOMock routeDAOMock = setupAbstractFactoryTest.createRouteDAOMock();
 		SeatAvailibilityDAOMock seatAvailabilityDAOMock = lookupConcreteFactoryTest.createSeatAvailibilityDAOMock();
 		ReservationDAOMock reservationDAOMock = reservationAbstractFactoryTest.createReservationDAOMock();
-		SearchPassengerInformationDAOMock searchPassengerInformationDAOMock  =  cancelTicketAbstractFactoryTest.createSearchPassengerInformationDAOMock();
-		trainCancellation.rescheduleOnWeekDays(reservation, searchTrainDAOMock, routeDAOMock, seatAvailabilityDAOMock, searchPassengerInformationDAOMock, reservationDAOMock);
+		SearchPassengerInformationDAOMock searchPassengerInformationDAOMock = cancelTicketAbstractFactoryTest
+				.createSearchPassengerInformationDAOMock();
 
-		assertEquals(reservation.getDeletedTicket(), 0);
+		reservation = reservationMock.creteReservationMock(reservation);
+		passenger = passengerMock.createPassengerMock(passenger);
+		reservation.addInPassengerInformationList(passengerInformationList, passenger);
+		reservation.setPassengerInformation(passengerInformationList);
+		trainCancellation.rescheduleOnWeekDays(reservation, searchTrainDAOMock, routeDAOMock, seatAvailabilityDAOMock,
+				searchPassengerInformationDAOMock, reservationDAOMock);
+
+		assertEquals(0, reservation.getDeletedTicket());
 	}
 
 	@Test
@@ -60,28 +59,29 @@ class TrainCancellationTest {
 		LookupAbstractFactoryTest lookupConcreteFactoryTest = LookupAbstractFactoryTest.instance();
 		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 		ReservationAbstractFactoryTest reservationAbstractFactoryTest = ReservationAbstractFactoryTest.instance();
-		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance(); 
+		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance();
 		CancelTicketAbstractFactoryTest cancelTicketAbstractFactoryTest = CancelTicketAbstractFactoryTest.instance();
-		
 		ITrainCancellation trainCancellation = cancelTrainAbstractFactory.createNewTrainCancellation();
-
 		SearchTrainDAOMock searchTrainDAOMock = lookupConcreteFactoryTest.createSearchTrainDAOMock();
 		RouteDAOMock routeDAOMock = setupAbstractFactoryTest.createRouteDAOMock();
 		SeatAvailibilityDAOMock seatAvailabilityDAOMock = lookupConcreteFactoryTest.createSeatAvailibilityDAOMock();
 		ReservationDAOMock reservationDAOMock = reservationAbstractFactoryTest.createReservationDAOMock();
-		SearchPassengerInformationDAOMock searchPassengerInformationDAOMock  =  cancelTicketAbstractFactoryTest.createSearchPassengerInformationDAOMock();
-		
+		SearchPassengerInformationDAOMock searchPassengerInformationDAOMock = cancelTicketAbstractFactoryTest
+				.createSearchPassengerInformationDAOMock();
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		ReservationMock reservationMock = reservationAbstractFactoryTest.createReservationMock();
-		reservation = reservationMock.creteReservationMock(reservation);
 		IPassengerInformation passenger = reservationAbstractFactory.createNewPassengerInformation();
 		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
-		passenger = passengerMock.createPassengerMock(passenger);
 		List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(0);
+
+		reservation = reservationMock.creteReservationMock(reservation);
+		passenger = passengerMock.createPassengerMock(passenger);
 		reservation.addInPassengerInformationList(passengerInformationList, passenger);
 		reservation.setPassengerInformation(passengerInformationList);
-		trainCancellation.rescheduleOnWeekEnds(reservation, searchTrainDAOMock, routeDAOMock, seatAvailabilityDAOMock, searchPassengerInformationDAOMock, reservationDAOMock);
-		
-		assertEquals(reservation.getDeletedTicket(), 0);
+		trainCancellation.rescheduleOnWeekEnds(reservation, searchTrainDAOMock, routeDAOMock, seatAvailabilityDAOMock,
+				searchPassengerInformationDAOMock, reservationDAOMock);
+
+		assertEquals(0, reservation.getDeletedTicket());
 	}
+
 }

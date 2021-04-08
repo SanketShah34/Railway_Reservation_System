@@ -17,4 +17,5 @@ public class UserDetailsServiceImplTest implements UserDetailsService {
 		user = userDAO.getUserByUsername("dhara@gmail.com");
 		return new MyUserDetails(user);
 	}
+
 }

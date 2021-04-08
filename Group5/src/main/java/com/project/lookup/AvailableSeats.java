@@ -9,13 +9,16 @@ import com.project.setup.ITrain;
 
 @Component
 public class AvailableSeats implements IAvailableSeats {
+	private final int SEATS_IN_ONE_COACH = 32;
+	
 	@Override
 	public List<ITrain> findAvailableSeats(List<ITrain> trains, ISearchTrain searchTrain,
 			ISeatAvailibilityDAO seatAvalibilityDAO) {
 		int totalNumberOfTrain = 0;
+		
 		totalNumberOfTrain = trains.size();
-		for (int i = 0; i < totalNumberOfTrain; i++) {
-			findAvailableSeatCountInSingleTrain(trains.get(i), searchTrain, seatAvalibilityDAO);
+		for (int index = 0; index < totalNumberOfTrain; index++) {
+			findAvailableSeatCountInSingleTrain(trains.get(index), searchTrain, seatAvalibilityDAO);
 		}
 		return trains;
 	}
@@ -26,10 +29,11 @@ public class AvailableSeats implements IAvailableSeats {
 		int destinationStationIndex = 0;
 		List<Integer> totalStation = train.getTotalStation();
 		List<Integer> middleStationList = new ArrayList<Integer>();
+		
 		sourceStationIndex = Integer.parseInt(searchTrain.getSourceStation());
 		destinationStationIndex = Integer.parseInt(searchTrain.getDestinationStation());
-		for (int j = sourceStationIndex - 1; j < destinationStationIndex; j++) {
-			middleStationList.add(totalStation.get(j));
+		for (int index = sourceStationIndex - 1; index < destinationStationIndex; index++) {
+			middleStationList.add(totalStation.get(index));
 		}
 		return middleStationList;
 	}
@@ -43,57 +47,63 @@ public class AvailableSeats implements IAvailableSeats {
 		int sourceStationIndexOfBookedTicket = 0;
 		int destinationStationIndexOfBookedTicket = 0;
 		int seatThatIsAvailableForBooking = 0;
-		int firstIndexOfstationFromTripCode = 0;
+		int firstIndexOfStationFromTripCode = 0;
 		int lastIndexOfStationFromTripCode = 0;
 		int totalSeatInOneTrain = 0;
 		boolean isSeatAvailable = true;
 		int maximumSeatNoFromDatabase = 0;
+		
 		maximumSeatNoFromDatabase = findMaximumSeatInSingleTrain(train, train.getStartDate(), seatAvaillibilityDAO);
 		if (maximumSeatNoFromDatabase == 0) {
 
 		} else {
-			for (int i = 1; i <= maximumSeatNoFromDatabase; i++) {
+			for (int index = 1; index <= maximumSeatNoFromDatabase; index++) {
 				List<IBookedTickets> bookedTickets = seatAvaillibilityDAO.getListOfTicketsFromSeatNo(train,
-						train.getStartDate(), i);
+						train.getStartDate(), index);
+				
 				isSeatAvailable = true;
-				for (int j = 0; j < bookedTickets.size(); j++) {
+				for (int bookedTicketIterator = 0; bookedTicketIterator< bookedTickets.size(); bookedTicketIterator++) {
 					List<Integer> allStation = train.getTotalStation();
 					List<Integer> stationOfTripCode = new ArrayList<Integer>();
-					sourceStationIndexOfBookedTicket = bookedTickets.get(j).getSourceStationId();
-					destinationStationIndexOfBookedTicket = bookedTickets.get(j).getDestinationId();
-					for (int r = sourceStationIndexOfBookedTicket; r <= destinationStationIndexOfBookedTicket; r++) {
-						stationOfTripCode.add(allStation.get(r - 1));
+					
+					sourceStationIndexOfBookedTicket = bookedTickets.get(bookedTicketIterator).getSourceStationId();
+					destinationStationIndexOfBookedTicket = bookedTickets.get(bookedTicketIterator).getDestinationId();
+					for (int middleStationIterator = sourceStationIndexOfBookedTicket; middleStationIterator <= destinationStationIndexOfBookedTicket; middleStationIterator++) {
+						stationOfTripCode.add(allStation.get(middleStationIterator - 1));
 					}
 					List<Integer> afterRemovingSourceStationFromTripCode = new ArrayList<Integer>();
 					List<Integer> afterRemovingDesinationStationFromTripCode = new ArrayList<Integer>();
-					for (int k = 0; k < stationOfTripCode.size(); k++) {
-						afterRemovingSourceStationFromTripCode.add(stationOfTripCode.get(k));
-						afterRemovingDesinationStationFromTripCode.add(stationOfTripCode.get(k));
+					
+					for (int stationRemoverIterator = 0; stationRemoverIterator < stationOfTripCode.size(); stationRemoverIterator++) {
+						afterRemovingSourceStationFromTripCode.add(stationOfTripCode.get(stationRemoverIterator));
+						afterRemovingDesinationStationFromTripCode.add(stationOfTripCode.get(stationRemoverIterator));
 					}
-					firstIndexOfstationFromTripCode = 0;
-					afterRemovingSourceStationFromTripCode.remove(firstIndexOfstationFromTripCode);
+					firstIndexOfStationFromTripCode = 0;
+					afterRemovingSourceStationFromTripCode.remove(firstIndexOfStationFromTripCode);
 					lastIndexOfStationFromTripCode = stationOfTripCode.size() - 1;
 					afterRemovingDesinationStationFromTripCode.remove(lastIndexOfStationFromTripCode);
 					List<Integer> middleStationAfterRemovingSourceStation = new ArrayList<Integer>();
+					
 					middleStationAfterRemovingSourceStation = listOfMiddleStation(train, searchTrain);
 					middleStationAfterRemovingSourceStation.remove(firstIndexOfMiddleStation);
-					for (int k = 0; k < middleStationAfterRemovingSourceStation.size(); k++) {
-						for (int l = 0; l < afterRemovingSourceStationFromTripCode.size(); l++) {
-							if (middleStationAfterRemovingSourceStation.get(k) == afterRemovingSourceStationFromTripCode
-									.get(l)) {
+					for (int sourceStationRemoverIterator = 0; sourceStationRemoverIterator < middleStationAfterRemovingSourceStation.size(); sourceStationRemoverIterator++) {
+						for (int tripCodeIterator = 0; tripCodeIterator < afterRemovingSourceStationFromTripCode.size(); tripCodeIterator++) {
+							if (middleStationAfterRemovingSourceStation.get(sourceStationRemoverIterator) == afterRemovingSourceStationFromTripCode
+									.get(tripCodeIterator)) {
 								isSeatAvailable = false;
 								break;
 							}
 						}
 					}
 					List<Integer> middleStationAfterRemovingDestinationStation = new ArrayList<Integer>();
+					
 					middleStationAfterRemovingDestinationStation = listOfMiddleStation(train, searchTrain);
 					lastIndexOfMiddleStation = middleStationAfterRemovingDestinationStation.size() - 1;
 					middleStationAfterRemovingDestinationStation.remove(lastIndexOfMiddleStation);
-					for (int m = 0; m < middleStationAfterRemovingDestinationStation.size(); m++) {
-						for (int n = 0; n < afterRemovingDesinationStationFromTripCode.size(); n++) {
+					for (int destinationStationRemoverIterator = 0; destinationStationRemoverIterator < middleStationAfterRemovingDestinationStation.size(); destinationStationRemoverIterator++) {
+						for (int tripCodeIterator = 0; tripCodeIterator < afterRemovingDesinationStationFromTripCode.size(); tripCodeIterator++) {
 							if (middleStationAfterRemovingDestinationStation
-									.get(m) == afterRemovingDesinationStationFromTripCode.get(n)) {
+									.get(destinationStationRemoverIterator) == afterRemovingDesinationStationFromTripCode.get(tripCodeIterator)) {
 								isSeatAvailable = false;
 								break;
 							}
@@ -105,7 +115,7 @@ public class AvailableSeats implements IAvailableSeats {
 				}
 			}
 		}
-		totalSeatInOneTrain = train.getTotalCoaches() * 20;
+		totalSeatInOneTrain = train.getTotalCoaches() * SEATS_IN_ONE_COACH;
 		seatThatIsAvailableForBooking = totalSeatInOneTrain - maximumSeatNoFromDatabase + seatAvailableFromBookedSeat;
 		train.setAvailableSeat(seatThatIsAvailableForBooking);
 	}
@@ -115,13 +125,15 @@ public class AvailableSeats implements IAvailableSeats {
 		int maximumSeatNumber = 0;
 		int maximumSeatNumberOfThatReservationId = 0;
 		List<Integer> reservationIds = seatAvaillibilityDAO.getReservationId(train, date);
-		for (int i = 0; i < reservationIds.size(); i++) {
+		
+		for (int index = 0; index < reservationIds.size(); index++) {
 			maximumSeatNumberOfThatReservationId = seatAvaillibilityDAO
-					.maximumSeatNumberOfReservationId(reservationIds.get(i));
+					.maximumSeatNumberOfReservationId(reservationIds.get(index));
 			if (maximumSeatNumberOfThatReservationId > maximumSeatNumber) {
 				maximumSeatNumber = maximumSeatNumberOfThatReservationId;
 			}
 		}
 		return maximumSeatNumber;
 	}
+	
 }

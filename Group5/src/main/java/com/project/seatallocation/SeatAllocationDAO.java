@@ -17,33 +17,32 @@ import com.project.reservation.IPassengerInformation;
 import com.project.reservation.IReservation;
 
 public class SeatAllocationDAO implements ISeatAllocationDAO {
-
-	public final String totalCoachesColumnName = "totalCoaches";
-	public final String reservationIdColumnName = "reservationId";
-	public final String coachNumberColumnName = "coachNumber";
-	public final String seatNumberColumnName = "seatNumber";
-	public final String startStationColumnName = "startStation";
-	public final String middleStationsColumnName = "middleStations";
-	public final String endStationColumnName = "endStation";
-	public final String upperBerthPreference = "Upper Berth";
-	public final String lowerBerthPreference = "Lower Berth";
-	public final String noBerthPreference = "No Preference";
+	public final String TOTAL_COACHES = "totalCoaches";
+	public final String RESERVATION_ID = "reservationId";
+	public final String COACH_NUMBER = "coachNumber";
+	public final String SEAT_NUMBER = "seatNumber";
+	public final String START_STATION = "startStation";
+	public final String MIDDLE_STATION = "middleStations";
+	public final String END_STATION = "endStation";
+	public final String UPPER_BERTH_PREFERENCE = "Upper Berth";
+	public final String LOWER_BERTH_PREFERENCE = "Lower Berth";
+	public final String NO_BERTH_PREFERENCE = "No Preference";
 
 	@Override
 	public IReservation allocateSeat(IReservation reservation) {
-
 		int totalCoaches = 0;
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
+
 		try {
 			statement = connection.prepareCall("{call getTotalCoaches(?)}");
 			statement.setInt(1, reservation.getTrainId());
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				totalCoaches = resultSet.getInt(totalCoachesColumnName);
+				totalCoaches = resultSet.getInt(TOTAL_COACHES);
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -52,25 +51,19 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 			databaseUtilities.closeStatement(statement);
 			databaseUtilities.closeConnection(connection);
 		}
-
 		if (0 < totalCoaches) {
-			// int totalSeats = totalCoaches * 20;
 			List<Integer> trainStations = getTrainStationsByTrainId(reservation);
-
 			Map<String, Set<Integer>> trainCoachAndSeatsData = getReservedPassengerData(reservation, trainStations);
-
 			List<IPassengerInformation> passengerInformation = reservation.getPassengerInformation();
 			List<IPassengerInformation> newPassengerInformation = new ArrayList<>();
+
 			for (int i = 0; i < passengerInformation.size(); i++) {
 				IPassengerInformation passengerInfo = passengerInformation.get(i);
-
 				String berthPreference = passengerInfo.getBerthPreference();
-
 				boolean seatAllocated = false;
-
 				int middleCoach = totalCoaches / 2;
-
 				List<String> coachNumbers = new ArrayList<>();
+
 				if (0 < totalCoaches % 2) {
 					coachNumbers.add(Character.toString((char) 65 + middleCoach));
 					for (int k = middleCoach - 1, l = middleCoach + 1; k >= 0; k--, l++) {
@@ -83,13 +76,13 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 						coachNumbers.add(Character.toString((char) 65 + l));
 					}
 				}
-
-				if (lowerBerthPreference.equals(berthPreference)) {
-
+				if (LOWER_BERTH_PREFERENCE.equals(berthPreference)) {
 					int m = 0;
+
 					while (Boolean.FALSE.equals(seatAllocated) && m < coachNumbers.size()) {
 						if (trainCoachAndSeatsData.containsKey(coachNumbers.get(m))) {
 							int j = 1;
+
 							while (j > 0 && j <= 32) {
 								if (trainCoachAndSeatsData.get(coachNumbers.get(m)).contains(j)) {
 									j += 2;
@@ -104,6 +97,7 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 							}
 						} else {
 							Set<Integer> seatNumberSet = new HashSet<>();
+
 							seatNumberSet.add(1);
 							trainCoachAndSeatsData.put(coachNumbers.get(m), seatNumberSet);
 							passengerInfo.setCoachNumber(coachNumbers.get(m));
@@ -113,11 +107,13 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 						}
 						m++;
 					}
-				} else if (upperBerthPreference.equals(berthPreference)) {
+				} else if (UPPER_BERTH_PREFERENCE.equals(berthPreference)) {
 					int m = 0;
+
 					while (Boolean.FALSE.equals(seatAllocated) && m < coachNumbers.size()) {
 						if (trainCoachAndSeatsData.containsKey(coachNumbers.get(m))) {
 							int j = 2;
+
 							while (j > 0 && j <= 32) {
 								if (trainCoachAndSeatsData.get(coachNumbers.get(m)).contains(j)) {
 									j += 2;
@@ -132,6 +128,7 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 							}
 						} else {
 							Set<Integer> seatNumberSet = new HashSet<>();
+
 							seatNumberSet.add(1);
 							trainCoachAndSeatsData.put(coachNumbers.get(m), seatNumberSet);
 							passengerInfo.setCoachNumber(coachNumbers.get(m));
@@ -141,11 +138,13 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 						}
 						m++;
 					}
-				} else if (noBerthPreference.equals(berthPreference) || Boolean.FALSE.equals(seatAllocated)) {
+				} else if (NO_BERTH_PREFERENCE.equals(berthPreference) || Boolean.FALSE.equals(seatAllocated)) {
 					int m = 0;
+
 					while (Boolean.FALSE.equals(seatAllocated) && m < coachNumbers.size()) {
 						if (trainCoachAndSeatsData.containsKey(coachNumbers.get(m))) {
 							int j = 1;
+
 							while (j > 0 && j <= 32) {
 								if (trainCoachAndSeatsData.get(coachNumbers.get(m)).contains(j)) {
 									j += 1;
@@ -160,6 +159,7 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 							}
 						} else {
 							Set<Integer> seatNumberSet = new HashSet<>();
+
 							seatNumberSet.add(1);
 							trainCoachAndSeatsData.put(coachNumbers.get(m), seatNumberSet);
 							passengerInfo.setCoachNumber(coachNumbers.get(m));
@@ -183,17 +183,19 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
 		List<Integer> stationIds = new ArrayList<Integer>();
+
 		try {
 			statement = connection.prepareCall("{call getTrain(?)}");
 			statement.setInt(1, reservation.getTrainId());
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				stationIds.add(resultSet.getInt(startStationColumnName));
-				String[] middleStationsList = resultSet.getString(middleStationsColumnName).split(",");
+				stationIds.add(resultSet.getInt(START_STATION));
+				String[] middleStationsList = resultSet.getString(MIDDLE_STATION).split(",");
+
 				for (String middleStation : middleStationsList) {
 					stationIds.add(Integer.valueOf(middleStation));
 				}
-				stationIds.add(resultSet.getInt(endStationColumnName));
+				stationIds.add(resultSet.getInt(END_STATION));
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -223,11 +225,12 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 		ResultSet resultSetForEndStations = null;
 		List<Integer> reservationIds = new ArrayList<Integer>();
 		Map<String, Set<Integer>> trainCoachesData = new HashMap<>();
-		try {
 
+		try {
 			List<Integer> newAllStationsListForReservation = new ArrayList<>();
 			int startStationIndex = trainStations.indexOf(reservation.getSourceStationId());
 			int destinationStationIndex = trainStations.indexOf(reservation.getDestinationStationId());
+
 			newAllStationsListForReservation
 					.addAll(trainStations.subList(startStationIndex, destinationStationIndex + 1));
 			if (2 < newAllStationsListForReservation.size()) {
@@ -240,7 +243,7 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 					statement.setInt(4, newAllStationsListForReservation.get(i + 1));
 					resultSet = statement.executeQuery();
 					while (resultSet.next()) {
-						reservationIds.add(resultSet.getInt(reservationIdColumnName));
+						reservationIds.add(resultSet.getInt(RESERVATION_ID));
 					}
 				}
 			}
@@ -253,25 +256,24 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 					newAllStationsListForReservation.get(newAllStationsListForReservation.size() - 1));
 			resultSetForEndStations = statementForEndStations.executeQuery();
 			while (resultSetForEndStations.next()) {
-				reservationIds.add(resultSetForEndStations.getInt(reservationIdColumnName));
+				reservationIds.add(resultSetForEndStations.getInt(RESERVATION_ID));
 			}
-
 			for (int i = 0; i < reservationIds.size(); i++) {
-
 				anotherStatement = connection.prepareCall("{call getReservedPassengerData(?)}");
 				anotherStatement.setInt(1, reservationIds.get(i));
 				anotherResultSet = anotherStatement.executeQuery();
-
 				while (anotherResultSet.next()) {
-					if (trainCoachesData.containsKey(anotherResultSet.getString(coachNumberColumnName))) {
+					if (trainCoachesData.containsKey(anotherResultSet.getString(COACH_NUMBER))) {
 						Set<Integer> seatNumberSet = new HashSet<>();
-						seatNumberSet = trainCoachesData.get(anotherResultSet.getString(coachNumberColumnName));
-						seatNumberSet.add(anotherResultSet.getInt(seatNumberColumnName));
-						trainCoachesData.replace(anotherResultSet.getString(coachNumberColumnName), seatNumberSet);
+
+						seatNumberSet = trainCoachesData.get(anotherResultSet.getString(COACH_NUMBER));
+						seatNumberSet.add(anotherResultSet.getInt(SEAT_NUMBER));
+						trainCoachesData.replace(anotherResultSet.getString(COACH_NUMBER), seatNumberSet);
 					} else {
 						Set<Integer> seatNumberSet = new HashSet<>();
-						seatNumberSet.add(anotherResultSet.getInt(seatNumberColumnName));
-						trainCoachesData.put(anotherResultSet.getString(coachNumberColumnName), seatNumberSet);
+
+						seatNumberSet.add(anotherResultSet.getInt(SEAT_NUMBER));
+						trainCoachesData.put(anotherResultSet.getString(COACH_NUMBER), seatNumberSet);
 					}
 				}
 			}
@@ -303,7 +305,7 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 				databaseUtilities.closeConnection(connection);
 			}
 		}
-
 		return trainCoachesData;
 	}
+
 }

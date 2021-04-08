@@ -6,15 +6,17 @@ import com.project.user.UserAbstractFactory;
 import com.project.user.UserConcreteFactory;
 
 public abstract class UserAbstractFactoryTest {
-private static UserAbstractFactory instance = null;
-	
-	public abstract IUser createUser();
-	public abstract IUserDAO createUserDAO();
-	
+	private static UserAbstractFactory instance = null;
+
 	public static UserAbstractFactory instance() {
-		if(null == instance) {
+		if (null == instance) {
 			instance = new UserConcreteFactory();
 		}
 		return instance;
 	}
+
+	public abstract IUser createUser();
+
+	public abstract IUserDAO createUserDAO();
+
 }

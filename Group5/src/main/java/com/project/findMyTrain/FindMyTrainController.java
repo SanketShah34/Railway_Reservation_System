@@ -14,7 +14,6 @@ import com.project.setup.ITrain;
 
 @Controller
 public class FindMyTrainController {
-	
 	private final String TRAIN_CODE = "trainCode";
 	private final String START_DATE = "startDate";
 
@@ -22,6 +21,7 @@ public class FindMyTrainController {
 	public String findMyTrain(Model model) {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
+		
 		model.addAttribute(searchTrain);
 		return "findMyTrain/findMyTrain";
 	}
@@ -30,20 +30,20 @@ public class FindMyTrainController {
 	public String findLocationOfTrain(@RequestParam(name = TRAIN_CODE) String trainCodeString,
 								@RequestParam(name = START_DATE, defaultValue = "2021-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
 								Model model) {	
-		
 		FindMyTrainAbstractFactory findMyTrainAbstractFactory = FindMyTrainAbstractFactory.instance();
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-		
 		IFindMyTrainDAO findMyTrainDAO = findMyTrainAbstractFactory.createFindMyTrainDAO();
 		IFindMyTrainLocation findMyTrainLocation = findMyTrainAbstractFactory.createFindMyTrainLocation();
 		IDistanceData distanceData = findMyTrainAbstractFactory.createDistanceData();
 		boolean hasError = false;
+		
 		if (distanceData.isTrainCodeValid(trainCodeString) == true || distanceData.isDateValid(startDate.toString()) == true) {
 			model.addAttribute("nameError", true);
 			hasError = true;
 		}	
 		if (hasError) {
 			ISearchTrain searchTrain =lookupAbstractFactory.createNewSearchTrain();
+			
 			model.addAttribute(searchTrain);
 			return "findMyTrain/findMyTrain";
 		}
@@ -51,6 +51,7 @@ public class FindMyTrainController {
 			int trainCode = Integer.parseInt(trainCodeString);
 			ITrain train = findMyTrainDAO.getLiveTrainStatus(trainCode, startDate);
 			String trainLocation = findMyTrainLocation.findMyTrainCalculation(train, startDate);
+			
 			model.addAttribute("trainLocation", trainLocation);
 			return "findMyTrain/displayLocation";
 		}
@@ -60,7 +61,9 @@ public class FindMyTrainController {
 	public String findLocationDone(Model model) {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 		ISearchTrain searchTrain =lookupAbstractFactory.createNewSearchTrain();
+		
 		model.addAttribute(searchTrain);
 		return "searchTrain/searchTrain";
 	}
+	
 }

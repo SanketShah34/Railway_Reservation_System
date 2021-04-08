@@ -4,5 +4,6 @@ import com.project.reservation.IReservation;
 
 public interface ISeatAllocationDAO {
 
-	public IReservation allocateSeat(IReservation reservation);
+	IReservation allocateSeat(IReservation reservation);
+
 }

@@ -2,7 +2,7 @@ package com.project.reservation;
 
 public abstract class ReservationAbstractFactoryTest {
 	private static ReservationAbstractFactoryTest instance = null;
-	
+
 	public static ReservationAbstractFactoryTest instance() {
 		if (null == instance) {
 			instance = new ReservationConcreteFactoryTest();
@@ -15,4 +15,5 @@ public abstract class ReservationAbstractFactoryTest {
 	public abstract ReservationMock createReservationMock();
 
 	public abstract ReservationDAOMock createReservationDAOMock();
+
 }

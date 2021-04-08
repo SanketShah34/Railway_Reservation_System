@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 public interface ITrain {
-	
+
 	int getTrainId();
 
 	void setTrainId(int trainId);

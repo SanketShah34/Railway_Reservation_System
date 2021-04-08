@@ -17,4 +17,5 @@ public abstract class CancelTrainAbstractFactory {
 	public abstract ITrainCancellation createTrainCancellation();
 
 	public abstract ITrainCancellation createNewTrainCancellation();
+	
 }

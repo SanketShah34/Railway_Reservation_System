@@ -10,7 +10,7 @@ import com.project.ticketCancellation.ISearchPassengerInformationDAO;
 
 public interface ITrainCancellation {
 
-	void bookTicket(IReservation reservation, IReservationDAO reservationDAO);
+	void bookTicket(IReservation reservation, IReservationDAO reservationDAO );
 
 	void cancelTicket(IReservation reservation, ISearchPassengerInformationDAO searchPassengerInformationDAO);
 
@@ -19,5 +19,5 @@ public interface ITrainCancellation {
 	void rescheduleOnWeekDays(IReservation reservation, ISearchTrainDAO searchTrainDAO, IRouteDAO routeDAO, ISeatAvailibilityDAO seatAvailibilityDAO, ISearchPassengerInformationDAO searchPassengerInformationDAO, IReservationDAO reservationDAO);
 
 	void rescheduleOnWeekEnds(IReservation reservation, ISearchTrainDAO searchTrainDAO, IRouteDAO routeDAO, ISeatAvailibilityDAO seatAvailibilityDAO, ISearchPassengerInformationDAO searchPassengerInformationDAO, IReservationDAO reservationDAO);
-
+	
 }

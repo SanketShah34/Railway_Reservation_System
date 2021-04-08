@@ -12,18 +12,18 @@ public interface ISearchTrain {
 
 	void setDestinationStation(String destinationStation);
 
-	Date getDateofJourny();
+	Date getDateOfJourny();
 
-	void setDateofJourny(Date dateofJourny);
+	void setDateOfJourny(Date dateOfJourny);
 
 	String getTrainType();
 
 	void setTrainType(String trainType);
 
-	boolean issourceStationAndDestinationStationSame(String sourceStation, String destinationStation);
+	boolean isSourceStationAndDestinationStationSame(String sourceStation, String destinationStation);
 
-	boolean isDatePreviousDate(Date dateofJourny);
-	
-	public boolean isDateInWithinOneMonthPeriod(Date date);
+	boolean isDatePreviousDate(Date dateOfJourny);
+
+	boolean isDateInWithinOneMonthPeriod(Date date);
 
 }

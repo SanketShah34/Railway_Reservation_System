@@ -14,49 +14,48 @@ import com.project.setup.ITrain;
 
 @Component
 public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
-	
-	public final String maxSeatNoColumnName = "maxSeatNo";
-	public final String reservationIdColumnName = "reservationId";
-	public final String trainIdColumnName = "trainId";
-	public final String dateColumnName = "reservationDate";
-	public final String sourceStationIdColumnName = "sourceStationId";
-	public final String destinationStationIdColumnName = "destinationStationId";
-	public final String amountPaidColumnName = "amountPaid";
-	public final String ticketBookedColumnName = "ticketBooked";
-	public final String reservationIdStringColumnName = "reservationId";
+	public final String MAX_SEATNO = "maxSeatNo";
+	public final String RESERVATION_ID = "reservationId";
+	public final String TRAIN_ID = "trainId";
+	public final String DATE = "reservationDate";
+	public final String SOURCE_STATION_ID = "sourceStationId";
+	public final String DESTINATION_STATION_ID = "destinationStationId";
+	public final String AMOUNT_PAID = "amountPaid";
+	public final String TICKET_BOOKED = "ticketBooked";
 
 	@Override
 	public List<IBookedTickets> getListOfTicketsFromSeatNo(ITrain train, Date date, int seatNo) {
 		List<IBookedTickets> bookedTickets = new ArrayList<IBookedTickets>();
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
-		
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
+
 		try {
 			statment = connection.prepareCall("{call getBookedTicketsOFThatDay( ? , ? , ?)}");
 			statment.setDate(1, date);
 			statment.setInt(2, train.getTrainId());
 			statment.setInt(3, seatNo);
 			boolean hadResult = statment.execute();
+
 			if (hadResult) {
 				resultSet = statment.getResultSet();
 				while (resultSet.next()) {
 					IBookedTickets ticket = lookupAbstractFactory.createNewBookedTickets();
-					ticket.setReservationId(resultSet.getInt(reservationIdColumnName));
-					ticket.setTrainId(resultSet.getInt(trainIdColumnName));
-					ticket.setReservationDate(resultSet.getDate(dateColumnName));
-					ticket.setSourceStationId(resultSet.getInt(sourceStationIdColumnName));
-					ticket.setDestinationId(resultSet.getInt(destinationStationIdColumnName));
-					ticket.setAmountPaid(resultSet.getDouble(amountPaidColumnName));
-					ticket.setTicketBooked(resultSet.getInt(ticketBookedColumnName));
+					ticket.setReservationId(resultSet.getInt(RESERVATION_ID));
+					ticket.setTrainId(resultSet.getInt(TRAIN_ID));
+					ticket.setReservationDate(resultSet.getDate(DATE));
+					ticket.setSourceStationId(resultSet.getInt(SOURCE_STATION_ID));
+					ticket.setDestinationId(resultSet.getInt(DESTINATION_STATION_ID));
+					ticket.setAmountPaid(resultSet.getDouble(AMOUNT_PAID));
+					ticket.setTicketBooked(resultSet.getInt(TICKET_BOOKED));
 					bookedTickets.add(ticket);
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statment);
 			databaseUtilities.closeResultSet(resultSet);
@@ -74,20 +73,22 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
+
 		try {
 			statment = connection.prepareCall("{call getReservationId( ? , ? )}");
 			statment.setInt(1, train.getTrainId());
 			statment.setDate(2, date);
 			boolean hadResult = statment.execute();
+
 			if (hadResult) {
 				resultSet = statment.getResultSet();
 				while (resultSet.next()) {
-					reservationId = resultSet.getInt(reservationIdStringColumnName);
+					reservationId = resultSet.getInt(RESERVATION_ID);
 					reservationIds.add(reservationId);
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statment);
 			databaseUtilities.closeResultSet(resultSet);
@@ -104,18 +105,20 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
+
 		try {
-			statment = connection.prepareCall("{call getMaximumSeatNo( ?  )}");
+			statment = connection.prepareCall("{call getMaximumSeatNo( ? )}");
 			statment.setInt(1, reservationId);
 			boolean hadResult = statment.execute();
+
 			if (hadResult) {
 				resultSet = statment.getResultSet();
 				while (resultSet.next()) {
-					maximumNumber = resultSet.getInt(maxSeatNoColumnName);
+					maximumNumber = resultSet.getInt(MAX_SEATNO);
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statment);
 			databaseUtilities.closeResultSet(resultSet);

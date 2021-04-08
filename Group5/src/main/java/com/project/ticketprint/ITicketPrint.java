@@ -13,7 +13,7 @@ public interface ITicketPrint {
 	int getTrainCode();
 
 	void setTrainCode(int trainCode);
-	
+
 	String getTrainName();
 
 	void setTrainName(String trainName);
@@ -36,5 +36,6 @@ public interface ITicketPrint {
 
 	List<IPassengerInformation> getPassengerInformation();
 
-	void setPassengerInformation(List<IPassengerInformation> passengerInformation);	
+	void setPassengerInformation(List<IPassengerInformation> passengerInformation);
+
 }

@@ -16,7 +16,7 @@ public class BookedTickets implements IBookedTickets {
 	public int getReservationId() {
 		return reservationId;
 	}
-	
+
 	@Override
 	public void setReservationId(int reservationId) {
 		this.reservationId = reservationId;
@@ -91,4 +91,5 @@ public class BookedTickets implements IBookedTickets {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+
 }

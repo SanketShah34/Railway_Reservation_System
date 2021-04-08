@@ -1,7 +1,7 @@
 package com.project.setup;
 
 public class StationMock {
-	
+
 	public IStation createStationMock(IStation station) {
 		station.setStationId(1);
 		station.setStationCity("Halifax");

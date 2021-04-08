@@ -14,11 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class StationController {
 
+	@ModelAttribute("station")
+	public IStation getIStationModelObject(HttpServletRequest request) {
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		IStation station = setupAbstractFactory.createNewStation();
+
+		return station;
+	}
+
 	@GetMapping(value = "/admin/station/list")
 	public String showStationPage(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		List<IStation> listOfStation = stationDAO.getAllStation();
+
 		model.addAttribute("listOfStation", listOfStation);
 		return "station/station";
 	}
@@ -28,6 +37,7 @@ public class StationController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		List<IStation> listOfStation = stationDAO.getAllStation();
+
 		model.addAttribute("listOfStation", listOfStation);
 		return "station/station";
 	}
@@ -36,83 +46,81 @@ public class StationController {
 	public String showAddStationPage(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStation station = setupAbstractFactory.createNewStation();
+
 		model.addAttribute(station);
 		return "station/addStation";
 	}
 
 	@PostMapping(value = "/admin/station/addNew/save")
 	public String saveNewStation(@ModelAttribute("station") IStation station, Model model) {
-		boolean validOrNot = false;
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
+		boolean validOrNot = true;
+
 		if (station.isStationNameInvalid()) {
 			model.addAttribute("ErrorStationName", true);
-			validOrNot = true;
+			validOrNot = false;
 		}
 		if (station.isStationCodeInvalid()) {
 			model.addAttribute("ErrorStationCode", true);
-			validOrNot = true;  
+			validOrNot = false;
 		}
 		if (station.isStationCityInvalid()) {
 			model.addAttribute("ErrorStationCity", true);
-			validOrNot = true;
+			validOrNot = false;
 		}
 		if (station.isStationStateInvalid()) {
 			model.addAttribute("ErrorStationState", true);
-			validOrNot = true;
+			validOrNot = false;
 		}
 		if (validOrNot) {
-			return "station/addStation";
-		} else {
-			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-			IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 			boolean isUnique = stationDAO.save(station);
+
 			if (isUnique) {
 				return "redirect:/admin/station/list";
 			} else {
 				model.addAttribute("ErrorUnique", true);
 				return "station/addStation";
 			}
+		} else {
+			return "station/addStation";
 		}
 	}
 
 	@PostMapping(value = "/admin/station/edit/save")
 	public String saveUpdatedStation(@Valid @ModelAttribute("station") IStation station, Model model) {
-		boolean validOrNot = false;
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
+		boolean validOrNot = true;
+
 		if (station.isStationNameInvalid()) {
 			model.addAttribute("ErrorStationName", true);
-			validOrNot = true;
+			validOrNot = false;
 		}
 		if (station.isStationCodeInvalid()) {
 			model.addAttribute("ErrorStationCode", true);
-			validOrNot = true;
+			validOrNot = false;
 		}
 		if (station.isStationCityInvalid()) {
 			model.addAttribute("ErrorStationCity", true);
-			validOrNot = true;
+			validOrNot = false;
 		}
 		if (station.isStationStateInvalid()) {
 			model.addAttribute("ErrorStationState", true);
-			validOrNot = true;
+			validOrNot = false;
 		}
 		if (validOrNot) {
-			return "station/editStation";
-		} else {
-			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-			IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 			boolean isUnique = stationDAO.save(station);
+
 			if (isUnique) {
 				return "redirect:/admin/station/list";
 			} else {
 				model.addAttribute("ErrorUnique", true);
-				return "station/edit_station";
+				return "station/editStation";
 			}
+		} else {
+			return "station/editStation";
 		}
-	}
-
-	@ModelAttribute("station")
-	public IStation getIStationModelObject(HttpServletRequest request) {
-		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		IStation station = setupAbstractFactory.createNewStation();
-		return station;
 	}
 
 	@RequestMapping("/admin/station/edit/{stationId}")
@@ -120,14 +128,16 @@ public class StationController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		IStation station = stationDAO.getStation(stationId);
+
 		model.addAttribute(station);
-		return "station/edit_station";
+		return "station/editStation";
 	}
 
 	@RequestMapping("/admin/station/delete/{stationId}")
 	public String deleteStation(@PathVariable(name = "stationId") Integer stationId, Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
+
 		stationDAO.delete(stationId);
 		return "redirect:/admin/station/list";
 	}

@@ -29,4 +29,5 @@ public class CancelTrainConcreteFactory extends CancelTrainAbstractFactory{
 	public ITrainCancellation createTrainCancellation() {
 		return new TrainCancellation();
 	}
+	
 }

@@ -16,10 +16,11 @@ public class CustomSuccessHandlerTest implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-			for (GrantedAuthority grantedAuthority : authorities) {
-				Assert.isTrue(grantedAuthority.getAuthority().equals("USER"));
-			}
+		for (GrantedAuthority grantedAuthority : authorities) {
+			Assert.isTrue(grantedAuthority.getAuthority().equals("USER"));
+		}
 	}
+
 }

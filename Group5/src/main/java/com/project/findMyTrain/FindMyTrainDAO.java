@@ -13,16 +13,16 @@ import com.project.setup.ITrain;
 import com.project.setup.SetupAbstractFactory;
 
 public class FindMyTrainDAO implements IFindMyTrainDAO {
-	
-	public final String daysColumnName = "days";
-	public final String departureTimeColumnName = "departureTime";
-	public final String startStationColumnName = "startStation";
-	public final String middleStationsColumnName = "middleStations";
-	public final String endStationColumnName = "endStation";
-	public final String distanceColumnName = "distance";
-	public final String stationIdColumnName = "stationId";
-	public final String stationNameColumnName = "stationName";
-	
+	public final String DAYS = "days";
+	public final String DEPARTURE_TIME = "departureTime";
+	public final String START_STATION = "startStation";
+	public final String MIDDLE_STATION = "middleStations";
+	public final String END_STATION = "endStation";
+	public final String DISTANCE = "distance";
+	public final String STATION_ID = "stationId";
+	public final String STATION_NAME = "stationName";
+
+	@Override
 	public ITrain getLiveTrainStatus(int trainCode, Date startDate) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
@@ -31,16 +31,17 @@ public class FindMyTrainDAO implements IFindMyTrainDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
+
 		try {
 			statement = connection.prepareCall("{call getTrain(?)}");
 			statement.setInt(1, trainCode);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				train.setDays(resultSet.getString(daysColumnName));
-				train.setDepartureTime(resultSet.getString(departureTimeColumnName));
-				train.setStartStation(resultSet.getString(startStationColumnName));
-				train.setMiddleStations(resultSet.getString(middleStationsColumnName));
-				train.setEndStation(resultSet.getString(endStationColumnName));
+				train.setDays(resultSet.getString(DAYS));
+				train.setDepartureTime(resultSet.getString(DEPARTURE_TIME));
+				train.setStartStation(resultSet.getString(START_STATION));
+				train.setMiddleStations(resultSet.getString(MIDDLE_STATION));
+				train.setEndStation(resultSet.getString(END_STATION));
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -52,6 +53,7 @@ public class FindMyTrainDAO implements IFindMyTrainDAO {
 		return train;
 	}
 
+	@Override
 	public double getRouteInformation(Integer startStation, Integer endStation) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
@@ -59,13 +61,14 @@ public class FindMyTrainDAO implements IFindMyTrainDAO {
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
 		double distance = 0;
+
 		try {
 			statement = connection.prepareCall("{call getRoutebyStation(?, ?)}");
 			statement.setInt(1, startStation);
 			statement.setInt(2, endStation);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				distance = resultSet.getDouble(distanceColumnName);
+				distance = resultSet.getDouble(DISTANCE);
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -77,6 +80,7 @@ public class FindMyTrainDAO implements IFindMyTrainDAO {
 		return distance;
 	}
 
+	@Override
 	public Map<Integer, String> getStationInformation() {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
@@ -84,11 +88,12 @@ public class FindMyTrainDAO implements IFindMyTrainDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
+
 		try {
 			statement = connection.prepareCall("{call getAllStation()}");
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				hashMapOfStation.put(resultSet.getInt(stationIdColumnName), resultSet.getString(stationNameColumnName));
+				hashMapOfStation.put(resultSet.getInt(STATION_ID), resultSet.getString(STATION_NAME));
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -99,4 +104,5 @@ public class FindMyTrainDAO implements IFindMyTrainDAO {
 		}
 		return hashMapOfStation;
 	}
+
 }
