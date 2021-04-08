@@ -5,6 +5,5 @@ import com.project.setup.ITrain;
 
 public interface IFindMyTrainLocation {
 
-	String findMyTrainCalculation(ITrain train, Date startDate);
-
+	String findMyTrainCalculation(ITrain train, Date startDate, IFindMyTrainDAO findMyTrainDAO);
 }

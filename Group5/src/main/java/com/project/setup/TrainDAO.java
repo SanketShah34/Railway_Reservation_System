@@ -19,13 +19,13 @@ public class TrainDAO implements ITrainDAO {
 	public List<Train> getAllTrain() {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
-		Connection connectionection = databaseUtilities.establishConnection();
+		Connection connection = databaseUtilities.establishConnection();
 		List<Train> listOfTrain = new ArrayList<Train>();
 		listOfTrain.removeAll(listOfTrain);
 		CallableStatement statement = null;
 
 		try {
-			statement = connectionection.prepareCall("{call getAllTrain()}");
+			statement = connection.prepareCall("{call getAllTrain()}");
 			boolean hasResultsForList = statement.execute();
 
 			if (hasResultsForList) {
@@ -53,7 +53,7 @@ public class TrainDAO implements ITrainDAO {
 
 						for (String midd : middleStations) {
 							int middle = Integer.parseInt(midd);
-							CallableStatement statement1 = connectionection.prepareCall("{call getMiddleStation(?)}");
+							CallableStatement statement1 = connection.prepareCall("{call getMiddleStation(?)}");
 
 							statement1.setInt(1, middle);
 							boolean hasResultsForList1 = statement1.execute();
@@ -75,7 +75,7 @@ public class TrainDAO implements ITrainDAO {
 			exception.printStackTrace();
 		} finally {
 			databaseUtilities.closeStatement(statement);
-			databaseUtilities.closeConnection(connectionection);
+			databaseUtilities.closeConnection(connection);
 		}
 		return listOfTrain;
 	}
