@@ -58,19 +58,19 @@ public class StationController {
 		boolean validOrNot = true;
 
 		if (station.isStationNameInvalid()) {
-			model.addAttribute("ErrorStationName", true);
+			model.addAttribute("errorStationName", true);
 			validOrNot = false;
 		}
 		if (station.isStationCodeInvalid()) {
-			model.addAttribute("ErrorStationCode", true);
+			model.addAttribute("errorStationCode", true);
 			validOrNot = false;
 		}
 		if (station.isStationCityInvalid()) {
-			model.addAttribute("ErrorStationCity", true);
+			model.addAttribute("errorStationCity", true);
 			validOrNot = false;
 		}
 		if (station.isStationStateInvalid()) {
-			model.addAttribute("ErrorStationState", true);
+			model.addAttribute("errorStationState", true);
 			validOrNot = false;
 		}
 		if (validOrNot) {
@@ -79,7 +79,7 @@ public class StationController {
 			if (isUnique) {
 				return "redirect:/admin/station/list";
 			} else {
-				model.addAttribute("ErrorUnique", true);
+				model.addAttribute("errorUnique", true);
 				return "station/addStation";
 			}
 		} else {
@@ -94,19 +94,19 @@ public class StationController {
 		boolean validOrNot = true;
 
 		if (station.isStationNameInvalid()) {
-			model.addAttribute("ErrorStationName", true);
+			model.addAttribute("errorStationName", true);
 			validOrNot = false;
 		}
 		if (station.isStationCodeInvalid()) {
-			model.addAttribute("ErrorStationCode", true);
+			model.addAttribute("errorStationCode", true);
 			validOrNot = false;
 		}
 		if (station.isStationCityInvalid()) {
-			model.addAttribute("ErrorStationCity", true);
+			model.addAttribute("errorStationCity", true);
 			validOrNot = false;
 		}
 		if (station.isStationStateInvalid()) {
-			model.addAttribute("ErrorStationState", true);
+			model.addAttribute("errorStationState", true);
 			validOrNot = false;
 		}
 		if (validOrNot) {
@@ -115,7 +115,7 @@ public class StationController {
 			if (isUnique) {
 				return "redirect:/admin/station/list";
 			} else {
-				model.addAttribute("ErrorUnique", true);
+				model.addAttribute("errorUnique", true);
 				return "station/editStation";
 			}
 		} else {

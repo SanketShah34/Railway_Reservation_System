@@ -231,4 +231,79 @@ public class Train implements ITrain {
 		this.startDate = startDate;
 	}
 
+	@Override
+	public boolean isTrainCodeInvalid() {
+		if (this.trainCode > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isTrainNameInvalid() {
+		String trainNameWithoutSpace = this.trainName.trim();
+		
+		if (trainNameWithoutSpace.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isTrainTypeInvalid() {
+		String trainTypeWithoutSpace = this.trainType.trim();
+
+		if (trainTypeWithoutSpace.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isTrainDepartureTimeInvalid() {
+		String trainDepartureTimeWithoutSpace = this.departureTime.trim();
+
+		if (trainDepartureTimeWithoutSpace.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isTotalCoachesInvalid() {
+		if (this.trainCode > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isStartStationInvalid() {
+		String trainStartStationWithoutSpace = this.startStation.trim();
+
+		if (trainStartStationWithoutSpace.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isEndStationInvalid() {
+		String trainEndStationWithoutSpace = this.endStation.trim();
+
+		if (trainEndStationWithoutSpace.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isSourceStationAndDestinationStationSame() {
+		if (this.startStation.equals(this.endStation)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
