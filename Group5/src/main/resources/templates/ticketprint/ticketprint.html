@@ -34,12 +34,15 @@
                   <div class="row col-md-12" style="margin-top: 50px">
                      <div class="col-md-12">
                         <div class="border border-secondary p-3 rounded">
+                           
                            <h1>Your Ticket has been booked. Download Ticket Here</h1>
                            <br />
                            <form action="#" th:action="@{/user/ticketprint/download}" method="post">
                               <input type="hidden" name= "reservationId" class="form-control" th:value="${reservationId}">
                               <button type="submit">Download</button>
                            </form>
+                           <a th:href="@{'/user/ticketemail/' + ${reservationId}}">
+                           <button type="button">Email Your Ticket</button></a>
                         </div>
                      </div>
                   </div>

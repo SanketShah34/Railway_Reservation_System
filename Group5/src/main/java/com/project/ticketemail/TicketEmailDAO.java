@@ -11,6 +11,8 @@ import java.util.Properties;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
@@ -54,30 +56,30 @@ public class TicketEmailDAO implements ITicketEmailDAO{
 		
 		ITicketEmail ticketEmail = getTicketInformation(reservationId);
 		ticketEmail.setPassengerInformation(getPassengerInformation(reservationId));
-		//getUserDataFromReservationId();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userEmail = authentication.getName();
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom("Railway Reservation System");
-		message.setTo("sshahsanket@yahoo.com");
+		message.setFrom("sshahsanket31@gmail.com");
+		message.setTo(userEmail);
 		message.setSubject("Train Ticket");
 		
 		String messageForEmail = "Hi, \n\n Greetings From Railway Reservation System.\n\n Please find below ticket information:";
-		messageForEmail.concat("\nTrain Code and Train Name: "+ticketEmail.getTrainCode()+" - "+ticketEmail.getTrainName());
-		messageForEmail.concat("\nTrain Type: "+ticketEmail.getTrainType());
-		messageForEmail.concat("\nSource Station: "+ticketEmail.getSourceStation()
-		+" - "+" Destination Station: "+ticketEmail.getDestinationStation());
+		messageForEmail+="\n\nTrain Code and Train Name: "+ticketEmail.getTrainCode()+" - "+ticketEmail.getTrainName();
+		messageForEmail+="\nTrain Type: "+ticketEmail.getTrainType();
+		messageForEmail+="\nSource Station: "+ticketEmail.getSourceStation()
+		+" - "+" Destination Station: "+ticketEmail.getDestinationStation();
 		
 		for(int i=0; i<ticketEmail.getPassengerInformation().size(); i++) {
-			messageForEmail.concat("\nPassenger "+String.valueOf(i+1));
-			messageForEmail.concat("\nName: "+ticketEmail.getPassengerInformation().get(i).getFirstName()+" "+ticketEmail.getPassengerInformation().get(i).getLastName());
-			messageForEmail.concat("\nAge: "+String.valueOf(ticketEmail.getPassengerInformation().get(i).getAge()));
-			messageForEmail.concat("\nCoach Number: "+ticketEmail.getPassengerInformation().get(i).getCoachNumber());
-			messageForEmail.concat("\nSeat Number: "+String.valueOf(ticketEmail.getPassengerInformation().get(i).getPassengerInformationId()));
+			messageForEmail+="\n\nPassenger "+String.valueOf(i+1);
+			messageForEmail+="\n\nName: "+ticketEmail.getPassengerInformation().get(i).getFirstName()+" "+ticketEmail.getPassengerInformation().get(i).getLastName();
+			messageForEmail+="\nAge: "+String.valueOf(ticketEmail.getPassengerInformation().get(i).getAge());
+			messageForEmail+="\nCoach Number: "+ticketEmail.getPassengerInformation().get(i).getCoachNumber();
+			messageForEmail+="\nSeat Number: "+String.valueOf(ticketEmail.getPassengerInformation().get(i).getPassengerInformationId());
 		}
 		
-		messageForEmail.concat("\nAmount Paid: "+String.valueOf(ticketEmail.getAmountPaid()));
+		messageForEmail+="\n\nAmount Paid: "+String.valueOf(ticketEmail.getAmountPaid());
 		message.setText(messageForEmail);
 		getJavaMailSender().send(message);
-		System.out.println("Email Sent");
 		return ticketEmail;
 	}
 	
