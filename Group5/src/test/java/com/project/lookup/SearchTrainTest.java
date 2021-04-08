@@ -12,7 +12,7 @@ class SearchTrainTest {
 	@Test
 	void testGetSourceStation() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		
+
 		searchTrain.setSourceStation("Surat");
 
 		assertEquals("Surat", searchTrain.getSourceStation());
@@ -21,7 +21,7 @@ class SearchTrainTest {
 	@Test
 	void testSetSourceStation() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		
+
 		searchTrain.setSourceStation("Surat");
 
 		assertEquals("Surat", searchTrain.getSourceStation());
@@ -30,7 +30,7 @@ class SearchTrainTest {
 	@Test
 	void testGetDestinationStation() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		
+
 		searchTrain.setDestinationStation("Ahembdabad");
 
 		assertEquals("Ahembdabad", searchTrain.getDestinationStation());
@@ -39,7 +39,7 @@ class SearchTrainTest {
 	@Test
 	void testSetDestinationStation() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		
+
 		searchTrain.setDestinationStation("Ahembdabad");
 
 		assertEquals("Ahembdabad", searchTrain.getDestinationStation());
@@ -48,7 +48,7 @@ class SearchTrainTest {
 	@Test
 	void testGetDateofJourny() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		
+
 		searchTrain.setDateOfJourny(new Date(System.currentTimeMillis()));
 
 		assertEquals(new Date(System.currentTimeMillis()), searchTrain.getDateOfJourny());
@@ -57,7 +57,7 @@ class SearchTrainTest {
 	@Test
 	void testSetDateofJourny() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		
+
 		searchTrain.setDateOfJourny(new Date(System.currentTimeMillis()));
 
 		assertEquals(new Date(System.currentTimeMillis()), searchTrain.getDateOfJourny());
@@ -66,7 +66,7 @@ class SearchTrainTest {
 	@Test
 	void testGetTrainType() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		
+
 		searchTrain.setTrainType("AC SLEEPER");
 
 		assertEquals("AC SLEEPER", searchTrain.getTrainType());
@@ -75,7 +75,7 @@ class SearchTrainTest {
 	@Test
 	void testSetTrainType() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-		
+
 		searchTrain.setTrainType("AC SLEEPER");
 
 		assertEquals("AC SLEEPER", searchTrain.getTrainType());

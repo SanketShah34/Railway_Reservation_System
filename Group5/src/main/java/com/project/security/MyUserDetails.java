@@ -9,11 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.project.user.IUser;
 
 public class MyUserDetails implements UserDetails {
-
 	// reference taken for spring security from
 	// "https://www.codejava.net/frameworks/spring-boot/spring-security-custom-login-page"
 	// for role based authentication "https://www.youtube.com/watch?v=_TrpJzuK-p4"
-
 	private static final long serialVersionUID = 1L;
 	private IUser user;
 
@@ -58,4 +56,5 @@ public class MyUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return user.isEnabled();
 	}
+
 }

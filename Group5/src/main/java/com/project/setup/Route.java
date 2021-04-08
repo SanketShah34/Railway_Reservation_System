@@ -7,9 +7,10 @@ public class Route implements IRoute {
 	public IStation source;
 	public IStation destination;
 	public double distance;
-		
-	public Route() {}
-	
+
+	public Route() {
+	}
+
 	public Route(int routeId, IStation source, int sourceId, IStation destination, int destinationId, double distance) {
 		this.routeId = routeId;
 		this.source = source;
@@ -38,7 +39,7 @@ public class Route implements IRoute {
 	public void setDestination(IStation destination) {
 		this.destination = destination;
 	}
-	
+
 	@Override
 	public double getDistance() {
 		return distance;
@@ -78,7 +79,7 @@ public class Route implements IRoute {
 	public void setDestinationId(int destinationId) {
 		this.destinationId = destinationId;
 	}
-	
+
 	@Override
 	public boolean isSourceStationIdNull() {
 		if (this.sourceId <= 0) {
@@ -87,7 +88,7 @@ public class Route implements IRoute {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean isDestinationStationIdNull() {
 		if (this.destinationId <= 0) {
@@ -96,7 +97,7 @@ public class Route implements IRoute {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean isDistanceInvalid() {
 		if (this.distance <= 0) {
@@ -105,7 +106,7 @@ public class Route implements IRoute {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean isSourceAndDestinationSame() {
 		if (this.sourceId == this.destinationId) {
@@ -114,5 +115,5 @@ public class Route implements IRoute {
 			return false;
 		}
 	}
-	
+
 }

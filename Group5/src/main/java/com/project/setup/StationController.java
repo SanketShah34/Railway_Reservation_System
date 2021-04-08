@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class StationController {
-	
+
 	@ModelAttribute("station")
 	public IStation getIStationModelObject(HttpServletRequest request) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		return station;
 	}
 
@@ -27,7 +27,7 @@ public class StationController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		List<IStation> listOfStation = stationDAO.getAllStation();
-		
+
 		model.addAttribute("listOfStation", listOfStation);
 		return "station/station";
 	}
@@ -37,7 +37,7 @@ public class StationController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		List<IStation> listOfStation = stationDAO.getAllStation();
-		
+
 		model.addAttribute("listOfStation", listOfStation);
 		return "station/station";
 	}
@@ -46,7 +46,7 @@ public class StationController {
 	public String showAddStationPage(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		model.addAttribute(station);
 		return "station/addStation";
 	}
@@ -56,14 +56,14 @@ public class StationController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		boolean validOrNot = true;
-		
+
 		if (station.isStationNameInvalid()) {
 			model.addAttribute("ErrorStationName", true);
 			validOrNot = false;
 		}
 		if (station.isStationCodeInvalid()) {
 			model.addAttribute("ErrorStationCode", true);
-			validOrNot = false;  
+			validOrNot = false;
 		}
 		if (station.isStationCityInvalid()) {
 			model.addAttribute("ErrorStationCity", true);
@@ -75,7 +75,7 @@ public class StationController {
 		}
 		if (validOrNot) {
 			boolean isUnique = stationDAO.save(station);
-			
+
 			if (isUnique) {
 				return "redirect:/admin/station/list";
 			} else {
@@ -92,7 +92,7 @@ public class StationController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		boolean validOrNot = true;
-		
+
 		if (station.isStationNameInvalid()) {
 			model.addAttribute("ErrorStationName", true);
 			validOrNot = false;
@@ -111,7 +111,7 @@ public class StationController {
 		}
 		if (validOrNot) {
 			boolean isUnique = stationDAO.save(station);
-			
+
 			if (isUnique) {
 				return "redirect:/admin/station/list";
 			} else {
@@ -128,7 +128,7 @@ public class StationController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		IStation station = stationDAO.getStation(stationId);
-		
+
 		model.addAttribute(station);
 		return "station/editStation";
 	}
@@ -137,7 +137,7 @@ public class StationController {
 	public String deleteStation(@PathVariable(name = "stationId") Integer stationId, Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
-		
+
 		stationDAO.delete(stationId);
 		return "redirect:/admin/station/list";
 	}

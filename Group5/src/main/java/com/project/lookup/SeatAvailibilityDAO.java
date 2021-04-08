@@ -32,14 +32,14 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			statment = connection.prepareCall("{call getBookedTicketsOFThatDay( ? , ? , ?)}");
 			statment.setDate(1, date);
 			statment.setInt(2, train.getTrainId());
 			statment.setInt(3, seatNo);
 			boolean hadResult = statment.execute();
-			
+
 			if (hadResult) {
 				resultSet = statment.getResultSet();
 				while (resultSet.next()) {
@@ -73,13 +73,13 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			statment = connection.prepareCall("{call getReservationId( ? , ? )}");
 			statment.setInt(1, train.getTrainId());
 			statment.setDate(2, date);
 			boolean hadResult = statment.execute();
-			
+
 			if (hadResult) {
 				resultSet = statment.getResultSet();
 				while (resultSet.next()) {
@@ -105,12 +105,12 @@ public class SeatAvailibilityDAO implements ISeatAvailibilityDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			statment = connection.prepareCall("{call getMaximumSeatNo( ? )}");
 			statment.setInt(1, reservationId);
 			boolean hadResult = statment.execute();
-			
+
 			if (hadResult) {
 				resultSet = statment.getResultSet();
 				while (resultSet.next()) {

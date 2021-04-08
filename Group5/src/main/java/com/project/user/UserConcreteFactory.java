@@ -1,7 +1,6 @@
 package com.project.user;
 
 public class UserConcreteFactory extends UserAbstractFactory {
-	
 	private IUser user;
 	private IUserDAO userDAO;
 
@@ -11,7 +10,7 @@ public class UserConcreteFactory extends UserAbstractFactory {
 		}
 		return user;
 	}
-	
+
 	public IUser createNewUser() {
 		return new User();
 	}
@@ -22,8 +21,9 @@ public class UserConcreteFactory extends UserAbstractFactory {
 		}
 		return userDAO;
 	}
-	
+
 	public IUserDAO createNewUserDAO() {
 		return new UserDAO();
 	}
+
 }

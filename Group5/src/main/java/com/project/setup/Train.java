@@ -1,4 +1,5 @@
 package com.project.setup;
+
 import java.sql.Date;
 import java.util.List;
 
@@ -22,9 +23,10 @@ public class Train implements ITrain {
 	public int availableSeat;
 	public double totalDistance;
 	public Date startDate;
-	
-	public Train() {}
-	
+
+	public Train() {
+	}
+
 	public Train(int trainId, int trainCode, String trainName, String trainType, String days, String departureTime,
 			int totalCoaches, String startStation, String middleStations, String endStation) {
 		this.trainId = trainId;
@@ -227,5 +229,6 @@ public class Train implements ITrain {
 	@Override
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
-	}	
+	}
+
 }

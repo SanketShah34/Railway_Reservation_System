@@ -175,17 +175,15 @@ public class TrainCancellation implements ITrainCancellation {
 		ICalculateAmount calculateAmount = cancelTicketAbstractFactory.createNewCalculateAmounts();
 		IReservation reservationInformation = searchPassengerInformationDAO.getAmountPaidOnTicket(ticketsToBeCancelled);
 		double refundedAmount = calculateAmount.calculateRefundAmount(reservationInformation, ticketsToBeCancelled, searchPassengerInformationDAO);
-		searchPassengerInformationDAO.deleteTickets(ticketsToBeCancelled, reservationInformation, refundedAmount);	
 		
+		searchPassengerInformationDAO.deleteTickets(ticketsToBeCancelled, reservationInformation, refundedAmount);	
 	}
-	
 	
 	public DayOfWeek findDay(Date date) {
 		LocalDate localDate = date.toLocalDate();
 		
 		return localDate.getDayOfWeek();
 	}
-	
 	
 	public Date getNextDate(Date date) {
 		LocalDate localDate = date.toLocalDate();

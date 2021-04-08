@@ -52,14 +52,14 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 			timeTrainLeavesStartStationInHour = trains.get(i).getDepartureTime();
 			timeTrainLeavesStartStationInMinutes = hoursToMinuteConverter(timeTrainLeavesStartStationInHour);
 			List<Integer> allStationTrainVisit = trains.get(i).getTotalStation();
-			
+
 			sourceStaion = searchTrain.getSourceStation();
 			destinationStation = searchTrain.getDestinationStation();
 			sourceStationIndex = allStationTrainVisit.indexOf(Integer.parseInt(sourceStaion));
 			destinationStationIndex = allStationTrainVisit.indexOf(Integer.parseInt(destinationStation));
 			for (int k = 0; k < sourceStationIndex; k++) {
 				IRoute route = routeDAO.getRouteByStation(allStationTrainVisit.get(k), allStationTrainVisit.get(k + 1));
-				
+
 				distanceRequiredToReachSourceStationInKm += route.getDistance();
 				timeRequiredByTrainToReachSourceStationInMinutes += MINUTES_TRAIN_STOPS_AT_EACH_STATION;
 			}
@@ -67,7 +67,7 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 					+ (distanceRequiredToReachSourceStationInKm * TIME_REQUIRED_BY_TRAIN_TO_COVER_ONE_KILOMETER);
 			for (int j = 0; j < destinationStationIndex; j++) {
 				IRoute route = routeDAO.getRouteByStation(allStationTrainVisit.get(j), allStationTrainVisit.get(j + 1));
-				
+
 				distanceRequiredForDestinationStationInKm += route.getDistance();
 				timeRequiredByTrainToDestinationStationInMinutes += MINUTES_TRAIN_STOPS_AT_EACH_STATION;
 			}
@@ -94,7 +94,6 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 				trainToBeRemoved.add(i);
 			}
 		}
-
 		for (int t = trainToBeRemoved.size() - 1; t >= 0; t--) {
 			trains.remove(trains.get(trainToBeRemoved.get(t)));
 		}
@@ -120,7 +119,7 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 		boolean trainTravelOnUserdayWhenUserWant = true;
 		String timeAtTrainReachSourceStationInHours = "0:00";
 		String timeAtTrainReachDestinationStationStationInHours = "0:00";
-		
+
 		timeBetweenSourceAndDestinationStationInMinutes = timeRequiredByTrainForDestinationStationInMinutes
 				- timeRequiredByTrainToReachSourceStationInMinutes;
 		totalTimeBetweenStartStationAndSourceStationInMinutes = timeAtTrainStartItsJourneyInMinutes
@@ -135,7 +134,6 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 		timeLeftInDayAfterReachingSourceStationInMinutes = 0;
 		if (timeLeftInFirstDayOfTrainInMinutes > timeRequiredByTrainToReachSourceStationInMinutes) {
 			daytoIncrementInSourceStation = 0;
-
 			timeAtTrainReachSourceStationInMinutes = totalTimeBetweenStartStationAndSourceStationInMinutes;
 			timeLeftInDayAfterReachingSourceStationInMinutes = MINUTES_IN_24HOURS
 					- timeAtTrainReachSourceStationInMinutes;
@@ -162,7 +160,7 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 				timeAtTrainReachSourceStationInHours = minuteToHoursConverter(timeAtTrainReachSourceStationInMinutes);
 				train.setPickUPTime(timeAtTrainReachSourceStationInHours);
 				java.sql.Date sqlDate = new java.sql.Date(searchTrain.getDateOfJourny().getTime());
-				
+
 				train.setPickUPDate(sqlDate);
 			} else {
 				istrainAvailableOnThatDate = false;
@@ -242,14 +240,14 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 		String[] daysArray = null;
 		String dayUserWantTotravel = "";
 		boolean trainTravelThatDayOrNot = false;
-		
+
 		days = train.getDays();
 		daysArray = days.split(",");
 		for (int i = 0; i < daysArray.length; i++) {
 			daysArray[i] = dayCalculation.getDay(daysArray[i], daytoIncrement);
 		}
 		java.sql.Date sqlDate = new java.sql.Date(searchTrain.getDateOfJourny().getTime());
-		
+
 		dayUserWantTotravel = getDaysNameFromDate(sqlDate);
 		trainTravelThatDayOrNot = false;
 		for (int j = 0; j < daysArray.length; j++) {
@@ -279,7 +277,7 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 	public void setStartDateForTrain(ITrain train, int dayToRemove, ISearchTrain searchTrain) {
 		java.sql.Date sqlDate = new java.sql.Date(searchTrain.getDateOfJourny().getTime());
 		Date date = Date.valueOf(sqlDate.toLocalDate().minusDays(dayToRemove));
-		
+
 		train.setStartDate(date);
 	}
 
@@ -288,7 +286,7 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 	@Override
 	public void SetDateForDropUp(ITrain train, int dayTOIncrement, ISearchTrain searchTrain) {
 		Date date = Date.valueOf(train.getStartDate().toLocalDate().plusDays(dayTOIncrement));
-		
+
 		train.setDropUpDate(date);
 	}
 
@@ -296,7 +294,7 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 	public void SetDateForPickUp(ITrain train, int dayTOIncrement, ISearchTrain searchTrain) {
 		java.sql.Date sqlDate = new java.sql.Date(searchTrain.getDateOfJourny().getTime());
 		Date date = Date.valueOf(sqlDate.toLocalDate().plusDays(dayTOIncrement));
-		
+
 		train.setPickUPDate(date);
 	}
 
@@ -304,7 +302,7 @@ public class TrainFilterAndFairCalculation implements ITrainFilterAndFairCalcula
 	public String getDaysNameFromDate(Date dateToBeformate) {
 		Date currentTime = dateToBeformate;
 		SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE");
-		
+
 		return simpleDateformat.format(currentTime);
 	}
 

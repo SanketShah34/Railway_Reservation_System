@@ -14,9 +14,7 @@ import com.project.reservation.ReservationAbstractFactory;
 import com.project.setup.ITrain;
 import com.project.setup.SetupAbstractFactory;
 
-public class SearchPassengerInformationDAO implements ISearchPassengerInformationDAO
-{
-	
+public class SearchPassengerInformationDAO implements ISearchPassengerInformationDAO {
 	public final String FIRSTNAME = "firstName";
 	public final String LASTNAME = "lastName";
 	public final String GENDER = "gender";
@@ -26,7 +24,7 @@ public class SearchPassengerInformationDAO implements ISearchPassengerInformatio
 	public final String PNR_NUMBER = "reservationId";
 	public final String AMOUNT_PAID = "amountPaid";
 	public final String TRAIN_TYPE = "trainType";
-	public final String START_DATE = "startDate"; 
+	public final String START_DATE = "startDate";
 	public final String AMOUNT_INDIVIDUAL = "amount";
 	public final String DEPARTURE_TIME = "departureTime";
 	public final String TRAIN_ID = "trainId";
@@ -34,31 +32,29 @@ public class SearchPassengerInformationDAO implements ISearchPassengerInformatio
 	public final String DESTINATION_STATION_ID = "destinationStationId";
 	public final String SOURCE_STATION_ID = "sourceStationId";
 	public final String TRAIN_CANCEL = "trainCancel";
-	
-	//public final double TWENTY_PERCENT = 0.2;
-	//public final double FIFTY_PERCENT = 0.5;
-	//public final String ADD_SECONDS = ":00";
-	
-	List<IPassengerInformation> passengerInfoList =   new ArrayList<IPassengerInformation>(); ;
+	List<IPassengerInformation> passengerInfoList = new ArrayList<IPassengerInformation>();;
 
 	@Override
-	public List<IPassengerInformation> searchPassengerInfoByPNR(String pnrNumber)
-	{
+	public List<IPassengerInformation> searchPassengerInfoByPNR(String pnrNumber) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
+
 		passengerInfoList.removeAll(passengerInfoList);
 		try {
 			statement = connection.prepareCall("{call getTicketInformation(?)}");
 			statement.setString(1, pnrNumber);
-			boolean hadResult =  statement.execute();
-			if(hadResult) {
+			boolean hadResult = statement.execute();
+
+			if (hadResult) {
 				resultSet = statement.getResultSet();
-				while(resultSet.next()) {
-					IPassengerInformation passengerInformation = reservationAbstractFactory.createNewPassengerInformation(); 
+				while (resultSet.next()) {
+					IPassengerInformation passengerInformation = reservationAbstractFactory
+							.createNewPassengerInformation();
+
 					passengerInformation.setPassengerInformationId(resultSet.getInt(PASSENGER_INFORMATION_ID));
 					passengerInformation.setFirstName(resultSet.getString(FIRSTNAME));
 					passengerInformation.setLastName(resultSet.getString(LASTNAME));
@@ -85,19 +81,20 @@ public class SearchPassengerInformationDAO implements ISearchPassengerInformatio
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
-		
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
 		int id = idList.get(0);
 		String pnrNumber = getPnrNumber(id);
+
 		try {
 			statement = connection.prepareCall("{call getAmountPaid(?)}");
 			statement.setString(1, pnrNumber);
-			boolean hadResult =  statement.execute();
-			if(hadResult) {
+			boolean hadResult = statement.execute();
+
+			if (hadResult) {
 				resultSet = statement.getResultSet();
-				while(resultSet.next()) {					
+				while (resultSet.next()) {
 					reservation.setAmountPaid(resultSet.getDouble(AMOUNT_PAID));
 					reservation.setDestinationStationId(resultSet.getInt(DESTINATION_STATION_ID));
 					reservation.setReservationId(resultSet.getInt(PNR_NUMBER));
@@ -118,23 +115,24 @@ public class SearchPassengerInformationDAO implements ISearchPassengerInformatio
 		}
 		return reservation;
 	}
-	
+
 	@Override
 	public String getPnrNumber(int id) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
-		
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
 		String pnrNumber = null;
+
 		try {
 			statement = connection.prepareCall("{call getPNRNumber(?)}");
 			statement.setInt(1, id);
-			boolean hadResult =  statement.execute();
-			if(hadResult) {
+			boolean hadResult = statement.execute();
+
+			if (hadResult) {
 				resultSet = statement.getResultSet();
-				while(resultSet.next()) {
+				while (resultSet.next()) {
 					pnrNumber = resultSet.getString(PNR_NUMBER);
 				}
 			}
@@ -147,24 +145,25 @@ public class SearchPassengerInformationDAO implements ISearchPassengerInformatio
 		}
 		return pnrNumber;
 	}
-	
+
 	@Override
 	public ITrain getTrainDetails(int trainId) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		ITrain train = setupAbstractFactory.createNewTrain();
-		
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
+
 		try {
 			statement = connection.prepareCall("{call getTrainDetails(?)}");
 			statement.setInt(1, trainId);
-			boolean hadResult =  statement.execute();
-			if(hadResult) {
+			boolean hadResult = statement.execute();
+
+			if (hadResult) {
 				resultSet = statement.getResultSet();
-				while(resultSet.next()) {
+				while (resultSet.next()) {
 					train.setDepartureTime(resultSet.getString(DEPARTURE_TIME));
 					train.setTrainType(resultSet.getString(TRAIN_TYPE));
 				}
@@ -183,32 +182,33 @@ public class SearchPassengerInformationDAO implements ISearchPassengerInformatio
 	public void deleteTickets(List<Integer> idList, IReservation reservation, double refundedAmount) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
-		
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statment = null;
 		CallableStatement statment1 = null;
 		String pnrNumber = null;
 		int idForPnr = idList.get(0);
+
 		pnrNumber = getPnrNumber(idForPnr);
 		Double amountPaid = reservation.getAmountPaid();
 		int totalTicketBooked = reservation.getTicketBooked();
 		int remainingTickets = totalTicketBooked - idList.size();
 		int deletedTicket = 0;
-		if(remainingTickets == 0) {
+
+		if (remainingTickets == 0) {
 			deletedTicket = 1;
 		}
 		Double finalAmount = amountPaid - refundedAmount;
+
 		try {
-			for(Integer id : idList) {
+			for (Integer id : idList) {
 				statment = connection.prepareCall("{call deleteTicketRecords(?)}");
 				statment.setInt(1, id);
 				statment.execute();
 			}
 			statment1 = connection.prepareCall("{call updateReservationRecords(?, ?, ?)}");
-			statment1.setString(1, pnrNumber); 
+			statment1.setString(1, pnrNumber);
 			statment1.setDouble(2, finalAmount);
 			statment1.setDouble(3, deletedTicket);
-			
 			statment1.execute();
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -218,4 +218,5 @@ public class SearchPassengerInformationDAO implements ISearchPassengerInformatio
 			databaseUtilities.closeConnection(connection);
 		}
 	}
+
 }

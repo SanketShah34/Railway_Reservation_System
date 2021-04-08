@@ -28,7 +28,7 @@ public class CancelTrainController {
 	public ICancelTrain getIRouteModelObject(HttpServletRequest request) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		ICancelTrain cancelTrain = setupAbstractFactory.createNewCancelTrain();
-		
+
 		return cancelTrain;
 	}
 
@@ -36,7 +36,7 @@ public class CancelTrainController {
 	public String displayCancelTrain(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		ICancelTrain cancelTrain = setupAbstractFactory.createNewCancelTrain();
-		
+
 		model.addAttribute("cancelTrain", cancelTrain);
 		return "cancelTrain/cancelTrain";
 	}
@@ -48,7 +48,8 @@ public class CancelTrainController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		CancelTrainAbstractFactory cancelTrainAbstractFactory = CancelTrainAbstractFactory.instance();
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInformationDAO searchPassengerInformationDAO = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		ISearchPassengerInformationDAO searchPassengerInformationDAO = cancelTicketAbstractFactory
+				.createNewSearchPassengerInfo();
 		IReservationDAO reservationDAO = reservationAbstractFactory.createNewReservationDAO();
 		ISearchTrainDAO searchTrainDAO = lookupAbstractFactory.createSearchTrainDAO();
 		IRouteDAO routeDAO = setupAbstractFactory.createNewRouteDAO();
@@ -57,7 +58,8 @@ public class CancelTrainController {
 		ITrainCancellation trainCancellation = cancelTrainAbstractFactory.createNewTrainCancellation();
 		List<IReservation> reservationList = trainCancellationDAO.fetchAllReservations(cancelTrain);
 
-		trainCancellation.cancelOrRescheduleTicket(reservationList, searchTrainDAO, routeDAO, seatAvailabilityDAO, searchPassengerInformationDAO, reservationDAO);
+		trainCancellation.cancelOrRescheduleTicket(reservationList, searchTrainDAO, routeDAO, seatAvailabilityDAO,
+				searchPassengerInformationDAO, reservationDAO);
 		return "home";
 	}
 

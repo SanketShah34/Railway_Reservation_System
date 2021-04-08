@@ -7,9 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import com.project.user.IUser;
 
-public class SecurityConcreteFactoryTest extends SecurityAbstractFactoryTest{
-	
-	private UserDetailsService userDetailService ;
+public class SecurityConcreteFactoryTest extends SecurityAbstractFactoryTest {
+	private UserDetailsService userDetailService;
 	private BCryptPasswordEncoder passwordEncoder;
 	private DaoAuthenticationProvider authenticationProvider;
 	private AuthenticationSuccessHandler successHandler;
@@ -17,41 +16,42 @@ public class SecurityConcreteFactoryTest extends SecurityAbstractFactoryTest{
 
 	@Override
 	public UserDetailsService createUserDetailsService() {
-		if(userDetailService == null) {
+		if (userDetailService == null) {
 			userDetailService = new UserDetailsServiceImpl();
-    	}
-    	return userDetailService;
+		}
+		return userDetailService;
 	}
 
 	@Override
 	public BCryptPasswordEncoder createPasswordEncoder() {
-			if(passwordEncoder == null) {
-				passwordEncoder = new BCryptPasswordEncoder();
-	    	}
-	    	return passwordEncoder;
+		if (passwordEncoder == null) {
+			passwordEncoder = new BCryptPasswordEncoder();
+		}
+		return passwordEncoder;
 	}
 
 	@Override
 	public DaoAuthenticationProvider createAuthenticationprovider() {
-		if(authenticationProvider == null) {
+		if (authenticationProvider == null) {
 			authenticationProvider = new DaoAuthenticationProvider();
-    	}
-    	return authenticationProvider;
+		}
+		return authenticationProvider;
 	}
 
 	@Override
 	public AuthenticationSuccessHandler createCustomeSuccessHandler() {
-			if(successHandler == null) {
-				successHandler = new CustomSuccessHandler();
-	    	}
-	    	return successHandler; 
+		if (successHandler == null) {
+			successHandler = new CustomSuccessHandler();
+		}
+		return successHandler;
 	}
 
 	@Override
 	public UserDetails createMyUserDetail(IUser user) {
-			if(userDetail == null) {
-				userDetail = new MyUserDetails(user);
-	    	}
-	    	return userDetail; 
+		if (userDetail == null) {
+			userDetail = new MyUserDetails(user);
+		}
+		return userDetail;
 	}
+
 }

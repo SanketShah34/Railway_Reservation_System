@@ -23,13 +23,17 @@ public class TrainDAO implements ITrainDAO {
 		List<Train> listOfTrain = new ArrayList<Train>();
 		listOfTrain.removeAll(listOfTrain);
 		CallableStatement statement = null;
+
 		try {
 			statement = connectionection.prepareCall("{call getAllTrain()}");
 			boolean hasResultsForList = statement.execute();
+
 			if (hasResultsForList) {
 				ResultSet resultSet = statement.getResultSet();
+
 				while (resultSet.next()) {
 					Train train = new Train();
+
 					train.setTrainId(resultSet.getInt(1));
 					train.setTrainCode(resultSet.getInt(2));
 					train.setTrainName(resultSet.getString(3));
@@ -41,19 +45,22 @@ public class TrainDAO implements ITrainDAO {
 					train.setMiddleStations(resultSet.getString(9));
 					train.setEndStation(resultSet.getString(10));
 					String middleStationString = "";
+
 					if (resultSet.getString(9) == null) {
 
 					} else {
 						String[] middleStations = resultSet.getString(9).split(",");
+
 						for (String midd : middleStations) {
 							int middle = Integer.parseInt(midd);
 							CallableStatement statement1 = connectionection.prepareCall("{call getMiddleStation(?)}");
+
 							statement1.setInt(1, middle);
 							boolean hasResultsForList1 = statement1.execute();
 
 							if (hasResultsForList1) {
-
 								ResultSet resultSet1 = statement1.getResultSet();
+
 								while (resultSet1.next()) {
 									middleStationString += resultSet1.getString(1) + ",";
 								}
@@ -79,10 +86,12 @@ public class TrainDAO implements ITrainDAO {
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		boolean validRoute = validateRoutes(connection, train);
+
 		if (validRoute) {
 			if (train.getTrainId() == 0) {
 				try {
 					CallableStatement statement = connection.prepareCall("{call addTrain( ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+
 					statement.setInt(1, train.getTrainCode());
 					statement.setString(2, train.getTrainName());
 					statement.setString(3, train.getTrainType());
@@ -126,16 +135,19 @@ public class TrainDAO implements ITrainDAO {
 
 	private boolean validateRoutes(Connection connection, ITrain train) {
 		List<Integer> allStations = new ArrayList<>();
+
 		allStations.add(Integer.parseInt(train.getStartStation()));
 		if (train.getMiddleStations() == null) {
 		} else {
 			String[] middleStationsList = train.getMiddleStations().split(",");
+
 			for (String mid : middleStationsList) {
 				allStations.add(Integer.parseInt(mid));
 			}
 		}
 		allStations.add(Integer.parseInt(train.getEndStation()));
 		boolean routeFound = true;
+
 		for (int i = 0; i < allStations.size() - 1; i++) {
 			CallableStatement statement;
 			try {
@@ -143,9 +155,11 @@ public class TrainDAO implements ITrainDAO {
 				statement.setInt(1, allStations.get(i));
 				statement.setInt(2, allStations.get(i + 1));
 				boolean hasResultsForList1 = statement.execute();
+
 				if (hasResultsForList1) {
 					ResultSet resultSet = statement.getResultSet();
 					int routeId = -1;
+
 					while (resultSet.next()) {
 						routeId = resultSet.getInt(1);
 					}
@@ -170,14 +184,16 @@ public class TrainDAO implements ITrainDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ITrain train = new Train();
+
 		try {
 			statement = connection.prepareCall("{call getTrain(?)}");
 			statement.setInt(1, trainId);
 			boolean hasResult = statement.execute();
+
 			if (hasResult) {
 				ResultSet resultSet = statement.getResultSet();
+
 				while (resultSet.next()) {
-					
 					train.setTrainId(resultSet.getInt(1));
 					train.setTrainCode(resultSet.getInt(2));
 					train.setTrainName(resultSet.getString(3));
@@ -205,6 +221,7 @@ public class TrainDAO implements ITrainDAO {
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
+
 		try {
 			statement = connection.prepareCall("{call deleteTrain( ? )}");
 			statement.setInt(1, trainId);

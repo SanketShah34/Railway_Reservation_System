@@ -3,7 +3,7 @@ package com.project.lookup;
 import java.sql.Date;
 
 public class BookedTicketsMock {
-	
+
 	public IBookedTickets createBookedTicketsMockForSeatNumberOne(IBookedTickets bookedTicket) {
 		bookedTicket.setReservationId(1);
 		bookedTicket.setTrainId(1);
@@ -15,7 +15,7 @@ public class BookedTicketsMock {
 		bookedTicket.setUserId(1);
 		return bookedTicket;
 	}
-	
+
 	public IBookedTickets createBookedTicketsMockForSeatNumberTwo(IBookedTickets bookedTicket) {
 		bookedTicket.setReservationId(2);
 		bookedTicket.setTrainId(1);

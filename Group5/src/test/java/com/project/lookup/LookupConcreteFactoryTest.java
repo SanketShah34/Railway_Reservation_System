@@ -1,13 +1,12 @@
 package com.project.lookup;
 
-
 public class LookupConcreteFactoryTest extends LookupAbstractFactoryTest {
 
 	@Override
 	public SearchTrainMock createSearchTrainMock() {
 		return new SearchTrainMock();
 	}
-	
+
 	@Override
 	public SeatAvailibilityDAOMock createSeatAvailibilityDAOMock() {
 		return new SeatAvailibilityDAOMock();
@@ -22,6 +21,5 @@ public class LookupConcreteFactoryTest extends LookupAbstractFactoryTest {
 	public SearchTrainDAOMock createSearchTrainDAOMock() {
 		return new SearchTrainDAOMock();
 	}
-	
-}
 
+}

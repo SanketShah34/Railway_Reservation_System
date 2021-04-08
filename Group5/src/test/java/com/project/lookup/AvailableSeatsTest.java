@@ -27,13 +27,13 @@ class AvailableSeatsTest {
 		SearchTrainMock searchTrainMock = lookupAbstractFactoryTest.createSearchTrainMock();
 		List<ITrain> listOfTrain = new ArrayList<ITrain>();
 		IAvailableSeats availableSeats = lookupAbstractFactory.createAvaliableSeats();
-		
+
 		availableSeats.findAvailableSeats(listOfTrain, searchTrain, seatAvailibilityDAOMock);
 		listOfTrain.add(train);
 		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
 		train = trainMock.createTrainMock(train);
-	
-		assertEquals(50 , listOfTrain.get(0).getAvailableSeat());
+
+		assertEquals(50, listOfTrain.get(0).getAvailableSeat());
 	}
 
 	@Test
@@ -48,12 +48,12 @@ class AvailableSeatsTest {
 		ISeatAvailibilityDAO seatAvailibilityDAOMock = lookupAbstractFactoryTest.createSeatAvailibilityDAOMock();
 		SearchTrainMock searchTrainMock = lookupAbstractFactoryTest.createSearchTrainMock();
 		IAvailableSeats availableSeats = lookupAbstractFactory.createAvaliableSeats();
-		
+
 		train = trainMock.createTrainMock(train);
 		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
 		availableSeats.findAvailableSeatCountInSingleTrain(train, searchTrain, seatAvailibilityDAOMock);
-		
-		assertEquals(222 ,train.getAvailableSeat());
+
+		assertEquals(222, train.getAvailableSeat());
 	}
 
 	@Test
@@ -67,18 +67,18 @@ class AvailableSeatsTest {
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
 		SearchTrainMock searchTrainMock = lookupAbstractFactoryTest.createSearchTrainMock();
 		IAvailableSeats availableSeats = lookupAbstractFactory.createAvaliableSeats();
-		
+
 		train = trainMock.createTrainMock(train);
 		searchTrain = searchTrainMock.createSearchTrainMock(searchTrain);
-		
+
 		List<Integer> middleStation = availableSeats.listOfMiddleStation(train, searchTrain);
 		List<Integer> middleStationForTest = new ArrayList<Integer>();
-		
+
 		middleStationForTest.add(1);
 		middleStationForTest.add(2);
 		middleStationForTest.add(3);
 		middleStationForTest.add(4);
-		
+
 		assertEquals(middleStation, middleStationForTest);
 	}
 
@@ -92,9 +92,9 @@ class AvailableSeatsTest {
 		ITrain train = setupAbstractFactory.createNewTrain();
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
 		IAvailableSeats availableSeats = lookupAbstractFactory.createAvaliableSeats();
-		
+
 		train = trainMock.createTrainMock(train);
-		
+
 		assertEquals(2,
 				availableSeats.findMaximumSeatInSingleTrain(train, new Date(61202516585000L), seatAvailibilityDAOMock));
 	}

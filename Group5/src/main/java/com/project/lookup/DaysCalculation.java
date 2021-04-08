@@ -55,5 +55,5 @@ public class DaysCalculation implements IDayCalculation {
 		dayAfterIncrement = dayList.get(newIndex).dayName;
 		return dayAfterIncrement;
 	}
-	
+
 }

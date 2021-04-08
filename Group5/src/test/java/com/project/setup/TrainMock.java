@@ -4,18 +4,15 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class TrainMock {
 
 	public ITrain createTrainMock(ITrain train) {
-		
-		List<Integer> totalStation= new ArrayList<Integer>();
+		List<Integer> totalStation = new ArrayList<Integer>();
+
 		totalStation.add(1);
 		totalStation.add(2);
 		totalStation.add(3);
 		totalStation.add(4);
-		
 		train.setTrainId(1);
 		train.setTrainCode(1);
 		train.setTrainName("Halifax Express");
@@ -35,4 +32,5 @@ public class TrainMock {
 		train.setStartDate(new Date(System.currentTimeMillis()));
 		return train;
 	}
+
 }

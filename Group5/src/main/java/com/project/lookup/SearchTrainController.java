@@ -23,7 +23,7 @@ import com.project.setup.SetupAbstractFactory;
 @Controller
 public class SearchTrainController {
 	private final String DATE_OF_JOURNEY = "dateofJourny";
-	
+
 	@ModelAttribute("searchTrain")
 	public ISearchTrain getISearchStationModelObject(HttpServletRequest request) {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
@@ -84,7 +84,7 @@ public class SearchTrainController {
 		if (hasError) {
 			List<IStation> sourceStations = stationDAO.getAllStation();
 			List<IStation> destinationStations = stationDAO.getAllStation();
-			
+
 			model.addAttribute("listOfSourceStations", sourceStations);
 			model.addAttribute("listOfDestinationStations", destinationStations);
 			return "searchTrain/searchTrain";

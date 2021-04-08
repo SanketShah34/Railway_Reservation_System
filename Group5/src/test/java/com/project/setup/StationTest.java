@@ -12,7 +12,7 @@ class StationTest {
 	@Test
 	void testGetStationId() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationId(1);
 
 		assertEquals(station.getStationId(), 1);
@@ -21,7 +21,7 @@ class StationTest {
 	@Test
 	void testSetStationId() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationId(1);
 
 		assertEquals(station.getStationId(), 1);
@@ -30,7 +30,7 @@ class StationTest {
 	@Test
 	void testGetStationName() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationName("Halifax");
 
 		assertEquals(station.getStationName(), "Halifax");
@@ -39,7 +39,7 @@ class StationTest {
 	@Test
 	void testSetStationName() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationName("Halifax");
 
 		assertEquals(station.getStationName(), "Halifax");
@@ -48,7 +48,7 @@ class StationTest {
 	@Test
 	void testGetStationCode() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationCode("HAL");
 
 		assertEquals(station.getStationCode(), "HAL");
@@ -57,7 +57,7 @@ class StationTest {
 	@Test
 	void testSetStationCode() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationCode("HAL");
 
 		assertEquals(station.getStationCode(), "HAL");
@@ -66,7 +66,7 @@ class StationTest {
 	@Test
 	void testGetStationState() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationState("Connective");
 
 		assertEquals(station.getStationState(), "Connective");
@@ -75,7 +75,7 @@ class StationTest {
 	@Test
 	void testSetStationState() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationState("Connective");
 
 		assertEquals(station.getStationState(), "Connective");
@@ -84,7 +84,7 @@ class StationTest {
 	@Test
 	void testGetStationCity() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationCity("University");
 
 		assertEquals(station.getStationCity(), "University");
@@ -93,7 +93,7 @@ class StationTest {
 	@Test
 	void testSetStationCity() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationCity("University");
 
 		assertEquals(station.getStationCity(), "University");
@@ -102,7 +102,7 @@ class StationTest {
 	@Test
 	void testIsStationNameInvalid() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationName("Halifax");
 		assertFalse(station.isStationNameInvalid());
 
@@ -116,7 +116,7 @@ class StationTest {
 	@Test
 	void testIsStationCodeInvalid() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationCode("Halifax");
 		assertFalse(station.isStationCodeInvalid());
 
@@ -130,7 +130,7 @@ class StationTest {
 	@Test
 	void testIsStationStateInvalid() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationState("Halifax");
 		assertFalse(station.isStationStateInvalid());
 
@@ -144,7 +144,7 @@ class StationTest {
 	@Test
 	void testIsStationCityInvalid() {
 		IStation station = setupAbstractFactory.createNewStation();
-		
+
 		station.setStationCity("Halifax");
 		assertFalse(station.isStationCityInvalid());
 

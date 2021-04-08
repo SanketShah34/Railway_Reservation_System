@@ -4,14 +4,14 @@ import java.util.List;
 
 public interface IStationDAO {
 
-	public boolean save(IStation station);
+	boolean save(IStation station);
 
-	public List<IStation> getAllStation();
+	List<IStation> getAllStation();
 
-	public IStation getStation(Integer stationId);
+	IStation getStation(Integer stationId);
 
-	public void delete(Integer stationId);
+	void delete(Integer stationId);
 
-	public boolean isStationUnique(String stationName, String stationCode, int stationId);
-	
+	boolean isStationUnique(String stationName, String stationCode, int stationId);
+
 }

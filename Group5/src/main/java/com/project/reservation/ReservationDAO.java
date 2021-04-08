@@ -10,21 +10,21 @@ import com.project.database.IDatabaseUtilities;
 
 public class ReservationDAO implements IReservationDAO {
 	public final String RESERVATION_ID = "reservationId";
-	public final String TRAIN_ID = "trainId"; 
-	public final String RESERVATION_DATE = "reservationDate"; 
+	public final String TRAIN_ID = "trainId";
+	public final String RESERVATION_DATE = "reservationDate";
 	public final String SOURCE_STATION_ID = "sourceStationId";
-	public final String DESTINATION_STATION_ID = "destinationStationId"; 
+	public final String DESTINATION_STATION_ID = "destinationStationId";
 	public final String AMOUNT_PAID = "amountPaid";
 	public final String TRAIN_TYPE = "trainType";
-	
+
 	@Override
-	public IReservation saveReservationInformation(IReservation reservation){
+	public IReservation saveReservationInformation(IReservation reservation) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			statement = connection.prepareCall("{call addReservation( ? , ? , ?, ?, ?, ?, ?, ?)}");
 			statement.setInt(1, reservation.getTrainId());
@@ -36,10 +36,10 @@ public class ReservationDAO implements IReservationDAO {
 			statement.setString(7, reservation.getTrainCancelEvent());
 			statement.setDate(8, reservation.getStartDate());
 			resultSet = statement.executeQuery();
-			while(resultSet.next()) {
-				 int reservationId = resultSet.getInt(RESERVATION_ID);
-				 
-				 reservation.setReservationId(reservationId);
+			while (resultSet.next()) {
+				int reservationId = resultSet.getInt(RESERVATION_ID);
+
+				reservation.setReservationId(reservationId);
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -55,16 +55,16 @@ public class ReservationDAO implements IReservationDAO {
 	public void savePassengerInformation(IReservation reservation) {
 		if (reservation.getReservationId() > 0) {
 			DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
-			IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
+			IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 			Connection connection = databaseUtilities.establishConnection();
 			CallableStatement statement = null;
-			
+
 			try {
 				statement = connection.prepareCall("{call addPassengerInformation( ? , ? , ?, ?, ?, ?, ?, ?, ?)}");
 				if (reservation.getPassengerInformation().size() > 0) {
-					for(int index = 0; index < reservation.getPassengerInformation().size(); index++) {
+					for (int index = 0; index < reservation.getPassengerInformation().size(); index++) {
 						IPassengerInformation passengerInformation = reservation.getPassengerInformation().get(index);
-						
+
 						statement.setInt(1, reservation.getReservationId());
 						statement.setString(2, passengerInformation.getFirstName());
 						statement.setString(3, passengerInformation.getLastName());
@@ -77,7 +77,6 @@ public class ReservationDAO implements IReservationDAO {
 						statement.execute();
 					}
 				}
-				
 			} catch (SQLException exception) {
 				exception.printStackTrace();
 			} finally {
@@ -85,7 +84,6 @@ public class ReservationDAO implements IReservationDAO {
 				databaseUtilities.closeConnection(connection);
 			}
 		}
-		
 	}
 
 }

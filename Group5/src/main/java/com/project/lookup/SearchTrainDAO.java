@@ -41,11 +41,12 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 			statement.setInt(2, Integer.parseInt(searchTrain.getDestinationStation()));
 			String searchStringForSourceStation = '%' + searchTrain.getSourceStation() + '%';
 			String searchStringForDestinationStation = '%' + searchTrain.getDestinationStation() + '%';
+
 			statement.setString(3, searchStringForSourceStation);
 			statement.setString(4, searchStringForDestinationStation);
 			statement.setString(5, searchTrain.getTrainType());
 			boolean hadResultsForList = statement.execute();
-			
+
 			if (hadResultsForList) {
 				resultSet = statement.getResultSet();
 				while (resultSet.next()) {
@@ -62,10 +63,10 @@ public class SearchTrainDAO implements ISearchTrainDAO {
 					train.setStartStation(resultSet.getString(START_STATION));
 					allStations.add(Integer.parseInt(train.getStartStation()));
 					train.setMiddleStations(resultSet.getString(MIDDLE_STATION));
-
 					if (train.getMiddleStations() == null) {
 					} else {
 						String[] middleStationsList = train.getMiddleStations().split(",");
+
 						for (String middleStation : middleStationsList) {
 							allStations.add(Integer.parseInt(middleStation));
 						}

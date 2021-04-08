@@ -83,7 +83,7 @@ public class SearchTrain implements ISearchTrain {
 	public boolean isDatePreviousDate(Date date) {
 		Date a = new Date(System.currentTimeMillis());
 		Date b = (Date) date;
-		
+
 		if (a.compareTo(b) == 1) {
 			return true;
 		} else {
@@ -102,13 +102,13 @@ public class SearchTrain implements ISearchTrain {
 		try {
 			dateParse = (Date) formatter.parse(dateStr);
 			Calendar cal = Calendar.getInstance();
-			
+
 			cal.setTime(dateParse);
 			String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/"
 					+ cal.get(Calendar.YEAR);
-			
+
 			String dateSplit[] = formatedDate.split("/");
-			
+
 			// https://mkyong.com/java8/java-check-if-the-date-is-older-than-6-months/
 			LocalDate currentDate = LocalDate.now();
 			LocalDate currentDatePlusMonths = currentDate.plusMonths(1);

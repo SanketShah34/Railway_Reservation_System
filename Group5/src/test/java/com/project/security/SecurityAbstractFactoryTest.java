@@ -7,24 +7,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import com.project.user.IUser;
 
-public abstract class SecurityAbstractFactoryTest 
-{
-private static SecurityAbstractFactory instance = null;
-	
-	public abstract UserDetailsService createUserDetailsService();
-	
-	public abstract BCryptPasswordEncoder createPasswordEncoder();
-	
-	public abstract DaoAuthenticationProvider createAuthenticationprovider();
-	
-	public abstract AuthenticationSuccessHandler createCustomeSuccessHandler();
-	
-	public abstract UserDetails createMyUserDetail(IUser user);
-	
+public abstract class SecurityAbstractFactoryTest {
+	private static SecurityAbstractFactory instance = null;
+
 	public static SecurityAbstractFactory instance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new SecurityConcreteFactory();
 		}
 		return instance;
 	}
+
+	public abstract UserDetailsService createUserDetailsService();
+
+	public abstract BCryptPasswordEncoder createPasswordEncoder();
+
+	public abstract DaoAuthenticationProvider createAuthenticationprovider();
+
+	public abstract AuthenticationSuccessHandler createCustomeSuccessHandler();
+
+	public abstract UserDetails createMyUserDetail(IUser user);
+	
 }

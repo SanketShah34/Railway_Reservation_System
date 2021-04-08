@@ -72,7 +72,7 @@ public class Station implements IStation {
 	@Override
 	public boolean isStationNameInvalid() {
 		String StationNameWithoutSpace = this.stationName.trim();
-		
+
 		if (StationNameWithoutSpace.length() > 0) {
 			return false;
 		}
@@ -82,7 +82,7 @@ public class Station implements IStation {
 	@Override
 	public boolean isStationCodeInvalid() {
 		String StationCodeWithoutSpace = this.stationCode.trim();
-		
+
 		if (StationCodeWithoutSpace.length() > 0) {
 			return false;
 		}
@@ -92,7 +92,7 @@ public class Station implements IStation {
 	@Override
 	public boolean isStationStateInvalid() {
 		String StationStateWithoutSpace = this.stationState.trim();
-		
+
 		if (StationStateWithoutSpace.length() > 0) {
 			return false;
 		}
@@ -102,7 +102,7 @@ public class Station implements IStation {
 	@Override
 	public boolean isStationCityInvalid() {
 		String StationCityWithoutSpace = this.stationCity.trim();
-		
+
 		if (StationCityWithoutSpace.length() > 0) {
 			return false;
 		}

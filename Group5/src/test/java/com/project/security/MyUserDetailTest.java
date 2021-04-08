@@ -8,10 +8,9 @@ import com.project.user.IUser;
 import com.project.user.UserAbstractFactory;
 
 @SuppressWarnings("deprecation")
-public class MyUserDetailTest implements UserDetails
-{
+public class MyUserDetailTest implements UserDetails {
 	private static final long serialVersionUID = 1L;
-	UserAbstractFactory userAbstractFactory =  UserAbstractFactory.instance();
+	UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 	IUser user = userAbstractFactory.createUser();
 
 	@Override
@@ -22,15 +21,15 @@ public class MyUserDetailTest implements UserDetails
 	@Override
 	public String getPassword() {
 		user.setPassword("Dhara");
-        Assert.isTrue(user.getPassword().equals("Dhara"));
-        return "Dhara";
+		Assert.isTrue(user.getPassword().equals("Dhara"));
+		return "Dhara";
 	}
 
 	@Override
 	public String getUsername() {
 		user.setUserName("dhara@gmail.com");
-        Assert.isTrue(user.getUserName().equals("dhara@gmail.com"));
-        return "dhara@gmail.com";
+		Assert.isTrue(user.getUserName().equals("dhara@gmail.com"));
+		return "dhara@gmail.com";
 	}
 
 	@Override
@@ -51,7 +50,8 @@ public class MyUserDetailTest implements UserDetails
 	@Override
 	public boolean isEnabled() {
 		user.setEnabled(true);
-        Assert.isTrue(user.isEnabled() == true);
+		Assert.isTrue(user.isEnabled() == true);
 		return true;
 	}
+
 }

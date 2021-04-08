@@ -16,7 +16,7 @@ public class SeatAvailibilityDAOMock implements ISeatAvailibilityDAO {
 		IBookedTickets bookedTicketsWithSeatNumberTwo = lookupAbstractFactory.createBookedTickets();
 		BookedTicketsMock bookedTicketsMock = lookupAbstractFactoryTest.createBookedTicketsMock();
 		List<IBookedTickets> bookedTickets = new ArrayList<IBookedTickets>();
-		
+
 		bookedTicketsWithSeatNumberOne = bookedTicketsMock
 				.createBookedTicketsMockForSeatNumberOne(bookedTicketsWithSeatNumberOne);
 		bookedTicketsWithSeatNumberTwo = bookedTicketsMock
@@ -29,7 +29,7 @@ public class SeatAvailibilityDAOMock implements ISeatAvailibilityDAO {
 	@Override
 	public List<Integer> getReservationId(ITrain train, Date date) {
 		List<Integer> reservationId = new ArrayList<Integer>();
-		
+
 		reservationId.add(1);
 		reservationId.add(2);
 		return reservationId;

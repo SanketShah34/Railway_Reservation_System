@@ -41,7 +41,8 @@ public interface IReservation {
 
 	void calculateTotalReservationFare(IReservation reservation);
 
-	void addInPassengerInformationList(List<IPassengerInformation> passengerInformationList, IPassengerInformation passengerInformation);
+	void addInPassengerInformationList(List<IPassengerInformation> passengerInformationList,
+			IPassengerInformation passengerInformation);
 
 	void removeEmptyPassengerRow(IReservation reservation);
 
@@ -60,9 +61,9 @@ public interface IReservation {
 	void setTicketBooked(int ticketBooked);
 
 	int getTicketBooked();
-	
+
 	void setDeletedTicket(int deletedTicket);
-	
+
 	int getDeletedTicket();
 
 }

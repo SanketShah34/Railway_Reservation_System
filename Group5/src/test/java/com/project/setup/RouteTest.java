@@ -45,7 +45,6 @@ public class RouteTest {
 
 	@Test
 	public void testSetDestination() {
-
 		IRoute route = setupAbstractFactory.createNewRoute();
 		IStation station = setupAbstractFactory.createNewStation();
 		StationMock stationMock = setupAbstractFactoryTest.createStationMock();
@@ -122,10 +121,10 @@ public class RouteTest {
 	@Test
 	public void testSetDestinationId() {
 		IRoute route = setupAbstractFactory.createNewRoute();
-		
+
 		route.setDestinationId(1);
-		
-		assertEquals(1 ,route.getDestinationId() );
+
+		assertEquals(1, route.getDestinationId());
 	}
 
 }

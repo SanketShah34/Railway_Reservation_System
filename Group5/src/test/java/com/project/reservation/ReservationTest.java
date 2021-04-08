@@ -294,51 +294,55 @@ class ReservationTest {
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		ReservationMock reservationMock = reservationAbstractFactoryTest.createReservationMock();
 		reservation = reservationMock.creteReservationMock(reservation);
-		
+
 		List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(0);
 		reservation.setPassengerInformation(passengerInformationList);
 		assertEquals(reservation.validateReservation(reservation), ReservationInformationErrorCodes.emptyPassengerList);
-		
-		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
-		
-		IPassengerInformation passengerWithNegativeAge = reservationAbstractFactory.createNewPassengerInformation();
-		reservation.addInPassengerInformationList(passengerInformationList, passengerMock.createPassengerMockAgeNegative(passengerWithNegativeAge));
-		reservation.setPassengerInformation(passengerInformationList);
-		
-		IPassengerInformation passengerWithZeroAge = reservationAbstractFactory.createNewPassengerInformation();
-		reservation.addInPassengerInformationList(passengerInformationList, passengerMock.createPassengerMockAgeZero(passengerWithZeroAge));
-		reservation.setPassengerInformation(passengerInformationList);
-		
-		IPassengerInformation passengerWithHugeAge = reservationAbstractFactory.createNewPassengerInformation();
-		reservation.addInPassengerInformationList(passengerInformationList, passengerMock.createPassengerMockAgeHuge(passengerWithHugeAge));
-		reservation.setPassengerInformation(passengerInformationList);
-		
-		IPassengerInformation passengerWithFirstNameEmpty = reservationAbstractFactory.createNewPassengerInformation();
-		reservation.addInPassengerInformationList(passengerInformationList, passengerMock.createPassengerMockFirstNameEmpty(passengerWithFirstNameEmpty));
-		reservation.setPassengerInformation(passengerInformationList);
-		
-		IPassengerInformation passengerWithLastNameEmpty = reservationAbstractFactory.createNewPassengerInformation();
-		reservation.addInPassengerInformationList(passengerInformationList, passengerMock.createPassengerMockLastNameEmpty(passengerWithLastNameEmpty));
-		reservation.setPassengerInformation(passengerInformationList);
-		
-		IPassengerInformation passengerWithGenderEmpty = reservationAbstractFactory.createNewPassengerInformation();
-		reservation.addInPassengerInformationList(passengerInformationList, passengerMock.createPassengerMockGenderEmpty(passengerWithGenderEmpty));
-		reservation.setPassengerInformation(passengerInformationList);
-		
-		IPassengerInformation passengerWithBerthPreferenceEmpty = reservationAbstractFactory.createNewPassengerInformation();
-		reservation.addInPassengerInformationList(passengerInformationList, passengerMock.createPassengerMockBerthPreferenceEmpty(passengerWithBerthPreferenceEmpty));
-		reservation.setPassengerInformation(passengerInformationList);
-		
-		String errorString = PassengerInformationErrorCodes.ageInvalid + 
-				PassengerInformationErrorCodes.ageInvalid + 
-				PassengerInformationErrorCodes.ageInvalid + 
-				PassengerInformationErrorCodes.firstNameMissing + 
-				PassengerInformationErrorCodes.lastNameMissing +
-				PassengerInformationErrorCodes.genderMissing + 
-				PassengerInformationErrorCodes.berthPreferenceMissing;
-		
-		assertEquals(errorString, reservation.validateReservation(reservation));
 
+		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
+
+		IPassengerInformation passengerWithNegativeAge = reservationAbstractFactory.createNewPassengerInformation();
+		reservation.addInPassengerInformationList(passengerInformationList,
+				passengerMock.createPassengerMockAgeNegative(passengerWithNegativeAge));
+		reservation.setPassengerInformation(passengerInformationList);
+
+		IPassengerInformation passengerWithZeroAge = reservationAbstractFactory.createNewPassengerInformation();
+		reservation.addInPassengerInformationList(passengerInformationList,
+				passengerMock.createPassengerMockAgeZero(passengerWithZeroAge));
+		reservation.setPassengerInformation(passengerInformationList);
+
+		IPassengerInformation passengerWithHugeAge = reservationAbstractFactory.createNewPassengerInformation();
+		reservation.addInPassengerInformationList(passengerInformationList,
+				passengerMock.createPassengerMockAgeHuge(passengerWithHugeAge));
+		reservation.setPassengerInformation(passengerInformationList);
+
+		IPassengerInformation passengerWithFirstNameEmpty = reservationAbstractFactory.createNewPassengerInformation();
+		reservation.addInPassengerInformationList(passengerInformationList,
+				passengerMock.createPassengerMockFirstNameEmpty(passengerWithFirstNameEmpty));
+		reservation.setPassengerInformation(passengerInformationList);
+
+		IPassengerInformation passengerWithLastNameEmpty = reservationAbstractFactory.createNewPassengerInformation();
+		reservation.addInPassengerInformationList(passengerInformationList,
+				passengerMock.createPassengerMockLastNameEmpty(passengerWithLastNameEmpty));
+		reservation.setPassengerInformation(passengerInformationList);
+
+		IPassengerInformation passengerWithGenderEmpty = reservationAbstractFactory.createNewPassengerInformation();
+		reservation.addInPassengerInformationList(passengerInformationList,
+				passengerMock.createPassengerMockGenderEmpty(passengerWithGenderEmpty));
+		reservation.setPassengerInformation(passengerInformationList);
+
+		IPassengerInformation passengerWithBerthPreferenceEmpty = reservationAbstractFactory
+				.createNewPassengerInformation();
+		reservation.addInPassengerInformationList(passengerInformationList,
+				passengerMock.createPassengerMockBerthPreferenceEmpty(passengerWithBerthPreferenceEmpty));
+		reservation.setPassengerInformation(passengerInformationList);
+
+		String errorString = PassengerInformationErrorCodes.ageInvalid + PassengerInformationErrorCodes.ageInvalid
+				+ PassengerInformationErrorCodes.ageInvalid + PassengerInformationErrorCodes.firstNameMissing
+				+ PassengerInformationErrorCodes.lastNameMissing + PassengerInformationErrorCodes.genderMissing
+				+ PassengerInformationErrorCodes.berthPreferenceMissing;
+
+		assertEquals(errorString, reservation.validateReservation(reservation));
 	}
-	
+
 }

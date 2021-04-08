@@ -6,15 +6,14 @@ import com.project.user.User;
 import com.project.user.UserAbstractFactory;
 import com.project.user.UserDAO;
 
-public class UserConcreteFactoryTest extends UserAbstractFactoryTest
-{
-	UserAbstractFactory userAbstractFactory =  UserAbstractFactory.instance();
+public class UserConcreteFactoryTest extends UserAbstractFactoryTest {
+	UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 	IUserDAO userDAO = userAbstractFactory.createUserDAO();
 	IUser user = userAbstractFactory.createUser();
 
 	@Override
 	public IUser createUser() {
-		if(null == user) {
+		if (null == user) {
 			user = new User();
 		}
 		return user;
@@ -22,9 +21,10 @@ public class UserConcreteFactoryTest extends UserAbstractFactoryTest
 
 	@Override
 	public IUserDAO createUserDAO() {
-		if(null == userDAO) {
+		if (null == userDAO) {
 			userDAO = new UserDAO();
 		}
 		return userDAO;
 	}
+
 }

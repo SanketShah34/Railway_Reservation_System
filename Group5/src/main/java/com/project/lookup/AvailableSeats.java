@@ -135,4 +135,5 @@ public class AvailableSeats implements IAvailableSeats {
 		}
 		return maximumSeatNumber;
 	}
+	
 }

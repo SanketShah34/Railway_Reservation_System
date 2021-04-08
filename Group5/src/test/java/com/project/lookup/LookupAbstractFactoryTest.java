@@ -11,11 +11,11 @@ public abstract class LookupAbstractFactoryTest {
 	}
 
 	public abstract SearchTrainMock createSearchTrainMock();
-	
+
 	public abstract SearchTrainDAOMock createSearchTrainDAOMock();
-	
+
 	public abstract SeatAvailibilityDAOMock createSeatAvailibilityDAOMock();
-	
+
 	public abstract BookedTicketsMock createBookedTicketsMock();
 
 }

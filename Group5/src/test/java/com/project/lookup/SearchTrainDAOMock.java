@@ -17,7 +17,7 @@ public class SearchTrainDAOMock implements ISearchTrainDAO {
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
 		ITrain train = setupAbstractFactory.createNewTrain();
 		List<ITrain> trainList = new ArrayList<ITrain>(0);
-		
+
 		train = trainMock.createTrainMock(train);
 		trainList.add(train);
 		return trainList;

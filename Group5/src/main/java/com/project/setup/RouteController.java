@@ -18,7 +18,7 @@ public class RouteController {
 	public IRoute getIRouteModelObject(HttpServletRequest request) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRoute route = setupAbstractFactory.createNewRoute();
-		
+
 		return route;
 	}
 
@@ -27,7 +27,7 @@ public class RouteController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
 		List<IRoute> listOfRoute = routeDAO.getAllRoute();
-		
+
 		model.addAttribute("listOfRoute", listOfRoute);
 		return "route/route";
 	}
@@ -37,7 +37,7 @@ public class RouteController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
 		List<IRoute> listOfRoute = routeDAO.getAllRoute();
-		
+
 		model.addAttribute("listOfRoute", listOfRoute);
 		return "route/route";
 	}
@@ -48,7 +48,7 @@ public class RouteController {
 		IRoute route = setupAbstractFactory.createNewRoute();
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		List<IStation> stations = stationDAO.getAllStation();
-		
+
 		model.addAttribute(route);
 		model.addAttribute("listOfStations", stations);
 		return "route/addRoute";
@@ -61,7 +61,7 @@ public class RouteController {
 		IStationDAO stationDAO = setupAbstractFactory.createStationDAO();
 		List<IStation> stations = stationDAO.getAllStation();
 		IRoute route = routeDAO.getRoute(routeId);
-		
+
 		model.addAttribute(route);
 		model.addAttribute("listOfStations", stations);
 		return "route/editRoute";
@@ -90,7 +90,7 @@ public class RouteController {
 		if (validOrNot) {
 			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 			IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
-			
+
 			routeDAO.saveRoute(route);
 			return "redirect:/admin/route/list";
 		} else {
@@ -120,11 +120,11 @@ public class RouteController {
 			validOrNot = false;
 		}
 		int routeId = route.getRouteId();
-		
+
 		if (validOrNot) {
 			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 			IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
-			
+
 			routeDAO.saveRoute(route);
 			return "redirect:/admin/route/list";
 		} else {
@@ -137,9 +137,9 @@ public class RouteController {
 	public String deleteRoute(@PathVariable(name = "routeId") Integer routeId, Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		IRouteDAO routeDAO = setupAbstractFactory.createRouteDAO();
-		
+
 		routeDAO.deleteRoute(routeId);
 		return "redirect:/admin/route/list";
 	}
-	
+
 }
