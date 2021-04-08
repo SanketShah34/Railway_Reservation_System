@@ -5,7 +5,8 @@ import java.sql.Date;
 public class ReservationMock {
 
 	public IReservation creteReservationMock(IReservation reservation) {
-	    Date date = Date.valueOf("2021-04-08");   
+		Date date = Date.valueOf("2021-04-08");
+
 		reservation.setAmountPaid(100.0);
 		reservation.setDestinationStationId(2);
 		reservation.setDistance(100);
@@ -19,4 +20,5 @@ public class ReservationMock {
 		reservation.setDeletedTicket(0);
 		return reservation;
 	}
+
 }

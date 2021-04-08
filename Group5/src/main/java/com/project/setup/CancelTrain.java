@@ -3,7 +3,6 @@ package com.project.setup;
 import java.sql.Date;
 
 public class CancelTrain implements ICancelTrain{
-
 	private int trainCode;
 	private Date cancellationDate;
 	

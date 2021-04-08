@@ -5,14 +5,12 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 	crossorigin="anonymous">
 <title>Home</title>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-
 </head>
 <body>
 	<div align="center">
@@ -22,7 +20,6 @@
 					<div style="text-align: start" class="col-md-6">
 						Welcome <b><span sec:authentication="name">Username</span></b>
 						&nbsp;
-
 					</div>
 					<div style="text-align: end" class="col-md-6">
 						<form th:action="@{/logout}" method="post">
@@ -45,7 +42,6 @@
 										<p class="alert alert-danger" style="width: 70%"
 											th:if="${stationError}">Source Station and Destination
 											Station cannot be same</p>
-
 										<tr>
 											<td>Starting Station:</td>
 											<td><select name="startStation"
@@ -74,13 +70,12 @@
 											<td>Date of Journey</td>
 											<td><input type="date" id="datepicker"
 												th:field="*{dateofJourny}" />
-												
-													<p class="alert alert-danger" style="width: 70%"
-											th:if="${dateError}">Choose future Date</p>
-											
-											<p class="alert alert-danger" style="width: 70%"
-											th:if="${dateExceedOneMOnth}">Select date that is in range of one month from today</p>
-											</td>
+
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${dateError}">Choose future Date</p>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${dateExceedOneMOnth}">Select date that is in
+													range of one month from today</p></td>
 										</tr>
 										<tr>
 											<td>Train Type:</td>
@@ -102,27 +97,22 @@
 								</form>
 								<form th:action="@{/ticket/cancel}" method="POST"
 									style="max-width: 350px; margin: 0 auto;">
-									<!-- <div class="row col-md-12" style="margin-top: 50px">
-										<div class="col-md-12">
-											<div class="border border-secondary p-3 rounded">
-												<h3>Cancel Ticket</h3>
-											</div>
+									<div class="border border-secondary p-3 rounded">
+										<div class="form-group " style="text-align: center;">
+											<button type="submit" class="btn btn-info col-4">Cancel
+												Ticket</button>
 										</div>
 									</div>
-									 -->
-									<div class="border border-secondary p-3 rounded">
-										<div class="form-group " style="text-align: center;" >
-							               <button type="submit" class="btn btn-info col-4">Cancel Ticket</button>
-							            </div>
-						            </div>
 								</form>
-								<form th:action="@{/findMyTrain}" method="POST" style="max-width: 350px; margin: 0 auto;">
-         							<div class="border border-secondary p-3 rounded">
-            							<div class="form-group " style="text-align: center;" >
-               								<button type="submit" class="btn btn-info col-4">Find my train</button>
-            							</div>
-         							</div>
-      							</form>
+								<form th:action="@{/findMyTrain}" method="POST"
+									style="max-width: 350px; margin: 0 auto;">
+									<div class="border border-secondary p-3 rounded">
+										<div class="form-group " style="text-align: center;">
+											<button type="submit" class="btn btn-info col-4">Find
+												my train</button>
+										</div>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -138,6 +128,4 @@
 		});
 	</script>
 </body>
-
-
 </html>

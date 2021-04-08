@@ -1,19 +1,23 @@
 package com.project.findMyTrain;
 
 public interface IDistanceData {
-	public int getStartStation();
-	
-	public void setStartStation(int startStation);
 
-	public int getEndStation();
+	int getStartStation();
 
-	public void setEndStation(int endStation);
+	void setStartStation(int startStation);
 
-	public double getDistance();
+	int getEndStation();
 
-	public void setDistance(double distance);
+	void setEndStation(int endStation);
 
-	public boolean isDateValid(String string);
+	double getDistance();
 
-	public boolean isTrainCodeValid(String trainCode);
+	void setDistance(double distance);
+
+	boolean isStringNullOrEmpty(String string);
+
+	boolean isDateValid(String string);
+
+	boolean isTrainCodeValid(String trainCode);
+
 }

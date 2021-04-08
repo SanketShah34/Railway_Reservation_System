@@ -14,7 +14,6 @@ import com.project.user.UserConcreteFactory;
 
 @Controller
 public class SignupController {
-
 	private final String USERNAME = "userName";
 	private final String PASSWORD = "password";
 	private final String CONFIRM_PASSWORD = "confirmPassword";
@@ -29,11 +28,12 @@ public class SignupController {
 	private final String ANSWER_TWO = "answertwo";
 
 	@RequestMapping("/signup")
-	public String signUpPage(Model model) {	
+	public String signUpPage(Model model) {
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		IUser user = userAbstractFactory.createUser();
 		SecurityQuestion securityQuestions = securityAbstractFactory.createSecurityQuestion();
+
 		model.addAttribute(user);
 		model.addAttribute("securityQuestions", securityQuestions.getSecurituQuestions());
 		return "signup";
@@ -50,14 +50,12 @@ public class SignupController {
 			@RequestParam(name = SECURITY_QUESTION_TWO) String securityQuestionOne,
 			@RequestParam(name = ANSWER_ONE) String answerOne, @RequestParam(name = ANSWER_TWO) String answerTwo,
 			Model model) {
-
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
 		IUserDAO userDAO = userAbstractFactory.createUserDAO();
 		IUser user = userAbstractFactory.createUser();
-
 		boolean hasError = false;
-		
+
 		if (user.isFirstNameValid(firstName) == true || user.isLastNameValid(lastName) == true
 				|| user.isPasswordEmpty(password) || user.isConfirmPasswordEmpty(confirmPassword)) {
 			model.addAttribute("nameError", true);
@@ -95,11 +93,11 @@ public class SignupController {
 			model.addAttribute("userExists", true);
 			hasError = true;
 		}
-
 		if (hasError) {
 			UserAbstractFactory userAbstractFactory1 = new UserConcreteFactory();
 			IUser newUser = userAbstractFactory1.createUser();
 			SecurityQuestion securityQuestions = securityAbstractFactory.createSecurityQuestion();
+
 			model.addAttribute(newUser);
 			model.addAttribute("securityQuestions", securityQuestions.getSecurituQuestions());
 			return "signup";
@@ -116,7 +114,8 @@ public class SignupController {
 			user.setAnswerOne(answerOne);
 			user.setAnswerTwo(answerTwo);
 			userDAO.saveUser(user);
-			return "redirect:/login";	
+			return "redirect:/login";
 		}
 	}
+
 }

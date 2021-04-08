@@ -13,42 +13,39 @@ import com.project.reservation.IPassengerInformation;
 import com.project.reservation.IReservation;
 import com.project.setup.ITrain;
 
-
 public class CalculateAmount implements ICalculateAmount {
-	
 	public final double TWENTY_PERCENT = 0.2;
 	public final double FIFTY_PERCENT = 0.5;
 	public final String ADD_SECONDS = ":00";
 
 	@Override
-	public double calculateDiscount(double amountPaid, double refundedAmount, Date trainStartDate, String departureTime) {
+	public double calculateDiscount(double amountPaid, double refundedAmount, Date trainStartDate,
+			String departureTime) {
 		LocalDateTime localDateTime = LocalDateTime.now();
 		LocalDate localDate = localDateTime.toLocalDate();
 		LocalTime localTime = localDateTime.toLocalTime();
-
-		//source : https://www.baeldung.com/java-date-to-localdate-and-localdatetime
-		LocalDate TrainDate = Instant.ofEpochMilli(trainStartDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+		// source : https://www.baeldung.com/java-date-to-localdate-and-localdatetime
+		LocalDate TrainDate = Instant.ofEpochMilli(trainStartDate.getTime()).atZone(ZoneId.systemDefault())
+				.toLocalDate();
 		LocalDate localDateAfterAddingOneDay;
 		Double amount;
 		String dateString = trainStartDate.toString();
-		String trainDateTime = dateString + " " + departureTime + ADD_SECONDS;	
+		String trainDateTime = dateString + " " + departureTime + ADD_SECONDS;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime departureLocalDateTime = LocalDateTime.parse(trainDateTime, formatter);	
+		LocalDateTime departureLocalDateTime = LocalDateTime.parse(trainDateTime, formatter);
 		LocalTime trainTime = departureLocalDateTime.toLocalTime();
-		if(localDate.isEqual(TrainDate)) {
+
+		if (localDate.isEqual(TrainDate)) {
 			amount = refundedAmount * TWENTY_PERCENT;
-		}
-		else {
+		} else {
 			localDateAfterAddingOneDay = localDate.plusDays(1);
-			if(localDateAfterAddingOneDay.isEqual(TrainDate)) {
-				if(trainTime.isBefore(localTime)) {
+			if (localDateAfterAddingOneDay.isEqual(TrainDate)) {
+				if (trainTime.isBefore(localTime)) {
 					amount = refundedAmount * FIFTY_PERCENT;
-				}
-				else {
+				} else {
 					amount = refundedAmount * TWENTY_PERCENT;
 				}
-			}
-			else {
+			} else {
 				amount = refundedAmount * FIFTY_PERCENT;
 			}
 		}
@@ -56,17 +53,20 @@ public class CalculateAmount implements ICalculateAmount {
 	}
 
 	@Override
-	public double calculateRefundAmount(IReservation reservation, List<Integer> idList, ISearchPassengerInformationDAO searchTicketInformation) {
+	public double calculateRefundAmount(IReservation reservation, List<Integer> idList,
+			ISearchPassengerInformationDAO searchTicketInformation) {
 		int pnrNumber = reservation.getReservationId();
 		double amountPaid = reservation.getAmountPaid();
 		Date trainStartDate = reservation.getStartDate();
 		double refundedAmount = 0.0;
-		List<IPassengerInformation> passengerInformation = searchTicketInformation.searchPassengerInfoByPNR(String.valueOf(pnrNumber));
+		List<IPassengerInformation> passengerInformation = searchTicketInformation
+				.searchPassengerInfoByPNR(String.valueOf(pnrNumber));
 		List<IPassengerInformation> selectedPassengerInformation = new ArrayList<>();
 		double amount = 0.0;
-		for(IPassengerInformation information : passengerInformation) {
-			for(Integer id : idList) {
-				if(id == information.getPassengerInformationId()) {
+
+		for (IPassengerInformation information : passengerInformation) {
+			for (Integer id : idList) {
+				if (id == information.getPassengerInformationId()) {
 					amount += information.getAmountPaid();
 					selectedPassengerInformation.add(information);
 				}
@@ -74,7 +74,9 @@ public class CalculateAmount implements ICalculateAmount {
 		}
 		refundedAmount = amountPaid - amount;
 		ITrain train = searchTicketInformation.getTrainDetails(reservation.getTrainId());
+
 		refundedAmount = calculateDiscount(amountPaid, refundedAmount, trainStartDate, train.getDepartureTime());
 		return refundedAmount;
-	}	
+	}
+
 }

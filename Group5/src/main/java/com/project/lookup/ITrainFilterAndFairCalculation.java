@@ -8,11 +8,12 @@ import com.project.setup.ITrain;
 
 public interface ITrainFilterAndFairCalculation {
 
-	List<ITrain> filterTrain(List<ITrain> trains, ISearchTrain searchTrain, IRouteDAO routeDAO);
+	List<ITrain> filterTrain(List<ITrain> trains, ISearchTrain searchTrain, IRouteDAO routeDAO,
+			IDayCalculation dayCalculation);
 
 	boolean countPickUpAndDropUpTimeAndTrainIsAvailbleOnThatDayOrNot(double timeAtTrainStartItsJourneyInMinutes,
 			double timeRequiredByTrainToReachSourceStation, double timeRequiredByTrainForDestinationStation,
-			ITrain train, ISearchTrain searchTrain);
+			ITrain train, ISearchTrain searchTrain, IDayCalculation dayCalculation);
 
 	void calculateStartDateOfTrain(ITrain train, ISearchTrain searchTrain,
 			double timeRequiredByTrainToReachSourceStation, double trainStarttime);
@@ -21,7 +22,8 @@ public interface ITrainFilterAndFairCalculation {
 
 	String minuteFormater(double number);
 
-	boolean checkWhetherTrainIsAvailableOrNotOnThatDay(ITrain train, int daytoIncrement, ISearchTrain searchTrain);
+	boolean checkWhetherTrainIsAvailableOrNotOnThatDay(ITrain train, int daytoIncrement, ISearchTrain searchTrain,
+			IDayCalculation dayCalculation);
 
 	double hoursToMinuteConverter(String time);
 

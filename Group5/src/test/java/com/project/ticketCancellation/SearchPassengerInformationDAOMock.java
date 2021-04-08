@@ -21,8 +21,9 @@ public class SearchPassengerInformationDAOMock implements ISearchPassengerInform
 		ReservationAbstractFactoryTest reservationAbstractFactoryTest = ReservationAbstractFactoryTest.instance();
 		IPassengerInformation passenger = reservationAbstractFactory.createNewPassengerInformation();
 		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
-		passenger = passengerMock.createPassengerMock(passenger);
 		List<IPassengerInformation> passengerInformationList = new ArrayList<IPassengerInformation>(0);
+
+		passenger = passengerMock.createPassengerMock(passenger);
 		return passengerInformationList;
 	}
 
@@ -32,6 +33,7 @@ public class SearchPassengerInformationDAOMock implements ISearchPassengerInform
 		ReservationAbstractFactoryTest reservationAbstractFactoryTest = ReservationAbstractFactoryTest.instance();
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
 		ReservationMock reservationMock = reservationAbstractFactoryTest.createReservationMock();
+
 		reservation = reservationMock.creteReservationMock(reservation);
 		return reservation;
 	}
@@ -42,6 +44,7 @@ public class SearchPassengerInformationDAOMock implements ISearchPassengerInform
 		SetupAbstractFactoryTest setupAbstractFactoryTest = SetupAbstractFactoryTest.instance();
 		ITrain train = setupAbstractFactory.createNewTrain();
 		TrainMock trainMock = setupAbstractFactoryTest.createTrainMock();
+
 		train = trainMock.createTrainMock(train);
 		return train;
 	}
@@ -58,10 +61,12 @@ public class SearchPassengerInformationDAOMock implements ISearchPassengerInform
 		int totalTicketBooked = reservation.getTicketBooked();
 		int remainingTickets = totalTicketBooked - idList.size();
 		int deletedTicket = 0;
-		if(remainingTickets == 0) {
+
+		if (remainingTickets == 0) {
 			deletedTicket = 1;
 		}
 		reservation.setAmountPaid(finalAmount);
 		reservation.setDeletedTicket(deletedTicket);
 	}
+
 }

@@ -12,4 +12,5 @@ public class TicketPrintMock {
 		ticketPrint.setDestinationStation("Station B");
 		return ticketPrint;
 	}
+
 }

@@ -1,7 +1,7 @@
 package com.project.reservation;
 
 public class PassengerMock {
-	
+
 	public IPassengerInformation createPassengerMock(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -15,7 +15,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockFirstNameNull(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -29,7 +29,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockFirstNameEmpty(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -43,7 +43,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockLastNameNull(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -57,7 +57,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockLastNameEmpty(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -71,7 +71,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockGenderNull(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -85,7 +85,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockGenderEmpty(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -99,7 +99,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockBerthPreferenceNull(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -113,7 +113,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockBerthPreferenceEmpty(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -127,7 +127,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockBerthPreferenceSpace(IPassengerInformation passenger) {
 		passenger.setAge(62);
 		passenger.setAmountPaid(100.0);
@@ -141,7 +141,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockAgeZero(IPassengerInformation passenger) {
 		passenger.setAge(0);
 		passenger.setAmountPaid(100.0);
@@ -155,7 +155,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockAgeNegative(IPassengerInformation passenger) {
 		passenger.setAge(-5);
 		passenger.setAmountPaid(100.0);
@@ -169,7 +169,7 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
-	
+
 	public IPassengerInformation createPassengerMockAgeHuge(IPassengerInformation passenger) {
 		passenger.setAge(150);
 		passenger.setAmountPaid(100.0);
@@ -183,4 +183,5 @@ public class PassengerMock {
 		passenger.setSeatNumber(1);
 		return passenger;
 	}
+
 }

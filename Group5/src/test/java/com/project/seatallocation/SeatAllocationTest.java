@@ -8,7 +8,6 @@ import com.project.reservation.IReservation;
 import com.project.reservation.ReservationAbstractFactory;
 
 public class SeatAllocationTest {
-
 	ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 	SeatAllocationAbstractFactoryTest seatAllocationAbstractFactoryTest = SeatAllocationAbstractFactoryTest.instance();
 	SeatAllocationAbstractFactory seatAllocationAbstractFactory = SeatAllocationAbstractFactory.instance();

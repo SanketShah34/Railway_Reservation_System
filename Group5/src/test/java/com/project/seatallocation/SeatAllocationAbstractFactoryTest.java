@@ -3,7 +3,7 @@ package com.project.seatallocation;
 public abstract class SeatAllocationAbstractFactoryTest {
 
 	private static SeatAllocationAbstractFactoryTest instance = null;
-	
+
 	public static SeatAllocationAbstractFactoryTest instance() {
 		if (null == instance) {
 			instance = new SeatAllocationConcreteFactoryTest();
@@ -12,4 +12,5 @@ public abstract class SeatAllocationAbstractFactoryTest {
 	}
 	
 	public abstract SeatAllocationDAOMock createSeatAllocationDAOMock();
+
 }

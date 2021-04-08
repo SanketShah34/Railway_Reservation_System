@@ -3,13 +3,15 @@ package com.project.setup;
 import java.util.List;
 
 public interface IRouteDAO {
-	public void saveRoute(IRoute route);
+
+	void saveRoute(IRoute route);
+
+	List<IRoute> getAllRoute();
+
+	IRoute getRoute(Integer routeId);
+
+	void deleteRoute(Integer routeId);
+
+	IRoute getRouteByStation(int sourcePoint, int destinationPoint);
 	
-	public List<IRoute> getAllRoute();
-	
-	public IRoute getRoute(Integer routeId);
-	
-	public void deleteRoute(Integer routeId);
-	
-	public IRoute getRouteByStation(int sourcePoint ,int destinationPoint);
 }

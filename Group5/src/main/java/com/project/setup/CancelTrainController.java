@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.project.cancelTrain.CancelTrainAbstractFactory;
 import com.project.cancelTrain.ITrainCancellation;
 import com.project.cancelTrain.ITrainCancellationDAO;
-import com.project.lookup.ISearchTrain;
 import com.project.lookup.ISearchTrainDAO;
 import com.project.lookup.ISeatAvailibilityDAO;
 import com.project.lookup.LookupAbstractFactory;
@@ -29,6 +28,7 @@ public class CancelTrainController {
 	public ICancelTrain getIRouteModelObject(HttpServletRequest request) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		ICancelTrain cancelTrain = setupAbstractFactory.createNewCancelTrain();
+
 		return cancelTrain;
 	}
 
@@ -36,6 +36,7 @@ public class CancelTrainController {
 	public String displayCancelTrain(Model model) {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		ICancelTrain cancelTrain = setupAbstractFactory.createNewCancelTrain();
+
 		model.addAttribute("cancelTrain", cancelTrain);
 		return "cancelTrain/cancelTrain";
 	}
@@ -47,7 +48,8 @@ public class CancelTrainController {
 		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
 		CancelTrainAbstractFactory cancelTrainAbstractFactory = CancelTrainAbstractFactory.instance();
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInformationDAO searchPassengerInformationDAO = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		ISearchPassengerInformationDAO searchPassengerInformationDAO = cancelTicketAbstractFactory
+				.createNewSearchPassengerInfo();
 		IReservationDAO reservationDAO = reservationAbstractFactory.createNewReservationDAO();
 		ISearchTrainDAO searchTrainDAO = lookupAbstractFactory.createSearchTrainDAO();
 		IRouteDAO routeDAO = setupAbstractFactory.createNewRouteDAO();
@@ -55,7 +57,9 @@ public class CancelTrainController {
 		ITrainCancellationDAO trainCancellationDAO = cancelTrainAbstractFactory.createNewTrainCancellationDAO();
 		ITrainCancellation trainCancellation = cancelTrainAbstractFactory.createNewTrainCancellation();
 		List<IReservation> reservationList = trainCancellationDAO.fetchAllReservations(cancelTrain);
-		trainCancellation.cancelOrRescheduleTicket(reservationList, searchTrainDAO, routeDAO, seatAvailabilityDAO, searchPassengerInformationDAO, reservationDAO);
+
+		trainCancellation.cancelOrRescheduleTicket(reservationList, searchTrainDAO, routeDAO, seatAvailabilityDAO,
+				searchPassengerInformationDAO, reservationDAO);
 		return "home";
 	}
 

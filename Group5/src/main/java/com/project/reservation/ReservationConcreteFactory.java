@@ -43,4 +43,5 @@ public class ReservationConcreteFactory extends ReservationAbstractFactory {
 	public IReservationDAO createNewReservationDAO() {
 		return new ReservationDAO();
 	}
+	
 }

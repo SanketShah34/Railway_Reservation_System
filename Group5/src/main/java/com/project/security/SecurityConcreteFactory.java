@@ -8,7 +8,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import com.project.user.IUser;
 
 public class SecurityConcreteFactory extends SecurityAbstractFactory {
-
 	private UserDetailsService userDetailService;
 	private BCryptPasswordEncoder passwordEncoder;
 	private DaoAuthenticationProvider authenticationProvider;
@@ -17,7 +16,7 @@ public class SecurityConcreteFactory extends SecurityAbstractFactory {
 	private UserDetails userDetail;
 
 	public UserDetailsService createUserDetailsService() {
-		if(userDetailService == null) {
+		if (userDetailService == null) {
 			userDetailService = new UserDetailsServiceImpl();
 		}
 		return userDetailService;
@@ -28,7 +27,7 @@ public class SecurityConcreteFactory extends SecurityAbstractFactory {
 	}
 
 	public BCryptPasswordEncoder createPasswordEncoder() {
-		if(passwordEncoder == null) {
+		if (passwordEncoder == null) {
 			passwordEncoder = new BCryptPasswordEncoder();
 		}
 		return passwordEncoder;
@@ -39,7 +38,7 @@ public class SecurityConcreteFactory extends SecurityAbstractFactory {
 	}
 
 	public DaoAuthenticationProvider createAuthenticationprovider() {
-		if(authenticationProvider == null) {
+		if (authenticationProvider == null) {
 			authenticationProvider = new DaoAuthenticationProvider();
 		}
 		return authenticationProvider;
@@ -50,7 +49,7 @@ public class SecurityConcreteFactory extends SecurityAbstractFactory {
 	}
 
 	public AuthenticationSuccessHandler createCustomeSuccessHandler() {
-		if(successHandler == null) {
+		if (successHandler == null) {
 			successHandler = new CustomSuccessHandler();
 		}
 		return successHandler;
@@ -61,7 +60,7 @@ public class SecurityConcreteFactory extends SecurityAbstractFactory {
 	}
 
 	public UserDetails createMyUserDetail(IUser user) {
-		if(userDetail == null) {
+		if (userDetail == null) {
 			userDetail = new MyUserDetails(user);
 		}
 		return userDetail;
@@ -71,11 +70,11 @@ public class SecurityConcreteFactory extends SecurityAbstractFactory {
 		return new MyUserDetails(user);
 	}
 
-	@Override
 	public SecurityQuestion createSecurityQuestion() {
-		if(securityQuestion == null) {
+		if (securityQuestion == null) {
 			securityQuestion = new SecurityQuestion();
 		}
 		return securityQuestion;
 	}
+
 }

@@ -1,13 +1,9 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-<!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
@@ -16,15 +12,12 @@
 <title>Sign-up Page</title>
 </head>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-
 <body>
-
-
 	<form action="#" th:action="@{/signup/save}" method="post">
-		<!-- th:object="${user}" -->
 		<div class="border border-secondary p-3 rounded">
-			 <p class="alert alert-danger" style="width: 70%" th:if="${userExists}"  >User Is Already present. try with another Email </p>
-
+			<p class="alert alert-danger" style="width: 70%"
+				th:if="${userExists}">User Is Already present. try with another
+				Email</p>
 			<h1 style="text-align: center">Sign-up</h1>
 			<h3>Basic Information</h3>
 			<div class="form-group">
@@ -35,7 +28,8 @@
 					<div class="col-md-9">
 						<input type="text" name="firstName" class="form-control"
 							placeholder="Enter First Name">
-							<p class="alert alert-danger" style="width: 70%" th:if="${nameError}"  >Enter valid First Name </p>
+						<p class="alert alert-danger" style="width: 70%"
+							th:if="${nameError}">Enter valid First Name</p>
 					</div>
 				</div>
 			</div>
@@ -47,7 +41,8 @@
 					<div class="col-md-9">
 						<input type="text" name="lastName" class="form-control"
 							placeholder="Enter Last Name">
-							<p class="alert alert-danger" style="width: 70%" th:if="${nameError}"  >Enter Valid Last Name </p>
+						<p class="alert alert-danger" style="width: 70%"
+							th:if="${nameError}">Enter Valid Last Name</p>
 					</div>
 				</div>
 			</div>
@@ -72,8 +67,9 @@
 						<label for="dateOfBirth">Date Of Birth:</label>
 					</div>
 					<div class="col-md-9">
-						<input type="date"  pattern="yyyy-MM-dd" name="dateOfBirth">
-						<p class="alert alert-danger" style="width: 70%" th:if="${dobError}"  >Enter Valid Date Of Birth</p>
+						<input type="date" pattern="yyyy-MM-dd" name="dateOfBirth">
+						<p class="alert alert-danger" style="width: 70%"
+							th:if="${dobError}">Enter Valid Date Of Birth</p>
 					</div>
 				</div>
 			</div>
@@ -84,8 +80,10 @@
 					</div>
 					<div class="col-md-9">
 						<input type="number" name="mobileNumber" class="form-control "
-							placeholder="Enter Mobile Number" onkeypress="return onlyNumberKey(event)">
-							<p class="alert alert-danger" style="width: 70%" th:if="${mobileError}"  >Enter valid phone number</p>
+							placeholder="Enter Mobile Number"
+							onkeypress="return onlyNumberKey(event)">
+						<p class="alert alert-danger" style="width: 70%"
+							th:if="${mobileError}">Enter valid phone number</p>
 					</div>
 				</div>
 			</div>
@@ -96,11 +94,10 @@
 					</div>
 					<div class="col-md-9">
 						<select name="securityQuestionOne">
-                         
-                         <option th:each="question : ${securityQuestions.entrySet()}"
-                            th:value="${question.key}"
-                            th:utext="${question.value}"/>
-                  </select>
+
+							<option th:each="question : ${securityQuestions.entrySet()}"
+								th:value="${question.key}" th:utext="${question.value}" />
+						</select>
 					</div>
 				</div>
 			</div>
@@ -112,7 +109,8 @@
 					<div class="col-md-9">
 						<input type="text" name="answerone" class="form-control "
 							placeholder="Enter answer for Security Question one">
-							<p class="alert alert-danger" style="width: 70%" th:if="${answerErrorOne}"  >Enter Answer</p>
+						<p class="alert alert-danger" style="width: 70%"
+							th:if="${answerErrorOne}">Enter Answer</p>
 					</div>
 				</div>
 			</div>
@@ -123,14 +121,13 @@
 					</div>
 					<div class="col-md-9">
 						<select name="securityQuestionTwo">
-                         
-                         <option th:each="question : ${securityQuestions.entrySet()}"
-                            th:value="${question.key}"
-                            th:utext="${question.value}"/>
-                  </select>
+
+							<option th:each="question : ${securityQuestions.entrySet()}"
+								th:value="${question.key}" th:utext="${question.value}" />
+						</select>
 					</div>
-					
-					<p class="alert alert-danger" style="width: 70%" th:if="${securityQuestionError}"  >Both option cannot be same</p>
+					<p class="alert alert-danger" style="width: 70%"
+						th:if="${securityQuestionError}">Both option cannot be same</p>
 				</div>
 			</div>
 			<div class="form-group">
@@ -141,11 +138,11 @@
 					<div class="col-md-9">
 						<input type="tel" name="answertwo" class="form-control "
 							placeholder="Enter answer for Security Question Two">
-							<p class="alert alert-danger" style="width: 70%" th:if="${answerErrorTwo}"  >Enter Answer</p>
+						<p class="alert alert-danger" style="width: 70%"
+							th:if="${answerErrorTwo}">Enter Answer</p>
 					</div>
 				</div>
 			</div>
-			
 			<h3>Login Information</h3>
 			<div class="form-group">
 				<div class="row col-md-12">
@@ -155,7 +152,8 @@
 					<div class="col-md-9">
 						<input type="email" name="userName" class="form-control "
 							placeholder="Enter Email Address">
-							<p class="alert alert-danger" style="width: 70%" th:if="${emailError}"  >Enter valid email address </p>
+						<p class="alert alert-danger" style="width: 70%"
+							th:if="${emailError}">Enter valid email address</p>
 					</div>
 				</div>
 			</div>
@@ -167,7 +165,9 @@
 					<div class="col-md-9">
 						<input type="password" class="form-control "
 							placeholder="Enter Password" id="password" name="password">
-							<p class="alert alert-danger" style="width: 70%" th:if="${passwordError}"  >Password and Confirm password is invalid</p>
+						<p class="alert alert-danger" style="width: 70%"
+							th:if="${passwordError}">Password and Confirm password is
+							invalid</p>
 					</div>
 				</div>
 			</div>
@@ -181,7 +181,9 @@
 						<input type="password" class="form-control"
 							placeholder="Enter Confirm Password" id="confirmPassword"
 							name="confirmPassword">
-							<p class="alert alert-danger" style="width: 70%" th:if="${passwordError}"  >Password and Confirm password is invalid</p>
+						<p class="alert alert-danger" style="width: 70%"
+							th:if="${passwordError}">Password and Confirm password is
+							invalid</p>
 					</div>
 				</div>
 			</div>
@@ -191,13 +193,10 @@
 			</div>
 		</div>
 	</form>
-	
 </body>
 
 <script>
-    function onlyNumberKey(evt) {
-          
-        // Only ASCII charactar in that range allowed
+    function onlyNumberKey(evt) {  
         var ASCIICode = (evt.which) ? evt.which : evt.keyCode
         if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
             return false;

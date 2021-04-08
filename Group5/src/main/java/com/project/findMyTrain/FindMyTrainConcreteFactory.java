@@ -44,4 +44,5 @@ public class FindMyTrainConcreteFactory extends FindMyTrainAbstractFactory {
 	public IFindMyTrainLocation createNewFindMyTrainLocation() {
 		return new FindMyTrainLocation();
 	}
+	
 }

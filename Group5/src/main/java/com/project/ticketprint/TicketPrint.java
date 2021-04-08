@@ -4,19 +4,18 @@ import java.util.List;
 
 import com.project.reservation.IPassengerInformation;
 
-public class TicketPrint implements ITicketPrint{
-
+public class TicketPrint implements ITicketPrint {
 	public int reservationId;
 	public int trainCode;
 	public String trainName;
-    public String sourceStation;
-    public String destinationStation;
-    public double amountPaid;
-    public String trainType;
-    public List<IPassengerInformation> passengerInformation;
-    
-    public TicketPrint() {
-    }
+	public String sourceStation;
+	public String destinationStation;
+	public double amountPaid;
+	public String trainType;
+	public List<IPassengerInformation> passengerInformation;
+
+	public TicketPrint() {
+	}
 
 	public TicketPrint(int reservationId, int trainCode, String trainName, String sourceStation,
 			String destinationStation, double amountPaid, String trainType,
@@ -111,4 +110,5 @@ public class TicketPrint implements ITicketPrint{
 	public void setPassengerInformation(List<IPassengerInformation> passengerInformation) {
 		this.passengerInformation = passengerInformation;
 	}
+	
 }
