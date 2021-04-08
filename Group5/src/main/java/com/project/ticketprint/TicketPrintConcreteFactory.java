@@ -6,7 +6,7 @@ public class TicketPrintConcreteFactory extends TicketPrintAbstractFactory{
 	private ITicketPrintDAO ticketPrintDAO;
 	
 	@Override
-	public ITicketPrintDAO createNewTicketPrintDAO() {
+	public ITicketPrintDAO createTicketPrintDAO() {
 		if(null == ticketPrintDAO) {
 			ticketPrintDAO = new TicketPrintDAO();
 		}
@@ -14,10 +14,20 @@ public class TicketPrintConcreteFactory extends TicketPrintAbstractFactory{
 	}
 	
 	@Override
-	public ITicketPrint createNewTicketPrint() {
+	public ITicketPrintDAO createNewTicketPrintDAO() {
+		return new TicketPrintDAO();
+	}
+	
+	@Override
+	public ITicketPrint createTicketPrint() {
 		if(null == ticketPrint) {
 			ticketPrint = new TicketPrint();
 		}
 		return ticketPrint;
+	}
+	
+	@Override
+	public ITicketPrint createNewTicketPrint() {
+		return new TicketPrint();
 	}
 }
