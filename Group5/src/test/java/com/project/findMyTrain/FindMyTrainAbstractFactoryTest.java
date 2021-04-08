@@ -11,5 +11,5 @@ public abstract class FindMyTrainAbstractFactoryTest {
 	}
 
 	public abstract DistanceDataMock createDistanceDataMock();
-
+	public abstract FindMyTrainDAOMock createFindMyTrainDAOMock();
 }

@@ -6,5 +6,9 @@ public class FindMyTrainConcreteFactoryTest extends FindMyTrainAbstractFactoryTe
 	public DistanceDataMock createDistanceDataMock() {
 		return new DistanceDataMock();
 	}
-
+	
+	@Override
+	public FindMyTrainDAOMock createFindMyTrainDAOMock() {
+		return new FindMyTrainDAOMock();
+	}
 }
