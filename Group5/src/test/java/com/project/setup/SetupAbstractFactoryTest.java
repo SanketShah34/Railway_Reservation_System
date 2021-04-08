@@ -2,7 +2,7 @@ package com.project.setup;
 
 public abstract class SetupAbstractFactoryTest {
 	private static SetupAbstractFactoryTest instance = null;
-	
+
 	public static SetupAbstractFactoryTest instance() {
 		if (instance == null) {
 			instance = new SetupConcreteFactoryTest();

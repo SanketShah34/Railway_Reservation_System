@@ -5,6 +5,6 @@ import com.project.setup.ITrain;
 
 public interface ISearchTrainDAO {
 
-	public List<ITrain> searchTrains(ISearchTrain searchTrain);
-	
+	List<ITrain> searchTrains(ISearchTrain searchTrain);
+
 }

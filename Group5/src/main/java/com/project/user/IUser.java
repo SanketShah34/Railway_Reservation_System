@@ -3,52 +3,93 @@ package com.project.user;
 import java.util.Date;
 
 public interface IUser {
-	
-	public String getRole();
-	
-	public void setRole(String role);
-	
-	public int getId();
-	
-	public void setId(int id);
-	
-	public String getUserName();
-	
-	public void setUserName(String userName);
-	
-	public String getPassword();
-	
-	public void setPassword(String password);
-	
-	public boolean isEnabled();
-	
-	public void setEnabled(boolean enabled);
-	
-	public String getFirstName();
-	
-	public void setFirstName(String firstName);
-	
-	public String getLastName();
-	
-	public void setLastName(String lastName);
-	
-	public String getGender();
-	
-	public void setGender(String gender);
-	
-	public Date getDateOfBirth();
-	
-	public void setDateOfBirth(Date dateOfBirth);
-	
-	public int getMobileNumber();
-	
-	public void setMobileNumber(int mobileNumber);
-	
-	//private static boolean passwordValidation(String password, String confirmPassword);
-	
-	//public boolean emailValidation(String email);
-	
-	//public boolean dateValidation(Date date);
-	
+
+	String getRole();
+
+	void setRole(String role);
+
+	int getId();
+
+	void setId(int id);
+
+	String getUserName();
+
+	void setUserName(String userName);
+
+	String getPassword();
+
+	void setPassword(String password);
+
+	String getConfirmPassword();
+
+	void setConfirmPassword(String confirmPassword);
+
+	boolean isEnabled();
+
+	void setEnabled(boolean enabled);
+
+	String getFirstName();
+
+	void setFirstName(String firstName);
+
+	String getLastName();
+
+	void setLastName(String lastName);
+
+	String getGender();
+
+	void setGender(String gender);
+
+	Date getDateOfBirth();
+
+	void setDateOfBirth(Date dateOfBirth);
+
+	String getMobileNumber();
+
+	void setMobileNumber(String mobileNumber);
+
+	boolean passwordValidation(String password, String confirmPassword);
+
+	boolean emailValidation(String email);
+
+	boolean dateValidation(Date date);
+
+	boolean isStringNullOrEmpty(String s);
+
+	boolean isEmailIdValid(String emailId);
+
+	boolean isFirstNameValid(String firstName);
+
+	boolean isLastNameValid(String lastName);
+
+	boolean isPasswordEmpty(String password);
+
+	boolean isConfirmPasswordEmpty(String confirmPassword);
+
+	boolean isPasswordValid(String password, String confirmPassword);
+
+	boolean isDateValid(Date date);
+
+	boolean isQuestionValid(String securityQuestionOne, String securityQuestionTwo);
+
+	boolean isPhoneNumberValid(String number);
+
+	boolean isAnswerValid(String answer);
+
+	String getQuestionOne();
+
+	void setQuestionOne(String questionOne);
+
+	String getAnswerOne();
+
+	void setAnswerOne(String answerOne);
+
+	String getQuestionTwo();
+
+	void setQuestionTwo(String questionTwo);
+
+	String getAnswerTwo();
+
+	void setAnswerTwo(String answerTwo);
 
 }

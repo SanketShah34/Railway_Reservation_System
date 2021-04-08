@@ -3,14 +3,15 @@ package com.project.setup;
 import java.util.List;
 
 public interface IStationDAO {
-	
-	public boolean save(IStation station);
-	
-	public List<IStation> getAllStation();
-	
-	public IStation getStation(Integer sId);
-	
-	public void delete(Integer sId);
-	
-	public boolean isStationUnique(String stationName,String stationCode , int SId);
+
+	boolean save(IStation station);
+
+	List<IStation> getAllStation();
+
+	IStation getStation(Integer stationId);
+
+	void delete(Integer stationId);
+
+	boolean isStationUnique(String stationName, String stationCode, int stationId);
+
 }

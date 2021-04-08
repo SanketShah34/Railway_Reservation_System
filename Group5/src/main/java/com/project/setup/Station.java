@@ -1,7 +1,5 @@
 package com.project.setup;
 
-import javax.validation.constraints.NotNull;
-
 public class Station implements IStation {
 	public int stationId;
 	public String stationName;
@@ -10,7 +8,6 @@ public class Station implements IStation {
 	public String stationState;
 
 	public Station() {
-
 	}
 
 	public Station(int stationId, String stationName, String stationCode, String stationCity, String stationState) {
@@ -22,10 +19,12 @@ public class Station implements IStation {
 		this.stationState = stationState;
 	}
 
+	@Override
 	public int getStationId() {
 		return stationId;
 	}
 
+	@Override
 	public void setStationId(int stationId) {
 		this.stationId = stationId;
 	}
@@ -72,8 +71,9 @@ public class Station implements IStation {
 
 	@Override
 	public boolean isStationNameInvalid() {
-		String StationNameWithoutSpace = this.stationName.trim();	
-		if(StationNameWithoutSpace.length() > 0 ){
+		String StationNameWithoutSpace = this.stationName.trim();
+
+		if (StationNameWithoutSpace.length() > 0) {
 			return false;
 		}
 		return true;
@@ -82,7 +82,8 @@ public class Station implements IStation {
 	@Override
 	public boolean isStationCodeInvalid() {
 		String StationCodeWithoutSpace = this.stationCode.trim();
-		if(StationCodeWithoutSpace.length() > 0 ){
+
+		if (StationCodeWithoutSpace.length() > 0) {
 			return false;
 		}
 		return true;
@@ -91,7 +92,8 @@ public class Station implements IStation {
 	@Override
 	public boolean isStationStateInvalid() {
 		String StationStateWithoutSpace = this.stationState.trim();
-		if(StationStateWithoutSpace.length() > 0 ){
+
+		if (StationStateWithoutSpace.length() > 0) {
 			return false;
 		}
 		return true;
@@ -100,7 +102,8 @@ public class Station implements IStation {
 	@Override
 	public boolean isStationCityInvalid() {
 		String StationCityWithoutSpace = this.stationCity.trim();
-		if(StationCityWithoutSpace.length() > 0 ){
+
+		if (StationCityWithoutSpace.length() > 0) {
 			return false;
 		}
 		return true;

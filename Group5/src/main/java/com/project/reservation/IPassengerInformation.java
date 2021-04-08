@@ -34,9 +34,9 @@ public interface IPassengerInformation {
 
 	void setBerthPreference(String berthPreference);
 
-	String getSeatNumber();
+	int getSeatNumber();
 
-	void setSeatNumber(String seatNumber);
+	void setSeatNumber(int seatNumber);
 
 	String getCoachNumber();
 
@@ -44,14 +44,16 @@ public interface IPassengerInformation {
 
 	String isPassengerInformationValid();
 
-	boolean isBerthPreferenceNullOrEmpty();
+	boolean isBerthPreferenceEmpty();
 
 	boolean isAgeInvalid();
 
-	boolean isGenderNullOrEmpty();
+	boolean isGenderEmpty();
 
-	boolean isLastNameNullOrEmpty();
+	boolean isLastNameEmpty();
 
-	boolean isFirstNameNullOrEmpty();
+	boolean isFirstNameEmpty();
+
+	boolean isRowNonEmpty();
 
 }

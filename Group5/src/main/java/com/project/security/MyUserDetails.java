@@ -8,23 +8,19 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.project.user.IUser;
 
-
 public class MyUserDetails implements UserDetails {
-	
-	//reference taken for spring security from "https://www.codejava.net/frameworks/spring-boot/spring-security-custom-login-page"
-	//for role based authentication "https://www.youtube.com/watch?v=_TrpJzuK-p4"
-		
-	
+	// reference taken for spring security from
+	// "https://www.codejava.net/frameworks/spring-boot/spring-security-custom-login-page"
+	// for role based authentication "https://www.youtube.com/watch?v=_TrpJzuK-p4"
+	private static final long serialVersionUID = 1L;
 	private IUser user;
-	
-	public MyUserDetails(IUser user)
-	{
-		this.user=user;
+
+	public MyUserDetails(IUser user) {
+		this.user = user;
 	}
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities()
-	{
+	public Collection<? extends GrantedAuthority> getAuthorities() {
 		String role = user.getRole();
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority(role));
@@ -32,38 +28,32 @@ public class MyUserDetails implements UserDetails {
 	}
 
 	@Override
-	public String getPassword()
-	{
+	public String getPassword() {
 		return user.getPassword();
 	}
 
 	@Override
-	public String getUsername()
-	{
+	public String getUsername() {
 		return user.getUserName();
 	}
 
 	@Override
-	public boolean isAccountNonExpired()
-	{
+	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	@Override
-	public boolean isAccountNonLocked()
-	{
+	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	@Override
-	public boolean isCredentialsNonExpired()
-	{
+	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return user.isEnabled();
 	}
 

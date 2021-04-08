@@ -9,22 +9,25 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DatabaseUtilities implements IDatabaseUtilities {
-	
     private String DRIVER = "com.mysql.cj.jdbc.Driver";
+	public Connection connection;
+	
 	private String URL = "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_5_DEVINT?useSSL=false&serverTimezone=UTC";
 	private String USERNAME = "CSCI5308_5_DEVINT_USER";
 	private String PASSWORD = "CBfHk3FuJet8gKvT";
-	public Connection connection;
 
-	
 	@Override
 	public Connection  establishConnection(){
 		try {
 			Class.forName(DRIVER);
-		    connection = DriverManager.getConnection(URL , USERNAME, PASSWORD);
+		    String url = URL;
+			String userName = USERNAME;
+			String password = PASSWORD;
+			
+		    connection = DriverManager.getConnection(url , userName, password);
 			return connection;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 			return null;
 		}
 	}
@@ -33,8 +36,8 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 	public void closeConnection(Connection conn) {
 		try {
 			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 	
@@ -42,8 +45,8 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 	public void closeStatement(CallableStatement statement) {
 		try {
 			statement.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 
@@ -51,8 +54,9 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 	public void closeResultSet(ResultSet resultSet) {
 		try {
 			resultSet.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
+	
 }

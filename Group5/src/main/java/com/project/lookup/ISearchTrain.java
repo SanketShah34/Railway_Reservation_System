@@ -4,22 +4,26 @@ import java.util.Date;
 
 public interface ISearchTrain {
 
-	public String getSourceStation();
-	
-	public void setSourceStation(String sourceStation);
-	
-	public String getDestinationStation();
-	
-	public void setDestinationStation(String destinationStation);
-	
-	public Date getDateofJourny() ;
-	
-	public void setDateofJourny(Date dateofJourny);
-	
-	public String getTrainType();
-	
-	public void setTrainType(String trainType);
-	
-	public boolean issourceStationAndDestinationStationSame(String sourceStation , String destinationStation);
-	
+	String getSourceStation();
+
+	void setSourceStation(String sourceStation);
+
+	String getDestinationStation();
+
+	void setDestinationStation(String destinationStation);
+
+	Date getDateOfJourny();
+
+	void setDateOfJourny(Date dateOfJourny);
+
+	String getTrainType();
+
+	void setTrainType(String trainType);
+
+	boolean isSourceStationAndDestinationStationSame(String sourceStation, String destinationStation);
+
+	boolean isDatePreviousDate(Date dateOfJourny);
+
+	boolean isDateInWithinOneMonthPeriod(Date date);
+
 }

@@ -6,12 +6,12 @@ import java.sql.ResultSet;
 
 public interface IDatabaseUtilities {
 
-	public Connection establishConnection();
+	Connection establishConnection();
 
-	public void closeConnection(Connection conn);
-	
+	void closeConnection(Connection conn);
+
 	void closeStatement(CallableStatement statement);
-	
+
 	void closeResultSet(ResultSet resultSet);
 
 }

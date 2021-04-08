@@ -1,10 +1,9 @@
 package com.project.setup;
 
-
+import java.sql.Date;
 import java.util.List;
 
 public class Train implements ITrain {
-
 	public int trainId;
 	public int trainCode;
 	public String trainName;
@@ -18,12 +17,16 @@ public class Train implements ITrain {
 	public List<Integer> totalStation;
 	public double fare;
 	public String pickUPTime;
+	public Date pickUPDate;
 	public String dropTime;
+	public Date dropUpDate;
 	public int availableSeat;
-	public int totalDistance;
-	
-	public Train() {}
-	
+	public double totalDistance;
+	public Date startDate;
+
+	public Train() {
+	}
+
 	public Train(int trainId, int trainCode, String trainName, String trainType, String days, String departureTime,
 			int totalCoaches, String startStation, String middleStations, String endStation) {
 		this.trainId = trainId;
@@ -189,12 +192,118 @@ public class Train implements ITrain {
 	}
 
 	@Override
-	public int getTotalDistance() {
+	public double getTotalDistance() {
 		return totalDistance;
 	}
 
 	@Override
-	public void setTotalDistance(int totalDistance) {
+	public void setTotalDistance(double totalDistance) {
 		this.totalDistance = totalDistance;
 	}
+
+	@Override
+	public Date getPickUPDate() {
+		return pickUPDate;
+	}
+
+	@Override
+	public void setPickUPDate(Date pickUPDate) {
+		this.pickUPDate = pickUPDate;
+	}
+
+	@Override
+	public Date getDropUpDate() {
+		return dropUpDate;
+	}
+
+	@Override
+	public void setDropUpDate(Date dropUpDate) {
+		this.dropUpDate = dropUpDate;
+	}
+
+	@Override
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	@Override
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	@Override
+	public boolean isTrainCodeInvalid() {
+		if (this.trainCode > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isTrainNameInvalid() {
+		String trainNameWithoutSpace = this.trainName.trim();
+		
+		if (trainNameWithoutSpace.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isTrainTypeInvalid() {
+		String trainTypeWithoutSpace = this.trainType.trim();
+
+		if (trainTypeWithoutSpace.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isTrainDepartureTimeInvalid() {
+		String trainDepartureTimeWithoutSpace = this.departureTime.trim();
+
+		if (trainDepartureTimeWithoutSpace.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isTotalCoachesInvalid() {
+		if (this.trainCode > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isStartStationInvalid() {
+		String trainStartStationWithoutSpace = this.startStation.trim();
+
+		if (trainStartStationWithoutSpace.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isEndStationInvalid() {
+		String trainEndStationWithoutSpace = this.endStation.trim();
+
+		if (trainEndStationWithoutSpace.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isSourceStationAndDestinationStationSame() {
+		if (this.startStation.equals(this.endStation)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

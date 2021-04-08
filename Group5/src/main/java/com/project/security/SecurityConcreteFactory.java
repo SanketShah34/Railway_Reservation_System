@@ -8,80 +8,73 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import com.project.user.IUser;
 
 public class SecurityConcreteFactory extends SecurityAbstractFactory {
-	
-	private UserDetailsService userDetailService ;
+	private UserDetailsService userDetailService;
 	private BCryptPasswordEncoder passwordEncoder;
 	private DaoAuthenticationProvider authenticationProvider;
 	private AuthenticationSuccessHandler successHandler;
+	private SecurityQuestion securityQuestion;
 	private UserDetails userDetail;
-	
-	
-	public UserDetailsService createUserDetailsService()
-	{
+
+	public UserDetailsService createUserDetailsService() {
 		if (userDetailService == null) {
 			userDetailService = new UserDetailsServiceImpl();
-    	}
-    	return userDetailService;
-	}
-	
-	public UserDetailsService createNewUserDetailsService()
-	{
-		 return new UserDetailsServiceImpl();
+		}
+		return userDetailService;
 	}
 
-	
-	public BCryptPasswordEncoder createPasswordEncoder()
-	{
+	public UserDetailsService createNewUserDetailsService() {
+		return new UserDetailsServiceImpl();
+	}
+
+	public BCryptPasswordEncoder createPasswordEncoder() {
 		if (passwordEncoder == null) {
 			passwordEncoder = new BCryptPasswordEncoder();
-    	}
-    	return passwordEncoder;
+		}
+		return passwordEncoder;
 	}
 
-	public BCryptPasswordEncoder createNewPasswordEncoder()
-	{
+	public BCryptPasswordEncoder createNewPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	
-	public DaoAuthenticationProvider createAuthenticationprovider()
-	{
+
+	public DaoAuthenticationProvider createAuthenticationprovider() {
 		if (authenticationProvider == null) {
 			authenticationProvider = new DaoAuthenticationProvider();
-    	}
-    	return authenticationProvider;
+		}
+		return authenticationProvider;
 	}
-	
-	public DaoAuthenticationProvider createNewAuthenticationprovider()
-	{
+
+	public DaoAuthenticationProvider createNewAuthenticationprovider() {
 		return new DaoAuthenticationProvider();
 	}
 
-	
-	public AuthenticationSuccessHandler createCustomeSuccessHandler()
-	{
+	public AuthenticationSuccessHandler createCustomeSuccessHandler() {
 		if (successHandler == null) {
 			successHandler = new CustomSuccessHandler();
-    	}
-    	return successHandler; 
+		}
+		return successHandler;
 	}
 
-	public AuthenticationSuccessHandler createNewCustomeSuccessHandler()
-	{
-		return new CustomSuccessHandler();  
+	public AuthenticationSuccessHandler createNewCustomeSuccessHandler() {
+		return new CustomSuccessHandler();
 	}
-	
-	public UserDetails createMyUserDetail(IUser user)
-	{
+
+	public UserDetails createMyUserDetail(IUser user) {
 		if (userDetail == null) {
 			userDetail = new MyUserDetails(user);
-    	}
-    	return userDetail; 
+		}
+		return userDetail;
 	}
-	
-	public UserDetails createNewMyUserDetail(IUser user)
-	{
+
+	public UserDetails createNewMyUserDetail(IUser user) {
 		return new MyUserDetails(user);
+	}
+
+	public SecurityQuestion createSecurityQuestion() {
+		if (securityQuestion == null) {
+			securityQuestion = new SecurityQuestion();
+		}
+		return securityQuestion;
 	}
 
 }

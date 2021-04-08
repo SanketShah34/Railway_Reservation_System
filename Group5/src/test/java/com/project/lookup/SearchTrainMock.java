@@ -1,21 +1,21 @@
 package com.project.lookup;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class SearchTrainMock {
-	
+
 	public ISearchTrain createSearchTrainMock(ISearchTrain searchTrain) {
 		searchTrain.setSourceStation("1");
 		searchTrain.setDestinationStation("4");
-		searchTrain.setDateofJourny(new Date());
+		searchTrain.setDateOfJourny(new Date(System.currentTimeMillis()));
 		searchTrain.setTrainType("AC SLEEPER");
 		return searchTrain;
 	}
-	
+
 	public ISearchTrain createSearchTrainMockWithEqualSourceAndDestinationStation(ISearchTrain searchTrain) {
 		searchTrain.setSourceStation("1");
 		searchTrain.setDestinationStation("1");
-		searchTrain.setDateofJourny(new Date());
+		searchTrain.setDateOfJourny(new Date(System.currentTimeMillis()));
 		searchTrain.setTrainType("AC SLEEPER");
 		return searchTrain;
 	}
