@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,21 +45,65 @@ public class TrainController {
 
 		model.addAttribute("listOfStations", stations);
 		model.addAttribute(train);
-		return "train/add_train";
+		return "train/addTrain";
 	}
 
 	@PostMapping(value = "/admin/train/save")
-	public String saveTrain(@Valid @ModelAttribute("train") ITrain train, BindingResult result) {
-		if (result.hasErrors()) {
-			return "train/add_train";
-		} else {
-			SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-			ITrainDAO trainDAO = setupAbstractFactory.createTrainDAO();
+	public String saveTrain(@ModelAttribute("train") ITrain train, Model model) {
+		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
+		ITrainDAO trainDAO = setupAbstractFactory.createTrainDAO();
+		boolean validOrNot = true;
 
+		if (train.isTrainCodeInvalid()) {
+			model.addAttribute("trainCodeError", true);
+			validOrNot = false;
+		}
+		if (train.isTrainNameInvalid()) {
+			model.addAttribute("trainNameError", true);
+			validOrNot = false;
+		}
+		if (train.isTrainTypeInvalid()) {
+			model.addAttribute("trainTypeError", true);
+			validOrNot = false;
+		}
+		if (train.isTrainDepartureTimeInvalid()) {
+			model.addAttribute("departureTimeError", true);
+			validOrNot = false;
+		}
+		if (train.isTotalCoachesInvalid()) {
+			model.addAttribute("coachesError", true);
+			validOrNot = false;
+		}
+		if (train.isStartStationInvalid()) {
+			model.addAttribute("startStationError", true);
+			validOrNot = false;
+		}
+		if (train.isEndStationInvalid()) {
+			model.addAttribute("endStationError", true);
+			validOrNot = false;
+		}
+		if (train.isSourceStationAndDestinationStationSame()) {
+			model.addAttribute("sameStationError", true);
+			validOrNot = false;
+		}
+		if (validOrNot) {
 			if (trainDAO.saveTrain(train)) {
 				return "redirect:/admin/train/list";
 			} else {
-				return "redirect:/admin/train-route-error";
+				model.addAttribute("trainRouteError", true);
+				if(train.getTrainId() > 0) {
+					return this.showEditTrainPage(train.getTrainId() ,model );
+				}
+				else {
+					return this.showAddTrainPage(model);
+				}
+			}
+		} else {
+			if(train.getTrainId() > 0) {
+				return this.showEditTrainPage(train.getTrainId() ,model );
+			}
+			else {
+				return this.showAddTrainPage(model);
 			}
 		}
 	}
@@ -87,7 +129,7 @@ public class TrainController {
 
 		model.addAttribute("listOfMiddleStations", middleStationsList);
 		model.addAttribute("listOfDays", allDays);
-		return "train/edit_train";
+		return "train/editTrain";
 	}
 
 	@ModelAttribute("train")
@@ -105,18 +147,6 @@ public class TrainController {
 
 		trainDAO.deleteTrain(trainId);
 		return "redirect:/admin/train/list";
-	}
-
-	@RequestMapping("/admin/train-route-error")
-	public String trainRouteError(Model model) {
-		SetupAbstractFactory setupAbstractFactory = SetupAbstractFactory.instance();
-		ITrainDAO trainDAO = setupAbstractFactory.createTrainDAO();
-
-		model.addAttribute("trainRouteError", true);
-		List<Train> listOfTrain = trainDAO.getAllTrain();
-
-		model.addAttribute("listOfTrain", listOfTrain);
-		return "train/train";
 	}
 
 }

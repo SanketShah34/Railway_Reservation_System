@@ -17,6 +17,7 @@ public class User implements IUser {
 	public int id;
 	public String userName;
 	public String password;
+	public String confirmPassword;
 	public boolean enabled;
 	public String role;
 	public String firstName;
@@ -87,6 +88,14 @@ public class User implements IUser {
 	@Override
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	@Override

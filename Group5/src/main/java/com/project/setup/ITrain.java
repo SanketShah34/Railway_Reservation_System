@@ -81,4 +81,20 @@ public interface ITrain {
 
 	void setStartDate(Date startDate);
 
+	boolean isTrainCodeInvalid();
+
+	boolean isTrainNameInvalid();
+
+	boolean isTrainTypeInvalid();
+
+	boolean isTrainDepartureTimeInvalid();
+
+	boolean isTotalCoachesInvalid();
+
+	boolean isStartStationInvalid();
+
+	boolean isEndStationInvalid();
+
+	boolean isSourceStationAndDestinationStationSame();
+
 }
