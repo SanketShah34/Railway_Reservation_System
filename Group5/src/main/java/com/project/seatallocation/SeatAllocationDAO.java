@@ -30,6 +30,7 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 
 	@Override
 	public IReservation allocateSeat(IReservation reservation) {
+		
 		int totalCoaches = 0;
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
@@ -59,9 +60,9 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 
 			for (int i = 0; i < passengerInformation.size(); i++) {
 				IPassengerInformation passengerInfo = passengerInformation.get(i);
-				String berthPreference = passengerInfo.getBerthPreference();
+				String berthPreference = passengerInfo.getBerthPreference();		
 				boolean seatAllocated = false;
-				int middleCoach = totalCoaches / 2;
+				int middleCoach = totalCoaches/2;
 				List<String> coachNumbers = new ArrayList<>();
 
 				if (0 < totalCoaches % 2) {

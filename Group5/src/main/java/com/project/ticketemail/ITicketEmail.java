@@ -1,10 +1,10 @@
-package com.project.ticketprint;
+package com.project.ticketemail;
 
 import java.util.List;
 
 import com.project.reservation.IPassengerInformation;
 
-public interface ITicketPrint {
+public interface ITicketEmail {
 
 	int getReservationId();
 

@@ -28,7 +28,6 @@ public class CalculateAmountTest {
 		reservation = reservationMock.creteReservationMock(reservation);
 		idList.add(1);
 		idList.add(2);
-
 		double amount = calculateAmount.calculateRefundAmount(reservation, idList, searchPassengerInformationDAOMock);
 		assertEquals(20.0, amount);
 	}

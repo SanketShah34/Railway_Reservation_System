@@ -1,23 +1,24 @@
-package com.project.ticketprint;
+package com.project.ticketemail;
 
 import java.util.List;
 
 import com.project.reservation.IPassengerInformation;
 
-public class TicketPrint implements ITicketPrint {
+public class TicketEmail implements ITicketEmail{
+
 	public int reservationId;
 	public int trainCode;
 	public String trainName;
-	public String sourceStation;
-	public String destinationStation;
-	public double amountPaid;
-	public String trainType;
-	public List<IPassengerInformation> passengerInformation;
+    public String sourceStation;
+    public String destinationStation;
+    public double amountPaid;
+    public String trainType;
+    public List<IPassengerInformation> passengerInformation;
+    
+    public TicketEmail() {
+    }
 
-	public TicketPrint() {
-	}
-
-	public TicketPrint(int reservationId, int trainCode, String trainName, String sourceStation,
+	public TicketEmail(int reservationId, int trainCode, String trainName, String sourceStation,
 			String destinationStation, double amountPaid, String trainType,
 			List<IPassengerInformation> passengerInformation) {
 		super();
@@ -110,5 +111,4 @@ public class TicketPrint implements ITicketPrint {
 	public void setPassengerInformation(List<IPassengerInformation> passengerInformation) {
 		this.passengerInformation = passengerInformation;
 	}
-	
 }

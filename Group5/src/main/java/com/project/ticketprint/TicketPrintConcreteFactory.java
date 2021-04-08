@@ -1,23 +1,29 @@
 package com.project.ticketprint;
 
-public class TicketPrintConcreteFactory extends TicketPrintAbstractFactory {
+public class TicketPrintConcreteFactory extends TicketPrintAbstractFactory{
 	private ITicketPrint ticketPrint;
 	private ITicketPrintDAO ticketPrintDAO;
-
+	
 	@Override
 	public ITicketPrintDAO createNewTicketPrintDAO() {
-		if (null == ticketPrintDAO) {
-			ticketPrintDAO = new TicketPrintDAO();
-		}
-		return ticketPrintDAO;
+		return new TicketPrintDAO();
+	}
+	
+	@Override
+	public ITicketPrintDAO createTicketPrintDAO() {
+		return new TicketPrintDAO();
 	}
 
 	@Override
-	public ITicketPrint createNewTicketPrint() {
+	public ITicketPrint createTicketPrint() {
 		if (null == ticketPrint) {
 			ticketPrint = new TicketPrint();
 		}
 		return ticketPrint;
 	}
 
+	@Override
+	public ITicketPrint createNewTicketPrint() {
+		return new TicketPrint();
+	}
 }
