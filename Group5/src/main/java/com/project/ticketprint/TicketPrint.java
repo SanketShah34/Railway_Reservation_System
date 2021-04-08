@@ -110,5 +110,5 @@ public class TicketPrint implements ITicketPrint {
 	public void setPassengerInformation(List<IPassengerInformation> passengerInformation) {
 		this.passengerInformation = passengerInformation;
 	}
-
+	
 }

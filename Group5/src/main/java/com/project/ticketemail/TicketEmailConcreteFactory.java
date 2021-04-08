@@ -2,22 +2,32 @@ package com.project.ticketemail;
 
 public class TicketEmailConcreteFactory extends TicketEmailAbstractFactory{
 
-	private ITicketEmail ticketPrint;
-	private ITicketEmailDAO ticketPrintDAO;
+	private ITicketEmail ticketEmail;
+	private ITicketEmailDAO ticketEmailDAO;
+	
+	@Override
+	public ITicketEmailDAO createTicketEmailDAO() {
+		if (ticketEmailDAO == null) {
+			ticketEmailDAO = new TicketEmailDAO();
+		}
+		return ticketEmailDAO;
+	}
 	
 	@Override
 	public ITicketEmailDAO createNewTicketEmailDAO() {
-		if(null == ticketPrintDAO) {
-			ticketPrintDAO = new TicketEmailDAO();
+		return new TicketEmailDAO();
+	}
+	
+	@Override
+	public ITicketEmail createTicketEmail() {
+		if(null == ticketEmail) {
+			ticketEmail = new TicketEmail();
 		}
-		return ticketPrintDAO;
+		return ticketEmail;
 	}
 	
 	@Override
 	public ITicketEmail createNewTicketEmail() {
-		if(null == ticketPrint) {
-			ticketPrint = new TicketEmail();
-		}
-		return ticketPrint;
+		return new TicketEmail();
 	}
 }
