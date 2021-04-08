@@ -224,15 +224,15 @@ class PassengerInformationTest {
 		PassengerMock passengerMock = reservationAbstractFactoryTest.createPassengerMock();
 		
 		passengerInformation = passengerMock.createPassengerMock(passengerInformation);
+		passengerInformation.setFirstName("");
+		passengerInformation.setLastName("");
+		assertFalse(passengerInformation.isRowNonEmpty());
+	
+		passengerInformation = passengerMock.createPassengerMockFirstNameEmpty(passengerInformation);
 		assertTrue(passengerInformation.isRowNonEmpty());
 		
-		passengerInformation = passengerMock.createPassengerMockFirstNameEmpty(passengerInformation);
-		assertFalse(passengerInformation.isRowNonEmpty());
-		
-		passengerInformation = passengerMock.createPassengerMockLastNameNull(passengerInformation);
-		assertFalse(passengerInformation.isRowNonEmpty());
-		
 		passengerInformation = passengerMock.createPassengerMockLastNameEmpty(passengerInformation);
-		assertFalse(passengerInformation.isRowNonEmpty());
+		assertTrue(passengerInformation.isRowNonEmpty());
 	}
+	
 }

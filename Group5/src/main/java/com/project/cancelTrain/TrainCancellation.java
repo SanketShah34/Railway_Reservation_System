@@ -16,11 +16,10 @@ import com.project.lookup.LookupAbstractFactory;
 import com.project.reservation.IPassengerInformation;
 import com.project.reservation.IReservation;
 import com.project.reservation.IReservationDAO;
-import com.project.reservation.ReservationAbstractFactory;
 import com.project.setup.IRouteDAO;
 import com.project.setup.ITrain;
 import com.project.ticketCancellation.CancelTicketAbstractFactory;
-import com.project.ticketCancellation.ICalculateAmounts;
+import com.project.ticketCancellation.ICalculateAmount;
 import com.project.ticketCancellation.ISearchPassengerInformationDAO;
 
 public class TrainCancellation implements ITrainCancellation {
@@ -29,22 +28,22 @@ public class TrainCancellation implements ITrainCancellation {
 	private final static String RESCHEDULE_ON_WEEK_ENDS = "Reschedule on week-ends";
 	
 	@Override
-	public void cancelOrRescheduleTicket(List<IReservation> reservationList, ISearchTrainDAO searchTrainDAO, IRouteDAO routeDAO, ISeatAvailibilityDAO seatAvailibilityDAO) {
+	public void cancelOrRescheduleTicket(List<IReservation> reservationList, ISearchTrainDAO searchTrainDAO, IRouteDAO routeDAO, ISeatAvailibilityDAO seatAvailibilityDAO , ISearchPassengerInformationDAO searchPassengerInformationDAO, IReservationDAO reservationDAO) {
 		for(int index = 0; index < reservationList.size(); index++) {
 			IReservation reservation = reservationList.get(index);
 			
 			if (reservation.getTrainCancelEvent().equals(CANCEL_TRAIN)) {
-				this.cancelTicket(reservation);
+				this.cancelTicket(reservation , searchPassengerInformationDAO);
 			} else if (reservation.getTrainCancelEvent().equals(RESCHEDULE_ON_WEEK_DAYS)) {
-				this.rescheduleOnWeekDays(reservation, searchTrainDAO, routeDAO, seatAvailibilityDAO); 
+				this.rescheduleOnWeekDays(reservation, searchTrainDAO, routeDAO, seatAvailibilityDAO ,searchPassengerInformationDAO , reservationDAO  ); 
 			} else if (reservation.getTrainCancelEvent().equals(RESCHEDULE_ON_WEEK_ENDS)) {
-				this.rescheduleOnWeekEnds(reservation, searchTrainDAO, routeDAO, seatAvailibilityDAO);
+				this.rescheduleOnWeekEnds(reservation, searchTrainDAO, routeDAO, seatAvailibilityDAO , searchPassengerInformationDAO , reservationDAO );
 			} 
 		}
 	}
 	
 	@Override
-	public void rescheduleOnWeekDays(IReservation reservation, ISearchTrainDAO searchTrainDAO, IRouteDAO routeDAO, ISeatAvailibilityDAO seatAvailibilityDAO) {
+	public void rescheduleOnWeekDays(IReservation reservation, ISearchTrainDAO searchTrainDAO, IRouteDAO routeDAO, ISeatAvailibilityDAO seatAvailibilityDAO ,  ISearchPassengerInformationDAO searchPassengerInformationDAO, IReservationDAO reservationDAO) {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();		
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 		ITrainFilterAndFairCalculation trainFilterAndCalculateFair = lookupAbstractFactory.createNewTrainFilterAndCalculateFair();
@@ -77,11 +76,11 @@ public class TrainCancellation implements ITrainCancellation {
 						}
 					}
 					if (train.getAvailableSeat() >= reservation.getTicketBooked() && sameDayDifferentTrain) {
-						this.cancelTicket(reservation);
+						this.cancelTicket(reservation ,  searchPassengerInformationDAO );
 						reservation.setTrainId(train.getTrainId());
 						reservation.setDistance(train.getTotalDistance());
 						reservation.setStartDate(train.getStartDate());
-						this.bookTicket(reservation);
+						this.bookTicket(reservation, reservationDAO);
 						ticketBooked = true;
 						break;
 					}
@@ -94,12 +93,12 @@ public class TrainCancellation implements ITrainCancellation {
 			currentDate = this.getNextDate(currentDate);
 		}
 		if (trainFound == false) {
-			this.cancelTicket(reservation);
+			this.cancelTicket(reservation , searchPassengerInformationDAO);
 		}
 	}
 	
 	@Override
-	public void rescheduleOnWeekEnds(IReservation reservation, ISearchTrainDAO searchTrainDAO, IRouteDAO routeDAO, ISeatAvailibilityDAO seatAvailibilityDAO) {
+	public void rescheduleOnWeekEnds(IReservation reservation, ISearchTrainDAO searchTrainDAO, IRouteDAO routeDAO, ISeatAvailibilityDAO seatAvailibilityDAO ,  ISearchPassengerInformationDAO searchPassengerInformationDAO, IReservationDAO reservationDAO) {
 		LookupAbstractFactory lookupAbstractFactory = LookupAbstractFactory.instance();
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 		ITrainFilterAndFairCalculation trainFilterAndCalculateFair = lookupAbstractFactory.createNewTrainFilterAndCalculateFair();
@@ -132,11 +131,11 @@ public class TrainCancellation implements ITrainCancellation {
 						}
 					}
 					if (train.getAvailableSeat() >= reservation.getTicketBooked() && sameDayDifferentTrain) {
-						this.cancelTicket(reservation);
+						this.cancelTicket(reservation , searchPassengerInformationDAO);
 						reservation.setTrainId(train.getTrainId());
 						reservation.setDistance(train.getTotalDistance());
 						reservation.setStartDate(train.getStartDate());
-						this.bookTicket(reservation);
+						this.bookTicket(reservation , reservationDAO);
 						ticketBooked = true;
 						break;
 					}
@@ -149,14 +148,12 @@ public class TrainCancellation implements ITrainCancellation {
 			currentDate = this.getNextDate(currentDate);
 		}
 		if (trainFound == false) {
-			this.cancelTicket(reservation);
+			this.cancelTicket(reservation , searchPassengerInformationDAO );
 		}
 	}
 	
 	@Override
-	public void bookTicket(IReservation reservation) {
-		ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
-		IReservationDAO reservationDAO = reservationAbstractFactory.createNewReservationDAO();
+	public void bookTicket(IReservation reservation ,  IReservationDAO reservationDAO) {
 		IReservation reservationInformation = reservationDAO.saveReservationInformation(reservation);
 		
 		reservation.calculateTotalReservationFare(reservation);
@@ -164,7 +161,7 @@ public class TrainCancellation implements ITrainCancellation {
 	}
 	
 	@Override
-	public void cancelTicket(IReservation reservation) {
+	public void cancelTicket(IReservation reservation ,  ISearchPassengerInformationDAO searchPassengerInformationDAO) {
 		List<Integer> ticketsToBeCancelled = new ArrayList<Integer>(0);
 		
 		if (reservation.getPassengerInformation().size() > 0) {
@@ -175,29 +172,27 @@ public class TrainCancellation implements ITrainCancellation {
 			}
 		}
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInformationDAO searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
-		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
-		IReservation reservationInformation = searchTicketInfo.GetAmountPaidOnTicket(ticketsToBeCancelled);
-		double refundedAmount = calculateAmounts.CalculateRefundAmount(reservationInformation, ticketsToBeCancelled);
+		ICalculateAmount calculateAmount = cancelTicketAbstractFactory.createNewCalculateAmounts();
+		IReservation reservationInformation = searchPassengerInformationDAO.getAmountPaidOnTicket(ticketsToBeCancelled);
+		double refundedAmount = calculateAmount.calculateRefundAmount(reservationInformation, ticketsToBeCancelled, searchPassengerInformationDAO);
+		searchPassengerInformationDAO.deleteTickets(ticketsToBeCancelled, reservationInformation, refundedAmount);	
 		
-		searchTicketInfo.DeleteTickets(ticketsToBeCancelled, reservationInformation, refundedAmount);
 	}
 	
-	@Override
+	
 	public DayOfWeek findDay(Date date) {
 		LocalDate localDate = date.toLocalDate();
 		
 		return localDate.getDayOfWeek();
 	}
 	
-	@Override
+	
 	public Date getNextDate(Date date) {
 		LocalDate localDate = date.toLocalDate();
 		
 		return Date.valueOf(localDate.plusDays(1));
 	}
 	
-	@Override
 	public Date getDateAfterAWeek(Date date) {
 		LocalDate localDateAfterAWeek = date.toLocalDate().plusDays(8);
 		

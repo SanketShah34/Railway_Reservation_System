@@ -16,8 +16,8 @@ public class UserDAO implements IUserDAO {
 	@Override
 	public IUser getUserByUsername(String username) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		IUser userfromDB = userAbstractFactory.createUser();
 		Connection connection = null;
 		CallableStatement statement = null;
@@ -27,9 +27,9 @@ public class UserDAO implements IUserDAO {
      		statement = connection.prepareCall("{call findUserByUserName(? )}");
      		statement.setString(1, username);
 			boolean hadResults = statement.execute();
-			if (hadResults) {
+			if(hadResults) {
 				 resultSet = statement.getResultSet();
-				if (resultSet.next()) {
+				if(resultSet.next()) {
 					int id = resultSet.getInt("id");
 					String userName = resultSet.getString("userName");
 					String password = resultSet.getString("password");
@@ -53,20 +53,18 @@ public class UserDAO implements IUserDAO {
 		return userfromDB;
 	}
 	
-	
 	@Override
 	public void saveUser(IUser user) {
-		
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		java.sql.Date date = new java.sql.Date(user.getDateOfBirth().getTime());
 		if(user.getId() == 0) {
 			try {
 				BCryptPasswordEncoder encoder  = securityAbstractFactory.createPasswordEncoder();
-		        String encodedpassword = encoder.encode(user.getPassword());
+		        String encodedPassword = encoder.encode(user.getPassword());
 		        statement = connection.prepareCall("{call addUser( ? , ? , ? , ?, ?, ?, ? , ? , ? , ? , ? )}");
 		        statement.setString(1, user.getFirstName());
 		        statement.setString(2, user.getLastName());
@@ -77,7 +75,7 @@ public class UserDAO implements IUserDAO {
 		        statement.setDate(4, date);
 		        statement.setString(5, String.valueOf(user.getMobileNumber()));
 		        statement.setString(6, user.getUserName());
-		        statement.setString(7, encodedpassword);
+		        statement.setString(7, encodedPassword);
 		        statement.setString(8, user.getQuestionOne());
 		        statement.setString(9, user.getAnswerOne());
 		        statement.setString(10, user.getQuestionTwo());
@@ -94,8 +92,7 @@ public class UserDAO implements IUserDAO {
 	}
 	
 	@Override
-	public boolean isUserExists(String username) 
-	{
+	public boolean isUserExists(String username) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = null;
@@ -104,12 +101,12 @@ public class UserDAO implements IUserDAO {
 		boolean hadResults = false;
 		try {
      		connection = databaseUtilities.establishConnection();
-			statement = connection.prepareCall("{call findUserByUserName(? )}");
+			statement = connection.prepareCall("{call findUserByUserName( ? )}");
 			statement.setString(1, username);
 			hadResults = statement.execute();
-			if (hadResults) {
+			if(hadResults) {
 				 resultSet = statement.getResultSet();
-				if (resultSet.next()) {
+				if(resultSet.next()) {
 					return true;
 				}
 				else {
@@ -125,12 +122,10 @@ public class UserDAO implements IUserDAO {
 			databaseUtilities.closeConnection(connection);
 		}
 		return true;
-		
 	}
 	
 	@Override
-	public boolean isUserPresentWithSameQuestionAndAnswer(IUser user) 
-	{
+	public boolean isUserPresentWithSameQuestionAndAnswer(IUser user) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = null;
@@ -139,16 +134,16 @@ public class UserDAO implements IUserDAO {
 		boolean hadResults = false;
 		try {
      		connection = databaseUtilities.establishConnection();
-			statement = connection.prepareCall("{call findUserByUserNameAndQuestionAndAnswer(?  , ? , ? , ? , ? )}");
+			statement = connection.prepareCall("{call findUserByUserNameAndQuestionAndAnswer(? , ? , ? , ? , ? )}");
 			statement.setString(1, user.getUserName());
 			statement.setString(2, user.getQuestionOne());
 			statement.setString(3, user.getAnswerOne());
 			statement.setString(4, user.getQuestionTwo());
 			statement.setString(5, user.getAnswerTwo());
 			hadResults = statement.execute();
-			if (hadResults) {
+			if(hadResults) {
 				 resultSet = statement.getResultSet();
-				if (resultSet.next()) {
+				if(resultSet.next()) {
 					return true;
 				}
 				else {
@@ -165,16 +160,14 @@ public class UserDAO implements IUserDAO {
 			databaseUtilities.closeStatement(statement);
 			databaseUtilities.closeConnection(connection);
 		}
-		return true;
-		
+		return true;	
 	}
 	
 	@Override
-	public boolean updatePassword(IUser user) 
-	{
+	public boolean updatePassword(IUser user) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
-		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		SecurityAbstractFactory securityAbstractFactory = SecurityAbstractFactory.instance();
+		IDatabaseUtilities databaseUtilities =  databaseAbstractFactory.createDatabaseUtilities();
 		BCryptPasswordEncoder encoder  = securityAbstractFactory.createPasswordEncoder();
         String encodedpassword = encoder.encode(user.getPassword());
 		Connection connection = null;
@@ -182,11 +175,11 @@ public class UserDAO implements IUserDAO {
 		boolean hadResults = false;
 		try {
      		connection = databaseUtilities.establishConnection();
-			statement = connection.prepareCall("{call updatePassword(?  , ?)}");
+			statement = connection.prepareCall("{call updatePassword(? , ?)}");
 			statement.setString(1, user.getUserName());
 			statement.setString(2, encodedpassword);
 			hadResults = statement.execute();
-			if (hadResults) {
+			if(hadResults) {
 				return true;
 			}
 		}
@@ -198,9 +191,6 @@ public class UserDAO implements IUserDAO {
 			databaseUtilities.closeStatement(statement);
 			databaseUtilities.closeConnection(connection);
 		}
-		return true;
-		
+		return true;	
 	}
-
-
 }

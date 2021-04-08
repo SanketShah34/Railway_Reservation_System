@@ -5,7 +5,6 @@ public class UserConcreteFactory extends UserAbstractFactory {
 	private IUser user;
 	private IUserDAO userDAO;
 
-	
 	public IUser createUser() {
 		if (null == user) {
 			user = new User();
@@ -17,7 +16,6 @@ public class UserConcreteFactory extends UserAbstractFactory {
 		return new User();
 	}
 
-
 	public IUserDAO createUserDAO() {
 		if (null == userDAO) {
 			userDAO = new UserDAO();
@@ -28,6 +26,4 @@ public class UserConcreteFactory extends UserAbstractFactory {
 	public IUserDAO createNewUserDAO() {
 		return new UserDAO();
 	}
-
-	
 }

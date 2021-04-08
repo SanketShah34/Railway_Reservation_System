@@ -1,57 +1,43 @@
 package com.project.ticketCancellation;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
-
 import com.project.reservation.IReservation;
 import com.project.reservation.ReservationAbstractFactory;
 import com.project.reservation.ReservationAbstractFactoryTest;
+import com.project.reservation.ReservationMock;
 
 public class CalculateAmountTest {
 
 	CancelTicketAbstractFactoryTest cancelTicketAbstractFactoryTest = CancelTicketAbstractFactoryTest.instance();
 	CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-	
 	ReservationAbstractFactoryTest reservationAbstractFactoryTest = ReservationAbstractFactoryTest.instance();
 	ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
 	
-	@SuppressWarnings("deprecation")
 	@Test
-	void CalculateRefundAmountTest() {
-		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
+	void testCalculateRefundAmount() {
+		SearchPassengerInformationDAOMock searchPassengerInformationDAOMock  =  cancelTicketAbstractFactoryTest.createSearchPassengerInformationDAOMock();
+		ICalculateAmount calculateAmount = cancelTicketAbstractFactory.createNewCalculateAmounts();
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
-		reservation.setAmountPaid(100.0);
-		reservation.setDestinationStationId(1);
-		reservation.setDistance(100);
-		reservation.setReservationId(1);
-		reservation.setSourceStationId(1);
-		reservation.setTrainId(1);
-		reservation.setTrainType("Non AC Sleeper");
+		ReservationMock reservationMock = reservationAbstractFactoryTest.createReservationMock();
+		reservation = reservationMock.creteReservationMock(reservation);
 		
-		Date date = Date.valueOf("2021-04-04");
-		reservation.setStartDate(date);
+		List<Integer> idList =new ArrayList<>();
+		idList.add(1);
+		idList.add(2);
 		
-		List<Integer> ids =new ArrayList<>();
-		ids.add(1);
-		ids.add(2);
-		
-		double amount = calculateAmounts.CalculateRefundAmount(reservation, ids);
-		assertEquals(amount, 350.0);
+		double amount = calculateAmount.calculateRefundAmount(reservation, idList, searchPassengerInformationDAOMock);
+		assertEquals(50.0, amount);
 	}
 	
 	@Test
-	void CalculateDiscountTest() {
-		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
+	void testCalculateDiscount() {
+		ICalculateAmount calculateAmount = cancelTicketAbstractFactory.createNewCalculateAmounts();
 		Date date = Date.valueOf("2021-04-04");
-		double amount = calculateAmounts.CalculateDiscount(1000.0, 500.0, date, "09:00");
-		assertEquals(amount, 350.0);
+		double amount = calculateAmount.calculateDiscount(1000.0, 500.0, date, "09:00");
+		assertEquals(250.0, amount);
 	}
-
 }

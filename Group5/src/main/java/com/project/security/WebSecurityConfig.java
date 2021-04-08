@@ -14,7 +14,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 	
 	//reference taken for spring security from "https://www.codejava.net/frameworks/spring-boot/spring-security-custom-login-page"
 	//for role based authentication "https://www.youtube.com/watch?v=_TrpJzuK-p4"
@@ -48,15 +47,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception
 	{ 
 		auth.authenticationProvider(authenticationprovider());
-	}
-	
-	
+	}	
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
 	{
 		http.authorizeRequests()
-		
+		.antMatchers("/user/home").permitAll()	
 		.antMatchers("/user/setNewPassword").permitAll()
 		.antMatchers("/signup").permitAll()
 		.antMatchers("/signup/save").permitAll()
@@ -70,7 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.and().logout().permitAll()
 		.and()
 		.exceptionHandling().accessDeniedPage("/403");
-
 		
 		http.csrf().disable();
 		http.headers().frameOptions().disable();

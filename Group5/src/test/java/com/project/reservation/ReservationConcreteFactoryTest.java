@@ -12,4 +12,9 @@ public class ReservationConcreteFactoryTest extends ReservationAbstractFactoryTe
 		return new PassengerMock();
 	}
 	
+	@Override
+	public ReservationDAOMock createReservationDAOMock() {
+		return new ReservationDAOMock();
+	}
+
 }

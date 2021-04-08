@@ -4,7 +4,6 @@ public abstract class UserAbstractFactory {
 	private static UserAbstractFactory instance = null;
 	
 	public abstract IUser createUser();
-	
 	public abstract IUserDAO createUserDAO();
 	
 	public static UserAbstractFactory instance() {
@@ -13,5 +12,4 @@ public abstract class UserAbstractFactory {
 		}
 		return instance;
 	}
-
 }

@@ -1,10 +1,8 @@
 package com.project.ticketCancellation;
 
 import java.util.List;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +18,7 @@ public class TicketCancellationController {
 	private final String ID_CHECKED = "idChecked";
 	
 	@RequestMapping(value = "/ticket/cancel")
-	public String CancelTicketModel(Model model) {
+	public String cancelTicketModel(Model model) {
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 		IUser user = userAbstractFactory.createUser();
 		model.addAttribute(user); 
@@ -28,31 +26,31 @@ public class TicketCancellationController {
 	}
 	
 	@PostMapping(value = "/ticket/cancellation")
-	public String SearchDetailsByPnr(@RequestParam(name = PNR_NUMBER) String pnrNumber, Model model) {
+	public String searchDetailsByPnr(@RequestParam(name = PNR_NUMBER) String pnrNumber, Model model) {
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInformationDAO searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
-		List<IPassengerInformation> passengerInfo = searchTicketInfo.SearchPassengerInfoByPNR(pnrNumber);
+		ISearchPassengerInformationDAO searchTicketInformation = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		List<IPassengerInformation> passengerInfo = searchTicketInformation.searchPassengerInfoByPNR(pnrNumber);
 		model.addAttribute("passengerInformationList", passengerInfo);
 		return "cancelTicket/displayTicketInformation";
 	}
 	
 	@PostMapping(value = "/ticket/delete")
-	public String SelectTicketsToDelete(@RequestParam(name = ID_CHECKED) List<Integer> ids, Model model) {
+	public String selectTicketsToDelete(@RequestParam(name = ID_CHECKED) List<Integer> idList, Model model) {
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInformationDAO searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
-		ICalculateAmounts calculateAmounts = cancelTicketAbstractFactory.createNewCalculateAmounts();
-		IReservation reservation = searchTicketInfo.GetAmountPaidOnTicket(ids);
-		double refundedAmount = calculateAmounts.CalculateRefundAmount(reservation, ids);
-		searchTicketInfo.DeleteTickets(ids, reservation, refundedAmount);
+		ISearchPassengerInformationDAO searchTicketInformation = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		ICalculateAmount calculateAmount = cancelTicketAbstractFactory.createNewCalculateAmounts();
+		IReservation reservation = searchTicketInformation.getAmountPaidOnTicket(idList);
+		double refundedAmount = calculateAmount.calculateRefundAmount(reservation, idList, searchTicketInformation);
+		searchTicketInformation.deleteTickets(idList, reservation, refundedAmount);
 		model.addAttribute("refundedAmount", refundedAmount);
 		return "cancelTicket/cancelConfirmation";
 		
 	}
 	
 	@PostMapping(value = "/ticket/delete/done")
-	public String CancelTickets(Model model) {
+	public String cancelTickets(Model model) {
 		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInformationDAO searchTicketInfo = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		ISearchPassengerInformationDAO searchTicketInformation = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
 		return "searchTrain/searchTrain";	
 	}
 }

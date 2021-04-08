@@ -3,7 +3,6 @@ package com.project.userTest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import com.project.user.IUser;
 
 public class UserMock {
@@ -14,9 +13,9 @@ public class UserMock {
 		user.setLastName("Gohil");
 		user.setGender("Female");
 		
-		String dateStr = "2000-04-06";
+		String dateString = "2000-04-06";
 		try {
-			Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+			Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
 			user.setDateOfBirth(date);
 		} catch (ParseException exception) {
 			exception.printStackTrace();
@@ -29,5 +28,4 @@ public class UserMock {
 		
 		return user;
 	}
-
 }

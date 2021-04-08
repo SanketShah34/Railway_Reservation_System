@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import com.project.user.IUser;
 
-
 public abstract class SecurityAbstractFactory   {
 	
 	private static SecurityAbstractFactory instance = null;
@@ -30,5 +29,4 @@ public abstract class SecurityAbstractFactory   {
 		}
 		return instance;
 	}
-
 }
