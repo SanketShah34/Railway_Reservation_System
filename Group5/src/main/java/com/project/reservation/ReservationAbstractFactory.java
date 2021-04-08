@@ -26,4 +26,8 @@ public abstract class ReservationAbstractFactory {
 	
 	public abstract ISeatAllocationDAO createSeatAllocationDAO();
 	
+	public abstract ISeatAllocation createNewSeatAllocation();
+	
+	public abstract ISeatAllocation createSeatAllocation();
+	
 }
