@@ -22,7 +22,7 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 	public final String START_STATION = "startStation";
 	public final String MIDDLE_STATION = "middleStations";
 	public final String END_STATION = "endStation";
-	
+
 	public int getTotalCoaches(IReservation reservation) {
 		int totalCoaches = 0;
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
@@ -30,7 +30,7 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			statement = connection.prepareCall("{call getTotalCoaches(?)}");
 			statement.setInt(1, reservation.getTrainId());
@@ -179,4 +179,5 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 		}
 		return trainCoachesData;
 	}
+
 }
