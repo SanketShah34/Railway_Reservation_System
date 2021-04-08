@@ -24,18 +24,18 @@ import com.project.reservation.ReservationAbstractFactory;
 
 public class TicketPrintDAO implements ITicketPrintDAO{
 
-	public final String trainCodeColumnName = "trainCode";
-	public final String trainNameColumnName = "trainName";
-	public final String sourceStationColumnName = "sourceStation";
-	public final String destinationStationColumnName = "destinationStation";
-	public final String reservationDateColumnName = "reservationDate";
-	public final String amountPaidColumnName = "amountPaid";
-	public final String trainTypeColumnName = "trainType";
-	public final String firstNameColumnName = "firstName";
-	public final String lastNameColumnName = "lastName";
-	public final String ageColumnName = "age";
-	public final String coachNumberColumnName = "coachNumber";
-	public final String seatNumberColumnName = "seatNumber";
+	public final String TRAIN_CODE = "trainCode";
+	public final String TRAIN_NAME = "trainName";
+	public final String SOURCE_STATION = "sourceStation";
+	public final String DESTINATION_STATION = "destinationStation";
+	public final String RESERVATION_DATE = "reservationDate";
+	public final String AMOUNT_PAID = "amountPaid";
+	public final String TRAIN_TYPE = "trainType";
+	public final String FIRST_NAME = "firstName";
+	public final String LAST_NAME = "lastName";
+	public final String AGE = "age";
+	public final String COACH_NUMBER = "coachNumber";
+	public final String SEAT_NUMBER = "seatNumber";
 	
 	@Override
 	public ITicketPrint ticketPrint(int reservationId) {
@@ -113,12 +113,12 @@ public class TicketPrintDAO implements ITicketPrintDAO{
 			resultSet = statement.executeQuery();
 			while(resultSet.next()) {
 				ticketPrint.setReservationId(reservationId);
-				ticketPrint.setTrainCode(resultSet.getInt(trainCodeColumnName));
-				ticketPrint.setTrainName(resultSet.getString(trainNameColumnName));
-				ticketPrint.setSourceStation(resultSet.getString(sourceStationColumnName));
-				ticketPrint.setDestinationStation(resultSet.getString(destinationStationColumnName));
-				ticketPrint.setTrainType(resultSet.getString(trainTypeColumnName));
-				ticketPrint.setAmountPaid(resultSet.getDouble(amountPaidColumnName));
+				ticketPrint.setTrainCode(resultSet.getInt(TRAIN_CODE));
+				ticketPrint.setTrainName(resultSet.getString(TRAIN_NAME));
+				ticketPrint.setSourceStation(resultSet.getString(SOURCE_STATION));
+				ticketPrint.setDestinationStation(resultSet.getString(DESTINATION_STATION));
+				ticketPrint.setTrainType(resultSet.getString(TRAIN_TYPE));
+				ticketPrint.setAmountPaid(resultSet.getDouble(AMOUNT_PAID));
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -144,11 +144,11 @@ public class TicketPrintDAO implements ITicketPrintDAO{
 			resultSet = statement.executeQuery();
 			while(resultSet.next()) {
 				IPassengerInformation passengerInfo = reservationAbstractFactory.createNewPassengerInformation();
-				passengerInfo.setFirstName(resultSet.getString(firstNameColumnName));
-				passengerInfo.setLastName(resultSet.getString(lastNameColumnName));
-				passengerInfo.setAge(resultSet.getInt(ageColumnName));
-				passengerInfo.setCoachNumber(resultSet.getString(coachNumberColumnName));
-				int seatNumber = resultSet.getInt(seatNumberColumnName);
+				passengerInfo.setFirstName(resultSet.getString(FIRST_NAME));
+				passengerInfo.setLastName(resultSet.getString(LAST_NAME));
+				passengerInfo.setAge(resultSet.getInt(AGE));
+				passengerInfo.setCoachNumber(resultSet.getString(COACH_NUMBER));
+				int seatNumber = resultSet.getInt(SEAT_NUMBER);
 				passengerInfo.setPassengerInformationId(seatNumber);
 				passengerInformation.add(passengerInfo);
 			}
