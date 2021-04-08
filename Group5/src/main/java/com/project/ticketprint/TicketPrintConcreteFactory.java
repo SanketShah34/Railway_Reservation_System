@@ -11,7 +11,10 @@ public class TicketPrintConcreteFactory extends TicketPrintAbstractFactory{
 	
 	@Override
 	public ITicketPrintDAO createTicketPrintDAO() {
-		return new TicketPrintDAO();
+		if (null == ticketPrintDAO) {
+			ticketPrintDAO = new TicketPrintDAO();
+		}
+		return ticketPrintDAO;
 	}
 
 	@Override
