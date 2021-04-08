@@ -35,6 +35,9 @@
 							<div class="border border-secondary p-3 rounded">
 								<h1>Edit Train</h1>
 								<br />
+								<p style="color: red;" th:if="${trainRouteError}" class="error">Data
+									could not entered/updated. Please check available route and
+									enter the data again.</p>
 								<form action="#" th:action="@{/admin/train/save}"
 									th:object="${train}" method="post">
 									<table border="0" cellpadding="10" style="width: 100%">
@@ -46,12 +49,16 @@
 										<tr>
 											<td>Train Code:</td>
 											<td><input type="number" style="width: 70%"
-												th:field="*{trainCode}" /></td>
+												th:field="*{trainCode}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${trainCodeError}">Enter valid Train Code</p></td>
 										</tr>
 										<tr>
 											<td>Train Name:</td>
 											<td><input type="text" style="width: 70%"
-												th:field="*{trainName}" /></td>
+												th:field="*{trainName}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${trainNameError}">Enter Valid Train Name</p></td>
 										</tr>
 										<tr>
 											<td>Train Type:</td>
@@ -72,13 +79,17 @@
 											<td>Departure Time:</td>
 											<td><input type="text" style="width: 70%"
 												th:field="*{departureTime}"
-												placeholder="Enter Departure Time"></td>
+												placeholder="Enter Departure Time">
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${departureTimeError}">Enter valid departure
+													time</p></td>
 										</tr>
 										<tr>
 											<td>Total Coaches:</td>
 											<td><input type="number" style="width: 70%"
 												th:field="*{totalCoaches}" placeholder="Enter Total Coaches" />
-											</td>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${coachesError}">Enter valid coach</p></td>
 										</tr>
 										<tr>
 											<td>Starting Station:</td>
@@ -87,7 +98,9 @@
 													<option th:each="station : ${listOfStations}"
 														th:value="${station.stationId}"
 														th:text="${station.stationName}"></option>
-											</select></td>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${startStationError}">Enter valid start station</p></td>
 										</tr>
 										<tr>
 											<td>Add Middle Stations by clicking here:</td>
@@ -109,7 +122,10 @@
 													<option th:each="station : ${listOfStations}"
 														th:value="${station.stationId}"
 														th:text="${station.stationName}"></option>
-											</select></td>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${endStationError}">Enter valid destination
+													station</p></td>
 										</tr>
 										<tr style="text-align: center;">
 											<td colspan="2"><button type="submit">Edit

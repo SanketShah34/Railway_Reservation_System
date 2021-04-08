@@ -53,6 +53,10 @@ public class TicketPrintDAO implements ITicketPrintDAO{
 			document.add(ticketTitle);
 			document.add(new Phrase("\n"));
 			document.add(new Phrase("\n"));
+			Chunk pnr = new Chunk("PNR Number: "+reservationId, font);
+			document.add(pnr);
+			document.add(new Phrase("\n"));
+			document.add(new Phrase("\n"));
 			Chunk trainCodeAndNamechunk = new Chunk("Train Code and Train Name: "+ticketPrint.getTrainCode()+" - "+ticketPrint.getTrainName(), font);
 			document.add(trainCodeAndNamechunk);
 			document.add(new Phrase("\n"));

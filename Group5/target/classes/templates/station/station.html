@@ -71,7 +71,7 @@
 												<div sec:authorize="hasAnyAuthority('ADMIN')">
 													<a
 														th:href="@{'/admin/station/delete/' + ${station.stationId}}"
-														onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">Delete</a>
+														onclick="if (!(confirm('Are you sure you want to delete this station?'))) return false">Delete</a>
 												</div>
 											</td>
 										</tr>

@@ -18,8 +18,9 @@
 				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
 					<div class="row col-md-12">
 						<div style="text-align: start" class="col-md-4">
-							<input action="action" type="button" onclick="history.go(-1);"
-								value="Back" />
+							<form th:action="@{/admin/route/list}" method="get">
+								<input type="submit" value="Back" />
+							</form>
 						</div>
 						<div style="text-align: center;" class="col-md-4">
 							Welcome <b><span sec:authentication="name">Username</span></b>

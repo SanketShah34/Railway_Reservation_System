@@ -15,7 +15,8 @@ import com.project.user.UserAbstractFactory;
 public class TicketCancellationController {
 	private final String PNR_NUMBER = "pnrNumber";
 	private final String ID_CHECKED = "idChecked";
-
+	private final String NO_PNR_EXISTS = "Pnr does not exists";
+			
 	@RequestMapping(value = "/ticket/cancel")
 	public String cancelTicketModel(Model model) {
 		UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
@@ -31,9 +32,13 @@ public class TicketCancellationController {
 		ISearchPassengerInformationDAO searchTicketInformation = cancelTicketAbstractFactory
 				.createNewSearchPassengerInfo();
 		List<IPassengerInformation> passengerInfo = searchTicketInformation.searchPassengerInfoByPNR(pnrNumber);
-
-		model.addAttribute("passengerInformationList", passengerInfo);
-		return "cancelTicket/displayTicketInformation";
+		
+		if (passengerInfo.size() > 0) {
+			model.addAttribute("passengerInformationList", passengerInfo);	
+		} else {
+			model.addAttribute("errorMessage", NO_PNR_EXISTS);
+		}
+		return "cancelTicket/displayTicketInformation";	
 	}
 
 	@PostMapping(value = "/ticket/delete")
@@ -52,7 +57,7 @@ public class TicketCancellationController {
 
 	@PostMapping(value = "/ticket/delete/done")
 	public String cancelTickets(Model model) {
-		return "searchTrain/searchTrain";
+		return "redirect:/user/home";
 	}
 
 }

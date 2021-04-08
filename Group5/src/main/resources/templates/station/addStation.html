@@ -38,7 +38,7 @@
 								<form action="#" th:action="@{/admin/station/addNew/save}"
 									th:object="${station}" method="post">
 									<p class="alert alert-danger" style="width: 70%"
-										th:if="${ErrorUnique}">Station Name Or Station Code is
+										th:if="${errorUnique}">Station Name Or Station Code is
 										already Present Try with other values</p>
 									<table border="0" cellpadding="10" style="width: 100%">
 										<tr>
@@ -46,7 +46,7 @@
 											<td><input type="text" style="width: 70%"
 												th:field="*{stationName}" />
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${ErrorStationName}">Station name can't be empty
+													th:if="${errorStationName}">Station name can't be empty
 													or Null</p></td>
 										</tr>
 										<tr>
@@ -54,7 +54,7 @@
 											<td><input type="text" style="width: 70%"
 												th:field="*{stationCode}" />
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${ErrorStationCode}">Station Code can't be empty
+													th:if="${errorStationCode}">Station Code can't be empty
 													or Null</p></td>
 										</tr>
 										<tr>
@@ -62,7 +62,7 @@
 											<td><input type="text" style="width: 70%"
 												th:field="*{stationCity}" />
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${ErrorStationCity}">Station City can't be empty
+													th:if="${errorStationCity}">Station City can't be empty
 													or Null</p></td>
 										</tr>
 										<tr>
@@ -70,7 +70,7 @@
 											<td><input type="text" style="width: 70%"
 												th:field="*{stationState}" />
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${ErrorStationState}">Station State can't be
+													th:if="${errorStationState}">Station State can't be
 													empty or Null</p></td>
 										</tr>
 										<tr style="text-align: center;">

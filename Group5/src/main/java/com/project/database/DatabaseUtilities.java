@@ -12,13 +12,17 @@ public class DatabaseUtilities implements IDatabaseUtilities {
     private String DRIVER = "com.mysql.cj.jdbc.Driver";
 	public Connection connection;
 	
+	private String URL = "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_5_DEVINT?useSSL=false&serverTimezone=UTC";
+	private String USERNAME = "CSCI5308_5_DEVINT_USER";
+	private String PASSWORD = "CBfHk3FuJet8gKvT";
+
 	@Override
 	public Connection  establishConnection(){
 		try {
 			Class.forName(DRIVER);
-		    String url = System.getenv("URL");
-			String userName = System.getenv("USERNAME");
-			String password = System.getenv("PASSWORD");
+		    String url = URL;
+			String userName = USERNAME;
+			String password = PASSWORD;
 			
 		    connection = DriverManager.getConnection(url , userName, password);
 			return connection;

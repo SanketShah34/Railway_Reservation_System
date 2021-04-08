@@ -20,7 +20,7 @@ public class ReservationController {
 
 	@PostMapping("/user/bookNow")
 	public String getReservationInformation(
-			@ModelAttribute("reservationInformation") IReservation reservationInformation, Model model) {
+			@ModelAttribute("newReservationInformation") IReservation reservationInformation, Model model) {
 		model.addAttribute("reservationInformation", reservationInformation);
 		return "reservation/reservationInformation";
 	}
@@ -28,8 +28,8 @@ public class ReservationController {
 	@PostMapping("/user/payNow")
 	public String getPassengerInformation(@ModelAttribute("reservationInformation") IReservation reservationInformation,
 			Model model) {
-		reservationInformation.calculateTotalReservationFare(reservationInformation);
-		model.addAttribute("reservationInformation", reservationInformation);
+		IReservation reservation = reservationInformation.calculateTotalReservationFare(reservationInformation);
+		model.addAttribute("reservationInformation", reservation);
 		return "reservation/confirmAndPay";
 	}
 

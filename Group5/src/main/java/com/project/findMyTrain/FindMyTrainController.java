@@ -63,7 +63,7 @@ public class FindMyTrainController {
 		ISearchTrain searchTrain =lookupAbstractFactory.createNewSearchTrain();
 		
 		model.addAttribute(searchTrain);
-		return "searchTrain/searchTrain";
+		return "redirect:/user/home";
 	}
 	
 }

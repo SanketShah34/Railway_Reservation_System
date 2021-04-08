@@ -35,6 +35,9 @@
 							<div class="border border-secondary p-3 rounded">
 								<h1>Add New Train</h1>
 								<br />
+								<p style="color: red;" th:if="${trainRouteError}" class="error">Data
+									could not entered/updated. Please check available route and
+									enter the data again.</p>
 								<form action="#" th:action="@{/admin/train/save}"
 									th:object="${train}" method="post" id="trainForm">
 									<table border="0" cellpadding="10" style="width: 100%">
@@ -43,16 +46,14 @@
 											<td><input type="number" style="width: 70%"
 												th:field="*{trainCode}" placeholder="Enter Train Code" />
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${#fields.hasErrors('trainCode')}"
-													th:errors="*{trainCode}" /></td>
+													th:if="${trainCodeError}">Enter valid Train Code</p></td>
 										</tr>
 										<tr>
 											<td>Train Name:</td>
 											<td><input type="text" style="width: 70%"
 												th:field="*{trainName}" placeholder="Enter Train Name" />
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${#fields.hasErrors('trainName')}"
-													th:errors="*{trainName}" /></td>
+													th:if="${trainNameError}">Enter Valid Train Name</p></td>
 										</tr>
 										<tr>
 											<td>Train Type:</td>
@@ -64,8 +65,7 @@
 													<option value="Non AC Seater">Non AC Seater</option>
 											</select>
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${#fields.hasErrors('trainType')}"
-													th:errors="*{trainType}" /></td>
+													th:if="${trainTypeError}">Enter valid Train type</p></td>
 										</tr>
 										<tr>
 											<td>Days:</td>
@@ -75,10 +75,9 @@
 												<input type="checkbox" name="days" value="Thursday">Thursday
 												<input type="checkbox" name="days" value="Friday">Friday
 												<input type="checkbox" name="days" value="Saturday">Saturday
-												<input type="checkbox" name="days" value="Sundat">Sunday
+												<input type="checkbox" name="days" value="Sunday">Sunday
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${#fields.hasErrors('days')}" th:errors="*{days}" />
-											</td>
+													th:if="${daysError}">Select atleast one day</p></td>
 										</tr>
 										<tr>
 											<td>Departure Time:</td>
@@ -86,16 +85,14 @@
 												th:field="*{departureTime}"
 												placeholder="Enter Departure Time">
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${#fields.hasErrors('departureTime')}"
-													th:errors="*{departureTime}" /></td>
+													th:if="${departureTimeError}">Enter valid departure time</p></td>
 										</tr>
 										<tr>
 											<td>Total Coaches:</td>
 											<td><input type="number" style="width: 70%"
 												th:field="*{totalCoaches}" placeholder="Enter Total Coaches" />
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${#fields.hasErrors('totalCoaches')}"
-													th:errors="*{totalCoaches}" /></td>
+													th:if="${coachesError}">Enter valid coach</p></td>
 										</tr>
 										<tr>
 											<td>Starting Station:</td>
@@ -106,8 +103,7 @@
 														th:text="${station.stationName}"></option>
 											</select>
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${#fields.hasErrors('startStation')}"
-													th:errors="*{startStation}" /></td>
+													th:if="${startStationError}">Enter valid start station</p></td>
 										</tr>
 										<tr>
 											<td>Add Middle Stations by clicking here:</td>
@@ -129,8 +125,7 @@
 														th:text="${station.stationName}"></option>
 											</select>
 												<p class="alert alert-danger" style="width: 70%"
-													th:if="${#fields.hasErrors('endStation')}"
-													th:errors="*{endStation}" /></td>
+													th:if="${endStationError}">Enter valid destination station</p></td>
 										</tr>
 										<tr style="text-align: center;">
 											<td colspan="2"><button type="submit">Add Train</button></td>

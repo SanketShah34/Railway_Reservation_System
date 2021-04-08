@@ -1,6 +1,8 @@
 package com.project.lookup;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import java.sql.Date;
 
 import org.junit.jupiter.api.Test;
@@ -93,7 +95,6 @@ class SearchTrainTest {
 	void testIsDatePreviousDate() {
 		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
 
-		assertEquals(false, searchTrain.isDatePreviousDate(new Date(System.currentTimeMillis())));
 		assertEquals(false, searchTrain.isDatePreviousDate(new Date(System.currentTimeMillis() + 1000000000L)));
 		assertEquals(true, searchTrain.isDatePreviousDate(new Date(System.currentTimeMillis() - 1000000000L)));
 	}

@@ -2,6 +2,9 @@ package com.project.setup;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
 public class TrainTest {
@@ -288,12 +291,96 @@ public class TrainTest {
 	}
 
 	@Test
-	public void testSetTotalDistance() {
+	void testIsTrainCodeInvalid() {
 		ITrain train = setupAbstractFactory.createNewTrain();
 
-		train.setTotalDistance(12.0);
+		train.setTrainCode(0);
+		assertTrue(train.isTrainCodeInvalid());
 
-		assertEquals(12.00, train.getTotalDistance(), 0.2);
+		train.setTrainCode(1);
+		assertFalse(train.isTrainCodeInvalid());
+
+		train.setTrainCode(-1);
+		assertTrue(train.isTrainCodeInvalid());
+	}
+
+	@Test
+	void testIsTrainNameInvalid() {
+		ITrain train = setupAbstractFactory.createNewTrain();
+
+		train.setTrainName("Rajdhani");
+		assertFalse(train.isTrainNameInvalid());
+
+		train.setTrainName(" ");
+		assertTrue(train.isTrainNameInvalid());
+	}
+
+	@Test
+	void testIsTrainTypeInvalid() {
+		ITrain train = setupAbstractFactory.createNewTrain();
+
+		train.setTrainType("AC Slepper");
+		assertFalse(train.isTrainTypeInvalid());
+
+		train.setTrainType(" ");
+		assertTrue(train.isTrainTypeInvalid());
+	}
+
+	@Test
+	void testIsTrainDepartureTimeInvalid() {
+		ITrain train = setupAbstractFactory.createNewTrain();
+
+		train.setDepartureTime("9:30");
+		assertFalse(train.isTrainDepartureTimeInvalid());
+
+		train.setDepartureTime(" ");
+		assertTrue(train.isTrainDepartureTimeInvalid());
+	}
+
+	@Test
+	void testIsTotalCoachesInvalid() {
+		ITrain train = setupAbstractFactory.createNewTrain();
+
+		train.setTotalCoaches(-9);
+		assertTrue(train.isTotalCoachesInvalid());
+
+		train.setTotalCoaches(0);
+		assertTrue(train.isTotalCoachesInvalid());
+	}
+
+	@Test
+	void testIsStartStationInvalid() {
+		ITrain train = setupAbstractFactory.createNewTrain();
+
+		train.setStartStation("Surat");
+		assertFalse(train.isStartStationInvalid());
+
+		train.setStartStation(" ");
+		assertTrue(train.isStartStationInvalid());
+	}
+
+	@Test
+	void testIsEndStationInvalid() {
+		ITrain train = setupAbstractFactory.createNewTrain();
+
+		train.setEndStation("Surat");
+		assertFalse(train.isEndStationInvalid());
+
+		train.setEndStation(" ");
+		assertTrue(train.isEndStationInvalid());
+	}
+
+	@Test
+	void testIsSourceStationAndDestinationStationSame() {
+		ITrain train = setupAbstractFactory.createNewTrain();
+
+		train.setStartStation("AMD");
+		train.setEndStation("AMD");
+		assertTrue(train.isSourceStationAndDestinationStationSame());
+
+		train.setStartStation("DEL");
+		train.setEndStation("AMD");
+		assertFalse(train.isSourceStationAndDestinationStationSame());
 	}
 
 }

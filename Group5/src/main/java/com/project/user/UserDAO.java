@@ -76,8 +76,6 @@ public class UserDAO implements IUserDAO {
 				java.sql.Date sqlDate = new java.sql.Date(user.getDateOfBirth().getTime());
 
 				statement.setDate(4, sqlDate);
-				statement.setString(5, user.getMobileNumber());
-				statement.setDate(4, date);
 				statement.setString(5, String.valueOf(user.getMobileNumber()));
 				statement.setString(6, user.getUserName());
 				statement.setString(7, encodedPassword);

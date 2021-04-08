@@ -190,7 +190,7 @@ public class Reservation implements IReservation {
 	}
 
 	@Override
-	public void calculateTotalReservationFare(IReservation reservation) {
+	public IReservation calculateTotalReservationFare(IReservation reservation) {
 		this.calculateReservationFarePerPassenger(reservation);
 		int passengerInformationLength = reservation.getPassengerInformation().size();
 		double amountPaid = 0.0;
@@ -200,6 +200,7 @@ public class Reservation implements IReservation {
 		}
 		reservation.setAmountPaid(amountPaid);
 		reservation.setReservationId(0);
+		return reservation;
 	}
 
 	@Override

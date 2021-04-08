@@ -18,8 +18,9 @@
 				<div class="col-md-12 row">
 					<div class="col-md-12 row">
 						<div style="text-align: start" class="col-md-4">
-							<input action="action" type="button" onclick="history.go(-1);"
-								value="Back" />
+							<form th:action="@{/user/home}" method="get">
+								<input type="submit" value="Back" />
+							</form>
 						</div>
 						<div style="text-align: start" class="col-md-4">
 							Welcome <b><span sec:authentication="name">Username</span></b>
@@ -62,6 +63,7 @@
 									</tbody>
 								</table>
 								<button type="submit">Cancel Tickets</button>
+								<p th:if="${errorMessage}">PNR does not exists</p>
 							</form>
 						</div>
 					</div>

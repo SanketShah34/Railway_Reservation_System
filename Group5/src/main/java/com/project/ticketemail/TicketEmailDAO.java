@@ -77,6 +77,7 @@ public class TicketEmailDAO implements ITicketEmailDAO{
 		message.setSubject(SUBJECT);
 		
 		String messageForEmail = "Hi, \n\n Greetings From Railway Reservation System.\n\n Please find below ticket information:";
+		messageForEmail += "\n\nPNR Number: "+reservationId;
 		messageForEmail+="\n\nTrain Code and Train Name: "+ticketEmail.getTrainCode()+" - "+ticketEmail.getTrainName();
 		messageForEmail+="\nTrain Type: "+ticketEmail.getTrainType();
 		messageForEmail+="\nSource Station: "+ticketEmail.getSourceStation()

@@ -22,7 +22,7 @@ import com.project.setup.SetupAbstractFactory;
 
 @Controller
 public class SearchTrainController {
-	private final String DATE_OF_JOURNEY = "dateofJourny";
+	private final String DATE_OF_JOURNEY = "dateOfJourny";
 
 	@ModelAttribute("searchTrain")
 	public ISearchTrain getISearchStationModelObject(HttpServletRequest request) {

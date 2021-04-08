@@ -39,7 +39,7 @@ public interface IReservation {
 
 	void calculateReservationFarePerPassenger(IReservation reservation);
 
-	void calculateTotalReservationFare(IReservation reservation);
+	IReservation calculateTotalReservationFare(IReservation reservation);
 
 	void addInPassengerInformationList(List<IPassengerInformation> passengerInformationList,
 			IPassengerInformation passengerInformation);
