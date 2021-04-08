@@ -4,6 +4,7 @@ public class ReservationConcreteFactory extends ReservationAbstractFactory {
 	public IPassengerInformation passengerInformation;
 	public IReservation reservation;
 	public IReservationDAO reservationDAO;
+	private ISeatAllocationDAO seatAllocationDAO;
 	
 	@Override
 	public IReservation createReservation() {
@@ -42,6 +43,19 @@ public class ReservationConcreteFactory extends ReservationAbstractFactory {
 	@Override
 	public IReservationDAO createNewReservationDAO() {
 		return new ReservationDAO();
+	}
+	
+	@Override
+	public ISeatAllocationDAO createSeatAllocationDAO() {
+		if(null == seatAllocationDAO) {
+			seatAllocationDAO = new SeatAllocationDAO();
+		}
+		return seatAllocationDAO;
+	}
+	
+	@Override
+	public ISeatAllocationDAO createNewSeatAllocationDAO() {
+		return new SeatAllocationDAO();
 	}
 	
 }

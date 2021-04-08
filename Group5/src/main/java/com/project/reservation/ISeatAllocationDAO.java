@@ -1,6 +1,4 @@
-package com.project.seatallocation;
-
-import com.project.reservation.IReservation;
+package com.project.reservation;
 
 public interface ISeatAllocationDAO {
 

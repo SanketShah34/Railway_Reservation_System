@@ -1,6 +1,7 @@
-package com.project.seatallocation;
+package com.project.reservation;
 
 import com.project.reservation.IReservation;
+import com.project.reservation.ISeatAllocationDAO;
 
 public class SeatAllocationDAOMock implements ISeatAllocationDAO {
 

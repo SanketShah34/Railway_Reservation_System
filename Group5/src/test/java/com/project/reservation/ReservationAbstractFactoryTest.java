@@ -9,6 +9,8 @@ public abstract class ReservationAbstractFactoryTest {
 		}
 		return instance;
 	}
+	
+	public abstract SeatAllocationDAOMock createSeatAllocationDAOMock();
 
 	public abstract PassengerMock createPassengerMock();
 
