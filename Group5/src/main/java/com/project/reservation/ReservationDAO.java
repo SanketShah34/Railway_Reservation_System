@@ -57,7 +57,7 @@ public class ReservationDAO implements IReservationDAO {
 			Connection connection = databaseUtilities.establishConnection();
 			CallableStatement statement = null;
 			try {
-				statement = connection.prepareCall("{call addPassengerInformation( ? , ? , ?, ?, ?, ?, ?, ?)}");
+				statement = connection.prepareCall("{call addPassengerInformation( ? , ? , ?, ?, ?, ?, ?, ?, ?)}");
 				if (reservation.getPassengerInformation().size() > 0) {
 					for(int index = 0; index < reservation.getPassengerInformation().size(); index++) {
 						IPassengerInformation passengerInformation = reservation.getPassengerInformation().get(index);
@@ -69,6 +69,7 @@ public class ReservationDAO implements IReservationDAO {
 						statement.setString(6, passengerInformation.getBerthPreference());
 						statement.setString(7, String.valueOf(passengerInformation.getSeatNumber()));
 						statement.setString(8, passengerInformation.getCoachNumber());
+						statement.setNString(9, "1000");
 						statement.execute();
 					}
 				}
