@@ -1,7 +1,5 @@
 package com.project.ticketPrint;
 
-import com.project.ticketPrint.ITicketPrint;
-
 public class TicketPrintMock {
 
 	public ITicketPrint createTicketPrintrMock(ITicketPrint ticketPrint) {
