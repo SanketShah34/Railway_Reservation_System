@@ -16,7 +16,7 @@ build:
   script:
     - mvn $MAVEN_CLI_OPTS install -U
   tags:
-    - dalfcs_docker_kvm
+    - dalfcs_gitlab_docker_ci
     
 test:
   stage: test
@@ -33,7 +33,7 @@ test:
       junit:
         - $EXECUTABLE_POM_FILE_PATH/target/surefire-reports/TEST-*.xml
   tags:
-   - dalfcs_docker_kvm
+   - dalfcs_gitlab_docker_ci
     
 deployeTest:
   stage: deployTest
@@ -47,7 +47,7 @@ deployeTest:
     name: staging
     url: $HEROKU_TEST_URL
   tags:
-    - dalfcs_docker_kvm
+    - dalfcs_gitlab_docker_ci
   only:
     - development
     
@@ -63,6 +63,6 @@ deployProd:
     name: staging
     url: $HEROKU_PROD_URL
   tags:
-    - dalfcs_docker_kvm
+    - dalfcs_gitlab_docker_ci
   only:
     - master
