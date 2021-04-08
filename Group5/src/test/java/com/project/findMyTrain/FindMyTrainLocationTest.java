@@ -1,8 +1,5 @@
 package com.project.findMyTrain;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.junit.jupiter.api.Test;
 import com.project.setup.ITrain;
 import com.project.setup.SetupAbstractFactory;
@@ -20,11 +17,6 @@ public class FindMyTrainLocationTest {
 		train.setMiddleStations("2,3");
 		train.setEndStation("4");
 		train.setDays("Monday, Friday");
-		IFindMyTrainLocation findMyTrainLocation = findMyTrainAbstractFactory.createFindMyTrainLocation();
-		try {
-			Date date = new SimpleDateFormat("dd-MM-yyyy").parse("2021-04-05");
-		} catch (ParseException exception) {
-			exception.printStackTrace();
-		}  
+		 
 	}
 }

@@ -2,7 +2,6 @@ package com.project.cancelTrain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import com.project.lookup.SearchTrainDAOMock;
 import com.project.lookup.SeatAvailibilityDAOMock;
 import com.project.reservation.IPassengerInformation;
 import com.project.reservation.IReservation;
-import com.project.reservation.IReservationDAO;
 import com.project.reservation.PassengerMock;
 import com.project.reservation.ReservationAbstractFactory;
 import com.project.reservation.ReservationAbstractFactoryTest;

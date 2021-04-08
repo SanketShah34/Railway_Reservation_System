@@ -10,6 +10,7 @@ import com.project.user.UserAbstractFactory;
 @SuppressWarnings("deprecation")
 public class MyUserDetailTest implements UserDetails
 {
+	private static final long serialVersionUID = 1L;
 	UserAbstractFactory userAbstractFactory =  UserAbstractFactory.instance();
 	IUser user = userAbstractFactory.createUser();
 

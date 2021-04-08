@@ -49,8 +49,7 @@ public class TicketCancellationController {
 	
 	@PostMapping(value = "/ticket/delete/done")
 	public String cancelTickets(Model model) {
-		CancelTicketAbstractFactory cancelTicketAbstractFactory = CancelTicketAbstractFactory.instance();
-		ISearchPassengerInformationDAO searchTicketInformation = cancelTicketAbstractFactory.createNewSearchPassengerInfo();
+		
 		return "searchTrain/searchTrain";	
 	}
 }
