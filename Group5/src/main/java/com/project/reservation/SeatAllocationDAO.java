@@ -1,4 +1,4 @@
-package com.project.seatallocation;
+package com.project.reservation;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -13,8 +13,6 @@ import java.util.Set;
 
 import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
-import com.project.reservation.IPassengerInformation;
-import com.project.reservation.IReservation;
 
 public class SeatAllocationDAO implements ISeatAllocationDAO {
 	public final String TOTAL_COACHES = "totalCoaches";

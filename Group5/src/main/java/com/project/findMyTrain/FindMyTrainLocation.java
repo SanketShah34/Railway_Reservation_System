@@ -22,9 +22,8 @@ public class FindMyTrainLocation implements IFindMyTrainLocation {
 	public final int FIVE = 5;
 
 	@Override
-	public String findMyTrainCalculation(ITrain train, Date startDate) {
+	public String findMyTrainCalculation(ITrain train, Date startDate, IFindMyTrainDAO findMyTrainDAO) {
 		FindMyTrainAbstractFactory findMyTrainAbstractFactory = FindMyTrainAbstractFactory.instance();
-		IFindMyTrainDAO findMyTrainDAO = findMyTrainAbstractFactory.createFindMyTrainDAO();
 		String trainLocation = null;
 		List<Integer> stationIdList = new ArrayList<Integer>();
 

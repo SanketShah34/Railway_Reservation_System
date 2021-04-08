@@ -17,4 +17,9 @@ public class ReservationConcreteFactoryTest extends ReservationAbstractFactoryTe
 		return new ReservationDAOMock();
 	}
 
+	@Override
+	public SeatAllocationDAOMock createSeatAllocationDAOMock() {
+		return new SeatAllocationDAOMock();
+	}
+
 }

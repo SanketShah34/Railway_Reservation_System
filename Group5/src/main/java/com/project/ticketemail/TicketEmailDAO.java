@@ -21,32 +21,45 @@ import com.project.reservation.ReservationAbstractFactory;
 
 public class TicketEmailDAO implements ITicketEmailDAO{
 
-	public final String trainCodeColumnName = "trainCode";
-	public final String trainNameColumnName = "trainName";
-	public final String sourceStationColumnName = "sourceStation";
-	public final String destinationStationColumnName = "destinationStation";
-	public final String reservationDateColumnName = "reservationDate";
-	public final String amountPaidColumnName = "amountPaid";
-	public final String trainTypeColumnName = "trainType";
-	public final String firstNameColumnName = "firstName";
-	public final String lastNameColumnName = "lastName";
-	public final String ageColumnName = "age";
-	public final String coachNumberColumnName = "coachNumber";
-	public final String seatNumberColumnName = "seatNumber";
+	public final String TRAIN_CODE = "trainCode";
+	public final String TRAIN_NAME = "trainName";
+	public final String SOURCE_STATION = "sourceStation";
+	public final String DESTINATION_STATION = "destinationStation";
+	public final String RESERVATION_DATE = "reservationDate";
+	public final String AMOUNT_PAID = "amountPaid";
+	public final String TRAIN_TYPE = "trainType";
+	public final String FIRST_NAME = "firstName";
+	public final String LAST_NAME = "lastName";
+	public final String AGE = "age";
+	public final String COACH_NUMBER = "coachNumber";
+	public final String SEAT_NUMBER = "seatNumber";
+	public final String HOST = "smtp.gmail.com";
+	public final int PORT = 587;
+	public final String USERNAME = "sshahsanket31@gmail.com";
+	public final String PASSWORD = "Sanket@31";
+	public final String PROTOCOL = "mail.transport.protocol";
+	public final String SMTP = "smtp";
+	public final String AUTH = "mail.smtp.auth";
+	public final String TRUE = "true";
+	public final String TTL_ENABLE = "mail.smtp.starttls.enable";
+	public final String DEBUG = "mail.debug";
+	public final String FROM = "sshahsanket31@gmail.com";
+	public final String SUBJECT = "Train Ticket";
 
+	// Reference : https://www.baeldung.com/spring-email
 	public JavaMailSender getJavaMailSender() {
 	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-	    mailSender.setHost("smtp.gmail.com");
-	    mailSender.setPort(587);
+	    mailSender.setHost(HOST);
+	    mailSender.setPort(PORT);
 	    
-	    mailSender.setUsername("sshahsanket31@gmail.com");
-	    mailSender.setPassword("Sanket@31");
+	    mailSender.setUsername(USERNAME);
+	    mailSender.setPassword(PASSWORD);
 	    
 	    Properties props = mailSender.getJavaMailProperties();
-	    props.put("mail.transport.protocol", "smtp");
-	    props.put("mail.smtp.auth", "true");
-	    props.put("mail.smtp.starttls.enable", "true");
-	    props.put("mail.debug", "true");
+	    props.put(PROTOCOL, SMTP);
+	    props.put(AUTH, TRUE);
+	    props.put(TTL_ENABLE, TRUE);
+	    props.put(DEBUG, TRUE);
 	    
 	    return mailSender;
 	}
@@ -59,9 +72,9 @@ public class TicketEmailDAO implements ITicketEmailDAO{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String userEmail = authentication.getName();
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom("sshahsanket31@gmail.com");
+		message.setFrom(FROM);
 		message.setTo(userEmail);
-		message.setSubject("Train Ticket");
+		message.setSubject(SUBJECT);
 		
 		String messageForEmail = "Hi, \n\n Greetings From Railway Reservation System.\n\n Please find below ticket information:";
 		messageForEmail+="\n\nTrain Code and Train Name: "+ticketEmail.getTrainCode()+" - "+ticketEmail.getTrainName();
@@ -96,12 +109,12 @@ public class TicketEmailDAO implements ITicketEmailDAO{
 			resultSet = statement.executeQuery();
 			while(resultSet.next()) {
 				ticketEmail.setReservationId(reservationId);
-				ticketEmail.setTrainCode(resultSet.getInt(trainCodeColumnName));
-				ticketEmail.setTrainName(resultSet.getString(trainNameColumnName));
-				ticketEmail.setSourceStation(resultSet.getString(sourceStationColumnName));
-				ticketEmail.setDestinationStation(resultSet.getString(destinationStationColumnName));
-				ticketEmail.setTrainType(resultSet.getString(trainTypeColumnName));
-				ticketEmail.setAmountPaid(resultSet.getDouble(amountPaidColumnName));
+				ticketEmail.setTrainCode(resultSet.getInt(TRAIN_CODE));
+				ticketEmail.setTrainName(resultSet.getString(TRAIN_NAME));
+				ticketEmail.setSourceStation(resultSet.getString(SOURCE_STATION));
+				ticketEmail.setDestinationStation(resultSet.getString(DESTINATION_STATION));
+				ticketEmail.setTrainType(resultSet.getString(TRAIN_TYPE));
+				ticketEmail.setAmountPaid(resultSet.getDouble(AMOUNT_PAID));
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -127,11 +140,11 @@ public class TicketEmailDAO implements ITicketEmailDAO{
 			resultSet = statement.executeQuery();
 			while(resultSet.next()) {
 				IPassengerInformation passengerInfo = reservationAbstractFactory.createNewPassengerInformation();
-				passengerInfo.setFirstName(resultSet.getString(firstNameColumnName));
-				passengerInfo.setLastName(resultSet.getString(lastNameColumnName));
-				passengerInfo.setAge(resultSet.getInt(ageColumnName));
-				passengerInfo.setCoachNumber(resultSet.getString(coachNumberColumnName));
-				int seatNumber = resultSet.getInt(seatNumberColumnName);
+				passengerInfo.setFirstName(resultSet.getString(FIRST_NAME));
+				passengerInfo.setLastName(resultSet.getString(LAST_NAME));
+				passengerInfo.setAge(resultSet.getInt(AGE));
+				passengerInfo.setCoachNumber(resultSet.getString(COACH_NUMBER));
+				int seatNumber = resultSet.getInt(SEAT_NUMBER);
 				passengerInfo.setPassengerInformationId(seatNumber);
 				passengerInformation.add(passengerInfo);
 			}

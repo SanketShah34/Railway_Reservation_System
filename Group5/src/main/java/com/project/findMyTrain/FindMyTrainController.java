@@ -50,7 +50,7 @@ public class FindMyTrainController {
 		else {
 			int trainCode = Integer.parseInt(trainCodeString);
 			ITrain train = findMyTrainDAO.getLiveTrainStatus(trainCode, startDate);
-			String trainLocation = findMyTrainLocation.findMyTrainCalculation(train, startDate);
+			String trainLocation = findMyTrainLocation.findMyTrainCalculation(train, startDate, findMyTrainDAO);
 			
 			model.addAttribute("trainLocation", trainLocation);
 			return "findMyTrain/displayLocation";
