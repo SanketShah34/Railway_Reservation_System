@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 		"com.project.user", "com.project.setup", "com.project.lookup", "com.project.cancelTrain",
 		"com.project.ticketCancellation", "com.project.ticketprint", "com.project.findMyTrain"})
 
+@ComponentScan(basePackages={"com.project.security", "com.project.reservation" , "com.project.database", "com.project.user", "com.project.setup" , "com.project.lookup", "com.project.cancelTrain", "com.project.ticketprint", "com.project.ticketemail"})
 @SpringBootApplication
 public class StartupApplication {
 	public static void main(String args[]) {
