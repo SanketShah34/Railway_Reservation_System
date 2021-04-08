@@ -16,7 +16,7 @@ public class DatabaseUtilities implements IDatabaseUtilities {
 	public Connection  establishConnection(){
 		try {
 			Class.forName(DRIVER);
-		    String url = System.getenv("URL");;
+		    String url = System.getenv("URL");
 			String userName = System.getenv("USERNAME");
 			String password = System.getenv("PASSWORD");
 			
