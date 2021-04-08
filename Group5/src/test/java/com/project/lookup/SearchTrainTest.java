@@ -1,7 +1,6 @@
 package com.project.lookup;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.sql.Date;
 
@@ -45,15 +44,6 @@ class SearchTrainTest {
 		searchTrain.setDestinationStation("Ahembdabad");
 
 		assertEquals("Ahembdabad", searchTrain.getDestinationStation());
-	}
-
-	@Test
-	void testGetDateofJourny() {
-		ISearchTrain searchTrain = lookupAbstractFactory.createNewSearchTrain();
-
-		searchTrain.setDateOfJourny(new Date(System.currentTimeMillis()));
-
-		assertEquals(new Date(System.currentTimeMillis()), searchTrain.getDateOfJourny());
 	}
 
 	@Test

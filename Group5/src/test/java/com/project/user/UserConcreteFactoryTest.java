@@ -1,11 +1,5 @@
 package com.project.user;
 
-import com.project.user.IUser;
-import com.project.user.IUserDAO;
-import com.project.user.User;
-import com.project.user.UserAbstractFactory;
-import com.project.user.UserDAO;
-
 public class UserConcreteFactoryTest extends UserAbstractFactoryTest {
 	UserAbstractFactory userAbstractFactory = UserAbstractFactory.instance();
 	IUserDAO userDAO = userAbstractFactory.createUserDAO();
