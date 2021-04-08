@@ -10,8 +10,13 @@ public class SeatAllocationTest {
 	
 	@Test
 	void testAllocateSeat() {
-		SeatAllocationDAOMock seatAllocationDAOMock = reservationAbstractFactoryTest.createSeatAllocationDAOMock();
 		IReservation reservation = reservationAbstractFactory.createNewReservation();
-		assertNotNull(seatAllocationDAOMock.allocateSeat(reservation));
+		
+		ISeatAllocation seatAllocation = reservationAbstractFactory.createNewSeatAllocation();
+		ISeatAllocationDAO seatAllocationDAO = reservationAbstractFactory.createNewSeatAllocationDAO();
+		
+		reservation = seatAllocation.allocateSeat(reservation, seatAllocationDAO);
+		assertNotNull(reservation);
 	}
+
 }

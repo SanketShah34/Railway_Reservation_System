@@ -45,7 +45,7 @@ public class TrainController {
 
 		model.addAttribute("listOfStations", stations);
 		model.addAttribute(train);
-		return "train/add_train";
+		return "train/addTrain";
 	}
 
 	@PostMapping(value = "/admin/train/save")
@@ -129,7 +129,7 @@ public class TrainController {
 
 		model.addAttribute("listOfMiddleStations", middleStationsList);
 		model.addAttribute("listOfDays", allDays);
-		return "train/edit_train";
+		return "train/editTrain";
 	}
 
 	@ModelAttribute("train")

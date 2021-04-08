@@ -84,7 +84,7 @@ public class LoginController {
 				user.setQuestionTwo(securityQuestionTwo);
 				if (userDAO.isUserPresentWithSameQuestionAndAnswer(user) == true) {
 					model.addAttribute("userName", user.getUserName());
-					return "newpassword";
+					return "newPassword";
 				} else {
 					model.addAttribute("questionAnswerError", true);
 					model.addAttribute("securityQuestions", securityQuestions.getSecurituQuestions());
@@ -108,7 +108,7 @@ public class LoginController {
 			hasError = true;
 		}
 		if (hasError) {
-			return "newpassword";
+			return "newPassword";
 		} else {
 			user.setUserName(userName);
 			user.setPassword(password);

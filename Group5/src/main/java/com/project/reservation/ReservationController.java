@@ -41,11 +41,12 @@ public class ReservationController {
 
 		if (errorCodes.equals("")) {
 			ReservationAbstractFactory reservationAbstractFactory = ReservationAbstractFactory.instance();
+			ISeatAllocation seatAllocation = reservationAbstractFactory.createNewSeatAllocation();
 			ISeatAllocationDAO seatAllocationDAO = reservationAbstractFactory.createNewSeatAllocationDAO();
 			IReservationDAO reservationDAO = reservationAbstractFactory.createNewReservationDAO();
 			IReservation reservation = reservationDAO.saveReservationInformation(reservationInformation);
 
-			reservation = seatAllocationDAO.allocateSeat(reservation);
+			reservation = seatAllocation.allocateSeat(reservation, seatAllocationDAO);
 			reservationDAO.savePassengerInformation(reservation);
 			model.addAttribute("reservationId", reservation.getReservationId());
 		} else {

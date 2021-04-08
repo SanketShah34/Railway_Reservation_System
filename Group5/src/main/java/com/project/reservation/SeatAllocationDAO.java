@@ -22,20 +22,15 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 	public final String START_STATION = "startStation";
 	public final String MIDDLE_STATION = "middleStations";
 	public final String END_STATION = "endStation";
-	public final String UPPER_BERTH_PREFERENCE = "Upper Berth";
-	public final String LOWER_BERTH_PREFERENCE = "Lower Berth";
-	public final String NO_BERTH_PREFERENCE = "No Preference";
-
-	@Override
-	public IReservation allocateSeat(IReservation reservation) {
-		
+	
+	public int getTotalCoaches(IReservation reservation) {
 		int totalCoaches = 0;
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
 		ResultSet resultSet = null;
-
+		
 		try {
 			statement = connection.prepareCall("{call getTotalCoaches(?)}");
 			statement.setInt(1, reservation.getTrainId());
@@ -50,132 +45,10 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 			databaseUtilities.closeStatement(statement);
 			databaseUtilities.closeConnection(connection);
 		}
-		if (0 < totalCoaches) {
-			List<Integer> trainStations = getTrainStationsByTrainId(reservation);
-			Map<String, Set<Integer>> trainCoachAndSeatsData = getReservedPassengerData(reservation, trainStations);
-			List<IPassengerInformation> passengerInformation = reservation.getPassengerInformation();
-			List<IPassengerInformation> newPassengerInformation = new ArrayList<>();
-
-			for (int i = 0; i < passengerInformation.size(); i++) {
-				IPassengerInformation passengerInfo = passengerInformation.get(i);
-				String berthPreference = passengerInfo.getBerthPreference();		
-				boolean seatAllocated = false;
-				int middleCoach = totalCoaches/2;
-				List<String> coachNumbers = new ArrayList<>();
-
-				if (0 < totalCoaches % 2) {
-					coachNumbers.add(Character.toString((char) 65 + middleCoach));
-					for (int k = middleCoach - 1, l = middleCoach + 1; k >= 0; k--, l++) {
-						coachNumbers.add(Character.toString((char) 65 + k));
-						coachNumbers.add(Character.toString((char) 65 + l));
-					}
-				} else {
-					for (int k = middleCoach - 1, l = middleCoach; k >= 0; k--, l++) {
-						coachNumbers.add(Character.toString((char) 65 + k));
-						coachNumbers.add(Character.toString((char) 65 + l));
-					}
-				}
-				if (LOWER_BERTH_PREFERENCE.equals(berthPreference)) {
-					int m = 0;
-
-					while (Boolean.FALSE.equals(seatAllocated) && m < coachNumbers.size()) {
-						if (trainCoachAndSeatsData.containsKey(coachNumbers.get(m))) {
-							int j = 1;
-
-							while (j > 0 && j <= 32) {
-								if (trainCoachAndSeatsData.get(coachNumbers.get(m)).contains(j)) {
-									j += 2;
-								} else {
-									passengerInfo.setCoachNumber(coachNumbers.get(m));
-									passengerInfo.setSeatNumber(j);
-									newPassengerInformation.add(passengerInfo);
-									trainCoachAndSeatsData.get(coachNumbers.get(m)).add(j);
-									j = -1;
-									seatAllocated = true;
-								}
-							}
-						} else {
-							Set<Integer> seatNumberSet = new HashSet<>();
-
-							seatNumberSet.add(1);
-							trainCoachAndSeatsData.put(coachNumbers.get(m), seatNumberSet);
-							passengerInfo.setCoachNumber(coachNumbers.get(m));
-							passengerInfo.setSeatNumber(1);
-							newPassengerInformation.add(passengerInfo);
-							seatAllocated = true;
-						}
-						m++;
-					}
-				} else if (UPPER_BERTH_PREFERENCE.equals(berthPreference)) {
-					int m = 0;
-
-					while (Boolean.FALSE.equals(seatAllocated) && m < coachNumbers.size()) {
-						if (trainCoachAndSeatsData.containsKey(coachNumbers.get(m))) {
-							int j = 2;
-
-							while (j > 0 && j <= 32) {
-								if (trainCoachAndSeatsData.get(coachNumbers.get(m)).contains(j)) {
-									j += 2;
-								} else {
-									passengerInfo.setCoachNumber(coachNumbers.get(m));
-									passengerInfo.setSeatNumber(j);
-									newPassengerInformation.add(passengerInfo);
-									trainCoachAndSeatsData.get(coachNumbers.get(m)).add(j);
-									j = -1;
-									seatAllocated = true;
-								}
-							}
-						} else {
-							Set<Integer> seatNumberSet = new HashSet<>();
-
-							seatNumberSet.add(1);
-							trainCoachAndSeatsData.put(coachNumbers.get(m), seatNumberSet);
-							passengerInfo.setCoachNumber(coachNumbers.get(m));
-							passengerInfo.setSeatNumber(1);
-							newPassengerInformation.add(passengerInfo);
-							seatAllocated = true;
-						}
-						m++;
-					}
-				} else if (NO_BERTH_PREFERENCE.equals(berthPreference) || Boolean.FALSE.equals(seatAllocated)) {
-					int m = 0;
-
-					while (Boolean.FALSE.equals(seatAllocated) && m < coachNumbers.size()) {
-						if (trainCoachAndSeatsData.containsKey(coachNumbers.get(m))) {
-							int j = 1;
-
-							while (j > 0 && j <= 32) {
-								if (trainCoachAndSeatsData.get(coachNumbers.get(m)).contains(j)) {
-									j += 1;
-								} else {
-									passengerInfo.setCoachNumber(coachNumbers.get(m));
-									passengerInfo.setSeatNumber(j);
-									newPassengerInformation.add(passengerInfo);
-									trainCoachAndSeatsData.get(coachNumbers.get(m)).add(j);
-									j = -1;
-									seatAllocated = true;
-								}
-							}
-						} else {
-							Set<Integer> seatNumberSet = new HashSet<>();
-
-							seatNumberSet.add(1);
-							trainCoachAndSeatsData.put(coachNumbers.get(m), seatNumberSet);
-							passengerInfo.setCoachNumber(coachNumbers.get(m));
-							passengerInfo.setSeatNumber(1);
-							newPassengerInformation.add(passengerInfo);
-							seatAllocated = true;
-						}
-						m++;
-					}
-				}
-			}
-			reservation.setPassengerInformation(newPassengerInformation);
-		}
-		return reservation;
+		return totalCoaches;
 	}
 
-	private List<Integer> getTrainStationsByTrainId(IReservation reservation) {
+	public List<Integer> getTrainStationsByTrainId(IReservation reservation) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
@@ -212,7 +85,7 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 		return stationIds;
 	}
 
-	private Map<String, Set<Integer>> getReservedPassengerData(IReservation reservation, List<Integer> trainStations) {
+	public Map<String, Set<Integer>> getReservedPassengerData(IReservation reservation, List<Integer> trainStations) {
 		DatabaseAbstactFactory databaseAbstractFactory = DatabaseAbstactFactory.instance();
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
@@ -306,5 +179,4 @@ public class SeatAllocationDAO implements ISeatAllocationDAO {
 		}
 		return trainCoachesData;
 	}
-
 }
