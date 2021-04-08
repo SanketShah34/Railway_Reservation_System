@@ -4,8 +4,10 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
 import com.project.database.DatabaseAbstactFactory;
 import com.project.database.IDatabaseUtilities;
 import com.project.security.SecurityAbstractFactory;
@@ -62,7 +64,6 @@ public class UserDAO implements IUserDAO {
 		IDatabaseUtilities databaseUtilities = databaseAbstractFactory.createDatabaseUtilities();
 		Connection connection = databaseUtilities.establishConnection();
 		CallableStatement statement = null;
-		java.sql.Date date = new java.sql.Date(user.getDateOfBirth().getTime());
 
 		if (user.getId() == 0) {
 			try {
