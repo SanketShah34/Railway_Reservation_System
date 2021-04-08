@@ -20,6 +20,10 @@ public interface IUser {
 
 	void setPassword(String password);
 
+	String getConfirmPassword();
+
+	void setConfirmPassword(String confirmPassword);
+
 	boolean isEnabled();
 
 	void setEnabled(boolean enabled);
