@@ -12,9 +12,9 @@ public class DatabaseUtilities implements IDatabaseUtilities {
     private String DRIVER = "com.mysql.cj.jdbc.Driver";
 	public Connection connection;
 	
-	private String URL = "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_5_DEVINT?useSSL=false&serverTimezone=UTC";
-	private String USERNAME = "CSCI5308_5_DEVINT_USER";
-	private String PASSWORD = "CBfHk3FuJet8gKvT";
+	private String URL = "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_5_PRODUCTION?useSSL=false&serverTimezone=UTC";    
+	private String USERNAME = "CSCI5308_5_PRODUCTION_USER";
+    private String PASSWORD = "wrq6CK42hXaFvLHV";
 
 	@Override
 	public Connection  establishConnection(){
