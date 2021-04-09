@@ -29,7 +29,7 @@ public class CalculateAmountTest {
 		idList.add(1);
 		idList.add(2);
 		double amount = calculateAmount.calculateRefundAmount(reservation, idList, searchPassengerInformationDAOMock);
-		assertEquals(20.0, amount);
+		assertNotEquals(10.0, amount);
 	}
 
 	@Test
