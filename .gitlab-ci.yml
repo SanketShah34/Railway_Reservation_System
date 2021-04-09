@@ -58,7 +58,7 @@ deployProd:
     - cd $EXECUTABLE_POM_FILE_PATH
   script:
     - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME_TEST --api-key=$HEROKU_API_KEY_TEST
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_PROD --api-key=$HEROKU_API_KEY_PROD
   environment:
     name: staging
     url: $HEROKU_PROD_URL
