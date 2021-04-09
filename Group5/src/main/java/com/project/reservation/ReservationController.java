@@ -20,7 +20,7 @@ public class ReservationController {
 
 	@PostMapping("/user/bookNow")
 	public String getReservationInformation(
-			@ModelAttribute("newReservationInformation") IReservation reservationInformation, Model model) {
+			@ModelAttribute("reservationInformation") IReservation reservationInformation, Model model) {
 		model.addAttribute("reservationInformation", reservationInformation);
 		return "reservation/reservationInformation";
 	}
